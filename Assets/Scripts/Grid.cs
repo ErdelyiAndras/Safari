@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 
-/// <summary>
-/// Source https://github.com/lordjesus/Packt-Introduction-to-graph-algorithms-for-game-developers
-/// </summary>
 public class Point
 {
     public int X { get; set; }
@@ -50,8 +47,9 @@ public enum CellType
 {
     Empty,
     Road,
-    Structure,
-    SpecialStructure,
+    Water,
+    Nature,
+    Hill,
     None
 }
 
@@ -64,7 +62,6 @@ public class Grid
     public int Height { get { return _height; } }
 
     private List<Point> _roadList = new List<Point>();
-    private List<Point> _specialStructure = new List<Point>();
 
     public Grid(int width, int height)
     {
@@ -73,7 +70,6 @@ public class Grid
         _grid = new CellType[width, height];
     }
 
-    // Adding index operator to our Grid class so that we can use grid[][] to access specific cell from our grid. 
     public CellType this[int i, int j]
     {
         get
@@ -89,14 +85,6 @@ public class Grid
             else
             {
                 _roadList.Remove(new Point(i, j));
-            }
-            if (value == CellType.SpecialStructure)
-            {
-                _specialStructure.Add(new Point(i, j));
-            }
-            else
-            {
-                _specialStructure.Remove(new Point(i, j));
             }
             _grid[i, j] = value;
         }
@@ -181,12 +169,6 @@ public class Grid
         return adjacentCells;
     }
 
-    /// <summary>
-    /// Returns array [Left neighbour, Top neighbour, Right neighbour, Down neighbour]
-    /// </summary>
-    /// <param name="x"></param>
-    /// <param name="y"></param>
-    /// <returns></returns>
     public CellType[] GetAllAdjacentCellTypes(int x, int y)
     {
         CellType[] neighbours = { CellType.None, CellType.None, CellType.None, CellType.None };
