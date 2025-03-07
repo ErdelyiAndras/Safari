@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class InputManager : MonoBehaviour
 {
@@ -23,8 +24,12 @@ public class InputManager : MonoBehaviour
 		OnClickDown();
 		OnClickUp();
 		OnClickHold();
-		CheckArrowInput();
-	}
+		//CheckArrowInput();
+        if (!(EventSystem.current.currentSelectedGameObject != null && EventSystem.current.currentSelectedGameObject.GetComponent<InputField>() != null))
+        {
+			CheckArrowInput();
+        }
+    }
 
 	private Vector3Int? RaycastGround()
 	{
