@@ -22,6 +22,7 @@ public class InputManager : MonoBehaviour
 
     private void Start()
     {
+        // disable scrollbar usage with arrow keys
         scrollRect = FindFirstObjectByType<ScrollRect>();
 
 		if (scrollRect != null && scrollRect.horizontalScrollbar != null)
@@ -38,6 +39,7 @@ public class InputManager : MonoBehaviour
 		OnClickDown();
 		OnClickUp();
 		OnClickHold();
+        // disable movement when input field is selected
         if (EventSystem.current.currentSelectedGameObject == null || 
 			EventSystem.current.currentSelectedGameObject.GetComponent<InputField>() == null)
         {
