@@ -8,8 +8,9 @@ public class InputManager : MonoBehaviour
     public Action<Vector3Int> OnMouseClick, OnMouseHold;
     public Action OnMouseUp;
 	private Vector2 cameraMovementVector;
+	private ScrollRect scrollRect;
 
-	[SerializeField]
+    [SerializeField]
 	Camera mainCamera;
 
 	public LayerMask groundMask;
@@ -19,13 +20,26 @@ public class InputManager : MonoBehaviour
 		get { return cameraMovementVector; }
 	}
 
-	private void Update()
+    private void Start()
+    {
+        scrollRect = FindFirstObjectByType<ScrollRect>();
+
+		if (scrollRect != null && scrollRect.horizontalScrollbar != null)
+		{
+			scrollRect.horizontalScrollbar.navigation = new Navigation
+			{
+                mode = Navigation.Mode.None
+            };
+        }
+    }
+
+    private void Update()
 	{
 		OnClickDown();
 		OnClickUp();
 		OnClickHold();
-		//CheckArrowInput();
-        if (!(EventSystem.current.currentSelectedGameObject != null && EventSystem.current.currentSelectedGameObject.GetComponent<InputField>() != null))
+        if (EventSystem.current.currentSelectedGameObject == null || 
+			EventSystem.current.currentSelectedGameObject.GetComponent<InputField>() == null)
         {
 			CheckArrowInput();
         }
