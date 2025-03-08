@@ -68,7 +68,7 @@ public class InputManager : MonoBehaviour
 	private void InvertScrollDirection()
 	{
 		float scrollInput = Input.GetAxis("Mouse ScrollWheel");
-		if (scrollInput != 0)
+		if (scrollInput != 0 && EventSystem.current.currentSelectedGameObject != null && EventSystem.current.currentSelectedGameObject.GetComponent<Scrollbar>() != null)
 		{
 			scrollRect.horizontalNormalizedPosition += scrollInput * -1f;
         }
