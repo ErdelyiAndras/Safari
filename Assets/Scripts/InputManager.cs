@@ -39,12 +39,8 @@ public class InputManager : MonoBehaviour
 		OnClickDown();
 		OnClickUp();
 		OnClickHold();
-        // disable movement when input field is selected
-        if (EventSystem.current.currentSelectedGameObject == null || 
-			EventSystem.current.currentSelectedGameObject.GetComponent<InputField>() == null)
-        {
-			CheckArrowInput();
-        }
+        InvertScrollDirection();
+        CheckArrowInput();
     }
 
 	private Vector3Int? RaycastGround()
@@ -61,8 +57,22 @@ public class InputManager : MonoBehaviour
 
 	private void CheckArrowInput()
 	{
-		cameraMovementVector = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+        // disable movement when input field is selected
+        if (EventSystem.current.currentSelectedGameObject == null ||
+            EventSystem.current.currentSelectedGameObject.GetComponent<InputField>() == null)
+		{
+            cameraMovementVector = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+		}
 	}
+
+	private void InvertScrollDirection()
+	{
+		float scrollInput = Input.GetAxis("Mouse ScrollWheel");
+		if (scrollInput != 0)
+		{
+			scrollRect.horizontalNormalizedPosition += scrollInput * -1f;
+        }
+    }
 
 	private void OnClickHold()
 	{
