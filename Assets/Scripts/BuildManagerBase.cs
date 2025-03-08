@@ -7,7 +7,7 @@ using UnityEngine;
 
 public abstract class BuildManagerBase : MonoBehaviour
 {
-    protected PlacementManager placementManager;
+    public PlacementManager placementManager;
 
     protected List<Vector3Int> temporaryPlacementPositions = new List<Vector3Int>();
 

@@ -1,4 +1,5 @@
 using SVS;
+using System;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -10,16 +11,27 @@ public class GameManager : MonoBehaviour
     public RoadManager roadManager;
     public NatureManager natureManager;
     public WaterManager waterManager;
-    public EconomyManager economyManager;
+    // public EconomyManager economyManager;
+    public UIController uiController;
 
     private void Start()
     {
-        uiController.OnRoadPlacement += RoadPlacementHandler; 
-        uiController.OnWaterPlacement += WaterPlacementHandler();
-        uiController.OnPlant1Placement += NaturePlacementHandler(Plant1);
-        uiController.OnPlant2Placement += NaturePlacementHandler(Plant2);
-        uiController.OnPlant3Placement += NaturePlacementHandler(Plant3);
-        economyManager.GameOver += GameOverHandler;
+        //uiController.JeepButtonPressed += Jeep;
+        Debug.Log(uiController);
+        uiController.RoadButtonPressed += RoadPlacementHandler;
+        //uiController.Carnivore1ButtonPressed += C1;
+        //uiController.Carnivore2ButtonPressed += C2;
+        //uiController.Herbivore1ButtonPressed += H1;
+        //uiController.Herbivore2ButtonPressed += H2;
+        uiController.Plant1ButtonPressed += () => NaturePlacementHandler(Plant1);
+        uiController.Plant2ButtonPressed += () => NaturePlacementHandler(Plant2);
+        uiController.Plant3ButtonPressed += () => NaturePlacementHandler(Plant3);
+        uiController.LakeButtonPressed += WaterPlacementHandler;
+        //uiController.PauseButtonPressed += Pause;
+        //uiController.HourButtonPressed += Hour;
+        //uiController.DayButtonPressed += Day;
+        //uiController.WeekButtonPressed += Week;
+        // economyManager.GameOver += GameOverHandler;
 
     }
     private void Update()
@@ -41,7 +53,8 @@ public class GameManager : MonoBehaviour
         ClearInputActions();
         inputManager.OnMouseClick += roadManager.PlaceObject;
         inputManager.OnMouseHold += roadManager.PlaceObject;
-        bool result = economyManager.SpendMoney(roadManager.Cost);
+        // bool result = economyManager.SpendMoney(roadManager.Cost);
+        bool result = true;
         inputManager.OnMouseUp += () => roadManager.FinalizeObject(result);
     }
 
@@ -50,17 +63,21 @@ public class GameManager : MonoBehaviour
         ClearInputActions();
 
         inputManager.OnMouseClick += natureManager.PlaceObject;
-        bool result = economyManager.SpendMoney(natureManager.Cost);
+        // bool result = economyManager.SpendMoney(natureManager.Cost);
+        bool result = true;
         inputManager.OnMouseClick += position => natureManager.FinalizeObject(result, type);
     }
+
     private void WaterPlacementHandler()
     {
         ClearInputActions();
 
         inputManager.OnMouseClick += waterManager.PlaceObject;
-        bool result = economyManager.SpendMoney(waterManager.Cost);
+        //bool result = economyManager.SpendMoney(waterManager.Cost);
+        bool result = true;
         inputManager.OnMouseClick += position => waterManager.FinalizeObject(result);
     }
+
     private void GameOverHandler(bool result)
     {
         if (result)

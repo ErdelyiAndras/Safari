@@ -7,6 +7,8 @@ using UnityEngine;
 
 public class WaterManager : BuildManagerBase
 {
+    public GameObject waterPrefab;
+
     public override int Cost => 20; //TODO: to be balanced
     public override void PlaceObject(Vector3Int position)
     {
@@ -20,7 +22,7 @@ public class WaterManager : BuildManagerBase
         {
             foreach (var item in temporaryPlacementPositions)
             {
-                placementManager.PlaceStructure(item, type, CellType.Water);
+                placementManager.PlaceStructure(item, waterPrefab, CellType.Water);
             }
         }
         temporaryPlacementPositions.Clear();

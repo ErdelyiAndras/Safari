@@ -5,20 +5,20 @@ using UnityEngine.UI;
 
 public class UIController : MonoBehaviour
 {
-    public event EventHandler JeepButtonPressed;
-    public event EventHandler RoadButtonPressed;
-    public event EventHandler Carnivore1ButtonPressed;
-    public event EventHandler Carnivore2ButtonPressed;
-    public event EventHandler Herbivore1ButtonPressed;
-    public event EventHandler Herbivore2ButtonPressed;
-    public event EventHandler Plant1ButtonPressed;
-    public event EventHandler Plant2ButtonPressed;
-    public event EventHandler Plant3ButtonPressed;
-    public event EventHandler LakeButtonPressed;
-    public event EventHandler PauseButtonPressed;
-    public event EventHandler HourButtonPressed;
-    public event EventHandler DayButtonPressed;
-    public event EventHandler WeekButtonPressed;
+    public Action JeepButtonPressed;
+    public Action RoadButtonPressed;
+    public Action Carnivore1ButtonPressed;
+    public Action Carnivore2ButtonPressed;
+    public Action Herbivore1ButtonPressed;
+    public Action Herbivore2ButtonPressed;
+    public Action Plant1ButtonPressed;
+    public Action Plant2ButtonPressed;
+    public Action Plant3ButtonPressed;
+    public Action LakeButtonPressed;
+    public Action PauseButtonPressed;
+    public Action HourButtonPressed;
+    public Action DayButtonPressed;
+    public Action WeekButtonPressed;
 
     public Button JeepButton;
     public Button RoadButton;
@@ -39,7 +39,7 @@ public class UIController : MonoBehaviour
 
     private List<Button> buttonList;
 
-    private void Start()
+    private void Awake()
     { 
         buttonList = new List<Button>
         {
@@ -79,98 +79,98 @@ public class UIController : MonoBehaviour
     {
         ResetButtonColor();
         ModifyOutline(JeepButton);
-        JeepButtonPressed?.Invoke(this, EventArgs.Empty);
+        JeepButtonPressed?.Invoke();
     }
 
     private void RoadButtonPressedListener()
     {
         ResetButtonColor();
         ModifyOutline(RoadButton);
-        RoadButtonPressed?.Invoke(this, EventArgs.Empty);
+        RoadButtonPressed?.Invoke();
     }
 
     private void Carnivore1ButtonPressedListener()
     {
         ResetButtonColor();
         ModifyOutline(Carnivore1Button);
-        Carnivore1ButtonPressed?.Invoke(this, EventArgs.Empty);
+        Carnivore1ButtonPressed?.Invoke();
     }
 
     private void Carnivore2ButtonPressedListener()
     {
         ResetButtonColor();
         ModifyOutline(Carnivore2Button);
-        Carnivore2ButtonPressed?.Invoke(this, EventArgs.Empty);
+        Carnivore2ButtonPressed?.Invoke();
     }
 
     private void Herbivore1ButtonPressedListener()
     {
         ResetButtonColor();
         ModifyOutline(Herbivore1Button);
-        Herbivore1ButtonPressed?.Invoke(this, EventArgs.Empty);
+        Herbivore1ButtonPressed?.Invoke();
     }
 
     private void Herbivore2ButtonPressedListener()
     {
         ResetButtonColor();
         ModifyOutline(Herbivore2Button);
-        Herbivore2ButtonPressed?.Invoke(this, EventArgs.Empty);
+        Herbivore2ButtonPressed?.Invoke();
     }
 
     private void Plant1ButtonPressedListener()
     {
         ResetButtonColor();
         ModifyOutline(Plant1Button);
-        Plant1ButtonPressed?.Invoke(this, EventArgs.Empty);
+        Plant1ButtonPressed?.Invoke();
     }
 
     private void Plant2ButtonPressedListener()
     {
         ResetButtonColor();
         ModifyOutline(Plant2Button);
-        Plant2ButtonPressed?.Invoke(this, EventArgs.Empty);
+        Plant2ButtonPressed?.Invoke();
     }
 
     private void Plant3ButtonPressedListener()
     {
         ResetButtonColor();
         ModifyOutline(Plant3Button);
-        Plant3ButtonPressed?.Invoke(this, EventArgs.Empty);
+        Plant3ButtonPressed?.Invoke();
     }
 
     private void LakeButtonPressedListener()
     {
         ResetButtonColor();
         ModifyOutline(LakeButton);
-        LakeButtonPressed?.Invoke(this, EventArgs.Empty);
+        LakeButtonPressed?.Invoke();
     }
 
     private void PauseButtonPressedListener()
     {
         ResetButtonColor();
         ModifyOutline(PauseButton);
-        PauseButtonPressed?.Invoke(this, EventArgs.Empty);
+        PauseButtonPressed?.Invoke();
     }
 
     private void HourButtonPressedListener()
     {
         ResetButtonColor();
         ModifyOutline(HourButton);
-        HourButtonPressed?.Invoke(this, EventArgs.Empty);
+        HourButtonPressed?.Invoke();
     }
 
     private void DayButtonPressedListener()
     {
         ResetButtonColor();
         ModifyOutline(DayButton);
-        DayButtonPressed?.Invoke(this, EventArgs.Empty);
+        DayButtonPressed?.Invoke();
     }
 
     private void WeekButtonPressedListener()
     {
         ResetButtonColor();
         ModifyOutline(WeekButton);
-        WeekButtonPressed?.Invoke(this, EventArgs.Empty);
+        WeekButtonPressed?.Invoke();
     }
 
     private void ModifyOutline(Button button)
