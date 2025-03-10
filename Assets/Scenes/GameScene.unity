@@ -2334,7 +2334,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   placementManager: {fileID: 1434987243}
-  waterPrefab: {fileID: 3702253504043930072, guid: 838f9b485bb510747a4b89e3cb91e1bd, type: 3}
+  waterPrefab: {fileID: 2138452382528300987, guid: 358089f4ed332bf4c84b277e0fab5d24, type: 3}
 --- !u!4 &903255223
 Transform:
   m_ObjectHideFlags: 0
@@ -2652,7 +2652,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 800f1ed260338014e9a47a7b88749159, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waterPrefab: {fileID: 8028572972740798329, guid: b4e018779a1b9aa44b2a988c6d8ddfda, type: 3}
   Plant1: {fileID: 8961060414691119292, guid: f04715c35df96d24daf46814db582a15, type: 3}
   Plant2: {fileID: 4245984584134214309, guid: c8c46a24f1192964a9c4a213493c1c7b, type: 3}
   Plant3: {fileID: 2732043988329127880, guid: bb8a349e47100e3438e3350c256e20e3, type: 3}
@@ -4746,7 +4745,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1278546513}
   m_Direction: 0
   m_Value: 0
-  m_Size: 0.52380955
+  m_Size: 0.5238096
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

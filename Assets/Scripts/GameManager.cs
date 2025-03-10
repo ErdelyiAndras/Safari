@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public GameObject waterPrefab, Plant1, Plant2, Plant3;
+    public GameObject Plant1, Plant2, Plant3;
 
     public CameraMovement cameraMovement;
     public InputManager inputManager;

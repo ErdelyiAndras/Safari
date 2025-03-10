@@ -30,7 +30,7 @@ public class WaterManager : BuildManagerBase
 
     protected override bool CheckPositionBeforePlacement(Vector3Int position)
     {
-        return placementManager.CheckIfPositionInBound(position) && placementManager.CheckIfPositionIsFreeFor(position, CellType.Nature);
+        return placementManager.CheckIfPositionInBound(position) && placementManager.CheckIfPositionIsFreeFor(position, CellType.Water);
     }
 }
 
