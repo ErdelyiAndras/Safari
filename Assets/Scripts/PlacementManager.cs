@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Collections;
 using UnityEngine;
 
 public class PlacementManager : MonoBehaviour
@@ -48,6 +49,7 @@ public class PlacementManager : MonoBehaviour
     {
         placementGrid[position.x, position.z] = type;
         StructureModel structure = CreateANewStructureModel(position, structurePrefab, type);
+        DestroyNatureAt(position);
         structureDictionary.Add(position, structure);
     }
 
@@ -68,6 +70,20 @@ public class PlacementManager : MonoBehaviour
         else if (structureDictionary.ContainsKey(position))
             structureDictionary[position].SwapModel(newModel, rotation);
     }
+    public void DestroyNatureAt(Vector3Int position)
+    {
+        /*RaycastHit[] hits = Physics.BoxCastAll(position + new Vector3(0, 0.5f, 0), new Vector3(0.5f, 0.5f, 0.5f), transform.up, Quaternion.identity, 1f, 1 << LayerMask.NameToLayer("Nature"));
+        foreach (var item in hits)
+        {
+            Destroy(item.collider.gameObject);
+        }*/
+        if (structureDictionary.ContainsKey(position))
+        {
+            Destroy(structureDictionary[position].gameObject);
+            structureDictionary.Remove(position);
+        }
+    }
+
 
     //[right, up, left, down]
     internal CellType[] GetNeighbourTypes(Vector3Int position)
@@ -112,6 +128,7 @@ public class PlacementManager : MonoBehaviour
     {
         foreach (var structure in temporaryRoadobjects)
         {
+            DestroyNatureAt(structure.Key);
             structureDictionary.Add(structure.Key, structure.Value);
         }
         temporaryRoadobjects.Clear();
