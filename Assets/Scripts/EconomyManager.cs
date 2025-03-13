@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 public class EconomyManager
 {
+    // TODO: balance start money
     public readonly int easyGameStartMoney = 700;
     public readonly int mediumGameStartMoney = 500;
     public readonly int hardGameStartMoney = 300;

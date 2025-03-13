@@ -10,7 +10,7 @@ public class RoadManager : BuildManagerBase
 
     public RoadFixer roadFixer;
 
-    public override int Cost => temporaryPlacementPositions.Count * 30; // TODO: to be balanced
+    // public override int Count => temporaryPlacementPositions.Count * 30; // TODO: to be balanced
     private void Start()
     {
         roadFixer = GetComponent<RoadFixer>();

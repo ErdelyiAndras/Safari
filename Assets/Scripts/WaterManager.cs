@@ -9,7 +9,7 @@ public class WaterManager : BuildManagerBase
 {
     public GameObject waterPrefab;
 
-    public override int Cost => 20; //TODO: to be balanced
+    // public override int Count => 20; //TODO: to be balanced
     public override void PlaceObject(Vector3Int position)
     {
         if (!CheckPositionBeforePlacement(position))
