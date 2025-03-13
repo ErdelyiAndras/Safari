@@ -1,11 +1,12 @@
 ﻿using System;
+using UnityEngine;
 
-public class EconomyManager
+public class EconomyManager : MonoBehaviour
 {
     // TODO: balance start money
-    public readonly int easyGameStartMoney = 700;
-    public readonly int mediumGameStartMoney = 500;
-    public readonly int hardGameStartMoney = 300;
+    public int easyGameStartMoney = 700;
+    public int mediumGameStartMoney = 500;
+    public int hardGameStartMoney = 300;
 
     private int money;
     private int admissionFee = 40;
