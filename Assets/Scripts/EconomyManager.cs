@@ -8,6 +8,7 @@ public class EconomyManager
     public readonly int hardGameStartMoney = 300;
 
     private int money;
+    private int admissionFee = 40;
 
     private bool wasInitialized = false;
 
@@ -16,6 +17,22 @@ public class EconomyManager
         get
         {
             return money;
+        }
+    }
+
+    public int AdmissionFee
+    {
+        get
+        {
+            return admissionFee;
+        }
+        set
+        {
+            if (value < 0)
+            {
+                return;
+            }
+            admissionFee = value;
         }
     }
 
