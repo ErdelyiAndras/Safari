@@ -9,6 +9,8 @@ public class PlacementManager : MonoBehaviour
 {
     public int width, height;
     Grid placementGrid;
+    internal Action<Vector3Int> RoadRemoved;
+
 
     private Dictionary<Vector3Int, StructureModel> temporaryRoadobjects = new Dictionary<Vector3Int, StructureModel>();
     private Dictionary<Vector3Int, StructureModel> structureDictionary = new Dictionary<Vector3Int, StructureModel>();
@@ -20,11 +22,13 @@ public class PlacementManager : MonoBehaviour
 
     internal bool CheckIfPositionInBound(Vector3Int position) => position.x >= 0 && position.x < width && position.z >= 0 && position.z < height;
 
+    internal bool IsPositionWalkable(Vector3Int position) => placementGrid[position.x, position.z] != CellType.Water;
+
     internal bool CheckIfPositionIsFreeFor(Vector3Int position, CellType type) 
     {
         if (type == CellType.Road)
         {
-            return !CheckIfPositionIsOfType(position, CellType.Road);
+            return CheckIfPositionIsOfType(position, CellType.Empty);
         }
         else if (type == CellType.Nature)
         {
@@ -36,7 +40,9 @@ public class PlacementManager : MonoBehaviour
         }
         return false;
     } 
-    public CellType GetTypeOfPosition(Vector3Int position) => placementGrid[position.x, position.z];
+
+    internal CellType GetTypeOfPosition(Vector3Int position) => placementGrid[position.x, position.z];
+
     internal bool CheckIfPositionIsOfType(Vector3Int position, CellType type) => placementGrid[position.x, position.z] == type;
 
     internal void PlaceTemporaryStructure(Vector3Int position, GameObject structurePrefab, CellType type)
@@ -44,6 +50,33 @@ public class PlacementManager : MonoBehaviour
         placementGrid[position.x, position.z] = type;
         StructureModel structure = CreateANewStructureModel(position, structurePrefab, type);
         temporaryRoadobjects.Add(position, structure);
+    }
+
+    internal void RemoveStructure(Vector3Int position)
+    {
+        if (!CheckIfPositionInBound(position))
+            return;
+        if (structureDictionary.ContainsKey(position))
+        {
+            if (GetTypeOfPosition(position) != CellType.Hill && GetTypeOfPosition(position) != CellType.Empty)
+            {
+                Destroy(structureDictionary[position].gameObject);
+                structureDictionary.Remove(position);
+                if (GetTypeOfPosition(position) == CellType.Road)
+                {
+                    placementGrid[position.x, position.z] = CellType.Empty;
+                    foreach (var roadNeighbour in GetNeighboursOfType(position, CellType.Road))
+                    {
+                        RoadRemoved?.Invoke(roadNeighbour);
+                    }
+                }
+                else
+                {
+                    placementGrid[position.x, position.z] = CellType.Empty;
+
+                }
+            }
+        }
     }
 
     internal void PlaceStructure(Vector3Int position, GameObject structurePrefab, CellType type)
@@ -64,14 +97,15 @@ public class PlacementManager : MonoBehaviour
         return structureModel;
     }
 
-    public void ModifyStructureModel(Vector3Int position, GameObject newModel, Quaternion rotation)
+    internal void ModifyStructureModel(Vector3Int position, GameObject newModel, Quaternion rotation)
     {
         if (temporaryRoadobjects.ContainsKey(position))
             temporaryRoadobjects[position].SwapModel(newModel, rotation);
         else if (structureDictionary.ContainsKey(position))
             structureDictionary[position].SwapModel(newModel, rotation);
     }
-    public void DestroyNatureAt(Vector3Int position)
+
+    internal void DestroyNatureAt(Vector3Int position)
     {
         /*RaycastHit[] hits = Physics.BoxCastAll(position + new Vector3(0, 0.5f, 0), new Vector3(0.5f, 0.5f, 0.5f), transform.up, Quaternion.identity, 1f, 1 << LayerMask.NameToLayer("Nature"));
         foreach (var item in hits)
@@ -84,7 +118,6 @@ public class PlacementManager : MonoBehaviour
             structureDictionary.Remove(position);
         }
     }
-
 
     //[right, up, left, down]
     internal CellType[] GetNeighbourTypes(Vector3Int position)

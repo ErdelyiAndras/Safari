@@ -2707,8 +2707,11 @@ MonoBehaviour:
   waterManager: {fileID: 903255222}
   economyManager: {fileID: 2009713196}
   uiController: {fileID: 129047122}
-  placementManager: {fileID: 1434987243}
+<<<<<<< HEAD
   gameDifficulty: 1
+=======
+  placementManager: {fileID: 1434987243}
+>>>>>>> 03c834fdb81f007c6f451462dac82690ca42ab90
 --- !u!1 &1133362674
 GameObject:
   m_ObjectHideFlags: 0
