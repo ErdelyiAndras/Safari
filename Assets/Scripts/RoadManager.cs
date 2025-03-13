@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,9 +12,11 @@ public class RoadManager : BuildManagerBase
     public RoadFixer roadFixer;
 
     public override int Cost => temporaryPlacementPositions.Count * 30; // TODO: to be balanced
+
     private void Start()
     {
         roadFixer = GetComponent<RoadFixer>();
+        placementManager.RoadRemoved += FixRoadAtPosition;
     }
 
     public override void PlaceObject(Vector3Int position)
@@ -56,9 +59,13 @@ public class RoadManager : BuildManagerBase
                 placementManager.PlaceTemporaryStructure(temporaryPosition, roadFixer.deadEnd, CellType.Road);
             }
         }
-
         FixRoadPrefabs();
+    }
 
+    public void FixRoadAtPosition(Vector3Int position)
+    {
+        Debug.Log("Fixing road at position: " + position);
+        roadFixer.FixRoadAtPosition(placementManager, position);
     }
 
     protected override bool CheckPositionBeforePlacement(Vector3Int position)
@@ -66,7 +73,6 @@ public class RoadManager : BuildManagerBase
         return placementManager.CheckIfPositionInBound(position) && placementManager.CheckIfPositionIsFreeFor(position, CellType.Road);
     }
 
-    // Class specific functions
     private void FixRoadPrefabs()
     {
         foreach (var temporaryPosition in temporaryPlacementPositions)

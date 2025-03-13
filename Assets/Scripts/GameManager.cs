@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     public WaterManager waterManager;
     // public EconomyManager economyManager;
     public UIController uiController;
+    public PlacementManager placementManager;
 
     private void Start()
     {
@@ -27,7 +28,7 @@ public class GameManager : MonoBehaviour
         uiController.Plant2ButtonPressed += () => NaturePlacementHandler(Plant2);
         uiController.Plant3ButtonPressed += () => NaturePlacementHandler(Plant3);
         uiController.LakeButtonPressed += WaterPlacementHandler;
-        //uiController.PauseButtonPressed += Pause;
+        uiController.PauseButtonPressed += RemoveObjectHandler;
         //uiController.HourButtonPressed += Hour;
         //uiController.DayButtonPressed += Day;
         //uiController.WeekButtonPressed += Week;
@@ -76,6 +77,12 @@ public class GameManager : MonoBehaviour
         //bool result = economyManager.SpendMoney(waterManager.Cost);
         bool result = true;
         inputManager.OnMouseClick += position => waterManager.FinalizeObject(result);
+    }
+
+    private void RemoveObjectHandler()
+    {
+        ClearInputActions();
+        inputManager.OnMouseClick += placementManager.RemoveStructure;
     }
 
     private void GameOverHandler(bool result)

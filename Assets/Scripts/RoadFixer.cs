@@ -11,6 +11,7 @@ public class RoadFixer : MonoBehaviour
         var result = placementManager.GetNeighbourTypes(temporaryPosition);
         int roadCount = 0; 
         roadCount = result.Where(x => x == CellType.Road).Count();
+        Debug.Log("I " + temporaryPosition + " have " + roadCount + " roads around me");
         if (roadCount == 0 || roadCount == 1)
         {
             CreateDeadEnd(placementManager, result, temporaryPosition);

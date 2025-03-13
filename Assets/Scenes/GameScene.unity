@@ -2706,6 +2706,7 @@ MonoBehaviour:
   natureManager: {fileID: 960441215}
   waterManager: {fileID: 903255222}
   uiController: {fileID: 129047122}
+  placementManager: {fileID: 1434987243}
 --- !u!1 &1133362674
 GameObject:
   m_ObjectHideFlags: 0
@@ -4332,7 +4333,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1742676475}
   - component: {fileID: 1742676474}
-  - component: {fileID: 1742676473}
+  - component: {fileID: 1742676476}
   m_Layer: 0
   m_Name: RoadManager
   m_TagString: Untagged
@@ -4340,7 +4341,37 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1742676473
+--- !u!114 &1742676474
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1742676472}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a949c38c520b40e46b3c6f826d0d1690, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  placementManager: {fileID: 1434987243}
+  roadPositionsToRecheck: []
+  roadFixer: {fileID: 1742676476}
+--- !u!4 &1742676475
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1742676472}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1742676476
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4357,36 +4388,6 @@ MonoBehaviour:
   corner: {fileID: 7077802812573144028, guid: fd4c97eb7b86f1149a7745204ed8904e, type: 3}
   threeWay: {fileID: 2384947387477557946, guid: 2524a8437a2d4394da7f7a0546a71f3d, type: 3}
   fourWay: {fileID: 3351635067702010651, guid: f4402828bce58b54791119f89fa2df61, type: 3}
---- !u!114 &1742676474
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1742676472}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a949c38c520b40e46b3c6f826d0d1690, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  placementManager: {fileID: 1434987243}
-  roadPositionsToRecheck: []
-  roadFixer: {fileID: 0}
---- !u!4 &1742676475
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1742676472}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1743742259
 GameObject:
   m_ObjectHideFlags: 0
@@ -4790,7 +4791,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1278546513}
   m_Direction: 0
   m_Value: 0
-  m_Size: 0.5238096
+  m_Size: 0.52380955
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
