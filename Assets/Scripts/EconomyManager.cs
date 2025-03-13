@@ -40,12 +40,12 @@ public class EconomyManager : MonoBehaviour
     public Action GoneBankrupt;
     
     // TODO: balance costs
-    public int UnitCostOfPlant => 20; 
+    public int UnitCostOfNature => 20; 
     public int UnitCostOfHerbivore => 50;
     public int UnitCostOfCarnivore => 100;
     public int UnitCostOfJeep => 200;
     public int UnitCostOfRoad => 10;
-    public int UnitCostOfLake => 100;
+    public int UnitCostOfWater => 100;
 
     public void InitMoney(Difficulty difficulty)
     {

@@ -18,7 +18,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        //economyManager.InitMoney(gameDifficulty);
+        economyManager.InitMoney(gameDifficulty);
         //uiController.JeepButtonPressed += Jeep;
         uiController.RoadButtonPressed += RoadPlacementHandler;
         //uiController.Carnivore1ButtonPressed += C1;
@@ -53,11 +53,19 @@ public class GameManager : MonoBehaviour
     private void RoadPlacementHandler()
     {
         ClearInputActions();
+
         inputManager.OnMouseClick += roadManager.PlaceObject;
         inputManager.OnMouseHold += roadManager.PlaceObject;
-        // bool result = economyManager.SpendMoney(roadManager.Cost);
-        bool result = true;
-        inputManager.OnMouseUp += () => roadManager.FinalizeObject(result);
+        inputManager.OnMouseUp += () =>
+        {
+            int cost = roadManager.Count * economyManager.UnitCostOfRoad;
+            bool result = economyManager.HasEnoughMoney(cost);
+            roadManager.FinalizeObject(result);
+            if (result)
+            {
+                economyManager.SpendMoney(cost);
+            }
+        };
     }
 
     private void NaturePlacementHandler(GameObject type)
@@ -65,9 +73,16 @@ public class GameManager : MonoBehaviour
         ClearInputActions();
 
         inputManager.OnMouseClick += natureManager.PlaceObject;
-        // bool result = economyManager.SpendMoney(natureManager.Cost);
-        bool result = true;
-        inputManager.OnMouseUp += () => natureManager.FinalizeObject(result, type);
+        inputManager.OnMouseUp += () =>
+        {
+            int cost = natureManager.Count * economyManager.UnitCostOfNature;
+            bool result = economyManager.HasEnoughMoney(cost);
+            natureManager.FinalizeObject(result, type);
+            if (result)
+            {
+                economyManager.SpendMoney(cost);
+            }
+        };
     }
 
     private void WaterPlacementHandler()
@@ -75,9 +90,17 @@ public class GameManager : MonoBehaviour
         ClearInputActions();
 
         inputManager.OnMouseClick += waterManager.PlaceObject;
-        //bool result = economyManager.SpendMoney(waterManager.Cost);
-        bool result = true;
-        inputManager.OnMouseUp += () => waterManager.FinalizeObject(result);
+        inputManager.OnMouseUp += () =>
+        {
+            int cost = waterManager.Count * economyManager.UnitCostOfWater;
+            bool result = economyManager.HasEnoughMoney(cost);
+            Debug.Log($"Cost: {cost}, Result: {result}, Count {waterManager.Count}, Money {economyManager.Money}");
+            waterManager.FinalizeObject(result);
+            if (result)
+            {
+                economyManager.SpendMoney(cost);
+            }
+        };
     }
 
     private void GameOverHandler(bool result)
