@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using Unity.Collections;
 using UnityEngine;
 
@@ -25,18 +26,18 @@ public class PlacementManager : MonoBehaviour
         {
             return !CheckIfPositionIsOfType(position, CellType.Road);
         }
-        else if (type == CellType.Nature) // Növényt csak üres mezőre lehet rakni
+        else if (type == CellType.Nature)
         {
             return CheckIfPositionIsOfType(position, CellType.Empty);
         }
-        else if (type == CellType.Water) // vizet csak üres és növénnyel borított mezőre lehet rakni
+        else if (type == CellType.Water)
         {
             return CheckIfPositionIsOfType(position, CellType.Empty) ||  CheckIfPositionIsOfType(position, CellType.Nature);
         }
         return false;
     } 
-
-    private bool CheckIfPositionIsOfType(Vector3Int position, CellType type) => placementGrid[position.x, position.z] == type;
+    public CellType GetTypeOfPosition(Vector3Int position) => placementGrid[position.x, position.z];
+    internal bool CheckIfPositionIsOfType(Vector3Int position, CellType type) => placementGrid[position.x, position.z] == type;
 
     internal void PlaceTemporaryStructure(Vector3Int position, GameObject structurePrefab, CellType type)
     {
