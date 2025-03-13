@@ -64,7 +64,6 @@ public class RoadManager : BuildManagerBase
 
     public void FixRoadAtPosition(Vector3Int position)
     {
-        Debug.Log("Fixing road at position: " + position);
         roadFixer.FixRoadAtPosition(placementManager, position);
     }
 

@@ -54,17 +54,29 @@ public class PlacementManager : MonoBehaviour
 
     internal void RemoveStructure(Vector3Int position)
     {
+        if (!CheckIfPositionInBound(position))
+            return;
         if (structureDictionary.ContainsKey(position))
         {
-            Destroy(structureDictionary[position].gameObject);
-            structureDictionary.Remove(position);
-            placementGrid[position.x, position.z] = CellType.Empty;
-            foreach (var roadNeighbour in GetNeighboursOfType(position, CellType.Road))
+            if (GetTypeOfPosition(position) != CellType.Hill && GetTypeOfPosition(position) != CellType.Empty)
             {
-                RoadRemoved?.Invoke(roadNeighbour);
+                Destroy(structureDictionary[position].gameObject);
+                structureDictionary.Remove(position);
+                if (GetTypeOfPosition(position) == CellType.Road)
+                {
+                    placementGrid[position.x, position.z] = CellType.Empty;
+                    foreach (var roadNeighbour in GetNeighboursOfType(position, CellType.Road))
+                    {
+                        RoadRemoved?.Invoke(roadNeighbour);
+                    }
+                }
+                else
+                {
+                    placementGrid[position.x, position.z] = CellType.Empty;
+
+                }
             }
         }
-        
     }
 
     internal void PlaceStructure(Vector3Int position, GameObject structurePrefab, CellType type)
