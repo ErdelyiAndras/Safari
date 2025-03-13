@@ -11,13 +11,15 @@ public class GameManager : MonoBehaviour
     public RoadManager roadManager;
     public NatureManager natureManager;
     public WaterManager waterManager;
-    // public EconomyManager economyManager;
+    public EconomyManager economyManager;
     public UIController uiController;
+
+    public Difficulty gameDifficulty;
 
     private void Start()
     {
+        //economyManager.InitMoney(gameDifficulty);
         //uiController.JeepButtonPressed += Jeep;
-        Debug.Log(uiController);
         uiController.RoadButtonPressed += RoadPlacementHandler;
         //uiController.Carnivore1ButtonPressed += C1;
         //uiController.Carnivore2ButtonPressed += C2;
@@ -65,7 +67,7 @@ public class GameManager : MonoBehaviour
         inputManager.OnMouseClick += natureManager.PlaceObject;
         // bool result = economyManager.SpendMoney(natureManager.Cost);
         bool result = true;
-        inputManager.OnMouseClick += position => natureManager.FinalizeObject(result, type);
+        inputManager.OnMouseUp += () => natureManager.FinalizeObject(result, type);
     }
 
     private void WaterPlacementHandler()
@@ -75,7 +77,7 @@ public class GameManager : MonoBehaviour
         inputManager.OnMouseClick += waterManager.PlaceObject;
         //bool result = economyManager.SpendMoney(waterManager.Cost);
         bool result = true;
-        inputManager.OnMouseClick += position => waterManager.FinalizeObject(result);
+        inputManager.OnMouseUp += () => waterManager.FinalizeObject(result);
     }
 
     private void GameOverHandler(bool result)
