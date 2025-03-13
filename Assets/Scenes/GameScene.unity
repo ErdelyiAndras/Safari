@@ -2707,7 +2707,7 @@ MonoBehaviour:
   waterManager: {fileID: 903255222}
   economyManager: {fileID: 2009713196}
   uiController: {fileID: 129047122}
-  gameDifficulty: 0
+  gameDifficulty: 1
 --- !u!1 &1133362674
 GameObject:
   m_ObjectHideFlags: 0
@@ -5482,7 +5482,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   easyGameStartMoney: 700
-  mediumGameStartMoney: 500
+  normalGameStartMoney: 500
   hardGameStartMoney: 300
 --- !u!4 &2009713197
 Transform:

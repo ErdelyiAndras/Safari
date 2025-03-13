@@ -5,10 +5,10 @@ public class EconomyManager : MonoBehaviour
 {
     // TODO: balance start money
     public int easyGameStartMoney = 700;
-    public int mediumGameStartMoney = 500;
+    public int normalGameStartMoney = 500;
     public int hardGameStartMoney = 300;
 
-    private int money;
+    public int money;
     private int admissionFee = 40;
 
     private bool wasInitialized = false;
@@ -59,8 +59,8 @@ public class EconomyManager : MonoBehaviour
             case Difficulty.Easy:
                 money = easyGameStartMoney;
                 break;
-            case Difficulty.Medium:
-                money = mediumGameStartMoney;
+            case Difficulty.Normal:
+                money = normalGameStartMoney;
                 break;
             case Difficulty.Hard:
                 money = hardGameStartMoney;

@@ -94,7 +94,6 @@ public class GameManager : MonoBehaviour
         {
             int cost = waterManager.Count * economyManager.UnitCostOfWater;
             bool result = economyManager.HasEnoughMoney(cost);
-            Debug.Log($"Cost: {cost}, Result: {result}, Count {waterManager.Count}, Money {economyManager.Money}");
             waterManager.FinalizeObject(result);
             if (result)
             {
