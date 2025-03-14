@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     public EconomyManager economyManager;
     public UIController uiController;
     public PlacementManager placementManager;
+    public AnimalManager animalManager;
 
     public Difficulty gameDifficulty;
 
@@ -22,10 +23,10 @@ public class GameManager : MonoBehaviour
         economyManager.InitMoney(gameDifficulty);
         //uiController.JeepButtonPressed += Jeep;
         uiController.RoadButtonPressed += RoadPlacementHandler;
-        //uiController.Carnivore1ButtonPressed += C1;
-        //uiController.Carnivore2ButtonPressed += C2;
-        //uiController.Herbivore1ButtonPressed += H1;
-        //uiController.Herbivore2ButtonPressed += H2;
+        uiController.Carnivore1ButtonPressed += () => animalManager.SpawnAnimal(animalManager.carnivore1Prefab);
+        uiController.Carnivore2ButtonPressed += () => animalManager.SpawnAnimal(animalManager.carnivore2Prefab);
+        uiController.Herbivore1ButtonPressed += () => animalManager.SpawnAnimal(animalManager.herbivore1Prefab);
+        uiController.Herbivore2ButtonPressed += () => animalManager.SpawnAnimal(animalManager.herbivore2Prefab);
         uiController.Plant1ButtonPressed += () => NaturePlacementHandler(Plant1);
         uiController.Plant2ButtonPressed += () => NaturePlacementHandler(Plant2);
         uiController.Plant3ButtonPressed += () => NaturePlacementHandler(Plant3);
