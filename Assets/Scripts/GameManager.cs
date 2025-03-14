@@ -21,21 +21,36 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         economyManager.InitMoney(gameDifficulty);
-        //uiController.JeepButtonPressed += Jeep;
-        uiController.RoadButtonPressed += RoadPlacementHandler;
+
+        uiController.UpdateMoneyPanel(economyManager.Money);
+        uiController.UpdateAdmissionFeePanel(economyManager.AdmissionFee);
+
+        uiController.admissionFeeEndEdit += admissionFee =>
+        {
+            economyManager.AdmissionFee = admissionFee;
+            uiController.UpdateAdmissionFeePanel(economyManager.AdmissionFee);
+        };
+
+        uiController.JeepButtonPressed += JeepPurchaseHandler;
+        uiController.RoadButtonPressed += isCancellation => RoadPlacementHandler(isCancellation);
         uiController.Carnivore1ButtonPressed += () => animalManager.SpawnAnimal(animalManager.carnivore1Prefab);
         uiController.Carnivore2ButtonPressed += () => animalManager.SpawnAnimal(animalManager.carnivore2Prefab);
         uiController.Herbivore1ButtonPressed += () => animalManager.SpawnAnimal(animalManager.herbivore1Prefab);
         uiController.Herbivore2ButtonPressed += () => animalManager.SpawnAnimal(animalManager.herbivore2Prefab);
-        uiController.Plant1ButtonPressed += () => NaturePlacementHandler(Plant1);
-        uiController.Plant2ButtonPressed += () => NaturePlacementHandler(Plant2);
-        uiController.Plant3ButtonPressed += () => NaturePlacementHandler(Plant3);
-        uiController.LakeButtonPressed += WaterPlacementHandler;
-        uiController.PauseButtonPressed += RemoveObjectHandler;
-        //uiController.HourButtonPressed += Hour;
-        //uiController.DayButtonPressed += Day;
-        //uiController.WeekButtonPressed += Week;
-        // economyManager.GameOver += GameOverHandler;
+        uiController.Plant1ButtonPressed += isCancellation => NaturePlacementHandler(isCancellation, Plant1);
+        uiController.Plant2ButtonPressed += isCancellation => NaturePlacementHandler(isCancellation, Plant2);
+        uiController.Plant3ButtonPressed += isCancellation => NaturePlacementHandler(isCancellation, Plant3);
+        uiController.LakeButtonPressed += isCancellation => WaterPlacementHandler(isCancellation);
+
+        uiController.PauseButtonPressed += PauseButtonHandler;
+        uiController.HourButtonPressed += HourButtonHandler;
+        uiController.DayButtonPressed += DayButtonHandler;
+        uiController.WeekButtonPressed += WeekButtonHandler;
+
+        uiController.SellButtonPressed += isCancellation => SellAnimalHandler(isCancellation);
+        uiController.RemoveButtonPressed += isCancellation => RemoveObjectHandler(isCancellation);
+
+        economyManager.GoneBankrupt += () => GameOverHandler(false);
 
     }
     private void Update()
@@ -51,10 +66,18 @@ public class GameManager : MonoBehaviour
         inputManager.OnMouseUp = null;
     }
 
-
-    private void RoadPlacementHandler()
+    private void JeepPurchaseHandler()
     {
         ClearInputActions();
+    }
+
+    private void RoadPlacementHandler(bool isCancellation)
+    {
+        ClearInputActions();
+        if (isCancellation)
+        {
+            return;
+        }
 
         inputManager.OnMouseClick += roadManager.PlaceObject;
         inputManager.OnMouseHold += roadManager.PlaceObject;
@@ -66,13 +89,38 @@ public class GameManager : MonoBehaviour
             if (result)
             {
                 economyManager.SpendMoney(cost);
+                uiController.UpdateMoneyPanel(economyManager.Money);
             }
         };
     }
 
-    private void NaturePlacementHandler(GameObject type)
+    private void Carnivore1PurchaseHandler()
     {
         ClearInputActions();
+    }
+
+    private void Carnivore2PurchaseHandler()
+    {
+        ClearInputActions();
+    }
+
+    private void Herbivore1PurchaseHandler()
+    {
+        ClearInputActions();
+    }
+
+    private void Herbivore2PurchaseHandler()
+    {
+        ClearInputActions();
+    }
+
+    private void NaturePlacementHandler(bool isCancellation, GameObject type)
+    {
+        ClearInputActions();
+        if (isCancellation)
+        {
+            return;
+        }
 
         inputManager.OnMouseClick += natureManager.PlaceObject;
         inputManager.OnMouseUp += () =>
@@ -83,13 +131,18 @@ public class GameManager : MonoBehaviour
             if (result)
             {
                 economyManager.SpendMoney(cost);
+                uiController.UpdateMoneyPanel(economyManager.Money);
             }
         };
     }
 
-    private void WaterPlacementHandler()
+    private void WaterPlacementHandler(bool isCancellation)
     {
         ClearInputActions();
+        if (isCancellation)
+        {
+            return;
+        }
 
         inputManager.OnMouseClick += waterManager.PlaceObject;
         inputManager.OnMouseUp += () =>
@@ -100,25 +153,63 @@ public class GameManager : MonoBehaviour
             if (result)
             {
                 economyManager.SpendMoney(cost);
+                uiController.UpdateMoneyPanel(economyManager.Money);
             }
         };
     }
 
-    private void RemoveObjectHandler()
+    private void SellAnimalHandler(bool isCancellation)
     {
         ClearInputActions();
+        if (isCancellation)
+        {
+            return;
+        }
+        
+        // inputManager.OnMouseClick += ;
+    }
+
+    private void PauseButtonHandler()
+    {
+        
+    }
+
+    private void HourButtonHandler()
+    {
+
+    }
+
+    private void DayButtonHandler()
+    {
+
+    }
+
+    private void WeekButtonHandler()
+    {
+
+    }
+
+    private void RemoveObjectHandler(bool isCancellation)
+    {
+        ClearInputActions();
+        if (isCancellation)
+        {
+            return;
+        }
+
         inputManager.OnMouseClick += placementManager.RemoveStructure;
     }
 
-    private void GameOverHandler(bool result)
+    private void GameOverHandler(bool isGameWon)
     {
-        if (result)
+        if (isGameWon)
         {
             //TODO
         }
         else
         {
             //TODO
+            Debug.Log("Lose");
         }
     }
     
