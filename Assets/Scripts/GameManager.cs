@@ -31,10 +31,10 @@ public class GameManager : MonoBehaviour
         uiController.Plant3ButtonPressed += isCancellation => NaturePlacementHandler(isCancellation, Plant3);
         uiController.LakeButtonPressed += isCancellation => WaterPlacementHandler(isCancellation);
 
-        //uiController.PauseButtonPressed += RemoveObjectHandler;
-        //uiController.HourButtonPressed += Hour;
-        //uiController.DayButtonPressed += Day;
-        //uiController.WeekButtonPressed += Week;
+        uiController.PauseButtonPressed += PauseButtonHandler;
+        uiController.HourButtonPressed += HourButtonHandler;
+        uiController.DayButtonPressed += DayButtonHandler;
+        uiController.WeekButtonPressed += WeekButtonHandler;
 
         uiController.SellButtonPressed += isCancellation => SellAnimalHandler(isCancellation);
         uiController.RemoveButtonPressed += isCancellation => RemoveObjectHandler(isCancellation);
@@ -153,6 +153,26 @@ public class GameManager : MonoBehaviour
         }
         
         // inputManager.OnMouseClick += ;
+    }
+
+    private void PauseButtonHandler()
+    {
+        
+    }
+
+    private void HourButtonHandler()
+    {
+
+    }
+
+    private void DayButtonHandler()
+    {
+
+    }
+
+    private void WeekButtonHandler()
+    {
+
     }
 
     private void RemoveObjectHandler(bool isCancellation)
