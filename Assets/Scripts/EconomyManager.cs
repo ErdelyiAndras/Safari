@@ -33,7 +33,6 @@ public class EconomyManager : MonoBehaviour
             {
                 return;
             }
-            Debug.Log("Admission fee changed to " + value);
             admissionFee = value;
         }
     }
