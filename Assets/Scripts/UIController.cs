@@ -171,48 +171,65 @@ public class UIController : MonoBehaviour
         Action<bool> actionOfCurrentButton)
     {
         ref Button alreadySelectedButton = ref selectedPlacementButton;
+        ref Button alreadySelectedAlternativeButton = ref selectedRemoveButton;
         List<Button> buttonsInGroup;
+        List<Button> alternativeButtonsInGroup;
         Color groupColor;
 
         switch (buttonGroup)
         {
             case ButtonGroup.Placement:
                 alreadySelectedButton = ref selectedPlacementButton;
+                alreadySelectedAlternativeButton = ref selectedRemoveButton;
                 buttonsInGroup = placementButtonList;
+                alternativeButtonsInGroup = removeButtonList;
                 groupColor = placementButtonOutlineColor;
                 break;
             case ButtonGroup.Time:
                 alreadySelectedButton = ref selectedTimeButton;
+                alreadySelectedAlternativeButton = ref selectedTimeButton;
                 buttonsInGroup = timeButtonList;
+                alternativeButtonsInGroup = null;
                 groupColor = timeButtonOutlineColor;
                 break;
             case ButtonGroup.Remove:
                 alreadySelectedButton = ref selectedRemoveButton;
+                alreadySelectedAlternativeButton = ref selectedPlacementButton;
                 buttonsInGroup = removeButtonList;
+                alternativeButtonsInGroup = placementButtonList;
                 groupColor = removeButtonOutlineColor;
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(buttonGroup), buttonGroup, "Invalid button group");
         }
 
+        ResetButtonColorOfGroup(buttonsInGroup);
+        if (alreadySelectedAlternativeButton != null)
+        {
+            ResetButtonColorOfGroup(alternativeButtonsInGroup);
+            alreadySelectedAlternativeButton = null;
+        }
         if (alreadySelectedButton != null && alreadySelectedButton.GetInstanceID() == currentButton.GetInstanceID())
         {
-            ResetButtonColorOfGroup(buttonsInGroup);
             alreadySelectedButton = null;
             actionOfCurrentButton?.Invoke(true);
-            return;
+        }
+        else
+        {
+            alreadySelectedButton = currentButton;
+            ModifyOutline(currentButton, groupColor);
+            actionOfCurrentButton?.Invoke(false);
         }
 
-        ResetButtonColorOfGroup(buttonsInGroup);
-        ModifyOutline(currentButton, groupColor);
-        alreadySelectedButton = currentButton;
-        actionOfCurrentButton?.Invoke(false);
     }
 
 
     private void UncancelablePlacementButtonPressedListener(Action action)
     {
         ResetButtonColorOfGroup(placementButtonList);
+        ResetButtonColorOfGroup(removeButtonList);
+        selectedPlacementButton = null;
+        selectedRemoveButton = null;
         action?.Invoke();
     }
 

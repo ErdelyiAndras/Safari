@@ -20,20 +20,25 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         economyManager.InitMoney(gameDifficulty);
-        //uiController.JeepButtonPressed += Jeep;
+        uiController.JeepButtonPressed += JeepPurchaseHandler;
         uiController.RoadButtonPressed += isCancellation => RoadPlacementHandler(isCancellation);
-        //uiController.Carnivore1ButtonPressed += C1;
-        //uiController.Carnivore2ButtonPressed += C2;
-        //uiController.Herbivore1ButtonPressed += H1;
-        //uiController.Herbivore2ButtonPressed += H2;
+        uiController.Carnivore1ButtonPressed += Carnivore1PurchaseHandler;
+        uiController.Carnivore2ButtonPressed += Carnivore2PurchaseHandler;
+        uiController.Herbivore1ButtonPressed += Herbivore1PurchaseHandler;
+        uiController.Herbivore2ButtonPressed += Herbivore2PurchaseHandler;
         uiController.Plant1ButtonPressed += isCancellation => NaturePlacementHandler(isCancellation, Plant1);
         uiController.Plant2ButtonPressed += isCancellation => NaturePlacementHandler(isCancellation, Plant2);
         uiController.Plant3ButtonPressed += isCancellation => NaturePlacementHandler(isCancellation, Plant3);
         uiController.LakeButtonPressed += isCancellation => WaterPlacementHandler(isCancellation);
-        uiController.PauseButtonPressed += RemoveObjectHandler;
+
+        //uiController.PauseButtonPressed += RemoveObjectHandler;
         //uiController.HourButtonPressed += Hour;
         //uiController.DayButtonPressed += Day;
         //uiController.WeekButtonPressed += Week;
+
+        uiController.SellButtonPressed += isCancellation => SellAnimalHandler(isCancellation);
+        uiController.RemoveButtonPressed += isCancellation => RemoveObjectHandler(isCancellation);
+
         // economyManager.GameOver += GameOverHandler;
 
     }
@@ -50,6 +55,10 @@ public class GameManager : MonoBehaviour
         inputManager.OnMouseUp = null;
     }
 
+    private void JeepPurchaseHandler()
+    {
+        ClearInputActions();
+    }
 
     private void RoadPlacementHandler(bool isCancellation)
     {
@@ -71,6 +80,26 @@ public class GameManager : MonoBehaviour
                 economyManager.SpendMoney(cost);
             }
         };
+    }
+
+    private void Carnivore1PurchaseHandler()
+    {
+        ClearInputActions();
+    }
+
+    private void Carnivore2PurchaseHandler()
+    {
+        ClearInputActions();
+    }
+
+    private void Herbivore1PurchaseHandler()
+    {
+        ClearInputActions();
+    }
+
+    private void Herbivore2PurchaseHandler()
+    {
+        ClearInputActions();
     }
 
     private void NaturePlacementHandler(bool isCancellation, GameObject type)
@@ -115,9 +144,25 @@ public class GameManager : MonoBehaviour
         };
     }
 
-    private void RemoveObjectHandler()
+    private void SellAnimalHandler(bool isCancellation)
     {
         ClearInputActions();
+        if (isCancellation)
+        {
+            return;
+        }
+        
+        // inputManager.OnMouseClick += ;
+    }
+
+    private void RemoveObjectHandler(bool isCancellation)
+    {
+        ClearInputActions();
+        if (isCancellation)
+        {
+            return;
+        }
+
         inputManager.OnMouseClick += placementManager.RemoveStructure;
     }
 
