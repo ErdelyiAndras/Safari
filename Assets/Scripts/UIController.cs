@@ -142,9 +142,9 @@ public class UIController : MonoBehaviour
 
 
         PauseButton.onClick.AddListener(PauseButtonPressedListener);
-        HourButton.onClick.AddListener(HourButtonPressedListener);
-        DayButton.onClick.AddListener(DayButtonPressedListener);
-        WeekButton.onClick.AddListener(WeekButtonPressedListener);
+        HourButton.onClick.AddListener(() => TimeButtonPressedListener(HourButton, HourButtonPressed));
+        DayButton.onClick.AddListener(() => TimeButtonPressedListener(DayButton, DayButtonPressed));
+        WeekButton.onClick.AddListener(() => TimeButtonPressedListener(WeekButton, WeekButtonPressed));
 
 
         SellButton.onClick.AddListener(() => CancelableButtonPressedListener(
@@ -158,6 +158,11 @@ public class UIController : MonoBehaviour
             RemoveButton,
             RemoveButtonPressed)
         );
+    }
+
+    private void Start()
+    {
+        InitTimeButtons(HourButton);
     }
 
     private void CancelableButtonPressedListener(
@@ -224,28 +229,20 @@ public class UIController : MonoBehaviour
         PauseButtonPressed?.Invoke();
     }
 
-    private void HourButtonPressedListener()
+    private void TimeButtonPressedListener(Button button, Action action)
     {
         ResetButtonColorOfGroup(timeButtonList);
-        ModifyOutline(HourButton, timeButtonOutlineColor);
-        HourButtonPressed?.Invoke();
-    }
-
-    private void DayButtonPressedListener()
-    {
-        ResetButtonColorOfGroup(timeButtonList);
-        ModifyOutline(DayButton, timeButtonOutlineColor);
-        DayButtonPressed?.Invoke();
-    }
-
-    private void WeekButtonPressedListener()
-    {
-        ResetButtonColorOfGroup(timeButtonList);
-        ModifyOutline(WeekButton, timeButtonOutlineColor);
-        WeekButtonPressed?.Invoke();
+        ModifyOutline(button, timeButtonOutlineColor);
+        selectedTimeButton = button;
+        action?.Invoke();
     }
 
 
+    private void InitTimeButtons(Button button)
+    {
+        ModifyOutline(button, timeButtonOutlineColor);
+        selectedTimeButton = button;
+    }
 
     private void ModifyOutline(Button button, Color outlineColor)
     {
