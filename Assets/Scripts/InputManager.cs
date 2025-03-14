@@ -39,7 +39,7 @@ public class InputManager : MonoBehaviour
 		OnClickDown();
 		OnClickUp();
 		OnClickHold();
-        // InvertScrollDirection();
+        InvertScrollDirection();
         CheckArrowInput();
     }
 
@@ -65,14 +65,14 @@ public class InputManager : MonoBehaviour
 		}
 	}
 
-	/*private void InvertScrollDirection()
+	private void InvertScrollDirection()
 	{
 		float scrollInput = Input.GetAxis("Mouse ScrollWheel");
 		if (scrollInput != 0 && EventSystem.current.currentSelectedGameObject != null && EventSystem.current.currentSelectedGameObject.GetComponent<Scrollbar>() != null)
 		{
 			scrollRect.horizontalNormalizedPosition += scrollInput * -1f;
         }
-    }*/
+    }
 
 	private void OnClickHold()
 	{
