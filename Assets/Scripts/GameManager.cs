@@ -21,15 +21,15 @@ public class GameManager : MonoBehaviour
     {
         economyManager.InitMoney(gameDifficulty);
         //uiController.JeepButtonPressed += Jeep;
-        uiController.RoadButtonPressed += RoadPlacementHandler;
+        uiController.RoadButtonPressed += isCancellation => RoadPlacementHandler(isCancellation);
         //uiController.Carnivore1ButtonPressed += C1;
         //uiController.Carnivore2ButtonPressed += C2;
         //uiController.Herbivore1ButtonPressed += H1;
         //uiController.Herbivore2ButtonPressed += H2;
-        uiController.Plant1ButtonPressed += () => NaturePlacementHandler(Plant1);
-        uiController.Plant2ButtonPressed += () => NaturePlacementHandler(Plant2);
-        uiController.Plant3ButtonPressed += () => NaturePlacementHandler(Plant3);
-        uiController.LakeButtonPressed += WaterPlacementHandler;
+        uiController.Plant1ButtonPressed += isCancellation => NaturePlacementHandler(isCancellation, Plant1);
+        uiController.Plant2ButtonPressed += isCancellation => NaturePlacementHandler(isCancellation, Plant2);
+        uiController.Plant3ButtonPressed += isCancellation => NaturePlacementHandler(isCancellation, Plant3);
+        uiController.LakeButtonPressed += isCancellation => WaterPlacementHandler(isCancellation);
         uiController.PauseButtonPressed += RemoveObjectHandler;
         //uiController.HourButtonPressed += Hour;
         //uiController.DayButtonPressed += Day;
@@ -51,9 +51,13 @@ public class GameManager : MonoBehaviour
     }
 
 
-    private void RoadPlacementHandler()
+    private void RoadPlacementHandler(bool isCancellation)
     {
         ClearInputActions();
+        if (isCancellation)
+        {
+            return;
+        }
 
         inputManager.OnMouseClick += roadManager.PlaceObject;
         inputManager.OnMouseHold += roadManager.PlaceObject;
@@ -69,9 +73,13 @@ public class GameManager : MonoBehaviour
         };
     }
 
-    private void NaturePlacementHandler(GameObject type)
+    private void NaturePlacementHandler(bool isCancellation, GameObject type)
     {
         ClearInputActions();
+        if (isCancellation)
+        {
+            return;
+        }
 
         inputManager.OnMouseClick += natureManager.PlaceObject;
         inputManager.OnMouseUp += () =>
@@ -86,9 +94,13 @@ public class GameManager : MonoBehaviour
         };
     }
 
-    private void WaterPlacementHandler()
+    private void WaterPlacementHandler(bool isCancellation)
     {
         ClearInputActions();
+        if (isCancellation)
+        {
+            return;
+        }
 
         inputManager.OnMouseClick += waterManager.PlaceObject;
         inputManager.OnMouseUp += () =>

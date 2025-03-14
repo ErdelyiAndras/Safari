@@ -628,7 +628,11 @@ MonoBehaviour:
   HourButton: {fileID: 1743742261}
   DayButton: {fileID: 534140139}
   WeekButton: {fileID: 427271720}
-  outlineColor: {r: 1, g: 0, b: 0, a: 1}
+  SellButton: {fileID: 1137864629}
+  RemoveButton: {fileID: 854223443}
+  placementButtonOutlineColor: {r: 0, g: 0, b: 1, a: 1}
+  timeButtonOutlineColor: {r: 0, g: 1, b: 0, a: 1}
+  removeButtonOutlineColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!1 &247114292
 GameObject:
   m_ObjectHideFlags: 0
@@ -3492,8 +3496,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -255, y: 70}
-  m_SizeDelta: {x: 125, y: 30}
+  m_AnchoredPosition: {x: -260, y: 70}
+  m_SizeDelta: {x: 130, y: 30}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &1366651926
 MonoBehaviour:
