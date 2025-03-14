@@ -63,6 +63,10 @@ public class InputManager : MonoBehaviour
 		{
             cameraMovementVector = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
 		}
+		else
+		{
+			cameraMovementVector = Vector2.zero;
+        }
 	}
 
 	/*private void InvertScrollDirection()
