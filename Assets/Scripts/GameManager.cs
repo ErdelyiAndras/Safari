@@ -49,7 +49,7 @@ public class GameManager : MonoBehaviour
         uiController.SellButtonPressed += isCancellation => SellAnimalHandler(isCancellation);
         uiController.RemoveButtonPressed += isCancellation => RemoveObjectHandler(isCancellation);
 
-        // economyManager.GameOver += GameOverHandler;
+        economyManager.GoneBankrupt += () => GameOverHandler(false);
 
     }
     private void Update()
@@ -199,15 +199,16 @@ public class GameManager : MonoBehaviour
         inputManager.OnMouseClick += placementManager.RemoveStructure;
     }
 
-    private void GameOverHandler(bool result)
+    private void GameOverHandler(bool isGameWon)
     {
-        if (result)
+        if (isGameWon)
         {
             //TODO
         }
         else
         {
             //TODO
+            Debug.Log("Lose");
         }
     }
     
