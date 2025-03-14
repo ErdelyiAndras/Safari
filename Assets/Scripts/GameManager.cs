@@ -20,7 +20,16 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         economyManager.InitMoney(gameDifficulty);
+
         uiController.UpdateMoneyPanel(economyManager.Money);
+        uiController.UpdateAdmissionFeePanel(economyManager.AdmissionFee);
+
+        uiController.admissionFeeEndEdit += admissionFee =>
+        {
+            economyManager.AdmissionFee = admissionFee;
+            uiController.UpdateAdmissionFeePanel(economyManager.AdmissionFee);
+        };
+
         uiController.JeepButtonPressed += JeepPurchaseHandler;
         uiController.RoadButtonPressed += isCancellation => RoadPlacementHandler(isCancellation);
         uiController.Carnivore1ButtonPressed += Carnivore1PurchaseHandler;

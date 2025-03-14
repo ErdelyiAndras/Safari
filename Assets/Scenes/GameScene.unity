@@ -635,6 +635,7 @@ MonoBehaviour:
   timeButtonOutlineColor: {r: 0, g: 1, b: 0, a: 1}
   removeButtonOutlineColor: {r: 1, g: 0, b: 0, a: 1}
   moneyText: {fileID: 591040646}
+  admissionFeeInputField: {fileID: 1808220701}
 --- !u!1 &247114292
 GameObject:
   m_ObjectHideFlags: 0

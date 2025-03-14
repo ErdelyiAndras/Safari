@@ -29,10 +29,11 @@ public class EconomyManager : MonoBehaviour
         }
         set
         {
-            if (value < 0)
+            if (value <= 0)
             {
                 return;
             }
+            Debug.Log("Admission fee changed to " + value);
             admissionFee = value;
         }
     }

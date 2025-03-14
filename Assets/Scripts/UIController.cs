@@ -71,6 +71,9 @@ public class UIController : MonoBehaviour
 
 
     public Text moneyText;
+    public InputField admissionFeeInputField;
+
+    public Action<int> admissionFeeEndEdit;
 
     private void Awake()
     {
@@ -160,11 +163,22 @@ public class UIController : MonoBehaviour
             RemoveButton,
             RemoveButtonPressed)
         );
+
+
+        admissionFeeInputField.onEndEdit.AddListener(value => OnAdmissionFeeEndEdit(value));
     }
 
     private void Start()
     {
         InitTimeButtons(HourButton);
+    }
+
+    public void UpdateAdmissionFeePanel(int admissionFee)
+    {
+        if (admissionFeeInputField != null)
+        {
+            admissionFeeInputField.text = admissionFee.ToString();
+        }
     }
 
     public void UpdateMoneyPanel(int money)
@@ -284,5 +298,10 @@ public class UIController : MonoBehaviour
         {
             button.GetComponent<Outline>().enabled = false;
         }
+    }
+
+    private void OnAdmissionFeeEndEdit(string input)
+    {
+        admissionFeeEndEdit?.Invoke(Convert.ToInt32(input));
     }
 }
