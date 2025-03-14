@@ -70,6 +70,8 @@ public class UIController : MonoBehaviour
     private bool isPaused = false;
 
 
+    public Text moneyText;
+
     private void Awake()
     {
         placementButtonList = new List<Button>
@@ -163,6 +165,14 @@ public class UIController : MonoBehaviour
     private void Start()
     {
         InitTimeButtons(HourButton);
+    }
+
+    public void UpdateMoneyPanel(int money)
+    {
+        if (moneyText != null)
+        {
+            moneyText.text = $"$ {money.ToString()}";
+        }
     }
 
     private void CancelableButtonPressedListener(

@@ -634,6 +634,7 @@ MonoBehaviour:
   placementButtonOutlineColor: {r: 0, g: 0, b: 1, a: 1}
   timeButtonOutlineColor: {r: 0, g: 1, b: 0, a: 1}
   removeButtonOutlineColor: {r: 1, g: 0, b: 0, a: 1}
+  moneyText: {fileID: 591040646}
 --- !u!1 &247114292
 GameObject:
   m_ObjectHideFlags: 0
@@ -1969,7 +1970,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: $ 2000
+  m_Text: $ 0
 --- !u!222 &591040647
 CanvasRenderer:
   m_ObjectHideFlags: 0

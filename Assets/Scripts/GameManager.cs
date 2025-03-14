@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         economyManager.InitMoney(gameDifficulty);
+        uiController.UpdateMoneyPanel(economyManager.Money);
         uiController.JeepButtonPressed += JeepPurchaseHandler;
         uiController.RoadButtonPressed += isCancellation => RoadPlacementHandler(isCancellation);
         uiController.Carnivore1ButtonPressed += Carnivore1PurchaseHandler;
@@ -78,6 +79,7 @@ public class GameManager : MonoBehaviour
             if (result)
             {
                 economyManager.SpendMoney(cost);
+                uiController.UpdateMoneyPanel(economyManager.Money);
             }
         };
     }
@@ -119,6 +121,7 @@ public class GameManager : MonoBehaviour
             if (result)
             {
                 economyManager.SpendMoney(cost);
+                uiController.UpdateMoneyPanel(economyManager.Money);
             }
         };
     }
@@ -140,6 +143,7 @@ public class GameManager : MonoBehaviour
             if (result)
             {
                 economyManager.SpendMoney(cost);
+                uiController.UpdateMoneyPanel(economyManager.Money);
             }
         };
     }
