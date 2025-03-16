@@ -2431,7 +2431,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9b9015fa8ef97243932318af5f4b851, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animalPrefab: {fileID: 8779630825536378151, guid: 0191a5e813e2e9c40ad5ea7db94b0a23, type: 3}
+  placementManager: {fileID: 0}
+  carnivore1Prefab: {fileID: 7292518832171594901, guid: 1a6ec3eddfcff8b4a877c7b350e67557, type: 3}
+  carnivore2Prefab: {fileID: 8779630825536378151, guid: 0191a5e813e2e9c40ad5ea7db94b0a23, type: 3}
+  herbivore1Prefab: {fileID: 7870442338796372815, guid: d36e084254c30534d869078f20bc0339, type: 3}
+  herbivore2Prefab: {fileID: 7993729090055200291, guid: b2e37dd66f813c348aedeb7b439ade96, type: 3}
+  mapWidth: 50
+  mapHeight: 50
 --- !u!4 &812757147
 Transform:
   m_ObjectHideFlags: 0
@@ -3508,6 +3514,7 @@ MonoBehaviour:
   economyManager: {fileID: 2009713196}
   uiController: {fileID: 129047122}
   placementManager: {fileID: 1434987243}
+  animalManager: {fileID: 812757146}
   gameDifficulty: 1
 --- !u!1 &1130501723
 GameObject:
