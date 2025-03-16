@@ -54,7 +54,7 @@ public class PlacementManager : MonoBehaviour
 
     internal void RemoveStructure(Vector3Int position)
     {
-        if (!CheckIfPositionInBound(position))
+        if (!CheckIfPositionInBound(position) || CheckIfPositionIsUnremovable(position))
             return;
         if (structureDictionary.ContainsKey(position))
         {
@@ -78,6 +78,8 @@ public class PlacementManager : MonoBehaviour
             }
         }
     }
+
+    internal bool CheckIfPositionIsUnremovable(Vector3Int position) => (position.x == 0 && position.z == 0) || (position.x == width - 1 && position.z == width - 1);
 
     internal void PlaceStructure(Vector3Int position, GameObject structurePrefab, CellType type)
     {

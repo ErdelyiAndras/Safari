@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.UIElements;
 
 
 public class MapGenerator : MonoBehaviour
@@ -7,12 +8,14 @@ public class MapGenerator : MonoBehaviour
     public PlacementManager placementManager;
     public GameObject[] naturePrefabs;
     public GameObject waterPrefab;
+    public GameObject deadEnd;
 
     private Dictionary<Vector3Int, CellType> usedPositions = new Dictionary<Vector3Int, CellType>();
 
     private System.Random random = new System.Random();
     private void Start()
     {
+        GenerateRoads();
         for (int i = 0; i < 6; ++i)
         {
             GenerateRiver();
@@ -82,5 +85,12 @@ public class MapGenerator : MonoBehaviour
         }
     }
 
+    private void GenerateRoads()
+    {
+        placementManager.PlaceTemporaryStructure(new Vector3Int(0, 0, 0), deadEnd, CellType.Road);
+        usedPositions.Add(new Vector3Int(0, 0, 0), CellType.Road);
+        placementManager.PlaceTemporaryStructure(new Vector3Int(placementManager.width -1, 0, placementManager.height - 1), deadEnd, CellType.Road);
+        usedPositions.Add(new Vector3Int(placementManager.width - 1, 0, placementManager.height - 1), CellType.Road);
+    }
 }
 

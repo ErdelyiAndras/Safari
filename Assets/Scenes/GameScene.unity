@@ -6464,7 +6464,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1278546513}
   m_Direction: 0
   m_Value: 0
-  m_Size: 0.5238095
+  m_Size: 0.52380955
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -6707,6 +6707,7 @@ MonoBehaviour:
   - {fileID: 4245984584134214309, guid: c8c46a24f1192964a9c4a213493c1c7b, type: 3}
   - {fileID: 2732043988329127880, guid: bb8a349e47100e3438e3350c256e20e3, type: 3}
   waterPrefab: {fileID: 2138452382528300987, guid: 358089f4ed332bf4c84b277e0fab5d24, type: 3}
+  deadEnd: {fileID: 1120765361980748800, guid: 126bc1b54aa974c45b523eabbb58d51e, type: 3}
 --- !u!4 &1899437699
 Transform:
   m_ObjectHideFlags: 0
