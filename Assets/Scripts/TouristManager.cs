@@ -8,7 +8,7 @@ public class TouristManager : MonoBehaviour
     public float Satisfaction { get; private set; }
     private int touristCount;
     private int touristsInQueue;
-    private readonly PlacementManager placementManager; // better solution for this? 
+    public PlacementManager placementManager; // better solution for this? 
     private List<Jeep> jeeps = new List<Jeep>();
 
     private void Start()
@@ -28,7 +28,7 @@ public class TouristManager : MonoBehaviour
         jeep.Return();
     }
 
-    public void HandleTImeElapsed()
+    public void HandleTImeElapsed() // EZZEL KELL FELIRATKOZNI A TICK-re
     {
         TouristsArrive();
     }
@@ -47,7 +47,7 @@ public class TouristManager : MonoBehaviour
     }
     public void AcquireNewJeep()
     {
-        jeeps.Add(new Jeep(placementManager.width, placementManager.height));
+        jeeps.Add(new Jeep(placementManager));
     }
 }
 

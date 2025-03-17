@@ -1,6 +1,7 @@
 ﻿using Unity.VisualScripting;
 using UnityEngine;
 using System;
+using System.Collections.Generic;
 
 public enum State
 {
@@ -11,14 +12,16 @@ public enum State
 }
 public class Jeep : Entity
 {
+    private PlacementManager placementManager;
     private Vector3Int endPosition;
     private Vector3Int position;
     public TouristGroup tourists;
     public State MyState { get; private set; }
     public static Action<Jeep> JeepArrived, JeepWaiting;
-    public Jeep(int width, int height)
+    public Jeep(PlacementManager _placementManager)
     {
-        endPosition = new Vector3Int(width - 1, 0, height - 1);
+        placementManager = _placementManager;
+        endPosition = new Vector3Int(placementManager.width - 1, 0, placementManager.height - 1);
         position = new Vector3Int(0, 0, 0);
         MyState = State.Waiting;
         tourists = new TouristGroup();
@@ -44,6 +47,7 @@ public class Jeep : Entity
                 }
                 else
                 {
+                    //mozog a jeep
                     CheckForNewAnimals();
                 }
                     break;
@@ -58,10 +62,12 @@ public class Jeep : Entity
     {
         MyState = State.Returning;
         tourists.SetDefault();
+        // visszamegy a kezdőpozícióba (0,0,0)
     }
 
     public override void Move(Vector3 targetPosition)
     {
+        List<Point> roads = placementManager.placementGrid.Roads;
     }
 
     private void CheckForNewAnimals()

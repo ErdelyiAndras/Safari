@@ -2431,7 +2431,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9b9015fa8ef97243932318af5f4b851, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  placementManager: {fileID: 0}
+  placementManager: {fileID: 1434987243}
   carnivore1Prefab: {fileID: 7292518832171594901, guid: 1a6ec3eddfcff8b4a877c7b350e67557, type: 3}
   carnivore2Prefab: {fileID: 8779630825536378151, guid: 0191a5e813e2e9c40ad5ea7db94b0a23, type: 3}
   herbivore1Prefab: {fileID: 7870442338796372815, guid: d36e084254c30534d869078f20bc0339, type: 3}
@@ -3409,6 +3409,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86742631bad762a47bb2c6c2639e9cbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  placementManager: {fileID: 1434987243}
 --- !u!4 &1039970317
 Transform:
   m_ObjectHideFlags: 0

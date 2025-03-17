@@ -1,5 +1,7 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+
 
 public class AnimalManager : MonoBehaviour
 {
@@ -8,6 +10,8 @@ public class AnimalManager : MonoBehaviour
     public GameObject carnivore1Prefab, carnivore2Prefab, herbivore1Prefab, herbivore2Prefab;
     private int numberOfAnimals = 5;
     private List<GameObject> spawnedAnimals = new List<GameObject>();
+    //le tudjam kérdezni minden állat pozícióját és típusát, lehetőleg egy foreach (var in spawnedAnimals) -al
+
     public List<GameObject> Animals => spawnedAnimals;
     private void Start()
     {
@@ -21,7 +25,7 @@ public class AnimalManager : MonoBehaviour
 
         newAnimal.name = $"Animal_{spawnedAnimals.Count + 1}";
         spawnedAnimals.Add(newAnimal);
-        Debug.Log($"Spawnolt �llat: {newAnimal.name}, Poz�ci�: {spawnPosition}");
+        Debug.Log($"Spawnolt állat: {newAnimal.name}, Pozíció: {spawnPosition}");
     }
      
     private Vector3 GetRandomSpawnPosition()
