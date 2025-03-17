@@ -5,14 +5,10 @@ public class AnimalManager : MonoBehaviour
 {
     public PlacementManager placementManager;
 
-    public GameObject carnivore1Prefab;
-    public GameObject carnivore2Prefab;
-    public GameObject herbivore1Prefab;
-    public GameObject herbivore2Prefab;
+    public GameObject carnivore1Prefab, carnivore2Prefab, herbivore1Prefab, herbivore2Prefab;
     private int numberOfAnimals = 5;
-    public int mapWidth = 50, mapHeight = 50;
     private List<GameObject> spawnedAnimals = new List<GameObject>();
-
+    public List<GameObject> Animals => spawnedAnimals;
     private void Start()
     {
    
@@ -30,8 +26,8 @@ public class AnimalManager : MonoBehaviour
      
     private Vector3 GetRandomSpawnPosition()
     {
-        float x = Random.Range(0, mapWidth);
-        float z = Random.Range(0, mapHeight);
+        float x = Random.Range(0, placementManager.width);
+        float z = Random.Range(0, placementManager.height);
         return new Vector3(x, 0, z);
     }
 }

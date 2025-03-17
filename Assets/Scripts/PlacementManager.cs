@@ -11,7 +11,6 @@ public class PlacementManager : MonoBehaviour
     Grid placementGrid;
     internal Action<Vector3Int> RoadRemoved;
 
-
     private Dictionary<Vector3Int, StructureModel> temporaryRoadobjects = new Dictionary<Vector3Int, StructureModel>();
     private Dictionary<Vector3Int, StructureModel> structureDictionary = new Dictionary<Vector3Int, StructureModel>();
 

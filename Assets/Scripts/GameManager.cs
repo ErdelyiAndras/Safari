@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
     public UIController uiController;
     public PlacementManager placementManager;
     public AnimalManager animalManager;
+    public TouristManager touristManager;
 
     public Difficulty gameDifficulty;
 
@@ -68,7 +69,12 @@ public class GameManager : MonoBehaviour
 
     private void JeepPurchaseHandler()
     {
-        ClearInputActions();
+        bool result = economyManager.HasEnoughMoney(economyManager.UnitCostOfJeep);
+        if (result)
+        {
+            touristManager.AcquireNewJeep();
+            economyManager.SpendMoney(economyManager.UnitCostOfJeep);
+        }
     }
 
     private void RoadPlacementHandler(bool isCancellation)
