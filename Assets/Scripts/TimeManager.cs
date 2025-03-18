@@ -8,9 +8,11 @@ public class TimeManager : MonoBehaviour
 
     public Action Elapsed;
 
-    public float hourInterval = 10.0f;
-    public float dayInterval = 20.0f;
-    public float weekInterval = 30.0f;
+    public float baseSpeed = 30.0f;
+
+    public float hourSpeedMultiplier = 1.0f;
+    public float daySpeedMultiplier = 2.0f;
+    public float weekSpeedMultiplier = 3.0f;
 
     public float EntitySpeedMultiplier
     {
@@ -23,10 +25,9 @@ public class TimeManager : MonoBehaviour
 
             return timeInterval switch
             {
-
-                TimeInterval.HOUR => hourInterval / hourInterval,
-                TimeInterval.DAY => dayInterval / hourInterval,
-                TimeInterval.WEEK => weekInterval / hourInterval,
+                TimeInterval.HOUR => hourSpeedMultiplier,
+                TimeInterval.DAY => daySpeedMultiplier,
+                TimeInterval.WEEK => weekSpeedMultiplier,
                 _ => throw new ArgumentOutOfRangeException("Invalid TimeInterval")
             };
         }
@@ -46,9 +47,9 @@ public class TimeManager : MonoBehaviour
         {
             return timeInterval switch
             {
-                TimeInterval.HOUR => hourInterval,
-                TimeInterval.DAY => dayInterval,
-                TimeInterval.WEEK => weekInterval,
+                TimeInterval.HOUR => baseSpeed / hourSpeedMultiplier,
+                TimeInterval.DAY => baseSpeed / daySpeedMultiplier,
+                TimeInterval.WEEK => baseSpeed / weekSpeedMultiplier,
                 _ => throw new ArgumentOutOfRangeException("Invalid TimeInterval")
             };
         }
@@ -56,8 +57,10 @@ public class TimeManager : MonoBehaviour
 
     private void Awake()
     {
+        baseSpeed = 30.0f;
         elapsedTime = 0.0f;
         isPaused = true;
+        timeInterval = TimeInterval.HOUR;
     }
 
     private void Update()
