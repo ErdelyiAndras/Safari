@@ -3558,8 +3558,8 @@ MonoBehaviour:
   uiController: {fileID: 129047122}
   placementManager: {fileID: 1434987243}
   animalManager: {fileID: 812757146}
-  touristManager: {fileID: 1039970316}
   timeManager: {fileID: 1210205437}
+  touristManager: {fileID: 1039970316}
   gameDifficulty: 1
 --- !u!1 &1130501723
 GameObject:
@@ -3967,9 +3967,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeInterval: 0
-  hourInterval: 10
-  dayInterval: 20
-  weekInterval: 30
+  baseSpeed: 30
+  hourSpeedMultiplier: 1
+  daySpeedMultiplier: 2
+  weekSpeedMultiplier: 3
 --- !u!4 &1210205438
 Transform:
   m_ObjectHideFlags: 0
@@ -6156,11 +6157,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d76cd60ac75aeb047ba729dba316de1c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deadEnd: {fileID: 1120765361980748800, guid: 126bc1b54aa974c45b523eabbb58d51e, type: 3}
-  roadStraight: {fileID: 5661862354351878554, guid: 0cf01c743836d154eb47042e1bc62afd, type: 3}
-  corner: {fileID: 7077802812573144028, guid: fd4c97eb7b86f1149a7745204ed8904e, type: 3}
-  threeWay: {fileID: 2384947387477557946, guid: 2524a8437a2d4394da7f7a0546a71f3d, type: 3}
-  fourWay: {fileID: 3351635067702010651, guid: f4402828bce58b54791119f89fa2df61, type: 3}
+  single: {fileID: 9015939637995313398, guid: 2d36699728ea67a419f45933e2229fb6, type: 3}
+  deadEnd: {fileID: 4926799732163256928, guid: e55eaabf63efcb04b8792c7abc16c479, type: 3}
+  roadStraight: {fileID: 8175494384850617880, guid: 360ca174dd8a6c84d9bc9b5f2effebba, type: 3}
+  corner: {fileID: 6100802847655101620, guid: 89fa56f99a7c2984286d302cc2c40168, type: 3}
+  threeWay: {fileID: 4386289340720084457, guid: 3fdbb46373f80814fbd699dcc2ea7535, type: 3}
+  fourWay: {fileID: 7815550467270117789, guid: d5e043382a033774b8450f047f7eea69, type: 3}
 --- !u!1 &1743742259
 GameObject:
   m_ObjectHideFlags: 0
@@ -6563,8 +6565,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1278546514}
   m_HandleRect: {fileID: 1278546513}
   m_Direction: 0
-  m_Value: 0.00000012207028
-  m_Size: 0.5238095
+  m_Value: 0
+  m_Size: 0.52380955
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

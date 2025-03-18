@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class RoadFixer : MonoBehaviour
 {
-    public GameObject deadEnd, roadStraight, corner, threeWay, fourWay;
+    public GameObject single, deadEnd, roadStraight, corner, threeWay, fourWay;
 
     public void FixRoadAtPosition(PlacementManager placementManager, Vector3Int temporaryPosition)
     {
@@ -15,6 +15,16 @@ public class RoadFixer : MonoBehaviour
         {
             CreateDeadEnd(placementManager, result, temporaryPosition);
         }
+
+        /*if (roadCount == 0)
+        {
+            //CreateDeadEnd(placementManager, result, temporaryPosition);
+            CreateSingle(placementManager, result, temporaryPosition);
+        }
+        else if (roadCount == 1)
+        {
+            CreateDeadEnd(placementManager, result, temporaryPosition);
+        }*/
         else if (roadCount == 2)
         {
             if (CreateStraightRoad(placementManager, result, temporaryPosition))
@@ -115,4 +125,9 @@ public class RoadFixer : MonoBehaviour
             placementManager.ModifyStructureModel(temporaryPosition, deadEnd, Quaternion.Euler(0, 180, 0));
         }
     }
+
+    /*private void CreateSingle(PlacementManager placementManager, CellType[] result, Vector3Int temporaryPosition)
+    {
+        placementManager.ModifyStructureModel(temporaryPosition, single, Quaternion.identity);
+    }*/
 }
