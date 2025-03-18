@@ -62,6 +62,7 @@ public class Grid
     public int Height { get { return _height; } }
 
     private List<Point> _roadList = new List<Point>();
+    public List<Point> Roads { get; }
 
     public Grid(int width, int height)
     {

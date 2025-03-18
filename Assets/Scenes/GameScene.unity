@@ -2431,13 +2431,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9b9015fa8ef97243932318af5f4b851, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  placementManager: {fileID: 0}
+  placementManager: {fileID: 1434987243}
   carnivore1Prefab: {fileID: 7292518832171594901, guid: 1a6ec3eddfcff8b4a877c7b350e67557, type: 3}
   carnivore2Prefab: {fileID: 8779630825536378151, guid: 0191a5e813e2e9c40ad5ea7db94b0a23, type: 3}
   herbivore1Prefab: {fileID: 7870442338796372815, guid: d36e084254c30534d869078f20bc0339, type: 3}
   herbivore2Prefab: {fileID: 7993729090055200291, guid: b2e37dd66f813c348aedeb7b439ade96, type: 3}
-  mapWidth: 50
-  mapHeight: 50
 --- !u!4 &812757147
 Transform:
   m_ObjectHideFlags: 0
@@ -3382,6 +3380,51 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1027745484}
   m_CullTransparentMesh: 1
+--- !u!1 &1039970315
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1039970317}
+  - component: {fileID: 1039970316}
+  m_Layer: 0
+  m_Name: TouristManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1039970316
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1039970315}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86742631bad762a47bb2c6c2639e9cbf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  placementManager: {fileID: 1434987243}
+--- !u!4 &1039970317
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1039970315}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -27.408615, y: -104.39102, z: -209.15575}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1064772203
 GameObject:
   m_ObjectHideFlags: 0
@@ -3515,6 +3558,7 @@ MonoBehaviour:
   uiController: {fileID: 129047122}
   placementManager: {fileID: 1434987243}
   animalManager: {fileID: 812757146}
+  touristManager: {fileID: 1039970316}
   timeManager: {fileID: 1210205437}
   gameDifficulty: 1
 --- !u!1 &1130501723
@@ -6519,8 +6563,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1278546514}
   m_HandleRect: {fileID: 1278546513}
   m_Direction: 0
-  m_Value: 0
-  m_Size: 0.52380955
+  m_Value: 0.00000012207028
+  m_Size: 0.5238095
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -8127,4 +8171,5 @@ SceneRoots:
   - {fileID: 812757147}
   - {fileID: 2009713197}
   - {fileID: 1899437699}
+  - {fileID: 1039970317}
   - {fileID: 1210205438}
