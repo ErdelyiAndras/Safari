@@ -7,6 +7,7 @@ public class TimeManager : MonoBehaviour
     public TimeInterval timeInterval;
 
     public Action Elapsed;
+    public Action TimeIntervalChanged;
 
     public float baseSpeed = 30.0f;
 
@@ -34,7 +35,9 @@ public class TimeManager : MonoBehaviour
     }
 
     private float elapsedTime;
-    private bool isPaused = true;
+    private bool isPaused;
+
+    private int tickCounter;
 
     public bool IsPaused
     {
@@ -57,9 +60,11 @@ public class TimeManager : MonoBehaviour
 
     private void Awake()
     {
+        tickCounter = 0;
+
         baseSpeed = 30.0f;
         elapsedTime = 0.0f;
-        isPaused = true;
+        isPaused = false;
         timeInterval = TimeInterval.HOUR;
     }
 
@@ -70,29 +75,31 @@ public class TimeManager : MonoBehaviour
             return;
         }
 
-        if (elapsedTime < WaitTime)
+        if (elapsedTime < 1.0f)
         {
             elapsedTime += Time.deltaTime;
         }
         else
         {
-            elapsedTime = 0.0f;
-            Elapsed?.Invoke();
+            tickCounter++;
+            // Debug.Log($"Sec: {tickCounter}");
+            elapsedTime = 0.0f; 
+            if (tickCounter % WaitTime == 0)
+            {
+                tickCounter = 0;
+                Elapsed?.Invoke();
+            }
         }
     }
 
     public void SetTimeInterval(TimeInterval timeInterval)
     {
         this.timeInterval = timeInterval;
+        TimeIntervalChanged?.Invoke();
     }
 
-    public void Pause()
+    public void TogglePause()
     {
-        isPaused = true;
-    }
-
-    public void Resume()
-    {
-        isPaused = false;
+        isPaused = !isPaused;
     }
 }

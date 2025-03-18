@@ -53,10 +53,9 @@ public class GameManager : MonoBehaviour
         uiController.RemoveButtonPressed += isCancellation => RemoveObjectHandler(isCancellation);
 
         economyManager.GoneBankrupt += () => GameOverHandler(false);
-
-
-        timeManager.Resume();        
+  
         timeManager.Elapsed += () => TimeManagerElapsedHandler();
+        timeManager.TimeIntervalChanged += () => SetSpeedMultiplierOfEntities();
     }
 
     private void Update()
@@ -210,7 +209,7 @@ public class GameManager : MonoBehaviour
 
     private void PauseButtonHandler()
     {
-        
+        timeManager.TogglePause();
     }
 
     private void HourButtonHandler()
@@ -241,9 +240,14 @@ public class GameManager : MonoBehaviour
 
     private void TimeManagerElapsedHandler()
     {
-        Debug.Log("Elapsed");
         economyManager.DailyMaintenance();
         uiController.UpdateMoneyPanel(economyManager.Money);
+    }
+
+    private void SetSpeedMultiplierOfEntities()
+    {
+        //animalManager.SetSpeedMultiplier(timeManager.EntitySpeedMultiplier);
+
     }
 
     private void GameOverHandler(bool isGameWon)
