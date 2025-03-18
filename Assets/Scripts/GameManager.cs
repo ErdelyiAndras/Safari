@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
     public UIController uiController;
     public PlacementManager placementManager;
     public AnimalManager animalManager;
+    public TimeManager timeManager;
 
     public Difficulty gameDifficulty;
 
@@ -33,10 +34,10 @@ public class GameManager : MonoBehaviour
 
         uiController.JeepButtonPressed += JeepPurchaseHandler;
         uiController.RoadButtonPressed += isCancellation => RoadPlacementHandler(isCancellation);
-        uiController.Carnivore1ButtonPressed += () => animalManager.SpawnAnimal(animalManager.carnivore1Prefab);
-        uiController.Carnivore2ButtonPressed += () => animalManager.SpawnAnimal(animalManager.carnivore2Prefab);
-        uiController.Herbivore1ButtonPressed += () => animalManager.SpawnAnimal(animalManager.herbivore1Prefab);
-        uiController.Herbivore2ButtonPressed += () => animalManager.SpawnAnimal(animalManager.herbivore2Prefab);
+        uiController.Carnivore1ButtonPressed += () => Carnivore1PurchaseHandler();
+        uiController.Carnivore2ButtonPressed += () => Carnivore2PurchaseHandler();
+        uiController.Herbivore1ButtonPressed += () => Herbivore1PurchaseHandler();
+        uiController.Herbivore2ButtonPressed += () => Herbivore2PurchaseHandler();
         uiController.Plant1ButtonPressed += isCancellation => NaturePlacementHandler(isCancellation, Plant1);
         uiController.Plant2ButtonPressed += isCancellation => NaturePlacementHandler(isCancellation, Plant2);
         uiController.Plant3ButtonPressed += isCancellation => NaturePlacementHandler(isCancellation, Plant3);
@@ -52,7 +53,11 @@ public class GameManager : MonoBehaviour
 
         economyManager.GoneBankrupt += () => GameOverHandler(false);
 
+
+        timeManager.Resume();        
+        timeManager.Elapsed += () => TimeManagerElapsedHandler();
     }
+
     private void Update()
     {
         cameraMovement.MoveCamera(new Vector3(inputManager.CameraMovementVector.x,0, inputManager.CameraMovementVector.y));
@@ -97,21 +102,49 @@ public class GameManager : MonoBehaviour
     private void Carnivore1PurchaseHandler()
     {
         ClearInputActions();
+        if (economyManager.HasEnoughMoney(economyManager.UnitCostOfCarnivore))
+        {
+            animalManager.SpawnAnimal(animalManager.carnivore1Prefab);
+            economyManager.SpendMoney(economyManager.UnitCostOfCarnivore);
+            uiController.UpdateMoneyPanel(economyManager.Money);
+        }
+        //animalManager.SpawnAnimal(animalManager.carnivore1Prefab);
     }
 
     private void Carnivore2PurchaseHandler()
     {
         ClearInputActions();
+        if (economyManager.HasEnoughMoney(economyManager.UnitCostOfCarnivore))
+        {
+            animalManager.SpawnAnimal(animalManager.carnivore2Prefab);
+            economyManager.SpendMoney(economyManager.UnitCostOfCarnivore);
+            uiController.UpdateMoneyPanel(economyManager.Money);
+        }
+        //animalManager.SpawnAnimal(animalManager.carnivore2Prefab);
     }
 
     private void Herbivore1PurchaseHandler()
     {
         ClearInputActions();
+        if (economyManager.HasEnoughMoney(economyManager.UnitCostOfHerbivore))
+        {
+            animalManager.SpawnAnimal(animalManager.herbivore1Prefab);
+            economyManager.SpendMoney(economyManager.UnitCostOfHerbivore);
+            uiController.UpdateMoneyPanel(economyManager.Money);
+        }
+        //animalManager.SpawnAnimal(animalManager.herbivore1Prefab);
     }
 
     private void Herbivore2PurchaseHandler()
     {
         ClearInputActions();
+        if (economyManager.HasEnoughMoney(economyManager.UnitCostOfHerbivore))
+        {
+            animalManager.SpawnAnimal(animalManager.herbivore2Prefab);
+            economyManager.SpendMoney(economyManager.UnitCostOfHerbivore);
+            uiController.UpdateMoneyPanel(economyManager.Money);
+        }
+        //animalManager.SpawnAnimal(animalManager.herbivore2Prefab);
     }
 
     private void NaturePlacementHandler(bool isCancellation, GameObject type)
@@ -176,17 +209,17 @@ public class GameManager : MonoBehaviour
 
     private void HourButtonHandler()
     {
-
+        timeManager.SetTimeInterval(TimeInterval.HOUR);
     }
 
     private void DayButtonHandler()
     {
-
+        timeManager.SetTimeInterval(TimeInterval.DAY);
     }
 
     private void WeekButtonHandler()
     {
-
+        timeManager.SetTimeInterval(TimeInterval.WEEK);
     }
 
     private void RemoveObjectHandler(bool isCancellation)
@@ -198,6 +231,13 @@ public class GameManager : MonoBehaviour
         }
 
         inputManager.OnMouseClick += placementManager.RemoveStructure;
+    }
+
+    private void TimeManagerElapsedHandler()
+    {
+        Debug.Log("Elapsed");
+        economyManager.DailyMaintenance();
+        uiController.UpdateMoneyPanel(economyManager.Money);
     }
 
     private void GameOverHandler(bool isGameWon)

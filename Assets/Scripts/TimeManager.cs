@@ -16,9 +16,14 @@ public class TimeManager : MonoBehaviour
     {
         get
         {
+            if (isPaused)
+            {
+                return 0.0f;
+            }
+
             return timeInterval switch
             {
-                TimeInterval.PAUSED => 0.0f,
+
                 TimeInterval.HOUR => hourInterval / hourInterval,
                 TimeInterval.DAY => dayInterval / hourInterval,
                 TimeInterval.WEEK => weekInterval / hourInterval,
@@ -28,6 +33,12 @@ public class TimeManager : MonoBehaviour
     }
 
     private float elapsedTime;
+    private bool isPaused = true;
+
+    public bool IsPaused
+    {
+        get { return isPaused; }
+    }
 
     private float WaitTime
     {
@@ -43,15 +54,15 @@ public class TimeManager : MonoBehaviour
         }
     }
 
-    private void Start()
+    private void Awake()
     {
         elapsedTime = 0.0f;
-        timeInterval = TimeInterval.PAUSED;
+        isPaused = true;
     }
 
     private void Update()
     {
-        if (timeInterval == TimeInterval.PAUSED)
+        if (isPaused)
         {
             return;
         }
@@ -74,6 +85,11 @@ public class TimeManager : MonoBehaviour
 
     public void Pause()
     {
-        timeInterval = TimeInterval.PAUSED;
+        isPaused = true;
+    }
+
+    public void Resume()
+    {
+        isPaused = false;
     }
 }

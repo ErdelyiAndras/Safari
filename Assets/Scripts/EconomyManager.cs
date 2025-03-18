@@ -13,6 +13,8 @@ public class EconomyManager : MonoBehaviour
 
     private bool wasInitialized = false;
 
+    private int maintenanceFee = 20;
+
     public int Money
     {
         get
@@ -74,6 +76,11 @@ public class EconomyManager : MonoBehaviour
     {
         money -= amount;
         CheckIfGameOver();
+    }
+
+    public void DailyMaintenance()
+    {
+        SpendMoney(maintenanceFee);
     }
 
     public void EarnMoney(int amount)
