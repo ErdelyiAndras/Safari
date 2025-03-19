@@ -18,12 +18,12 @@ public class MapGenerator : MonoBehaviour
     {
         GenerateRoads();
 
-        for (int i = 0; i < random.Next(2, 5); ++i)
+        for (int i = 0; i < random.Next(3, 9); ++i)
         {
             GenerateHill();
         }
 
-        for (int i = 0; i < random.Next(2, 9); ++i)
+        for (int i = 0; i < random.Next(2, 10); ++i)
         {
             GenerateRiver();
         }
@@ -109,7 +109,7 @@ public class MapGenerator : MonoBehaviour
     {
         List<Vector3> hillPositions = new List<Vector3>();
 
-        int maxHillSize = random.Next(10, 30);
+        int maxHillSize = random.Next(10, 90);
 
         Vector3Int startPosition;
         do
@@ -129,7 +129,7 @@ public class MapGenerator : MonoBehaviour
             Vector3Int current = queue.Dequeue();
             usedPositions[current] = CellType.Hill;
 
-            foreach (Vector3Int neighbor in GetNeighbors(current))
+            foreach (Vector3Int neighbor in GetNeighborsInRandomOrder(current))
             {
                 if (!visited.Contains(neighbor) && placementManager.CheckIfPositionInBound(neighbor))
                 {
@@ -149,11 +149,29 @@ public class MapGenerator : MonoBehaviour
         }
     }
 
-    private IEnumerable<Vector3Int> GetNeighbors(Vector3Int position)
+    private IEnumerable<Vector3Int> GetNeighborsInRandomOrder(Vector3Int position)
     {
-        yield return position + new Vector3Int(1, 0, 0);
-        yield return position + new Vector3Int(0, 0, 1);
-        yield return position + new Vector3Int(-1, 0, 0);
-        yield return position + new Vector3Int(0, 0, -1);
+        List<Vector3Int> neighbors = new List<Vector3Int>
+        {
+            position + new Vector3Int(1, 0, 0),
+            position + new Vector3Int(0, 0, 1),
+            position + new Vector3Int(-1, 0, 0),
+            position + new Vector3Int(0, 0, -1)
+
+        };
+
+        // shuffles the list
+        for (int i = neighbors.Count - 1; i > 0; i--)
+        {
+            int j = random.Next(0, i + 1);
+            Vector3Int temp = neighbors[i];
+            neighbors[i] = neighbors[j];
+            neighbors[j] = temp;
+        }
+
+        foreach (Vector3Int neighbor in neighbors)
+        {
+            yield return neighbor;
+        }
     }
 }
