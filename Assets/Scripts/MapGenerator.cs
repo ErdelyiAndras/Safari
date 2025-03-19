@@ -7,7 +7,6 @@ public class MapGenerator : MonoBehaviour
 {
     public PlacementManager placementManager;
     //public HillFixer hillFixer;
-
     public GameObject[] naturePrefabs;
     public GameObject waterPrefab;
     public GameObject deadEnd;
