@@ -84,9 +84,6 @@ public class PlacementManager : MonoBehaviour
                 (position.x == width - 1 && position.z == width - 1) || 
                 placementGrid[position.x, position.z] == CellType.Hill;
     }
-        
-        
-        
 
     internal void PlaceStructure(Vector3Int position, GameObject structurePrefab, CellType type)
     {
@@ -129,9 +126,9 @@ public class PlacementManager : MonoBehaviour
     }
 
     //[right, up, left, down]
-    internal CellType[] GetNeighbourTypes(Vector3Int position)
+    internal CellType[] GetNeighbourTypes(Vector3Int position, bool checkDiagonal = false)
     {
-        return placementGrid.GetAllAdjacentCellTypes(position.x, position.z);
+        return placementGrid.GetAllAdjacentCellTypes(position.x, position.z, checkDiagonal);
     }
 
     internal List<Vector3Int> GetNeighboursOfType(Vector3Int position, CellType type)
