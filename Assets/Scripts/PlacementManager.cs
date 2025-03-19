@@ -125,10 +125,9 @@ public class PlacementManager : MonoBehaviour
         }
     }
 
-    //[right, up, left, down]
-    internal CellType[] GetNeighbourTypes(Vector3Int position, bool checkDiagonal = false)
+    internal AdjacentCellTypes GetNeighbourTypes(Vector3Int position)
     {
-        return placementGrid.GetAllAdjacentCellTypes(position.x, position.z, checkDiagonal);
+        return placementGrid.GetAllAdjacentCellTypes(position.x, position.z);
     }
 
     internal List<Vector3Int> GetNeighboursOfType(Vector3Int position, CellType type)
