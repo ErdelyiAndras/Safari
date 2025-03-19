@@ -6,6 +6,8 @@ public class GameManager : MonoBehaviour
 {
     public GameObject Plant1, Plant2, Plant3;
 
+    public GameObject hillPrefab;
+
     public CameraMovement cameraMovement;
     public InputManager inputManager;
     public RoadManager roadManager;
