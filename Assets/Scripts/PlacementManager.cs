@@ -78,7 +78,15 @@ public class PlacementManager : MonoBehaviour
         }
     }
 
-    internal bool CheckIfPositionIsUnremovable(Vector3Int position) => (position.x == 0 && position.z == 0) || (position.x == width - 1 && position.z == width - 1);
+    internal bool CheckIfPositionIsUnremovable(Vector3Int position)
+    {
+        return  (position.x == 0 && position.z == 0) ||
+                (position.x == width - 1 && position.z == width - 1) || 
+                placementGrid[position.x, position.z] == CellType.Hill;
+    }
+        
+        
+        
 
     internal void PlaceStructure(Vector3Int position, GameObject structurePrefab, CellType type)
     {
