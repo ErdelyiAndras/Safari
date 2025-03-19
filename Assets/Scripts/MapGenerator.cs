@@ -8,6 +8,7 @@ public class MapGenerator : MonoBehaviour
     public PlacementManager placementManager;
     public GameObject[] naturePrefabs;
     public GameObject waterPrefab;
+    public GameObject hillPrefab;
     public GameObject deadEnd;
 
     private Dictionary<Vector3Int, CellType> usedPositions = new Dictionary<Vector3Int, CellType>();
@@ -16,11 +17,17 @@ public class MapGenerator : MonoBehaviour
     private void Start()
     {
         GenerateRoads();
-        GenerateHills();
-        for (int i = 0; i < 6; ++i)
+
+        for (int i = 0; i < random.Next(2, 5); ++i)
+        {
+            GenerateHill();
+        }
+
+        for (int i = 0; i < random.Next(2, 9); ++i)
         {
             GenerateRiver();
         }
+
         GenerateNature();
         PlaceStructures();
     }
@@ -83,6 +90,10 @@ public class MapGenerator : MonoBehaviour
             {
                 placementManager.PlaceStructure(position.Key, waterPrefab, CellType.Water);
             }
+            else if (position.Value == CellType.Hill)
+            {
+                 placementManager.PlaceStructure(position.Key, hillPrefab, CellType.Hill);
+            }
         }
     }
 
@@ -94,9 +105,55 @@ public class MapGenerator : MonoBehaviour
         usedPositions.Add(new Vector3Int(placementManager.width - 1, 0, placementManager.height - 1), CellType.Road);
     }
 
-    private void GenerateHills()
+    private void GenerateHill()
     {
+        List<Vector3> hillPositions = new List<Vector3>();
 
+        int maxHillSize = random.Next(10, 30);
+
+        Vector3Int startPosition;
+        do
+        {
+            startPosition = GetRandomPosition();
+        }
+        while (usedPositions.ContainsKey(startPosition));
+
+        Queue<Vector3Int> queue = new Queue<Vector3Int>();
+        HashSet<Vector3Int> visited = new HashSet<Vector3Int>();
+
+        queue.Enqueue(startPosition);
+        visited.Add(startPosition);
+
+        while (queue.Count > 0 && visited.Count < maxHillSize)
+        {
+            Vector3Int current = queue.Dequeue();
+            usedPositions[current] = CellType.Hill;
+
+            foreach (Vector3Int neighbor in GetNeighbors(current))
+            {
+                if (!visited.Contains(neighbor) && placementManager.CheckIfPositionInBound(neighbor))
+                {
+                    queue.Enqueue(neighbor);
+                    visited.Add(neighbor);
+                    hillPositions.Add(neighbor);
+                }
+            }
+        }
+
+        foreach (Vector3Int position in visited)
+        {
+            if (!usedPositions.ContainsKey(position))
+            {
+                usedPositions.Add(position, CellType.Hill);
+            }
+        }
+    }
+
+    private IEnumerable<Vector3Int> GetNeighbors(Vector3Int position)
+    {
+        yield return position + new Vector3Int(1, 0, 0);
+        yield return position + new Vector3Int(0, 0, 1);
+        yield return position + new Vector3Int(-1, 0, 0);
+        yield return position + new Vector3Int(0, 0, -1);
     }
 }
-

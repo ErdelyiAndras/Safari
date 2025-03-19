@@ -3,29 +3,18 @@ using UnityEngine;
 
 public class RoadFixer : MonoBehaviour
 {
-    //public GameObject single;
     public GameObject deadEnd, roadStraight, corner, threeWay, fourWay;
 
     public void FixRoadAtPosition(PlacementManager placementManager, Vector3Int temporaryPosition)
     {
-        //[right, up, left, down]
         AdjacentCellTypes result = placementManager.GetNeighbourTypes(temporaryPosition);
         int roadCount = 0; 
         roadCount = result.ToArray(false).Where(x => x == CellType.Road).Count();
+        
         if (roadCount == 0 || roadCount == 1)
         {
             CreateDeadEnd(placementManager, result, temporaryPosition);
         }
-
-        /*if (roadCount == 0)
-        {
-            //CreateDeadEnd(placementManager, result, temporaryPosition);
-            CreateSingle(placementManager, result, temporaryPosition);
-        }
-        else if (roadCount == 1)
-        {
-            CreateDeadEnd(placementManager, result, temporaryPosition);
-        }*/
         else if (roadCount == 2)
         {
             if (CreateStraightRoad(placementManager, result, temporaryPosition))
@@ -47,7 +36,6 @@ public class RoadFixer : MonoBehaviour
         placementManager.ModifyStructureModel(temporaryPosition, fourWay, Quaternion.identity);
     }
 
-    //[left, up, right, down]
     private void Create3Way(PlacementManager placementManager, AdjacentCellTypes result, Vector3Int temporaryPosition)
     {
         if (result.Up == CellType.Road && result.Right == CellType.Road && result.Down == CellType.Road)
@@ -69,7 +57,6 @@ public class RoadFixer : MonoBehaviour
 
     }
 
-    //[left, up, right, down]
     private void CreateCorner(PlacementManager placementManager, AdjacentCellTypes result, Vector3Int temporaryPosition)
     {
         if (result.Up == CellType.Road && result.Right == CellType.Road)
@@ -90,7 +77,6 @@ public class RoadFixer : MonoBehaviour
         }
     }
 
-    //[left, up, right, down]
     private bool CreateStraightRoad(PlacementManager placementManager, AdjacentCellTypes result, Vector3Int temporaryPosition)
     {
         if (result.Left == CellType.Road && result.Right == CellType.Road)
@@ -106,7 +92,6 @@ public class RoadFixer : MonoBehaviour
         return false;
     }
 
-    //[left, up, right, down]
     private void CreateDeadEnd(PlacementManager placementManager, AdjacentCellTypes result, Vector3Int temporaryPosition)
     {
         if (result.Up == CellType.Road)
@@ -126,9 +111,4 @@ public class RoadFixer : MonoBehaviour
             placementManager.ModifyStructureModel(temporaryPosition, deadEnd, Quaternion.Euler(0, 180, 0));
         }
     }
-
-    /*private void CreateSingle(PlacementManager placementManager, CellType[] result, Vector3Int temporaryPosition)
-    {
-        placementManager.ModifyStructureModel(temporaryPosition, single, Quaternion.identity);
-    }*/
 }

@@ -3419,7 +3419,7 @@ Transform:
   m_GameObject: {fileID: 1039970315}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -27.408615, y: -104.39102, z: -209.15575}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3549,7 +3549,6 @@ MonoBehaviour:
   Plant1: {fileID: 8961060414691119292, guid: f04715c35df96d24daf46814db582a15, type: 3}
   Plant2: {fileID: 4245984584134214309, guid: c8c46a24f1192964a9c4a213493c1c7b, type: 3}
   Plant3: {fileID: 2732043988329127880, guid: bb8a349e47100e3438e3350c256e20e3, type: 3}
-  hillPrefab: {fileID: 5415228831098412824, guid: efba7964ffd90db4db5a672bfa3ab415, type: 3}
   cameraMovement: {fileID: 330585548}
   inputManager: {fileID: 1360255462}
   roadManager: {fileID: 1742676474}
@@ -6809,6 +6808,7 @@ MonoBehaviour:
   - {fileID: 4245984584134214309, guid: c8c46a24f1192964a9c4a213493c1c7b, type: 3}
   - {fileID: 2732043988329127880, guid: bb8a349e47100e3438e3350c256e20e3, type: 3}
   waterPrefab: {fileID: 2138452382528300987, guid: 358089f4ed332bf4c84b277e0fab5d24, type: 3}
+  hillPrefab: {fileID: 5415228831098412824, guid: efba7964ffd90db4db5a672bfa3ab415, type: 3}
   deadEnd: {fileID: 1120765361980748800, guid: 126bc1b54aa974c45b523eabbb58d51e, type: 3}
 --- !u!4 &1899437699
 Transform:
@@ -6819,7 +6819,7 @@ Transform:
   m_GameObject: {fileID: 1899437697}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -198.3662, y: -25.975525, z: 16.915253}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

@@ -6,8 +6,6 @@ public class GameManager : MonoBehaviour
 {
     public GameObject Plant1, Plant2, Plant3;
 
-    public GameObject hillPrefab;
-
     public CameraMovement cameraMovement;
     public InputManager inputManager;
     public RoadManager roadManager;
@@ -205,10 +203,6 @@ public class GameManager : MonoBehaviour
         {
             return;
         }
-        
-        Vector3 pos = new Vector3(UnityEngine.Random.Range(0, placementManager.width), 0, UnityEngine.Random.Range(0, placementManager.height));
-        Debug.Log(pos);
-        Instantiate(hillPrefab, pos, Quaternion.identity);
 
         // inputManager.OnMouseClick += ;
     }
