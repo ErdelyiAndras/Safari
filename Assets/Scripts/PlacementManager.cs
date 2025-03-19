@@ -123,7 +123,19 @@ public class PlacementManager : MonoBehaviour
     //[right, up, left, down]
     internal CellType[] GetNeighbourTypes(Vector3Int position)
     {
-        return placementGrid.GetAllAdjacentCellTypes(position.x, position.z);
+        Debug.Log($"X: {position.x}, Z: {position.z}");
+        CellType[] n = placementGrid.GetAllAdjacentCellTypes(position.x, position.z);
+        Debug.Log(n[0]);
+        Debug.Log(n[1]);
+        Debug.Log(n[2]);
+        Debug.Log(n[3]);
+        return n;
+    }
+
+    // TODO: refactor CellType[] to struct
+    internal CellType[] GetExtendedNeighbourTypes(Vector3Int position)
+    {
+        return placementGrid.GetExtendedAdjacentCellTypes(position.x, position.z);
     }
 
     internal List<Vector3Int> GetNeighboursOfType(Vector3Int position, CellType type)
@@ -159,7 +171,7 @@ public class PlacementManager : MonoBehaviour
         temporaryRoadobjects.Clear();
     }
 
-    internal void AddtemporaryStructuresToStructureDictionary()
+    internal void AddTemporaryStructuresToStructureDictionary()
     {
         foreach (var structure in temporaryRoadobjects)
         {

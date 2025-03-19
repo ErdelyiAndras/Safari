@@ -149,7 +149,7 @@ public class Grid
         List<Point> adjacentCells = GetAllAdjacentCells(x, y);
         for (int i = adjacentCells.Count - 1; i >= 0; i--)
         {
-            if(IsCellWakable(_grid[adjacentCells[i].X, adjacentCells[i].Y], isAgent)==false)
+            if (IsCellWakable(_grid[adjacentCells[i].X, adjacentCells[i].Y], isAgent) == false)
             {
                 adjacentCells.RemoveAt(i);
             }
@@ -170,6 +170,10 @@ public class Grid
         return adjacentCells;
     }
 
+    // 0: below
+    // 1: left
+    // 2: above
+    // 3: right
     public CellType[] GetAllAdjacentCellTypes(int x, int y)
     {
         CellType[] neighbours = { CellType.None, CellType.None, CellType.None, CellType.None };
@@ -191,4 +195,14 @@ public class Grid
         }
         return neighbours;
     }
+
+    public CellType[] GetExtendedAdjacentCellTypes(int x, int y)
+    {
+        CellType[] neighbours = { CellType.None, CellType.None, CellType.None, CellType.None, CellType.None, CellType.None, CellType.None, CellType.None };
+
+        // TODO
+
+        return neighbours;
+    }
+
 }

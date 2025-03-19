@@ -3,7 +3,8 @@ using UnityEngine;
 
 public class RoadFixer : MonoBehaviour
 {
-    public GameObject single, deadEnd, roadStraight, corner, threeWay, fourWay;
+    //public GameObject single;
+    public GameObject deadEnd, roadStraight, corner, threeWay, fourWay;
 
     public void FixRoadAtPosition(PlacementManager placementManager, Vector3Int temporaryPosition)
     {

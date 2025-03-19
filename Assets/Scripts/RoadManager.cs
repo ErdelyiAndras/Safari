@@ -96,7 +96,7 @@ public class RoadManager : BuildManagerBase
         if (result)
         {
             placementMode = false;
-            placementManager.AddtemporaryStructuresToStructureDictionary();
+            placementManager.AddTemporaryStructuresToStructureDictionary();
             if (temporaryPlacementPositions.Count > 0)
             {
                 //AudioPlayer.instance.PlayPlacementSound();

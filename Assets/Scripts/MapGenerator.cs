@@ -87,9 +87,9 @@ public class MapGenerator : MonoBehaviour
 
     private void GenerateRoads()
     {
-        placementManager.PlaceTemporaryStructure(new Vector3Int(0, 0, 0), deadEnd, CellType.Road);
+        placementManager.PlaceStructure(new Vector3Int(0, 0, 0), deadEnd, CellType.Road);
         usedPositions.Add(new Vector3Int(0, 0, 0), CellType.Road);
-        placementManager.PlaceTemporaryStructure(new Vector3Int(placementManager.width -1, 0, placementManager.height - 1), deadEnd, CellType.Road);
+        placementManager.PlaceStructure(new Vector3Int(placementManager.width -1, 0, placementManager.height - 1), deadEnd, CellType.Road);
         usedPositions.Add(new Vector3Int(placementManager.width - 1, 0, placementManager.height - 1), CellType.Road);
     }
 }
