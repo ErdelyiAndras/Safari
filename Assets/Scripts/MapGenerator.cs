@@ -6,6 +6,7 @@ using UnityEngine.UIElements;
 public class MapGenerator : MonoBehaviour
 {
     public PlacementManager placementManager;
+    public HillFixer hillFixer;
     public GameObject[] naturePrefabs;
     public GameObject waterPrefab;
     public GameObject deadEnd;
@@ -16,6 +17,7 @@ public class MapGenerator : MonoBehaviour
     private void Start()
     {
         GenerateRoads();
+        GenerateHills();
         for (int i = 0; i < 6; ++i)
         {
             GenerateRiver();
@@ -91,6 +93,11 @@ public class MapGenerator : MonoBehaviour
         usedPositions.Add(new Vector3Int(0, 0, 0), CellType.Road);
         placementManager.PlaceStructure(new Vector3Int(placementManager.width -1, 0, placementManager.height - 1), deadEnd, CellType.Road);
         usedPositions.Add(new Vector3Int(placementManager.width - 1, 0, placementManager.height - 1), CellType.Road);
+    }
+
+    private void GenerateHills()
+    {
+
     }
 }
 

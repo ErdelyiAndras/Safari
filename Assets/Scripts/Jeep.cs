@@ -13,8 +13,8 @@ public enum State
 public class Jeep : Entity
 {
     private PlacementManager placementManager;
-    private Vector3Int endPosition;
-    private Vector3Int position;
+    private Vector3 endPosition;
+    private Vector3 position;
     public TouristGroup tourists;
     public State MyState { get; private set; }
     public static Action<Jeep> JeepArrived, JeepWaiting;

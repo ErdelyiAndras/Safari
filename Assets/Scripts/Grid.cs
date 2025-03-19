@@ -174,35 +174,68 @@ public class Grid
     // 1: left
     // 2: above
     // 3: right
-    public CellType[] GetAllAdjacentCellTypes(int x, int y)
+    public CellType[] GetAllAdjacentCellTypes(int x, int y, bool checkDiagonal = false)
     {
-        CellType[] neighbours = { CellType.None, CellType.None, CellType.None, CellType.None };
-        if (x > 0)
+        if (!checkDiagonal)
         {
-            neighbours[0] = _grid[x - 1, y];
+            //left, up, right, down
+            CellType[] neighbours = { CellType.None, CellType.None, CellType.None, CellType.None };
+            if (x > 0)
+            {
+                neighbours[0] = _grid[x - 1, y];
+            }
+            if (x < _width - 1)
+            {
+                neighbours[2] = _grid[x + 1, y];
+            }
+            if (y > 0)
+            {
+                neighbours[3] = _grid[x, y - 1];
+            }
+            if (y < _height - 1)
+            {
+                neighbours[1] = _grid[x, y + 1];
+            }
+            return neighbours;
         }
-        if (x < _width - 1)
+        else
         {
-            neighbours[2] = _grid[x + 1, y];
+            //left, up, right, down, leftup, rightup, rightdown, leftdown
+            CellType[] neighbours = { CellType.None, CellType.None, CellType.None, CellType.None, CellType.None, CellType.None, CellType.None, CellType.None};
+            if (x > 0)
+            {
+                neighbours[0] = _grid[x - 1, y];
+            }
+            if (x < _width - 1)
+            {
+                neighbours[2] = _grid[x + 1, y];
+            }
+            if (y > 0)
+            {
+                neighbours[3] = _grid[x, y - 1];
+            }
+            if (y < _height - 1)
+            {
+                neighbours[1] = _grid[x, y + 1];
+            }
+            //diagonals
+            if (neighbours[0] != CellType.None && neighbours[1] != CellType.None)
+            {
+                neighbours[4] = _grid[x - 1, y + 1];
+            }
+            if (neighbours[1] != CellType.None && neighbours[2] != CellType.None)
+            {
+                neighbours[5] = _grid[x + 1, y + 1];
+            }
+            if (neighbours[2] != CellType.None && neighbours[3] != CellType.None)
+            {
+                neighbours[6] = _grid[x + 1, y - 1];
+            }
+            if (neighbours[3] != CellType.None && neighbours[0] != CellType.None)
+            {
+                neighbours[7] = _grid[x - 1, y - 1];
+            }
+            return neighbours;
         }
-        if (y > 0)
-        {
-            neighbours[3] = _grid[x, y - 1];
-        }
-        if (y < _height - 1)
-        {
-            neighbours[1] = _grid[x, y + 1];
-        }
-        return neighbours;
     }
-
-    public CellType[] GetExtendedAdjacentCellTypes(int x, int y)
-    {
-        CellType[] neighbours = { CellType.None, CellType.None, CellType.None, CellType.None, CellType.None, CellType.None, CellType.None, CellType.None };
-
-        // TODO
-
-        return neighbours;
-    }
-
 }

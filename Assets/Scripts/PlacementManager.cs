@@ -78,7 +78,12 @@ public class PlacementManager : MonoBehaviour
         }
     }
 
-    internal bool CheckIfPositionIsUnremovable(Vector3Int position) => (position.x == 0 && position.z == 0) || (position.x == width - 1 && position.z == width - 1);
+    internal bool CheckIfPositionIsUnremovable(Vector3Int position)
+    {
+        return  (position.x == 0 && position.z == 0) ||
+                (position.x == width - 1 && position.z == width - 1) || 
+                placementGrid[position.x, position.z] == CellType.Hill;
+    }
 
     internal void PlaceStructure(Vector3Int position, GameObject structurePrefab, CellType type)
     {
@@ -121,21 +126,9 @@ public class PlacementManager : MonoBehaviour
     }
 
     //[right, up, left, down]
-    internal CellType[] GetNeighbourTypes(Vector3Int position)
+    internal CellType[] GetNeighbourTypes(Vector3Int position, bool checkDiagonal = false)
     {
-        Debug.Log($"X: {position.x}, Z: {position.z}");
-        CellType[] n = placementGrid.GetAllAdjacentCellTypes(position.x, position.z);
-        Debug.Log(n[0]);
-        Debug.Log(n[1]);
-        Debug.Log(n[2]);
-        Debug.Log(n[3]);
-        return n;
-    }
-
-    // TODO: refactor CellType[] to struct
-    internal CellType[] GetExtendedNeighbourTypes(Vector3Int position)
-    {
-        return placementGrid.GetExtendedAdjacentCellTypes(position.x, position.z);
+        return placementGrid.GetAllAdjacentCellTypes(position.x, position.z, checkDiagonal);
     }
 
     internal List<Vector3Int> GetNeighboursOfType(Vector3Int position, CellType type)
