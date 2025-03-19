@@ -170,10 +170,6 @@ public class Grid
         return adjacentCells;
     }
 
-    // 0: below
-    // 1: left
-    // 2: above
-    // 3: right
     public CellType[] GetAllAdjacentCellTypes(int x, int y, bool checkDiagonal = false)
     {
         if (!checkDiagonal)
