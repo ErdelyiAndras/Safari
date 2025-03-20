@@ -12,7 +12,6 @@ public class MapGenerator : MonoBehaviour
     public int maxRiverAmount;
     public int natureDensity;
 
-
     public PlacementManager placementManager;
     public GameObject[] naturePrefabs;
     public GameObject waterPrefab;

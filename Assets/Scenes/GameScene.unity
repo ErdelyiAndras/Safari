@@ -6797,11 +6797,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minHillAmount: 5
   maxHillAmount: 20
-  minRiverAmount: 5
-  maxRiverAmount: 20
-  natureDensity: 50
   minHillSize: 2
   maxHillSize: 70
+  minRiverAmount: 5
+  maxRiverAmount: 20
+  natureDensity: 40
   placementManager: {fileID: 1434987243}
   naturePrefabs:
   - {fileID: 1231750990164085603, guid: aed2aed4bcf2ca849b78ed9886eb775b, type: 3}
