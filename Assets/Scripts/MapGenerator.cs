@@ -5,6 +5,14 @@ using UnityEngine.UIElements;
 
 public class MapGenerator : MonoBehaviour
 {
+    public int minHillAmount;
+    public int maxHillAmount;
+    public int minHillSize;
+    public int maxHillSize;
+    public int minRiverAmount;
+    public int maxRiverAmount;
+    public int natureDensity;
+
     public PlacementManager placementManager;
     public GameObject[] naturePrefabs;
     public GameObject waterPrefab;
@@ -16,14 +24,24 @@ public class MapGenerator : MonoBehaviour
     private System.Random random = new System.Random();
     private void Start()
     {
+        if (natureDensity < 0)
+        {
+            natureDensity = 0;
+        }
+        else if (natureDensity > 100)
+        {
+            natureDensity = 100;
+        }
+
+
         GenerateRoads();
 
-        for (int i = 0; i < random.Next(3, 9); ++i)
+        for (int i = 0; i < random.Next(minHillAmount, maxHillAmount); ++i)
         {
             GenerateHill();
         }
 
-        for (int i = 0; i < random.Next(2, 10); ++i)
+        for (int i = 0; i < random.Next(minRiverAmount, maxRiverAmount); ++i)
         {
             GenerateRiver();
         }
@@ -34,7 +52,7 @@ public class MapGenerator : MonoBehaviour
 
     private void GenerateNature()
     {
-        for (int i = 0; i < placementManager.width * placementManager.height / 3; ++i)
+        for (int i = 0; i < placementManager.width * placementManager.height * natureDensity / 100; ++i)
         {
             Vector3Int position = GetRandomPosition();
             if (usedPositions.ContainsKey(position))
@@ -109,7 +127,7 @@ public class MapGenerator : MonoBehaviour
     {
         List<Vector3> hillPositions = new List<Vector3>();
 
-        int maxHillSize = random.Next(10, 90);
+        int hillSize = random.Next(minHillSize, maxHillSize);
 
         Vector3Int startPosition;
         do
@@ -124,7 +142,7 @@ public class MapGenerator : MonoBehaviour
         queue.Enqueue(startPosition);
         visited.Add(startPosition);
 
-        while (queue.Count > 0 && visited.Count < maxHillSize)
+        while (queue.Count > 0 && visited.Count < hillSize)
         {
             Vector3Int current = queue.Dequeue();
             usedPositions[current] = CellType.Hill;
