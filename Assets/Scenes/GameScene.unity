@@ -3986,63 +3986,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1174920927
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1174920929}
-  - component: {fileID: 1174920928}
-  m_Layer: 0
-  m_Name: MapGenerator
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1174920928
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1174920927}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 24270f93a1da6434f80529ed8c5f3643, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  placementManager: {fileID: 1434987243}
-  naturePrefabs:
-  - {fileID: 1231750990164085603, guid: aed2aed4bcf2ca849b78ed9886eb775b, type: 3}
-  - {fileID: 2955873173738021753, guid: 89c8c1683471988428f3493e670af149, type: 3}
-  - {fileID: 1106894241150469068, guid: 4b6c3a1c5d79ee74aacaffa4073f334f, type: 3}
-  - {fileID: 628111111329996284, guid: b251aac2e265df74f91db1dee1baee73, type: 3}
-  - {fileID: 7925051415129203009, guid: 22e716ef34672e9429129cbfd0853e95, type: 3}
-  - {fileID: 6806877314895711884, guid: 4a980b701bf56d344a17e0247a24ff8d, type: 3}
-  - {fileID: 6135660522080923414, guid: cfa659a61039840438021d3380477cd7, type: 3}
-  - {fileID: 8961060414691119292, guid: f04715c35df96d24daf46814db582a15, type: 3}
-  - {fileID: 4245984584134214309, guid: c8c46a24f1192964a9c4a213493c1c7b, type: 3}
-  - {fileID: 2732043988329127880, guid: bb8a349e47100e3438e3350c256e20e3, type: 3}
-  waterPrefab: {fileID: 2138452382528300987, guid: 358089f4ed332bf4c84b277e0fab5d24, type: 3}
---- !u!4 &1174920929
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1174920927}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -48.558064, y: -47.224045, z: 68.784386}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1231111739
 GameObject:
   m_ObjectHideFlags: 0
@@ -6622,7 +6565,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1278546513}
   m_Direction: 0
   m_Value: 0
-  m_Size: 0.5238095
+  m_Size: 0.52380955
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -6852,6 +6795,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24270f93a1da6434f80529ed8c5f3643, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  minHillAmount: 5
+  maxHillAmount: 20
+  minRiverAmount: 5
+  maxRiverAmount: 20
+  natureDensity: 50
+  minHillSize: 2
+  maxHillSize: 70
   placementManager: {fileID: 1434987243}
   naturePrefabs:
   - {fileID: 1231750990164085603, guid: aed2aed4bcf2ca849b78ed9886eb775b, type: 3}
@@ -8232,4 +8182,3 @@ SceneRoots:
   - {fileID: 1899437699}
   - {fileID: 1039970317}
   - {fileID: 1210205438}
-  - {fileID: 1174920929}
