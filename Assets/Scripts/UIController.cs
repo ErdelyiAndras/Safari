@@ -5,20 +5,32 @@ using UnityEngine.UI;
 
 public class UIController : MonoBehaviour
 {
+    private enum ButtonGroup
+    {
+        Placement,
+        Time,
+        Remove
+    }
+
     public Action JeepButtonPressed;
-    public Action RoadButtonPressed;
+    public Action<bool> RoadButtonPressed;
     public Action Carnivore1ButtonPressed;
     public Action Carnivore2ButtonPressed;
     public Action Herbivore1ButtonPressed;
     public Action Herbivore2ButtonPressed;
-    public Action Plant1ButtonPressed;
-    public Action Plant2ButtonPressed;
-    public Action Plant3ButtonPressed;
-    public Action LakeButtonPressed;
+    public Action<bool> Plant1ButtonPressed;
+    public Action<bool> Plant2ButtonPressed;
+    public Action<bool> Plant3ButtonPressed;
+    public Action<bool> LakeButtonPressed;
+
     public Action PauseButtonPressed;
     public Action HourButtonPressed;
     public Action DayButtonPressed;
     public Action WeekButtonPressed;
+
+    public Action<bool> SellButtonPressed;
+    public Action<bool> RemoveButtonPressed;
+
 
     public Button JeepButton;
     public Button RoadButton;
@@ -30,18 +42,42 @@ public class UIController : MonoBehaviour
     public Button Plant2Button;
     public Button Plant3Button;
     public Button LakeButton;
+
     public Button PauseButton;
     public Button HourButton;
     public Button DayButton;
     public Button WeekButton;
 
-    public Color outlineColor;
+    public Button SellButton;
+    public Button RemoveButton;
 
-    private List<Button> buttonList;
+
+    public Color placementButtonOutlineColor;
+    public Color timeButtonOutlineColor;
+    public Color removeButtonOutlineColor;
+
+
+    private List<Button> placementButtonList;
+    private List<Button> timeButtonList;
+    private List<Button> removeButtonList;
+
+
+    private Button selectedPlacementButton = null;
+    private Button selectedTimeButton = null;
+    private Button selectedRemoveButton = null;
+
+
+    private bool isPaused = false;
+
+
+    public Text moneyText;
+    public InputField admissionFeeInputField;
+
+    public Action<int> admissionFeeEndEdit;
 
     private void Awake()
-    { 
-        buttonList = new List<Button>
+    {
+        placementButtonList = new List<Button>
         {
             JeepButton,
             RoadButton,
@@ -52,139 +88,220 @@ public class UIController : MonoBehaviour
             Plant1Button,
             Plant2Button,
             Plant3Button,
-            LakeButton,
+            LakeButton
+        };
+
+        timeButtonList = new List<Button>
+        {
             PauseButton,
             HourButton,
             DayButton,
             WeekButton
         };
 
-        JeepButton.onClick.AddListener(JeepButtonPressedListener);
-        RoadButton.onClick.AddListener(RoadButtonPressedListener);
-        Carnivore1Button.onClick.AddListener(Carnivore1ButtonPressedListener);
-        Carnivore2Button.onClick.AddListener(Carnivore2ButtonPressedListener);
-        Herbivore1Button.onClick.AddListener(Herbivore1ButtonPressedListener);
-        Herbivore2Button.onClick.AddListener(Herbivore2ButtonPressedListener);
-        Plant1Button.onClick.AddListener(Plant1ButtonPressedListener);
-        Plant2Button.onClick.AddListener(Plant2ButtonPressedListener);
-        Plant3Button.onClick.AddListener(Plant3ButtonPressedListener);
-        LakeButton.onClick.AddListener(LakeButtonPressedListener);
+        removeButtonList = new List<Button>
+        {
+            SellButton,
+            RemoveButton
+        };
+
+        JeepButton.onClick.AddListener(() => UncancelablePlacementButtonPressedListener(JeepButtonPressed));
+
+        RoadButton.onClick.AddListener(() => CancelableButtonPressedListener(
+            ButtonGroup.Placement,
+            RoadButton,
+            RoadButtonPressed)
+        );
+
+        Carnivore1Button.onClick.AddListener(() => UncancelablePlacementButtonPressedListener(Carnivore1ButtonPressed));
+
+        Carnivore2Button.onClick.AddListener(() => UncancelablePlacementButtonPressedListener(Carnivore2ButtonPressed));
+        
+        Herbivore1Button.onClick.AddListener(() => UncancelablePlacementButtonPressedListener(Herbivore1ButtonPressed));
+        
+        Herbivore2Button.onClick.AddListener(() => UncancelablePlacementButtonPressedListener(Herbivore2ButtonPressed));
+        
+        Plant1Button.onClick.AddListener(() => CancelableButtonPressedListener(
+            ButtonGroup.Placement,
+            Plant1Button,
+            Plant1ButtonPressed)
+        );
+        
+        Plant2Button.onClick.AddListener(() => CancelableButtonPressedListener(
+            ButtonGroup.Placement,
+            Plant2Button,
+            Plant2ButtonPressed)
+        );
+        
+        Plant3Button.onClick.AddListener(() => CancelableButtonPressedListener(
+            ButtonGroup.Placement,
+            Plant3Button,
+            Plant3ButtonPressed)
+        );
+        
+        LakeButton.onClick.AddListener(() => CancelableButtonPressedListener(
+            ButtonGroup.Placement,
+            LakeButton,
+            LakeButtonPressed)
+        );
+
+
         PauseButton.onClick.AddListener(PauseButtonPressedListener);
-        HourButton.onClick.AddListener(HourButtonPressedListener);
-        DayButton.onClick.AddListener(DayButtonPressedListener);
-        WeekButton.onClick.AddListener(WeekButtonPressedListener);
+        HourButton.onClick.AddListener(() => TimeButtonPressedListener(HourButton, HourButtonPressed));
+        DayButton.onClick.AddListener(() => TimeButtonPressedListener(DayButton, DayButtonPressed));
+        WeekButton.onClick.AddListener(() => TimeButtonPressedListener(WeekButton, WeekButtonPressed));
+
+
+        SellButton.onClick.AddListener(() => CancelableButtonPressedListener(
+            ButtonGroup.Remove,
+            SellButton,
+            SellButtonPressed)
+        );
+
+        RemoveButton.onClick.AddListener(() => CancelableButtonPressedListener(
+            ButtonGroup.Remove,
+            RemoveButton,
+            RemoveButtonPressed)
+        );
+
+
+        admissionFeeInputField.onEndEdit.AddListener(value => OnAdmissionFeeEndEdit(value));
     }
 
-    private void JeepButtonPressedListener()
+    private void Start()
     {
-        ResetButtonColor();
-        ModifyOutline(JeepButton);
-        JeepButtonPressed?.Invoke();
+        InitTimeButtons(HourButton);
     }
 
-    private void RoadButtonPressedListener()
+    public void UpdateAdmissionFeePanel(int admissionFee)
     {
-        ResetButtonColor();
-        ModifyOutline(RoadButton);
-        RoadButtonPressed?.Invoke();
+        if (admissionFeeInputField != null)
+        {
+            admissionFeeInputField.text = admissionFee.ToString();
+        }
     }
 
-    private void Carnivore1ButtonPressedListener()
+    public void UpdateMoneyPanel(int money)
     {
-        ResetButtonColor();
-        ModifyOutline(Carnivore1Button);
-        Carnivore1ButtonPressed?.Invoke();
+        if (moneyText != null)
+        {
+            moneyText.text = $"$ {money.ToString()}";
+        }
     }
 
-    private void Carnivore2ButtonPressedListener()
+    private void CancelableButtonPressedListener(
+        ButtonGroup buttonGroup,
+        Button currentButton,
+        Action<bool> actionOfCurrentButton)
     {
-        ResetButtonColor();
-        ModifyOutline(Carnivore2Button);
-        Carnivore2ButtonPressed?.Invoke();
+        ref Button alreadySelectedButton = ref selectedPlacementButton;
+        ref Button alreadySelectedAlternativeButton = ref selectedRemoveButton;
+        List<Button> buttonsInGroup;
+        List<Button> alternativeButtonsInGroup;
+        Color groupColor;
+
+        switch (buttonGroup)
+        {
+            case ButtonGroup.Placement:
+                alreadySelectedButton = ref selectedPlacementButton;
+                alreadySelectedAlternativeButton = ref selectedRemoveButton;
+                buttonsInGroup = placementButtonList;
+                alternativeButtonsInGroup = removeButtonList;
+                groupColor = placementButtonOutlineColor;
+                break;
+            case ButtonGroup.Time:
+                alreadySelectedButton = ref selectedTimeButton;
+                alreadySelectedAlternativeButton = ref selectedTimeButton;
+                buttonsInGroup = timeButtonList;
+                alternativeButtonsInGroup = null;
+                groupColor = timeButtonOutlineColor;
+                break;
+            case ButtonGroup.Remove:
+                alreadySelectedButton = ref selectedRemoveButton;
+                alreadySelectedAlternativeButton = ref selectedPlacementButton;
+                buttonsInGroup = removeButtonList;
+                alternativeButtonsInGroup = placementButtonList;
+                groupColor = removeButtonOutlineColor;
+                break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(buttonGroup), buttonGroup, "Invalid button group");
+        }
+
+        ResetButtonColorOfGroup(buttonsInGroup);
+        if (alreadySelectedAlternativeButton != null)
+        {
+            ResetButtonColorOfGroup(alternativeButtonsInGroup);
+            alreadySelectedAlternativeButton = null;
+        }
+        if (alreadySelectedButton != null && alreadySelectedButton.GetInstanceID() == currentButton.GetInstanceID())
+        {
+            alreadySelectedButton = null;
+            actionOfCurrentButton?.Invoke(true);
+        }
+        else
+        {
+            alreadySelectedButton = currentButton;
+            ModifyOutline(currentButton, groupColor);
+            actionOfCurrentButton?.Invoke(false);
+        }
+
     }
 
-    private void Herbivore1ButtonPressedListener()
+
+    private void UncancelablePlacementButtonPressedListener(Action action)
     {
-        ResetButtonColor();
-        ModifyOutline(Herbivore1Button);
-        Herbivore1ButtonPressed?.Invoke();
+        ResetButtonColorOfGroup(placementButtonList);
+        ResetButtonColorOfGroup(removeButtonList);
+        selectedPlacementButton = null;
+        selectedRemoveButton = null;
+        action?.Invoke();
     }
 
-    private void Herbivore2ButtonPressedListener()
-    {
-        ResetButtonColor();
-        ModifyOutline(Herbivore2Button);
-        Herbivore2ButtonPressed?.Invoke();
-    }
 
-    private void Plant1ButtonPressedListener()
-    {
-        ResetButtonColor();
-        ModifyOutline(Plant1Button);
-        Plant1ButtonPressed?.Invoke();
-    }
-
-    private void Plant2ButtonPressedListener()
-    {
-        ResetButtonColor();
-        ModifyOutline(Plant2Button);
-        Plant2ButtonPressed?.Invoke();
-    }
-
-    private void Plant3ButtonPressedListener()
-    {
-        ResetButtonColor();
-        ModifyOutline(Plant3Button);
-        Plant3ButtonPressed?.Invoke();
-    }
-
-    private void LakeButtonPressedListener()
-    {
-        ResetButtonColor();
-        ModifyOutline(LakeButton);
-        LakeButtonPressed?.Invoke();
-    }
 
     private void PauseButtonPressedListener()
     {
-        ResetButtonColor();
-        ModifyOutline(PauseButton);
+        isPaused = !isPaused;
+        Text text = PauseButton.GetComponentInChildren<Text>();
+        if (text != null)
+        {
+            text.text = isPaused ? "Resume" : "Pause";
+        }
         PauseButtonPressed?.Invoke();
     }
 
-    private void HourButtonPressedListener()
+    private void TimeButtonPressedListener(Button button, Action action)
     {
-        ResetButtonColor();
-        ModifyOutline(HourButton);
-        HourButtonPressed?.Invoke();
+        ResetButtonColorOfGroup(timeButtonList);
+        ModifyOutline(button, timeButtonOutlineColor);
+        selectedTimeButton = button;
+        action?.Invoke();
     }
 
-    private void DayButtonPressedListener()
+
+    private void InitTimeButtons(Button button)
     {
-        ResetButtonColor();
-        ModifyOutline(DayButton);
-        DayButtonPressed?.Invoke();
+        ModifyOutline(button, timeButtonOutlineColor);
+        selectedTimeButton = button;
     }
 
-    private void WeekButtonPressedListener()
-    {
-        ResetButtonColor();
-        ModifyOutline(WeekButton);
-        WeekButtonPressed?.Invoke();
-    }
-
-    private void ModifyOutline(Button button)
+    private void ModifyOutline(Button button, Color outlineColor)
     {
         var outline = button.GetComponent<Outline>();
         outline.effectColor = outlineColor;
         outline.enabled = true;
     }
 
-    private void ResetButtonColor()
+    private void ResetButtonColorOfGroup(List<Button> buttonList)
     {
         foreach (Button button in buttonList)
         {
             button.GetComponent<Outline>().enabled = false;
         }
+    }
+
+    private void OnAdmissionFeeEndEdit(string input)
+    {
+        admissionFeeEndEdit?.Invoke(Convert.ToInt32(input));
     }
 }

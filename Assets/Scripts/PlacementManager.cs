@@ -8,9 +8,8 @@ using UnityEngine;
 public class PlacementManager : MonoBehaviour
 {
     public int width, height;
-    Grid placementGrid;
+    public Grid placementGrid { get; private set; }
     internal Action<Vector3Int> RoadRemoved;
-
 
     private Dictionary<Vector3Int, StructureModel> temporaryRoadobjects = new Dictionary<Vector3Int, StructureModel>();
     private Dictionary<Vector3Int, StructureModel> structureDictionary = new Dictionary<Vector3Int, StructureModel>();
@@ -54,7 +53,7 @@ public class PlacementManager : MonoBehaviour
 
     internal void RemoveStructure(Vector3Int position)
     {
-        if (!CheckIfPositionInBound(position))
+        if (!CheckIfPositionInBound(position) || CheckIfPositionIsUnremovable(position))
             return;
         if (structureDictionary.ContainsKey(position))
         {
@@ -77,6 +76,13 @@ public class PlacementManager : MonoBehaviour
                 }
             }
         }
+    }
+
+    internal bool CheckIfPositionIsUnremovable(Vector3Int position)
+    {
+        return  (position.x == 0 && position.z == 0) ||
+                (position.x == width - 1 && position.z == width - 1) || 
+                placementGrid[position.x, position.z] == CellType.Hill;
     }
 
     internal void PlaceStructure(Vector3Int position, GameObject structurePrefab, CellType type)
@@ -119,8 +125,7 @@ public class PlacementManager : MonoBehaviour
         }
     }
 
-    //[right, up, left, down]
-    internal CellType[] GetNeighbourTypes(Vector3Int position)
+    internal AdjacentCellTypes GetNeighbourTypes(Vector3Int position)
     {
         return placementGrid.GetAllAdjacentCellTypes(position.x, position.z);
     }
@@ -158,7 +163,7 @@ public class PlacementManager : MonoBehaviour
         temporaryRoadobjects.Clear();
     }
 
-    internal void AddtemporaryStructuresToStructureDictionary()
+    internal void AddTemporaryStructuresToStructureDictionary()
     {
         foreach (var structure in temporaryRoadobjects)
         {

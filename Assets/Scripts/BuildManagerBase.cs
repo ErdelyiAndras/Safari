@@ -11,7 +11,13 @@ public abstract class BuildManagerBase : MonoBehaviour
 
     protected List<Vector3Int> temporaryPlacementPositions = new List<Vector3Int>();
 
-    abstract public int Cost { get; }
+    public int Count
+    {
+        get
+        {
+            return temporaryPlacementPositions.Count;
+        }
+    }
 
     abstract public void PlaceObject(Vector3Int position);
 

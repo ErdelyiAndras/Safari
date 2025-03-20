@@ -62,6 +62,7 @@ public class Grid
     public int Height { get { return _height; } }
 
     private List<Point> _roadList = new List<Point>();
+    public List<Point> Roads { get; }
 
     public Grid(int width, int height)
     {
@@ -90,7 +91,7 @@ public class Grid
         }
     }
 
-    public static bool IsCellWakable(CellType cellType, bool aiAgent = false)
+    public static bool IsCellWalkable(CellType cellType, bool aiAgent = false)
     {
         if (aiAgent)
         {
@@ -113,7 +114,7 @@ public class Grid
 
     public List<Point> GetAdjacentCells(Point cell, bool isAgent)
     {
-        return GetWakableAdjacentCells((int)cell.X, (int)cell.Y, isAgent);
+        return GetWalkableAdjacentCells((int)cell.X, (int)cell.Y, isAgent);
     }
 
     public float GetCostOfEnteringCell(Point cell)
@@ -143,12 +144,12 @@ public class Grid
         return adjacentCells;
     }
 
-    public List<Point> GetWakableAdjacentCells(int x, int y, bool isAgent)
+    public List<Point> GetWalkableAdjacentCells(int x, int y, bool isAgent)
     {
         List<Point> adjacentCells = GetAllAdjacentCells(x, y);
         for (int i = adjacentCells.Count - 1; i >= 0; i--)
         {
-            if(IsCellWakable(_grid[adjacentCells[i].X, adjacentCells[i].Y], isAgent)==false)
+            if(IsCellWalkable(_grid[adjacentCells[i].X, adjacentCells[i].Y], isAgent)==false)
             {
                 adjacentCells.RemoveAt(i);
             }
@@ -169,25 +170,43 @@ public class Grid
         return adjacentCells;
     }
 
-    public CellType[] GetAllAdjacentCellTypes(int x, int y)
+    public AdjacentCellTypes GetAllAdjacentCellTypes(int x, int y)
     {
-        CellType[] neighbours = { CellType.None, CellType.None, CellType.None, CellType.None };
+        AdjacentCellTypes neighbours = new AdjacentCellTypes();
+
         if (x > 0)
         {
-            neighbours[0] = _grid[x - 1, y];
+            neighbours.Left = _grid[x - 1, y];
         }
         if (x < _width - 1)
         {
-            neighbours[2] = _grid[x + 1, y];
+            neighbours.Right = _grid[x + 1, y];
         }
         if (y > 0)
         {
-            neighbours[3] = _grid[x, y - 1];
+            neighbours.Down = _grid[x, y - 1];
         }
         if (y < _height - 1)
         {
-            neighbours[1] = _grid[x, y + 1];
+            neighbours.Up = _grid[x, y + 1];
         }
+        if (neighbours.Left != CellType.None && neighbours.Up != CellType.None)
+        {
+            neighbours.LeftUp = _grid[x - 1, y + 1];
+        }
+        if (neighbours.Up != CellType.None && neighbours.Right != CellType.None)
+        {
+            neighbours.RightUp = _grid[x + 1, y + 1];
+        }
+        if (neighbours.Right != CellType.None && neighbours.Down != CellType.None)
+        {
+            neighbours.RightDown = _grid[x + 1, y - 1];
+        }
+        if (neighbours.Down != CellType.None && neighbours.Left != CellType.None)
+        {
+            neighbours.LeftDown = _grid[x - 1, y - 1];
+        }
+
         return neighbours;
     }
 }

@@ -1,23 +1,32 @@
-﻿using NUnit.Framework;
 using UnityEngine;
 using System.Collections.Generic;
-using System;
+using UnityEngine.UIElements;
 
 public class MapGenerator : MonoBehaviour
 {
     public PlacementManager placementManager;
     public GameObject[] naturePrefabs;
     public GameObject waterPrefab;
+    public GameObject hillPrefab;
+    public GameObject deadEnd;
 
     private Dictionary<Vector3Int, CellType> usedPositions = new Dictionary<Vector3Int, CellType>();
 
     private System.Random random = new System.Random();
     private void Start()
     {
-        for(int i = 0; i < 6; ++i)
+        GenerateRoads();
+
+        for (int i = 0; i < random.Next(3, 9); ++i)
+        {
+            GenerateHill();
+        }
+
+        for (int i = 0; i < random.Next(2, 10); ++i)
         {
             GenerateRiver();
         }
+
         GenerateNature();
         PlaceStructures();
     }
@@ -35,8 +44,7 @@ public class MapGenerator : MonoBehaviour
             else
             {
                 usedPositions.Add(position, CellType.Nature);
-            }             
-
+            }
         }
     }
 
@@ -78,10 +86,90 @@ public class MapGenerator : MonoBehaviour
             }
             else if (position.Value == CellType.Water)
             {
-                placementManager.PlaceTemporaryStructure(position.Key, waterPrefab, CellType.Water);
+                placementManager.PlaceStructure(position.Key, waterPrefab, CellType.Water);
+            }
+            else if (position.Value == CellType.Hill)
+            {
+                 placementManager.PlaceStructure(position.Key, hillPrefab, CellType.Hill);
             }
         }
     }
 
-}
+    private void GenerateRoads()
+    {
+        placementManager.PlaceStructure(new Vector3Int(0, 0, 0), deadEnd, CellType.Road);
+        usedPositions.Add(new Vector3Int(0, 0, 0), CellType.Road);
+        placementManager.PlaceStructure(new Vector3Int(placementManager.width -1, 0, placementManager.height - 1), deadEnd, CellType.Road);
+        usedPositions.Add(new Vector3Int(placementManager.width - 1, 0, placementManager.height - 1), CellType.Road);
+    }
 
+    private void GenerateHill()
+    {
+        List<Vector3> hillPositions = new List<Vector3>();
+
+        int maxHillSize = random.Next(10, 90);
+
+        Vector3Int startPosition;
+        do
+        {
+            startPosition = GetRandomPosition();
+        }
+        while (usedPositions.ContainsKey(startPosition));
+
+        Queue<Vector3Int> queue = new Queue<Vector3Int>();
+        HashSet<Vector3Int> visited = new HashSet<Vector3Int>();
+
+        queue.Enqueue(startPosition);
+        visited.Add(startPosition);
+
+        while (queue.Count > 0 && visited.Count < maxHillSize)
+        {
+            Vector3Int current = queue.Dequeue();
+            usedPositions[current] = CellType.Hill;
+
+            foreach (Vector3Int neighbor in GetNeighborsInRandomOrder(current))
+            {
+                if (!visited.Contains(neighbor) && placementManager.CheckIfPositionInBound(neighbor))
+                {
+                    queue.Enqueue(neighbor);
+                    visited.Add(neighbor);
+                    hillPositions.Add(neighbor);
+                }
+            }
+        }
+
+        foreach (Vector3Int position in visited)
+        {
+            if (!usedPositions.ContainsKey(position))
+            {
+                usedPositions.Add(position, CellType.Hill);
+            }
+        }
+    }
+
+    private IEnumerable<Vector3Int> GetNeighborsInRandomOrder(Vector3Int position)
+    {
+        List<Vector3Int> neighbors = new List<Vector3Int>
+        {
+            position + new Vector3Int(1, 0, 0),
+            position + new Vector3Int(0, 0, 1),
+            position + new Vector3Int(-1, 0, 0),
+            position + new Vector3Int(0, 0, -1)
+
+        };
+
+        // shuffles the list
+        for (int i = neighbors.Count - 1; i > 0; i--)
+        {
+            int j = random.Next(0, i + 1);
+            Vector3Int temp = neighbors[i];
+            neighbors[i] = neighbors[j];
+            neighbors[j] = temp;
+        }
+
+        foreach (Vector3Int neighbor in neighbors)
+        {
+            yield return neighbor;
+        }
+    }
+}
