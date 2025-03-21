@@ -2411,7 +2411,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 812757147}
-  - component: {fileID: 812757146}
+  - component: {fileID: 812757148}
   m_Layer: 0
   m_Name: AnimalManager
   m_TagString: Untagged
@@ -2419,23 +2419,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &812757146
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 812757145}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d9b9015fa8ef97243932318af5f4b851, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  placementManager: {fileID: 1434987243}
-  carnivore1Prefab: {fileID: 7292518832171594901, guid: 1a6ec3eddfcff8b4a877c7b350e67557, type: 3}
-  carnivore2Prefab: {fileID: 8779630825536378151, guid: 0191a5e813e2e9c40ad5ea7db94b0a23, type: 3}
-  herbivore1Prefab: {fileID: 7870442338796372815, guid: d36e084254c30534d869078f20bc0339, type: 3}
-  herbivore2Prefab: {fileID: 7993729090055200291, guid: b2e37dd66f813c348aedeb7b439ade96, type: 3}
 --- !u!4 &812757147
 Transform:
   m_ObjectHideFlags: 0
@@ -2451,6 +2434,23 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &812757148
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 812757145}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d12040ef4266814409fe16d5b4de09ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  placementManager: {fileID: 1434987243}
+  carnivore1Prefab: {fileID: 7292518832171594901, guid: 1a6ec3eddfcff8b4a877c7b350e67557, type: 3}
+  carnivore2Prefab: {fileID: 8779630825536378151, guid: 0191a5e813e2e9c40ad5ea7db94b0a23, type: 3}
+  herbivore1Prefab: {fileID: 7870442338796372815, guid: d36e084254c30534d869078f20bc0339, type: 3}
+  herbivore2Prefab: {fileID: 7993729090055200291, guid: b2e37dd66f813c348aedeb7b439ade96, type: 3}
 --- !u!1 &836863711
 GameObject:
   m_ObjectHideFlags: 0
@@ -2929,7 +2929,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 903255223}
-  - component: {fileID: 903255222}
+  - component: {fileID: 903255224}
   m_Layer: 0
   m_Name: WaterManager
   m_TagString: Untagged
@@ -2937,20 +2937,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &903255222
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 903255221}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7f2838fba9bdf454785de82059c70a9a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  placementManager: {fileID: 1434987243}
-  waterPrefab: {fileID: 2138452382528300987, guid: 358089f4ed332bf4c84b277e0fab5d24, type: 3}
 --- !u!4 &903255223
 Transform:
   m_ObjectHideFlags: 0
@@ -2966,6 +2952,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &903255224
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 903255221}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c7f816e2d9608b4fa02891185ab8b23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  placementManager: {fileID: 1434987243}
+  waterPrefab: {fileID: 2138452382528300987, guid: 358089f4ed332bf4c84b277e0fab5d24, type: 3}
 --- !u!1 &939106628
 GameObject:
   m_ObjectHideFlags: 0
@@ -3389,7 +3389,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1039970317}
-  - component: {fileID: 1039970316}
+  - component: {fileID: 1039970318}
   m_Layer: 0
   m_Name: TouristManager
   m_TagString: Untagged
@@ -3397,19 +3397,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1039970316
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1039970315}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 86742631bad762a47bb2c6c2639e9cbf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  placementManager: {fileID: 1434987243}
 --- !u!4 &1039970317
 Transform:
   m_ObjectHideFlags: 0
@@ -3425,6 +3412,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1039970318
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1039970315}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eacfd5f383c31b44fb957a7cac51b885, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  placementManager: {fileID: 1434987243}
 --- !u!1 &1064772203
 GameObject:
   m_ObjectHideFlags: 0
@@ -3553,13 +3553,13 @@ MonoBehaviour:
   inputManager: {fileID: 1360255462}
   roadManager: {fileID: 1742676474}
   natureManager: {fileID: 960441215}
-  waterManager: {fileID: 903255222}
-  economyManager: {fileID: 2009713196}
+  waterManager: {fileID: 903255224}
+  economyManager: {fileID: 2009713198}
   uiController: {fileID: 129047122}
   placementManager: {fileID: 1434987243}
-  animalManager: {fileID: 812757146}
+  animalManager: {fileID: 812757148}
   timeManager: {fileID: 1210205437}
-  touristManager: {fileID: 1039970316}
+  touristManager: {fileID: 1039970318}
   gameDifficulty: 1
 --- !u!1 &1130501723
 GameObject:
@@ -6797,7 +6797,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minHillAmount: 5
   maxHillAmount: 20
-  minHillSize: 2
+  minHillSize: 5
   maxHillSize: 70
   minRiverAmount: 5
   maxRiverAmount: 20
@@ -6806,8 +6806,6 @@ MonoBehaviour:
   naturePrefabs:
   - {fileID: 1231750990164085603, guid: aed2aed4bcf2ca849b78ed9886eb775b, type: 3}
   - {fileID: 2955873173738021753, guid: 89c8c1683471988428f3493e670af149, type: 3}
-  - {fileID: 1106894241150469068, guid: 4b6c3a1c5d79ee74aacaffa4073f334f, type: 3}
-  - {fileID: 628111111329996284, guid: b251aac2e265df74f91db1dee1baee73, type: 3}
   - {fileID: 7925051415129203009, guid: 22e716ef34672e9429129cbfd0853e95, type: 3}
   - {fileID: 6806877314895711884, guid: 4a980b701bf56d344a17e0247a24ff8d, type: 3}
   - {fileID: 6135660522080923414, guid: cfa659a61039840438021d3380477cd7, type: 3}
@@ -7458,7 +7456,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2009713197}
-  - component: {fileID: 2009713196}
+  - component: {fileID: 2009713198}
   m_Layer: 0
   m_Name: EconomyManager
   m_TagString: Untagged
@@ -7466,22 +7464,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &2009713196
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2009713195}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 762af8ee5b6f0f04e9351aeb8ee8a114, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  easyGameStartMoney: 700
-  normalGameStartMoney: 500
-  hardGameStartMoney: 300
-  money: 0
 --- !u!4 &2009713197
 Transform:
   m_ObjectHideFlags: 0
@@ -7497,6 +7479,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2009713198
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2009713195}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 668e5084501a8fc43809f70f63d02b92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  easyGameStartMoney: 700
+  normalGameStartMoney: 500
+  hardGameStartMoney: 300
+  money: 0
 --- !u!1 &2015593586
 GameObject:
   m_ObjectHideFlags: 0
@@ -8177,8 +8175,8 @@ SceneRoots:
   - {fileID: 1742676475}
   - {fileID: 960441216}
   - {fileID: 903255223}
-  - {fileID: 812757147}
-  - {fileID: 2009713197}
   - {fileID: 1899437699}
   - {fileID: 1039970317}
   - {fileID: 1210205438}
+  - {fileID: 2009713197}
+  - {fileID: 812757147}
