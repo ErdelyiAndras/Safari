@@ -2,24 +2,36 @@
 using Unity.VisualScripting;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class TouristManager : MonoBehaviour
 {
     public float Satisfaction { get; private set; }
     private int touristCount;
-    private int touristsInQueue;
-    public PlacementManager placementManager; // better solution for this? 
+    public int TouristsInQueue { get; private set; }
+    public PlacementManager placementManager;
     private List<Jeep> jeeps = new List<Jeep>();
+    public GameObject jeepPrefab;
+    public Action SatisfactionChanged; // TODO feliratkozni rá a UI változásához
 
     private void Start()
     {
         Jeep.JeepWaiting += FillJeep;
         Jeep.JeepArrived += TouristsLeave;
     }
-
-    private void TouristsArrive()
+    private void Update()
     {
-        touristsInQueue += 1;
+        foreach (var jeep in jeeps)
+        {
+            jeep.CheckState();
+        }
+    }
+    
+    public int JeepCount => jeeps.Count;
+
+    public void TouristsArrive()
+    {
+        TouristsInQueue += 1;
         // logic to calculate how many tourists arrive
     }
     private void TouristsLeave(Jeep jeep)
@@ -28,15 +40,19 @@ public class TouristManager : MonoBehaviour
         jeep.Return();
     }
 
-    public void HandleTImeElapsed() // EZZEL KELL FELIRATKOZNI A TICK-re
+    public void SetSpeedMultiplier(float multiplier)
     {
-        TouristsArrive();
+        foreach (var jeep in jeeps)
+        {
+            jeep.SpeedMultiplier = multiplier;
+        }
     }
+
     private void FillJeep(Jeep jeep)
     {
-        if (touristsInQueue > 0)
+        if (TouristsInQueue > 0)
         {
-            touristsInQueue--;
+            TouristsInQueue--;
             jeep.tourists.AddTourist();
         }
     }
@@ -44,10 +60,11 @@ public class TouristManager : MonoBehaviour
     private void ModifySatisfaction(int satisfaction)
     {
         Satisfaction = (Satisfaction + satisfaction) / 2;
+        SatisfactionChanged?.Invoke();
     }
     public void AcquireNewJeep()
     {
-        jeeps.Add(new Jeep(placementManager));
+        jeeps.Add(new Jeep(placementManager, jeepPrefab));
     }
 }
 

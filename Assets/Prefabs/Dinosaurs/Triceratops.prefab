@@ -1186,7 +1186,6 @@ GameObject:
   - component: {fileID: 7382170783396092405}
   - component: {fileID: 874355013021946727}
   - component: {fileID: 475152962993434636}
-  - component: {fileID: 2993950549537288335}
   m_Layer: 0
   m_Name: Triceratops
   m_TagString: Untagged
@@ -1264,20 +1263,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &2993950549537288335
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7870442338796372815}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 649f00b8631e3d34482836bbb21c35dc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 2
-  rotationSpeed: 5
 --- !u!1 &7875503285526694859
 GameObject:
   m_ObjectHideFlags: 0

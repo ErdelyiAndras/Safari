@@ -55,6 +55,7 @@ public class GameManager : MonoBehaviour
         economyManager.GoneBankrupt += () => GameOverHandler(false);
   
         timeManager.Elapsed += () => TimeManagerElapsedHandler();
+        timeManager.Elapsed += () => touristManager.TouristsArrive();
         timeManager.TimeIntervalChanged += () => SetSpeedMultiplierOfEntities();
     }
 
@@ -78,6 +79,7 @@ public class GameManager : MonoBehaviour
         {
             touristManager.AcquireNewJeep();
             economyManager.SpendMoney(economyManager.UnitCostOfJeep);
+            // TODO: JeepCount
         }
     }
 
@@ -109,7 +111,7 @@ public class GameManager : MonoBehaviour
         ClearInputActions();
         if (economyManager.HasEnoughMoney(economyManager.UnitCostOfCarnivore))
         {
-            animalManager.SpawnAnimal(animalManager.carnivore1Prefab);
+            animalManager.BuyCarnivore1();
             economyManager.SpendMoney(economyManager.UnitCostOfCarnivore);
             uiController.UpdateMoneyPanel(economyManager.Money);
         }
@@ -121,7 +123,7 @@ public class GameManager : MonoBehaviour
         ClearInputActions();
         if (economyManager.HasEnoughMoney(economyManager.UnitCostOfCarnivore))
         {
-            animalManager.SpawnAnimal(animalManager.carnivore2Prefab);
+            animalManager.BuyCarnivore2();
             economyManager.SpendMoney(economyManager.UnitCostOfCarnivore);
             uiController.UpdateMoneyPanel(economyManager.Money);
         }
@@ -133,7 +135,7 @@ public class GameManager : MonoBehaviour
         ClearInputActions();
         if (economyManager.HasEnoughMoney(economyManager.UnitCostOfHerbivore))
         {
-            animalManager.SpawnAnimal(animalManager.herbivore1Prefab);
+            animalManager.BuyHerbivore1();
             economyManager.SpendMoney(economyManager.UnitCostOfHerbivore);
             uiController.UpdateMoneyPanel(economyManager.Money);
         }
@@ -145,7 +147,7 @@ public class GameManager : MonoBehaviour
         ClearInputActions();
         if (economyManager.HasEnoughMoney(economyManager.UnitCostOfHerbivore))
         {
-            animalManager.SpawnAnimal(animalManager.herbivore2Prefab);
+            animalManager.BuyHerbivore2();
             economyManager.SpendMoney(economyManager.UnitCostOfHerbivore);
             uiController.UpdateMoneyPanel(economyManager.Money);
         }

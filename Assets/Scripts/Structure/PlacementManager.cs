@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class PlacementManager : MonoBehaviour
 {
-    public int width, height;
+    public int width, height; // TODO public till decision is made of the final mapsize
     public Grid placementGrid { get; private set; }
     internal Action<Vector3Int> RoadRemoved;
 

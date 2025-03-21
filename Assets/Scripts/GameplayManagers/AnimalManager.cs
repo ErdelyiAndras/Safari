@@ -6,31 +6,40 @@ using UnityEngine;
 public class AnimalManager : MonoBehaviour
 {
     public PlacementManager placementManager;
-
     public GameObject carnivore1Prefab, carnivore2Prefab, herbivore1Prefab, herbivore2Prefab;
-    private List<GameObject> spawnedAnimals = new List<GameObject>();
-    //le tudjam kérdezni minden állat pozícióját és típusát, lehetőleg egy foreach (var in spawnedAnimals) -al
 
-    public List<GameObject> Animals => spawnedAnimals;
-    private void Start()
+    private List<Animal> spawnedAnimals = new List<Animal>();
+
+    private void Update()
     {
-   
+        foreach(var animal in spawnedAnimals)
+        {
+            animal.CheckState();
+            animal.MoveTowardsTarget();
+        }
     }
 
-    public void SpawnAnimal(GameObject animalPrefab)
+    public void SetSpeedMultiplier(float multiplier)
     {
-        Vector3 spawnPosition = GetRandomSpawnPosition();
-        GameObject newAnimal = Instantiate(animalPrefab, spawnPosition, Quaternion.identity, transform);
-
-        newAnimal.name = $"Animal_{spawnedAnimals.Count + 1}";
-        spawnedAnimals.Add(newAnimal);
-        Debug.Log($"Spawnolt állat: {newAnimal.name}, Pozíció: {spawnPosition}");
+        foreach (var animal in spawnedAnimals)
+        {
+            animal.SpeedMultiplier = multiplier;
+        }
     }
-     
-    private Vector3 GetRandomSpawnPosition()
+    public void BuyCarnivore1()
     {
-        float x = Random.Range(0, placementManager.width);
-        float z = Random.Range(0, placementManager.height);
-        return new Vector3(x, 0, z);
+        spawnedAnimals.Add(new Carnivore1(carnivore1Prefab, placementManager));
+    }
+    public void BuyCarnivore2()
+    {
+        spawnedAnimals.Add(new Carnivore2(carnivore2Prefab, placementManager));
+    }
+    public void BuyHerbivore1()
+    {
+        spawnedAnimals.Add(new Herbivore1(herbivore1Prefab, placementManager));
+    }
+    public void BuyHerbivore2()
+    {
+        spawnedAnimals.Add(new Herbivore2(herbivore2Prefab, placementManager));
     }
 }

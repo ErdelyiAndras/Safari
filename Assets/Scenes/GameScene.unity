@@ -3425,6 +3425,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   placementManager: {fileID: 1434987243}
+  jeepPrefab: {fileID: 7954715419065063505, guid: 10f4671cf44100d409a99458809783f8, type: 3}
 --- !u!1 &1064772203
 GameObject:
   m_ObjectHideFlags: 0

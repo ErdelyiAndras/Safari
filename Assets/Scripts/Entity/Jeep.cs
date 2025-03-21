@@ -3,37 +3,32 @@ using UnityEngine;
 using System;
 using System.Collections.Generic;
 
-public enum State
-{
-    Waiting,
-    Moving,
-    Leaving,
-    Returning
-}
 public class Jeep : Entity
 {
-    private PlacementManager placementManager;
+    public enum State
+    {
+        Waiting,
+        Moving,
+        Leaving,
+        Returning
+    }
+
     private Vector3 endPosition;
-    private Vector3 position;
     public TouristGroup tourists;
     public State MyState { get; private set; }
     public static Action<Jeep> JeepArrived, JeepWaiting;
-    public Jeep(PlacementManager _placementManager)
+    public Jeep(PlacementManager _placementManager, GameObject prefab)
     {
         placementManager = _placementManager;
         endPosition = new Vector3Int(placementManager.width - 1, 0, placementManager.height - 1);
-        position = new Vector3Int(0, 0, 0);
+        spawnPosition = new Vector3(0, 0, 0);
         MyState = State.Waiting;
         tourists = new TouristGroup();
         tourists.readyToGo += () => MyState = State.Moving;
-    }
-    
-    private void Update()
-    {
-        CheckJeepState();
+        SpawnEntity(prefab);
     }
 
-    private void CheckJeepState()
+    public override void CheckState()
     {
         switch (MyState)
         {
@@ -41,7 +36,7 @@ public class Jeep : Entity
                 JeepWaiting.Invoke(this);
                 break;
             case State.Moving:
-                if (position == endPosition)
+                if (Position == endPosition)
                 {
                     MyState = State.Leaving;
                 }
@@ -74,6 +69,7 @@ public class Jeep : Entity
     {
         // ha látunk új állatot akkor a touristgroup metrikáit állítjuk
     }
+
 
 }
 

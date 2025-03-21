@@ -1183,7 +1183,6 @@ GameObject:
   - component: {fileID: 8258567165236088733}
   - component: {fileID: 3496536261852481183}
   - component: {fileID: 5608497392802230832}
-  - component: {fileID: 9149186688254107693}
   m_Layer: 0
   m_Name: Velociraptor
   m_TagString: Untagged
@@ -1261,20 +1260,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &9149186688254107693
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8779630825536378151}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 649f00b8631e3d34482836bbb21c35dc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 2
-  rotationSpeed: 5
 --- !u!1 &8800229496269560628
 GameObject:
   m_ObjectHideFlags: 0
