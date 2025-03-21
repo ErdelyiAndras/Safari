@@ -21,6 +21,7 @@ public class MapGenerator : MonoBehaviour
     private Dictionary<Vector3Int, CellType> usedPositions = new Dictionary<Vector3Int, CellType>();
 
     private System.Random random = new System.Random();
+
     private void Start()
     {
         if (natureDensity < 0)
@@ -142,7 +143,6 @@ public class MapGenerator : MonoBehaviour
         while (queue.Count > 0 && visited.Count < hillSize)
         {
             Vector3Int current = queue.Dequeue();
-            usedPositions[current] = CellType.Hill;
 
             foreach (Vector3Int neighbor in GetNeighborsInRandomOrder(current))
             {
