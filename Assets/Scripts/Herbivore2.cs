@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Herbivore2
+public class Herbivore2 : Animal
 {
     
 }
