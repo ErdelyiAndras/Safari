@@ -141,7 +141,7 @@ public class PlacementManager : MonoBehaviour
         return neighbours;
     }
 
-    internal List<Vector3Int> GetPathBetween(Vector3Int startPosition, Vector3Int endPosition)
+    internal List<Vector3Int> GetPathBetween(Vector3Int startPosition, Vector3Int endPosition, bool isAgent = false)
     {
         var resultPath = GridSearch.AStarSearch(placementGrid, new Point(startPosition.x, startPosition.z), new Point(endPosition.x, endPosition.z));
         List<Vector3Int> path = new List<Vector3Int>();
@@ -150,6 +150,78 @@ public class PlacementManager : MonoBehaviour
             path.Add(new Vector3Int(point.X, 0, point.Y));
         }
         return path;
+    }
+
+    internal bool HasFullPath(Vector3Int start, Vector3Int end)
+    {
+        return TryFindRoadPath(start, end, out _);
+    }
+
+
+    internal List<Vector3Int> FindRoadOnlyPath(Vector3Int start, Vector3Int end)
+    {
+        return TryFindRoadPath(start, end, out var path) ? path : null;
+    }
+
+
+    private bool TryFindRoadPath(Vector3Int start, Vector3Int end, out List<Vector3Int> path)
+    {
+        path = null;
+
+        Dictionary<Vector3Int, Vector3Int> cameFrom = new Dictionary<Vector3Int, Vector3Int>();
+        Queue<Vector3Int> queue = new Queue<Vector3Int>();
+        HashSet<Vector3Int> visited = new HashSet<Vector3Int>();
+
+        queue.Enqueue(start);
+        visited.Add(start);
+        cameFrom[start] = start;
+
+        while (queue.Count > 0)
+        {
+            Vector3Int current = queue.Dequeue();
+
+            if (current == end)
+            {
+                path = new List<Vector3Int>();
+                while (current != start)
+                {
+                    path.Add(current);
+                    current = cameFrom[current];
+                }
+                path.Add(start);
+                path.Reverse();
+                return true;
+            }
+
+            List<Point> neighbors = placementGrid.GetAdjacentCellsOfType(current.x, current.z, CellType.Road);
+            Shuffle(neighbors); // véletlenszerű sorrend
+
+            foreach (Point p in neighbors)
+            {
+                Vector3Int neighbor = new Vector3Int(p.X, 0, p.Y);
+
+                if (!visited.Contains(neighbor))
+                {
+                    visited.Add(neighbor);
+                    queue.Enqueue(neighbor);
+                    cameFrom[neighbor] = current;
+                }
+            }
+        }
+
+        return false;
+    }
+
+
+    private void Shuffle<T>(List<T> list)
+    {
+        for (int i = 0; i < list.Count; i++)
+        {
+            int j = UnityEngine.Random.Range(i, list.Count);
+            T temp = list[i];
+            list[i] = list[j];
+            list[j] = temp;
+        }
     }
 
     internal void RemoveAllTemporaryStructures()

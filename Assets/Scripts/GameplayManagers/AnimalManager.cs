@@ -15,7 +15,7 @@ public class AnimalManager : MonoBehaviour
         foreach(var animal in spawnedAnimals)
         {
             animal.CheckState();
-            animal.MoveTowardsTarget();
+            animal.Move();
         }
     }
 

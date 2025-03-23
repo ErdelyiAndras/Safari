@@ -73,40 +73,20 @@ public abstract class Animal : Entity
         return new Vector3(x, 0, z);
     }
 
-
-
     //István
-
-
-
     public float rotationSpeed = 5.0f;
     private Vector3 targetPosition;
 
-    private void Start()
+    public override void Move()
     {
-        SetRandomTargetPosition();
-    }
-
-    private void Update()
-    {
-        MoveTowardsTarget();
-    }
-
-    public override void Move(Vector3 targetPosition)
-    {
-        this.targetPosition = targetPosition;
-    }
-
-    public void MoveTowardsTarget()
-    {
-        if (Vector3.Distance(entityInstance.transform.position, targetPosition) < 0.1f)
+        if (Vector3.Distance(Position, targetPosition) < 0.1f)
         {
             SetRandomTargetPosition();
         }
 
-        entityInstance.transform.position = Vector3.MoveTowards(entityInstance.transform.position, targetPosition, MoveSpeed * Time.deltaTime);
+        Position = Vector3.MoveTowards(Position, targetPosition, MoveSpeed * Time.deltaTime);
 
-        Vector3 direction = targetPosition - entityInstance.transform.position;
+        Vector3 direction = targetPosition - Position;
         if (direction != Vector3.zero)
         {
             Quaternion targetRotation = Quaternion.LookRotation(direction);
