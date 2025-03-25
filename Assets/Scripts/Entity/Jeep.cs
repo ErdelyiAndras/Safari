@@ -77,7 +77,7 @@ public class Jeep : Entity
     {
         if (jeepPath == null)
         {
-            jeepPath = placementManager.FindRoadOnlyPath(
+            jeepPath = placementManager.PickRandomRoadPath(
                 Vector3Int.RoundToInt(spawnPosition),
                 Vector3Int.RoundToInt(endPosition)
             );
