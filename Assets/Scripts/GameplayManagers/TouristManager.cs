@@ -37,7 +37,6 @@ public class TouristManager : MonoBehaviour
     private void TouristsLeave(Jeep jeep)
     {
         ModifySatisfaction(jeep.tourists.CalculateSatisfaction());
-        jeep.Return();
     }
 
     public void SetSpeedMultiplier(float multiplier)
@@ -64,7 +63,7 @@ public class TouristManager : MonoBehaviour
     }
     public void AcquireNewJeep()
     {
-        jeeps.Add(new Jeep(placementManager, jeepPrefab));
+        jeeps.Add(new Jeep(placementManager, jeepPrefab, this));
     }
 }
 

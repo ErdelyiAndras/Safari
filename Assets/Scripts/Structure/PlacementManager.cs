@@ -158,7 +158,7 @@ public class PlacementManager : MonoBehaviour
     }
 
 
-    internal List<Vector3Int> FindRoadOnlyPath(Vector3Int start, Vector3Int end)
+    internal List<Vector3Int> PickShortestPath(Vector3Int start, Vector3Int end)
     {
         return TryFindRoadPath(start, end, out var path) ? path : null;
     }
