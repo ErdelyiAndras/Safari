@@ -60,7 +60,7 @@ public class Jeep : Entity
         // visszamegy a kezdőpozícióba (0,0,0)
     }
 
-    public override void Move(Vector3 targetPosition)
+    public override void Move()
     {
         List<Point> roads = placementManager.placementGrid.Roads;
     }

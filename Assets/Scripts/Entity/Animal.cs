@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using TMPro.EditorUtilities;
+using Unity.VisualScripting;
 using UnityEngine;
 
 
@@ -17,30 +18,89 @@ public abstract class Animal : Entity
         Mating
     }
     public Action AnimalDied;
-    protected float maxFood, maxDrink, foodThreshold, drinkThreshold;
-    protected int remainingLifetime, food, drink;
-    public int Health { get => (food * drink + remainingLifetime); } // TODO : balance health
+    protected float maxFood, maxDrink, foodThreshold, drinkThreshold, foodNutrition, drinkNutrition;
+    protected float remainingLifetime, food, drink;
+    protected readonly float basicViewDistance, viewExtendScale;
+    protected List<Vector3Int> discoveredFood, discoveredDrink; // TODO : ÁTTÉRNI RENDEZETT LISSTÁRA (pl: SortedArray), csak a herbivorenak van discoveredfood
+    protected float eatingTime, drinkingTime, restTime;
+    private float elapsedTime = 0.0f;
+    public float rotationSpeed = 5.0f;
+    private Vector3 targetPosition;
+
+    protected float ViewDistance { 
+        get 
+        {
+            return placementManager.GetTypeOfPosition(placementManager.RoundPosition(Position)) == CellType.Hill ? basicViewDistance * viewExtendScale : basicViewDistance; }
+        }
+    public float Health { get => (food * drink + remainingLifetime); } // TODO : balance health
+
     public State MyState { get; private set; }
     protected bool IsAnimalDead() => remainingLifetime <= 0 || Health <= 0 || food <= 0 || drink <= 0;
 
-    public Animal(GameObject prefab, PlacementManager _placementManager)
+    public Animal(GameObject prefab, PlacementManager _placementManager, Herd parent)
     {
+        parent.AddAnimalToHerd(this);
         placementManager = _placementManager;
-        spawnPosition = GetRandomSpawnPosition();
+        spawnPosition = parent.Spawnpoint;
         SpawnEntity(prefab);
         baseMoveSpeed = 2.0f; // DEFAULT ÉRTÉK?!
         SpeedMultiplier = 1.0f; // EZT KELL ÁLLÍTANI
     }
 
-    public override void CheckState()
+    protected override void CheckState()
     {
         switch(MyState)
         {
-          // TODO
+            case State.Resting:
+                WaitAction(restTime, State.Moving);
+                break;
+            case State.Moving:
+                Move();
+                break;
+            case State.SearchingForFood:
+                MoveToFood();
+                break;
+            case State.SearchingForWater:
+                MoveToWater();
+                break;
+            case State.Eating:
+                break;
+            case State.Drinking:
+                break;
+            case State.Mating:
+                break;
+
         }
     }
 
-    public virtual void MatureAnimal()
+    private void WaitAction(float duration, ref float toAdvance, float advanceStep, State changeStateTo)
+    {
+        if (elapsedTime < duration)
+        {
+            elapsedTime += Time.deltaTime;
+        }
+        else
+        {
+            toAdvance += advanceStep;
+            MyState = changeStateTo;
+            elapsedTime = 0.0f;
+        }
+    }
+
+    private void WaitAction(float duration, State changeStateTo)
+    {
+        if (elapsedTime < duration)
+        {
+            elapsedTime += Time.deltaTime;
+        }
+        else
+        {
+            MyState = changeStateTo;
+            elapsedTime = 0.0f;
+        }
+    }
+
+    protected virtual void MatureAnimal()
     {
         remainingLifetime--;
         food--;
@@ -49,76 +109,101 @@ public abstract class Animal : Entity
         {
             AnimalDies();
         }
-        if (food < maxFood * foodThreshold)
+        if (MyState != State.Eating && MyState != State.Drinking && MyState != State.Mating)
         {
-            Eat();
-        }
-        if (drink < maxDrink * drinkThreshold)
-        {
-            Drink();
+            if (food < maxFood * foodThreshold && MyState != State.SearchingForWater)
+            {
+                MyState = State.SearchingForFood;
+            }
+            if (drink < maxDrink * drinkThreshold && MyState != State.SearchingForFood)
+            {
+                MyState = State.SearchingForWater;
+            }
+            if (food < maxFood * foodThreshold && drink < maxDrink * drinkThreshold)
+            {
+                if (food / foodThreshold < drink / drinkThreshold)
+                {
+                    MyState = State.SearchingForFood;
+                }
+                else
+                {
+                    MyState = State.SearchingForWater;
+                }
+            }
         }
     }
-    abstract protected void Eat();
-    abstract protected void Drink();
+    abstract protected void MoveToFood(); // logika: keres a viewDistancen belül,
+                                          // majd ha nem talál megy a legközelebbi eltárolthoz, ha ez sincs akkor megy random
+    abstract protected void MoveToWater(); // --||--
+
+    public void Advance()
+    {
+        MatureAnimal();
+        CheckState();
+    }
 
     protected void AnimalDies()
     {
         UnityEngine.Object.Destroy(entityInstance);
         AnimalDied?.Invoke();
     }
-    private Vector3 GetRandomSpawnPosition()
-    {
-        float x = UnityEngine.Random.Range(0, placementManager.width);
-        float z = UnityEngine.Random.Range(0, placementManager.height);
-        return new Vector3(x, 0, z);
-    }
 
-
-
-    //István
-
-
-
-    public float rotationSpeed = 5.0f;
-    private Vector3 targetPosition;
-
-    private void Start()
-    {
-        SetRandomTargetPosition();
-    }
-
-    private void Update()
-    {
-        MoveTowardsTarget();
-    }
-
-    public override void Move(Vector3 targetPosition)
-    {
-        this.targetPosition = targetPosition;
-    }
-
-    public void MoveTowardsTarget()
+    public override void Move()
     {
         if (Vector3.Distance(entityInstance.transform.position, targetPosition) < 0.1f)
         {
-            SetRandomTargetPosition();
+            ObjectArrived();
         }
-
-        entityInstance.transform.position = Vector3.MoveTowards(entityInstance.transform.position, targetPosition, MoveSpeed * Time.deltaTime);
-
-        Vector3 direction = targetPosition - entityInstance.transform.position;
-        if (direction != Vector3.zero)
+        else
         {
-            Quaternion targetRotation = Quaternion.LookRotation(direction);
-            entityInstance.transform.rotation = Quaternion.Slerp(entityInstance.transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+            // Szabadon tudjon mozogni, de vízre ne menjen --> 
+            entityInstance.transform.position = Vector3.MoveTowards(entityInstance.transform.position, targetPosition, MoveSpeed * Time.deltaTime);
+
+            Vector3 direction = targetPosition - entityInstance.transform.position;
+            if (direction != Vector3.zero)
+            {
+                Quaternion targetRotation = Quaternion.LookRotation(direction);
+                entityInstance.transform.rotation = Quaternion.Slerp(entityInstance.transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+            }
         }
     }
 
-
-    private void SetRandomTargetPosition()
+    private void ObjectArrived()
     {
-        float randomX = UnityEngine.Random.Range(0, 50);
-        float randomZ = UnityEngine.Random.Range(0, 50);
+        SetRandomTargetPosition();
+        switch (MyState) 
+        {
+            case State.Moving:
+                MyState = State.Resting;
+                break;
+            case State.SearchingForFood:
+                MyState = State.Eating;
+                break;
+            case State.SearchingForWater:
+                MyState = State.Drinking;
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void SetRandomTargetPosition(bool inHerd = true)
+    {
+        // TODO belekalkulálni a Herd radiusát
+        float randomX = 0, randomZ = 0;
+        do
+        {
+            if (inHerd)
+            {
+                // TODO A herden belül random pozicio
+            }
+            else
+            {
+                randomX = UnityEngine.Random.Range(0, placementManager.width);
+                randomZ = UnityEngine.Random.Range(0, placementManager.height);
+            }
+        } while (placementManager.IsPositionWalkable(new Vector3Int((int)randomX, 0, (int)randomZ)));
+        
         targetPosition = new Vector3(randomX, 0, randomZ);
     }
 }

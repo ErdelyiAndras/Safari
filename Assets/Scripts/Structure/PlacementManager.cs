@@ -152,6 +152,8 @@ public class PlacementManager : MonoBehaviour
         return path;
     }
 
+    internal Vector3Int RoundPosition(Vector3 position) => new Vector3Int((int)position.x, (int)position.y, (int)position.z);
+
     internal void RemoveAllTemporaryStructures()
     {
         foreach (var structure in temporaryRoadobjects.Values)

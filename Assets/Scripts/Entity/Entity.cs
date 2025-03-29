@@ -13,9 +13,9 @@ public abstract class Entity
     {
         get { return entityInstance.transform.position; }
     }
-    public abstract void CheckState();
+    protected abstract void CheckState();
     // Need Input --> destructor deletes the object (ex: animal dies and disposes of itself), constructor instantiates the object
-    public abstract void Move(Vector3 targetPosition);
+    public abstract void Move();
     protected void SpawnEntity(GameObject prefab) => entityInstance = Object.Instantiate(prefab, spawnPosition, Quaternion.identity);
     // jó lenne ha vízbe meg hegybe nem spawnolna animal
 

@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Carnivore2 : Animal
 {
-    public Carnivore2(GameObject prefab, PlacementManager _placementManager) : base(prefab, _placementManager)
+    public Carnivore2(GameObject prefab, PlacementManager _placementManager, Herd parent) : base(prefab, _placementManager, parent)
     {
 
     }
