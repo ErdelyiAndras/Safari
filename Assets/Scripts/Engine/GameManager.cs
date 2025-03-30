@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour
 
         uiController.UpdateMoneyPanel(economyManager.Money);
         uiController.UpdateAdmissionFeePanel(economyManager.AdmissionFee);
+        uiController.UpdateDatePanel(timeManager.CurrentTime);
 
         uiController.admissionFeeEndEdit += admissionFee =>
         {
@@ -56,6 +57,7 @@ public class GameManager : MonoBehaviour
   
         timeManager.Elapsed += () => TimeManagerElapsedHandler();
         timeManager.Elapsed += () => touristManager.TouristsArrive();
+        timeManager.Elapsed += () => uiController.UpdateDatePanel(timeManager.CurrentTime);
         timeManager.TimeIntervalChanged += () => SetSpeedMultiplierOfEntities();
     }
 
@@ -97,7 +99,7 @@ public class GameManager : MonoBehaviour
         {
             int cost = roadManager.Count * economyManager.UnitCostOfRoad;
             bool result = economyManager.HasEnoughMoney(cost);
-            roadManager.FinalizeObject(result);
+            roadManager.FinalizeObject(result); // ez itt nem az if-en belül kell lennie?
             if (result)
             {
                 economyManager.SpendMoney(cost);
@@ -115,7 +117,6 @@ public class GameManager : MonoBehaviour
             economyManager.SpendMoney(economyManager.UnitCostOfCarnivore);
             uiController.UpdateMoneyPanel(economyManager.Money);
         }
-        //animalManager.SpawnAnimal(animalManager.carnivore1Prefab);
     }
 
     private void Carnivore2PurchaseHandler()
@@ -127,7 +128,6 @@ public class GameManager : MonoBehaviour
             economyManager.SpendMoney(economyManager.UnitCostOfCarnivore);
             uiController.UpdateMoneyPanel(economyManager.Money);
         }
-        //animalManager.SpawnAnimal(animalManager.carnivore2Prefab);
     }
 
     private void Herbivore1PurchaseHandler()
@@ -139,7 +139,6 @@ public class GameManager : MonoBehaviour
             economyManager.SpendMoney(economyManager.UnitCostOfHerbivore);
             uiController.UpdateMoneyPanel(economyManager.Money);
         }
-        //animalManager.SpawnAnimal(animalManager.herbivore1Prefab);
     }
 
     private void Herbivore2PurchaseHandler()
@@ -151,7 +150,6 @@ public class GameManager : MonoBehaviour
             economyManager.SpendMoney(economyManager.UnitCostOfHerbivore);
             uiController.UpdateMoneyPanel(economyManager.Money);
         }
-        //animalManager.SpawnAnimal(animalManager.herbivore2Prefab);
     }
 
     private void NaturePlacementHandler(bool isCancellation, GameObject type)

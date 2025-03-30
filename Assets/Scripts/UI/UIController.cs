@@ -72,6 +72,7 @@ public class UIController : MonoBehaviour
 
     public Text moneyText;
     public InputField admissionFeeInputField;
+    public Text dateText;
 
     public Action<int> admissionFeeEndEdit;
 
@@ -186,6 +187,14 @@ public class UIController : MonoBehaviour
         if (moneyText != null)
         {
             moneyText.text = $"$ {money.ToString()}";
+        }
+    }
+
+    public void UpdateDatePanel(string date)
+    {
+        if (dateText != null)
+        {
+            dateText.text = date;
         }
     }
 
