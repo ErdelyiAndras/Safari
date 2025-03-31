@@ -27,6 +27,13 @@ public class GameManager : MonoBehaviour
         uiController.UpdateMoneyPanel(economyManager.Money);
         uiController.UpdateAdmissionFeePanel(economyManager.AdmissionFee);
         uiController.UpdateDatePanel(timeManager.CurrentTime);
+        uiController.UpdateJeepPanel(touristManager.JeepCount);
+        //uiController.UpdateCarnivore1Panel(animalManager.Carnivore1Count);
+        //uiController.UpdateCarnivore2Panel(animalManager.Carnivore2Count);
+        //uiController.UpdateHerbivore1Panel(animalManager.Herbivore1Count);
+        //uiController.UpdateHerbivore2Panel(animalManager.Herbivore2Count);
+        uiController.UpdateSatisfactionPanel(touristManager.Satisfaction);
+        uiController.UpdateTouristsPanel(touristManager.TouristsInQueue);
 
         uiController.admissionFeeEndEdit += admissionFee =>
         {

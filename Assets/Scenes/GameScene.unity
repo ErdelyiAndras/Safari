@@ -637,6 +637,13 @@ MonoBehaviour:
   moneyText: {fileID: 591040646}
   admissionFeeInputField: {fileID: 1808220701}
   dateText: {fileID: 357125406}
+  jeepCount: {fileID: 1130501725}
+  carnivore1Count: {fileID: 1588092617}
+  carnivore2Count: {fileID: 838323401}
+  herbivore1Count: {fileID: 1917786393}
+  herbivore2Count: {fileID: 1382786838}
+  satisfactionCount: {fileID: 1952199518}
+  touristCount: {fileID: 677597195}
 --- !u!1 &247114292
 GameObject:
   m_ObjectHideFlags: 0
