@@ -141,7 +141,7 @@ public class PlacementManager : MonoBehaviour
         return neighbours;
     }
 
-    internal List<Vector3Int> GetPathBetween(Vector3Int startPosition, Vector3Int endPosition)
+    internal List<Vector3Int> GetPathBetween(Vector3Int startPosition, Vector3Int endPosition, bool isAgent = false)
     {
         var resultPath = GridSearch.AStarSearch(placementGrid, new Point(startPosition.x, startPosition.z), new Point(endPosition.x, endPosition.z));
         List<Vector3Int> path = new List<Vector3Int>();
@@ -153,6 +153,117 @@ public class PlacementManager : MonoBehaviour
     }
 
     internal Vector3Int RoundPosition(Vector3 position) => new Vector3Int((int)position.x, (int)position.y, (int)position.z);
+    internal bool HasFullPath(Vector3Int start, Vector3Int end)
+    {
+        return TryFindRoadPath(start, end, out _);
+    }
+
+
+    internal List<Vector3Int> PickShortestPath(Vector3Int start, Vector3Int end)
+    {
+        return TryFindRoadPath(start, end, out var path) ? path : null;
+    }
+
+
+    private bool TryFindRoadPath(Vector3Int start, Vector3Int end, out List<Vector3Int> path)
+    {
+        path = null;
+
+        Dictionary<Vector3Int, Vector3Int> cameFrom = new Dictionary<Vector3Int, Vector3Int>();
+        Queue<Vector3Int> queue = new Queue<Vector3Int>();
+        HashSet<Vector3Int> visited = new HashSet<Vector3Int>();
+
+        queue.Enqueue(start);
+        visited.Add(start);
+        cameFrom[start] = start;
+
+        while (queue.Count > 0)
+        {
+            Vector3Int current = queue.Dequeue();
+
+            if (current == end)
+            {
+                path = new List<Vector3Int>();
+                while (current != start)
+                {
+                    path.Add(current);
+                    current = cameFrom[current];
+                }
+                path.Add(start);
+                path.Reverse();
+                return true;
+            }
+
+            List<Point> neighbors = placementGrid.GetAdjacentCellsOfType(current.x, current.z, CellType.Road);
+            Shuffle(neighbors); // véletlenszerű sorrend
+
+            foreach (Point p in neighbors)
+            {
+                Vector3Int neighbor = new Vector3Int(p.X, 0, p.Y);
+
+                if (!visited.Contains(neighbor))
+                {
+                    visited.Add(neighbor);
+                    queue.Enqueue(neighbor);
+                    cameFrom[neighbor] = current;
+                }
+            }
+        }
+
+        return false;
+    }
+
+
+    private void Shuffle<T>(List<T> list)
+    {
+        for (int i = 0; i < list.Count; i++)
+        {
+            int j = UnityEngine.Random.Range(i, list.Count);
+            T temp = list[i];
+            list[i] = list[j];
+            list[j] = temp;
+        }
+    }
+
+    internal List<Vector3Int> PickRandomRoadPath(Vector3Int start, Vector3Int end)
+    {
+        List<List<Vector3Int>> allPaths = new List<List<Vector3Int>>();
+        FindAllRoadPaths(start, end, new HashSet<Vector3Int>(), new List<Vector3Int>(), allPaths);
+
+        if (allPaths.Count == 0)
+            return null;
+
+        int index = UnityEngine.Random.Range(0, allPaths.Count);
+        return allPaths[index];
+    }
+
+    private void FindAllRoadPaths(Vector3Int current, Vector3Int end, HashSet<Vector3Int> visited, List<Vector3Int> path, List<List<Vector3Int>> allPaths)
+    {
+        visited.Add(current);
+        path.Add(current);
+
+        if (current == end)
+        {
+            allPaths.Add(new List<Vector3Int>(path));
+        }
+        else
+        {
+            List<Point> neighbors = placementGrid.GetAdjacentCellsOfType(current.x, current.z, CellType.Road);
+            Shuffle(neighbors); // véletlen sorrend
+
+            foreach (Point p in neighbors)
+            {
+                Vector3Int neighbor = new Vector3Int(p.X, 0, p.Y);
+                if (!visited.Contains(neighbor))
+                {
+                    FindAllRoadPaths(neighbor, end, visited, path, allPaths);
+                }
+            }
+        }
+
+        visited.Remove(current);
+        path.RemoveAt(path.Count - 1);
+    }
 
     internal void RemoveAllTemporaryStructures()
     {

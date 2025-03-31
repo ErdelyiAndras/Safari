@@ -12,7 +12,8 @@ public class TouristManager : MonoBehaviour
     public PlacementManager placementManager;
     private List<Jeep> jeeps = new List<Jeep>();
     public GameObject jeepPrefab;
-    public Action SatisfactionChanged; // TODO feliratkozni rá a UI változásához
+    public Action<float> SatisfactionChanged; // TODO feliratkozni rá a UI változásához
+    public Action<int> TouristCountChanged; // TODO feliratkozni rá a UI változásához
 
     private void Start()
     {
@@ -32,12 +33,12 @@ public class TouristManager : MonoBehaviour
     public void TouristsArrive()
     {
         TouristsInQueue += 1;
+        TouristCountChanged?.Invoke(touristCount);
         // logic to calculate how many tourists arrive
     }
     private void TouristsLeave(Jeep jeep)
     {
         ModifySatisfaction(jeep.tourists.CalculateSatisfaction());
-        jeep.Return();
     }
 
     public void SetSpeedMultiplier(float multiplier)
@@ -60,11 +61,11 @@ public class TouristManager : MonoBehaviour
     private void ModifySatisfaction(int satisfaction)
     {
         Satisfaction = (Satisfaction + satisfaction) / 2;
-        SatisfactionChanged?.Invoke();
+        SatisfactionChanged?.Invoke(Satisfaction);
     }
     public void AcquireNewJeep()
     {
-        jeeps.Add(new Jeep(placementManager, jeepPrefab));
+        jeeps.Add(new Jeep(placementManager, jeepPrefab, this));
     }
 }
 

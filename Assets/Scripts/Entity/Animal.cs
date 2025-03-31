@@ -18,14 +18,15 @@ public abstract class Animal : Entity
         Mating
     }
     public Action AnimalDied;
-    protected float maxFood, maxDrink, foodThreshold, drinkThreshold, foodNutrition, drinkNutrition;
-    protected float remainingLifetime, food, drink;
-    protected readonly float basicViewDistance, viewExtendScale;
-    protected List<Vector3Int> discoveredFood, discoveredDrink; // TODO : ÁTTÉRNI RENDEZETT LISSTÁRA (pl: SortedArray), csak a herbivorenak van discoveredfood
-    protected float eatingTime, drinkingTime, restTime;
+    protected float maxFood = 100.0f, maxDrink = 100.0f, foodThreshold = 70.0f, drinkThreshold = 70.0f, foodNutrition = 30.0f, drinkNutrition = 30.0f;
+    protected float remainingLifetime = 100.0f, food = 100.0f, drink = 100.0f;
+    protected readonly float basicViewDistance = 10.0f, viewExtendScale = 2.0f;
+    protected List<Vector3Int> discoveredDrink; // TODO : ÁTTÉRNI RENDEZETT LISSTÁRA (pl: SortedArray), csak a herbivorenak van discoveredfood
+    protected float eatingTime = 2.0f, drinkingTime = 2.0f, restTime = 2.0f;
     private float elapsedTime = 0.0f;
     public float rotationSpeed = 5.0f;
-    private Vector3 targetPosition;
+    protected Vector3 targetPosition;
+    protected Herd myHerd;
 
     protected float ViewDistance { 
         get 
@@ -39,15 +40,18 @@ public abstract class Animal : Entity
 
     public Animal(GameObject prefab, PlacementManager _placementManager, Herd parent)
     {
-        parent.AddAnimalToHerd(this);
+        myHerd = parent;
+        //parent.AddAnimalToHerd(this);
         placementManager = _placementManager;
         spawnPosition = parent.Spawnpoint;
         SpawnEntity(prefab);
         baseMoveSpeed = 2.0f; // DEFAULT ÉRTÉK?!
         SpeedMultiplier = 1.0f; // EZT KELL ÁLLÍTANI
+        MyState = State.Moving;
+        targetPosition = spawnPosition;
     }
 
-    protected override void CheckState()
+    public override void CheckState()
     {
         switch(MyState)
         {
@@ -64,10 +68,13 @@ public abstract class Animal : Entity
                 MoveToWater();
                 break;
             case State.Eating:
+                WaitAction(eatingTime, ref food, foodNutrition, State.Resting);
                 break;
             case State.Drinking:
+                WaitAction(drinkingTime, ref drink, drinkNutrition, State.Resting);
                 break;
             case State.Mating:
+                WaitAction(restTime, State.Moving);
                 break;
 
         }
@@ -102,11 +109,14 @@ public abstract class Animal : Entity
 
     protected virtual void MatureAnimal()
     {
+        Debug.Log("Before decrese:" +remainingLifetime + " " + Health + " " + food + " " + drink);
         remainingLifetime--;
         food--;
         drink--;
         if (IsAnimalDead())
         {
+            Debug.Log("KILL CALL");
+            Debug.Log(remainingLifetime + " " + Health + " " + food + " " + drink);
             AnimalDies();
         }
         if (MyState != State.Eating && MyState != State.Drinking && MyState != State.Mating)
@@ -134,7 +144,10 @@ public abstract class Animal : Entity
     }
     abstract protected void MoveToFood(); // logika: keres a viewDistancen belül,
                                           // majd ha nem talál megy a legközelebbi eltárolthoz, ha ez sincs akkor megy random
-    abstract protected void MoveToWater(); // --||--
+    protected void MoveToWater()
+    {
+
+    }
 
     public void Advance()
     {
@@ -144,26 +157,28 @@ public abstract class Animal : Entity
 
     protected void AnimalDies()
     {
+        Debug.Log("Kill myself");
         UnityEngine.Object.Destroy(entityInstance);
         AnimalDied?.Invoke();
     }
 
-    public override void Move()
+    protected override void Move()
     {
-        if (Vector3.Distance(entityInstance.transform.position, targetPosition) < 0.1f)
+        if (Vector3.Distance(Position, targetPosition) < 0.1f)
         {
             ObjectArrived();
         }
         else
         {
-            // Szabadon tudjon mozogni, de vízre ne menjen --> 
-            entityInstance.transform.position = Vector3.MoveTowards(entityInstance.transform.position, targetPosition, MoveSpeed * Time.deltaTime);
-
-            Vector3 direction = targetPosition - entityInstance.transform.position;
+            Position = Vector3.MoveTowards(Position, targetPosition, MoveSpeed * Time.deltaTime);
+            Vector3 direction = targetPosition - Position;
+            DiscoverEnvironment();
             if (direction != Vector3.zero)
             {
+                // Szabadon tudjon mozogni, de vízre ne menjen --> 
                 Quaternion targetRotation = Quaternion.LookRotation(direction);
                 entityInstance.transform.rotation = Quaternion.Slerp(entityInstance.transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+                
             }
         }
     }
@@ -187,6 +202,8 @@ public abstract class Animal : Entity
         }
     }
 
+    abstract protected void DiscoverEnvironment();    
+
     private void SetRandomTargetPosition(bool inHerd = true)
     {
         // TODO belekalkulálni a Herd radiusát
@@ -205,5 +222,58 @@ public abstract class Animal : Entity
         } while (placementManager.IsPositionWalkable(new Vector3Int((int)randomX, 0, (int)randomZ)));
         
         targetPosition = new Vector3(randomX, 0, randomZ);
+    }
+
+    protected List<Vector3Int> SearchInViewDistance()
+    {
+        List<Vector3Int> result = new List<Vector3Int>();
+        Queue<Vector3Int> queue = new Queue<Vector3Int>();
+        HashSet<Vector3Int> visited = new HashSet<Vector3Int>();
+
+        Vector3Int startPosition = Vector3Int.RoundToInt(Position);
+        queue.Enqueue(startPosition);
+        visited.Add(startPosition);
+
+        while (queue.Count > 0)
+        {
+            Vector3Int current = queue.Dequeue();
+            if (placementManager.GetTypeOfPosition(current) == CellType.Nature)
+            {
+                result.Add(current);
+            }
+
+            if (Vector3Int.Distance(startPosition, current) <= ViewDistance)
+            {
+                foreach (Vector3Int neighbor in GetNeighbors(current))
+                {
+                    if (!visited.Contains(neighbor))
+                    {
+                        queue.Enqueue(neighbor);
+                        visited.Add(neighbor);
+                    }
+                }
+            }
+        }
+
+        return result;
+    }
+
+    private List<Vector3Int> GetNeighbors(Vector3Int position)
+    {
+        List<Vector3Int> neighbors = new List<Vector3Int>
+        {
+            position + Vector3Int.right,
+            position + Vector3Int.left,
+            position + Vector3Int.up,
+            position + Vector3Int.down,
+            position + new Vector3Int(1, 0, 1),
+            position + new Vector3Int(1, 0, -1),
+            position + new Vector3Int(-1, 0, 1),
+            position + new Vector3Int(-1, 0, -1)
+        };
+
+        neighbors.RemoveAll(neighbor => !placementManager.CheckIfPositionInBound(neighbor) || !placementManager.IsPositionWalkable(neighbor));
+
+        return neighbors;
     }
 }

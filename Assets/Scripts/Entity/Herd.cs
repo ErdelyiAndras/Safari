@@ -7,7 +7,7 @@ public class Herd
     public int Count {  get { return animals.Count; } }
     private Vector2Int centroid;
     public Vector3Int Spawnpoint { get { return new Vector3Int(centroid.x, 0, centroid.y); } }
-    private int distributionRadius = 5;
+    public int DistributionRadius { get; }
 
     public Herd()
     {
@@ -33,6 +33,14 @@ public class Herd
         foreach (Animal animal in animals)
         {
             animal.Advance();
+        }
+    }
+
+    public void SetSpeedMultiplier(float multiplier)
+    {
+        foreach (Animal animal in animals)
+        {
+            animal.SpeedMultiplier = multiplier;
         }
     }
 

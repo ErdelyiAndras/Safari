@@ -56,6 +56,7 @@ public class GameManager : MonoBehaviour
   
         timeManager.Elapsed += () => TimeManagerElapsedHandler();
         timeManager.Elapsed += () => touristManager.TouristsArrive();
+        timeManager.Elapsed += () => animalManager.AgeAnimals();
         timeManager.TimeIntervalChanged += () => SetSpeedMultiplierOfEntities();
     }
 

@@ -15,16 +15,23 @@ public class AnimalManager : MonoBehaviour
     {
         foreach(var herd in herds)
         {
-            herd.ManageAnimals();
             herd.CalculateCentroid();
+        }
+    }
+
+    public void AgeAnimals()
+    {
+        foreach (var herd in herds)
+        {
+            herd.ManageAnimals();
         }
     }
 
     public void SetSpeedMultiplier(float multiplier)
     {
-        foreach (var animal in spawnedAnimals)
+        foreach (var herd in herds)
         {
-            animal.SpeedMultiplier = multiplier;
+            herd.SetSpeedMultiplier(multiplier);
         }
     }
     public void BuyCarnivore1()
@@ -40,7 +47,7 @@ public class AnimalManager : MonoBehaviour
     public void BuyHerbivore1()
     {
         Herd id = ChooseHerd();
-        new Herbivore1(herbivore1Prefab, placementManager, id);
+        id.AddAnimalToHerd(new Herbivore1(herbivore1Prefab, placementManager, id));
     }
     public void BuyHerbivore2()
     {
@@ -50,6 +57,12 @@ public class AnimalManager : MonoBehaviour
 
     private Herd ChooseHerd()
     {
+        if (herds.Count == 0)
+        {
+            Herd newHerd = new Herd();
+            herds.Add(newHerd);
+            return newHerd;
+        }
         int mincount = int.MaxValue;
         Herd choosenHerd = null;
         int random = UnityEngine.Random.Range(0, 10);
@@ -64,6 +77,7 @@ public class AnimalManager : MonoBehaviour
                 }
             }
             return choosenHerd;
+            
         }
         else
         {
