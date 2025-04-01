@@ -24,16 +24,7 @@ public class GameManager : MonoBehaviour
     {
         economyManager.InitMoney(gameDifficulty);
 
-        uiController.UpdateMoneyPanel(economyManager.Money);
-        uiController.UpdateAdmissionFeePanel(economyManager.AdmissionFee);
-        uiController.UpdateDatePanel(timeManager.CurrentTime);
-        uiController.UpdateJeepPanel(touristManager.JeepCount);
-        //uiController.UpdateCarnivore1Panel(animalManager.Carnivore1Count);
-        //uiController.UpdateCarnivore2Panel(animalManager.Carnivore2Count);
-        //uiController.UpdateHerbivore1Panel(animalManager.Herbivore1Count);
-        //uiController.UpdateHerbivore2Panel(animalManager.Herbivore2Count);
-        uiController.UpdateSatisfactionPanel(touristManager.Satisfaction);
-        uiController.UpdateTouristsPanel(touristManager.TouristsInQueue);
+        InitUIData();
 
         uiController.admissionFeeEndEdit += admissionFee =>
         {
@@ -61,7 +52,8 @@ public class GameManager : MonoBehaviour
         uiController.RemoveButtonPressed += isCancellation => RemoveObjectHandler(isCancellation);
 
         economyManager.GoneBankrupt += () => GameOverHandler(false);
-  
+        economyManager.moneyChanged += money => uiController.UpdateMoneyPanel(money);
+
         timeManager.Elapsed += () => TimeManagerElapsedHandler();
         timeManager.Elapsed += () => touristManager.TouristsArrive();
         timeManager.Elapsed += () => uiController.UpdateDatePanel(timeManager.CurrentTime);
@@ -110,7 +102,6 @@ public class GameManager : MonoBehaviour
             if (result)
             {
                 economyManager.SpendMoney(cost);
-                uiController.UpdateMoneyPanel(economyManager.Money);
             }
         };
     }
@@ -122,7 +113,6 @@ public class GameManager : MonoBehaviour
         {
             animalManager.BuyCarnivore1();
             economyManager.SpendMoney(economyManager.UnitCostOfCarnivore);
-            uiController.UpdateMoneyPanel(economyManager.Money);
         }
     }
 
@@ -133,7 +123,6 @@ public class GameManager : MonoBehaviour
         {
             animalManager.BuyCarnivore2();
             economyManager.SpendMoney(economyManager.UnitCostOfCarnivore);
-            uiController.UpdateMoneyPanel(economyManager.Money);
         }
     }
 
@@ -144,7 +133,6 @@ public class GameManager : MonoBehaviour
         {
             animalManager.BuyHerbivore1();
             economyManager.SpendMoney(economyManager.UnitCostOfHerbivore);
-            uiController.UpdateMoneyPanel(economyManager.Money);
         }
     }
 
@@ -155,7 +143,6 @@ public class GameManager : MonoBehaviour
         {
             animalManager.BuyHerbivore2();
             economyManager.SpendMoney(economyManager.UnitCostOfHerbivore);
-            uiController.UpdateMoneyPanel(economyManager.Money);
         }
     }
 
@@ -176,7 +163,6 @@ public class GameManager : MonoBehaviour
             if (result)
             {
                 economyManager.SpendMoney(cost);
-                uiController.UpdateMoneyPanel(economyManager.Money);
             }
         };
     }
@@ -198,7 +184,6 @@ public class GameManager : MonoBehaviour
             if (result)
             {
                 economyManager.SpendMoney(cost);
-                uiController.UpdateMoneyPanel(economyManager.Money);
             }
         };
     }
@@ -248,7 +233,6 @@ public class GameManager : MonoBehaviour
     private void TimeManagerElapsedHandler()
     {
         economyManager.DailyMaintenance();
-        uiController.UpdateMoneyPanel(economyManager.Money);
     }
 
     private void SetSpeedMultiplierOfEntities()
@@ -270,4 +254,17 @@ public class GameManager : MonoBehaviour
         }
     }
     
+    private void InitUIData()
+    {
+        uiController.UpdateMoneyPanel(economyManager.Money);
+        uiController.UpdateAdmissionFeePanel(economyManager.AdmissionFee);
+        uiController.UpdateDatePanel(timeManager.CurrentTime);
+        uiController.UpdateJeepPanel(touristManager.JeepCount);
+        //uiController.UpdateCarnivore1Panel(animalManager.Carnivore1Count);
+        //uiController.UpdateCarnivore2Panel(animalManager.Carnivore2Count);
+        //uiController.UpdateHerbivore1Panel(animalManager.Herbivore1Count);
+        //uiController.UpdateHerbivore2Panel(animalManager.Herbivore2Count);
+        uiController.UpdateSatisfactionPanel(touristManager.Satisfaction);
+        uiController.UpdateTouristsPanel(touristManager.TouristsInQueue);
+    }
 }

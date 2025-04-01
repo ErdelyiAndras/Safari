@@ -109,5 +109,6 @@ public class TimeManager : MonoBehaviour
     public void TogglePause()
     {
         isPaused = !isPaused;
+        TimeIntervalChanged?.Invoke();
     }
 }
