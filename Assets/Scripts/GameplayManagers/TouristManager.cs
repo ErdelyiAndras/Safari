@@ -13,7 +13,7 @@ public class TouristManager : MonoBehaviour
     private List<Jeep> jeeps = new List<Jeep>();
     public GameObject jeepPrefab;
     public Action<float> SatisfactionChanged; // TODO feliratkozni rá a UI változásához
-    public Action<int> TouristCountChanged; // TODO feliratkozni rá a UI változásához
+    public Action<int> TouristsInQueueChanged; // TODO feliratkozni rá a UI változásához
 
     private void Start()
     {
@@ -33,7 +33,7 @@ public class TouristManager : MonoBehaviour
     public void TouristsArrive()
     {
         TouristsInQueue += 1;
-        TouristCountChanged?.Invoke(touristCount);
+        TouristsInQueueChanged?.Invoke(touristCount);
         // logic to calculate how many tourists arrive
     }
     private void TouristsLeave(Jeep jeep)

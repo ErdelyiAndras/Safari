@@ -7,6 +7,7 @@ public class HerbivoreBase : Animal
     List<Vector3Int> discoveredFood;
     public HerbivoreBase(GameObject prefab, PlacementManager _placementManager, Herd parent) : base(prefab, _placementManager, parent)
     {
+        discoveredFood = new List<Vector3Int>();
     }
     protected override void MoveToFood()
     {

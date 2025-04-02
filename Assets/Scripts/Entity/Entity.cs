@@ -6,8 +6,9 @@ public abstract class Entity
     protected GameObject entityInstance;
     protected PlacementManager placementManager;
     protected int visionRange;
-    protected float baseMoveSpeed;
+    protected float baseMoveSpeed, baseRotationSpeed;
     protected float MoveSpeed { get { return baseMoveSpeed * SpeedMultiplier; } }
+    protected float RotationSpeed { get { return baseRotationSpeed * SpeedMultiplier; } }
     public float SpeedMultiplier { get; set; }
     public Vector3 Position 
     {

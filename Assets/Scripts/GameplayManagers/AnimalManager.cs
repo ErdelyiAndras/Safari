@@ -16,6 +16,7 @@ public class AnimalManager : MonoBehaviour
         foreach(var herd in herds)
         {
             herd.CalculateCentroid();
+            herd.CheckState();
         }
     }
 
@@ -23,7 +24,7 @@ public class AnimalManager : MonoBehaviour
     {
         foreach (var herd in herds)
         {
-            herd.ManageAnimals();
+            herd.AgeAnimals();
         }
     }
 
@@ -46,8 +47,11 @@ public class AnimalManager : MonoBehaviour
     }
     public void BuyHerbivore1()
     {
+        Debug.Log("Buying Herbivore 1");
         Herd id = ChooseHerd();
-        id.AddAnimalToHerd(new Herbivore1(herbivore1Prefab, placementManager, id));
+        Animal animal = new Herbivore1(herbivore1Prefab, placementManager, id);
+        Debug.Log(animal);
+        id.AddAnimalToHerd(animal);
     }
     public void BuyHerbivore2()
     {
@@ -59,7 +63,7 @@ public class AnimalManager : MonoBehaviour
     {
         if (herds.Count == 0)
         {
-            Herd newHerd = new Herd();
+            Herd newHerd = new Herd(placementManager);
             herds.Add(newHerd);
             return newHerd;
         }
@@ -81,7 +85,7 @@ public class AnimalManager : MonoBehaviour
         }
         else
         {
-            Herd newHerd = new Herd();
+            Herd newHerd = new Herd(placementManager);
             herds.Add(newHerd);
             return newHerd;
         }

@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using TMPro.EditorUtilities;
-using Unity.VisualScripting;
 using UnityEngine;
 
 
@@ -21,8 +19,8 @@ public abstract class Animal : Entity
     protected float maxFood = 100.0f, maxDrink = 100.0f, foodThreshold = 70.0f, drinkThreshold = 70.0f, foodNutrition = 30.0f, drinkNutrition = 30.0f;
     protected float remainingLifetime = 100.0f, food = 100.0f, drink = 100.0f;
     protected readonly float basicViewDistance = 10.0f, viewExtendScale = 2.0f;
-    protected List<Vector3Int> discoveredDrink; // TODO : ÁTTÉRNI RENDEZETT LISSTÁRA (pl: SortedArray), csak a herbivorenak van discoveredfood
-    protected float eatingTime = 2.0f, drinkingTime = 2.0f, restTime = 2.0f;
+    protected List<Vector3Int> discoveredDrink;
+    protected float eatingTime = 2.0f, drinkingTime = 2.0f, restTime = 5.0f;
     private float elapsedTime = 0.0f;
     public float rotationSpeed = 5.0f;
     protected Vector3 targetPosition;
@@ -49,10 +47,11 @@ public abstract class Animal : Entity
         SpeedMultiplier = 1.0f; // EZT KELL ÁLLÍTANI
         MyState = State.Moving;
         targetPosition = spawnPosition;
+        Debug.Log("Animal contructed");
     }
 
     public override void CheckState()
-    {
+    {   
         switch(MyState)
         {
             case State.Resting:
@@ -78,6 +77,7 @@ public abstract class Animal : Entity
                 break;
 
         }
+        
     }
 
     private void WaitAction(float duration, ref float toAdvance, float advanceStep, State changeStateTo)
@@ -104,6 +104,7 @@ public abstract class Animal : Entity
         {
             MyState = changeStateTo;
             elapsedTime = 0.0f;
+            Debug.Log("State changed to: " + changeStateTo);
         }
     }
 
@@ -149,10 +150,9 @@ public abstract class Animal : Entity
 
     }
 
-    public void Advance()
+    public void AgeAnimal()
     {
         MatureAnimal();
-        CheckState();
     }
 
     protected void AnimalDies()
@@ -185,11 +185,13 @@ public abstract class Animal : Entity
 
     private void ObjectArrived()
     {
+        Debug.Log("ObjectArrived");
         SetRandomTargetPosition();
         switch (MyState) 
         {
             case State.Moving:
                 MyState = State.Resting;
+                Debug.Log("State changed to: Resting");
                 break;
             case State.SearchingForFood:
                 MyState = State.Eating;
@@ -207,21 +209,31 @@ public abstract class Animal : Entity
     private void SetRandomTargetPosition(bool inHerd = true)
     {
         // TODO belekalkulálni a Herd radiusát
-        float randomX = 0, randomZ = 0;
+        float randomX, randomZ; ;
+        bool xDirection, zDirection;
+        Vector3 temporatyPosition;
         do
         {
             if (inHerd)
             {
                 // TODO A herden belül random pozicio
+                randomX = UnityEngine.Random.Range(0, myHerd.DistributionRadius + 1);
+                randomZ = UnityEngine.Random.Range(0, myHerd.DistributionRadius + 1);
+                xDirection = UnityEngine.Random.Range(0, 2) == 0;
+                zDirection = UnityEngine.Random.Range(0, 2) == 0;
+                randomX = xDirection ? randomX : -randomX;
+                randomZ = zDirection ? randomZ : -randomZ;
+                temporatyPosition = new Vector3(Position.x + randomX, 0, Position.z + randomZ);
             }
             else
             {
                 randomX = UnityEngine.Random.Range(0, placementManager.width);
                 randomZ = UnityEngine.Random.Range(0, placementManager.height);
+                temporatyPosition = new Vector3(randomX, 0, randomZ);
             }
-        } while (placementManager.IsPositionWalkable(new Vector3Int((int)randomX, 0, (int)randomZ)));
-        
-        targetPosition = new Vector3(randomX, 0, randomZ);
+        } while (!placementManager.CheckIfPositionInBound(Vector3Int.RoundToInt(temporatyPosition)) || !placementManager.IsPositionWalkable(Vector3Int.RoundToInt(temporatyPosition)));
+        Debug.Log("Random position: " + temporatyPosition);
+        targetPosition = temporatyPosition;
     }
 
     protected List<Vector3Int> SearchInViewDistance()

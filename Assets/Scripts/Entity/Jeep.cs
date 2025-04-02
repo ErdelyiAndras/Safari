@@ -19,7 +19,6 @@ public class Jeep : Entity
     private Vector3 endPosition;
     public TouristGroup tourists;
 
-    public float rotationSpeed = 5.0f;
     private Vector3 targetPosition;
 
     private List<Vector3Int> jeepPath;
@@ -41,6 +40,7 @@ public class Jeep : Entity
         baseMoveSpeed = 1.0f; // DEFAULT ÉRTÉK?!
         SpeedMultiplier = 1.0f; // EZT KELL ÁLLÍTANI
         hasFullPath = false;
+        baseRotationSpeed = 5.0f;
     }
 
     public override void CheckState()
@@ -123,7 +123,7 @@ public class Jeep : Entity
             entityInstance.transform.rotation = Quaternion.Slerp(
                 entityInstance.transform.rotation,
                 targetRotation,
-                rotationSpeed * Time.deltaTime
+                RotationSpeed * Time.deltaTime
             );
         }
 

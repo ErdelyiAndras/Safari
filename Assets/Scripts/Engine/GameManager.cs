@@ -250,6 +250,7 @@ public class GameManager : MonoBehaviour
     private void SetSpeedMultiplierOfEntities()
     {
         //animalManager.SetSpeedMultiplier(timeManager.EntitySpeedMultiplier);
+        touristManager.SetSpeedMultiplier(timeManager.EntitySpeedMultiplier);
 
     }
 
