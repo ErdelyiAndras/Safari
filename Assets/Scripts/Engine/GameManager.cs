@@ -33,7 +33,7 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        cameraMovement.MoveCamera(new Vector3(inputManager.CameraMovementVector.x,0, inputManager.CameraMovementVector.y));
+        cameraMovement.MoveCamera(new Vector3(inputManager.CameraMovementVector.x, 0, inputManager.CameraMovementVector.y));
     }
 
 
@@ -69,7 +69,7 @@ public class GameManager : MonoBehaviour
         {
             int cost = roadManager.Count * economyManager.UnitCostOfRoad;
             bool result = economyManager.HasEnoughMoney(cost);
-            roadManager.FinalizeObject(result); // ez itt nem az if-en belül kell lennie?
+            roadManager.FinalizeObject(result);
             if (result)
             {
                 economyManager.SpendMoney(cost);
@@ -201,11 +201,6 @@ public class GameManager : MonoBehaviour
         inputManager.OnMouseClick += placementManager.RemoveStructure;
     }
 
-    private void TimeManagerElapsedHandler()
-    {
-        economyManager.DailyMaintenance();
-    }
-
     private void SetSpeedMultiplierOfEntities()
     {
         //animalManager.SetSpeedMultiplier(timeManager.EntitySpeedMultiplier);
@@ -275,7 +270,7 @@ public class GameManager : MonoBehaviour
 
     private void TimeManagerEventSubsciption()
     {
-        timeManager.Elapsed += () => TimeManagerElapsedHandler();
+        timeManager.Elapsed += () => economyManager.DailyMaintenance();
         timeManager.Elapsed += () => touristManager.TouristsArrive();
         timeManager.Elapsed += () => uiController.UpdateDatePanel(timeManager.CurrentTime);
         timeManager.TimeIntervalChanged += () => SetSpeedMultiplierOfEntities();
