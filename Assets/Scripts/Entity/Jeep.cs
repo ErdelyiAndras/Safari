@@ -19,6 +19,7 @@ public class Jeep : Entity
     private Vector3 endPosition;
     public TouristGroup tourists;
 
+
     private Vector3 targetPosition;
 
     private List<Vector3Int> jeepPath;
@@ -32,15 +33,15 @@ public class Jeep : Entity
         placementManager = _placementManager;
         endPosition = new Vector3Int(placementManager.width - 1, 0, placementManager.height - 1);
         spawnPosition = new Vector3(0, 0, 0);
-        //MyState = State.Moving;
-        MyState = State.Waiting; // Ez legyen State.Moving helyett, ha már lesznek túristák
+        MyState = State.Waiting;
         tourists = new TouristGroup();
-        tourists.readyToGo += () => MyState = State.Moving; // Ez kell majd ha lesznek túristák
+        tourists.readyToGo += () => MyState = State.Moving;
         SpawnEntity(prefab, parent.transform);
-        baseMoveSpeed = 1.0f; // DEFAULT ÉRTÉK?!
-        SpeedMultiplier = 1.0f; // EZT KELL ÁLLÍTANI
+        baseMoveSpeed = 1.0f; // TO BE BALANCED
+        SpeedMultiplier = 1.0f; // TO BE BALANCED
         hasFullPath = false;
         baseRotationSpeed = 5.0f;
+
     }
 
     public override void CheckState()
@@ -100,6 +101,7 @@ public class Jeep : Entity
         }
     }
 
+
     protected override void Move()
     {
         Vector3 target = new Vector3(
@@ -124,6 +126,7 @@ public class Jeep : Entity
                 entityInstance.transform.rotation,
                 targetRotation,
                 RotationSpeed * Time.deltaTime
+
             );
         }
 

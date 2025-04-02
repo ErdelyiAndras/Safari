@@ -34,6 +34,7 @@ public class TimeManager : MonoBehaviour
         }
     }
 
+    private DateTime currentTime;
     private float elapsedTime;
     private bool isPaused;
 
@@ -42,6 +43,11 @@ public class TimeManager : MonoBehaviour
     public bool IsPaused
     {
         get { return isPaused; }
+    }
+
+    public string CurrentTime
+    {
+        get { return currentTime.ToString("yyyy-MM-dd"); }
     }
 
     private float WaitTime
@@ -66,6 +72,7 @@ public class TimeManager : MonoBehaviour
         elapsedTime = 0.0f;
         isPaused = false;
         timeInterval = TimeInterval.HOUR;
+        currentTime = DateTime.Now;
     }
 
     private void Update()
@@ -87,6 +94,7 @@ public class TimeManager : MonoBehaviour
             if (tickCounter % WaitTime == 0)
             {
                 tickCounter = 0;
+                currentTime = currentTime.AddDays(1);
                 Elapsed?.Invoke();
             }
         }

@@ -5,7 +5,7 @@ using System;
 using System.Xml;
 
 
-public class AnimalManager : MonoBehaviour
+public class AnimalManager : MonoBehaviour, ITimeHandler
 {
     public PlacementManager placementManager;
     public GameObject carnivore1Prefab, carnivore2Prefab, herbivore1Prefab, herbivore2Prefab;
@@ -20,7 +20,7 @@ public class AnimalManager : MonoBehaviour
         }
     }
 
-    public void AgeAnimals()
+    public void ManageTick()
     {
         foreach (var herd in herds)
         {

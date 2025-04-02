@@ -72,6 +72,14 @@ public class UIController : MonoBehaviour
 
     public Text moneyText;
     public InputField admissionFeeInputField;
+    public Text dateText;
+    public Text jeepCount;
+    public Text carnivore1Count;
+    public Text carnivore2Count;
+    public Text herbivore1Count;
+    public Text herbivore2Count;
+    public Text satisfactionCount;
+    public Text touristCount;
 
     public Action<int> admissionFeeEndEdit;
 
@@ -186,6 +194,70 @@ public class UIController : MonoBehaviour
         if (moneyText != null)
         {
             moneyText.text = $"$ {money.ToString()}";
+        }
+    }
+
+    public void UpdateDatePanel(string date)
+    {
+        if (dateText != null)
+        {
+            dateText.text = date;
+        }
+    }
+
+    public void UpdateJeepPanel(int jeep)
+    {
+        if (jeepCount != null)
+        {
+            jeepCount.text = jeep.ToString();
+        }
+    }
+
+    public void UpdateCarnivore1Panel(int carnivore1)
+    {
+        if (carnivore1Count != null)
+        {
+            carnivore1Count.text = carnivore1.ToString();
+        }
+    }
+
+    public void UpdateCarnivore2Panel(int carnivore2)
+    {
+        if (carnivore2Count != null)
+        {
+            carnivore2Count.text = carnivore2.ToString();
+        }
+    }
+
+    public void UpdateHerbivore1Panel(int herbivore1)
+    {
+        if (herbivore1Count != null)
+        {
+            herbivore1Count.text = herbivore1.ToString();
+        }
+    }
+
+    public void UpdateHerbivore2Panel(int herbivore2)
+    {
+        if (herbivore2Count != null)
+        {
+            herbivore2Count.text = herbivore2.ToString();
+        }
+    }
+
+    public void UpdateSatisfactionPanel(float satisfaction)
+    {
+        if (satisfactionCount != null)
+        {
+            satisfactionCount.text = satisfaction.ToString();
+        }
+    }
+
+    public void UpdateTouristsPanel(int tourist)
+    {
+        if (touristCount != null)
+        {
+            touristCount.text = tourist.ToString();
         }
     }
 

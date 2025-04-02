@@ -183,6 +183,7 @@ public abstract class Animal : Entity
         }
     }
 
+<<<<<<< HEAD
     private void ObjectArrived()
     {
         Debug.Log("ObjectArrived");
@@ -201,6 +202,26 @@ public abstract class Animal : Entity
                 break;
             default:
                 break;
+=======
+    //István
+    public float rotationSpeed = 5.0f;
+    private Vector3 targetPosition;
+
+    public override void Move()
+    {
+        if (Vector3.Distance(Position, targetPosition) < 0.1f)
+        {
+            SetRandomTargetPosition();
+        }
+
+        Position = Vector3.MoveTowards(Position, targetPosition, MoveSpeed * Time.deltaTime);
+
+        Vector3 direction = targetPosition - Position;
+        if (direction != Vector3.zero)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(direction);
+            entityInstance.transform.rotation = Quaternion.Slerp(entityInstance.transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+>>>>>>> dev-main
         }
     }
 

@@ -153,6 +153,7 @@ public class PlacementManager : MonoBehaviour
     }
 
     internal Vector3Int RoundPosition(Vector3 position) => new Vector3Int((int)position.x, (int)position.y, (int)position.z);
+
     internal bool HasFullPath(Vector3Int start, Vector3Int end)
     {
         return TryFindRoadPath(start, end, out _);

@@ -11,6 +11,8 @@ public class EconomyManager : MonoBehaviour
     public int money;
     private int admissionFee = 40;
 
+    public Action<int> moneyChanged;
+
     private bool wasInitialized = false;
 
     private int maintenanceFee = 20;
@@ -75,6 +77,7 @@ public class EconomyManager : MonoBehaviour
     public void SpendMoney(int amount)
     {
         money -= amount;
+        moneyChanged?.Invoke(money);
         CheckIfGameOver();
     }
 
@@ -102,6 +105,4 @@ public class EconomyManager : MonoBehaviour
     {
         GoneBankrupt?.Invoke();
     }
-
 }
-

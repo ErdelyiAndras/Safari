@@ -24,45 +24,15 @@ public class GameManager : MonoBehaviour
     {
         economyManager.InitMoney(gameDifficulty);
 
-        uiController.UpdateMoneyPanel(economyManager.Money);
-        uiController.UpdateAdmissionFeePanel(economyManager.AdmissionFee);
-
-        uiController.admissionFeeEndEdit += admissionFee =>
-        {
-            economyManager.AdmissionFee = admissionFee;
-            uiController.UpdateAdmissionFeePanel(economyManager.AdmissionFee);
-        };
-
-        uiController.JeepButtonPressed += JeepPurchaseHandler;
-        uiController.RoadButtonPressed += isCancellation => RoadPlacementHandler(isCancellation);
-        uiController.Carnivore1ButtonPressed += () => Carnivore1PurchaseHandler();
-        uiController.Carnivore2ButtonPressed += () => Carnivore2PurchaseHandler();
-        uiController.Herbivore1ButtonPressed += () => Herbivore1PurchaseHandler();
-        uiController.Herbivore2ButtonPressed += () => Herbivore2PurchaseHandler();
-        uiController.Plant1ButtonPressed += isCancellation => NaturePlacementHandler(isCancellation, Plant1);
-        uiController.Plant2ButtonPressed += isCancellation => NaturePlacementHandler(isCancellation, Plant2);
-        uiController.Plant3ButtonPressed += isCancellation => NaturePlacementHandler(isCancellation, Plant3);
-        uiController.LakeButtonPressed += isCancellation => WaterPlacementHandler(isCancellation);
-
-        uiController.PauseButtonPressed += PauseButtonHandler;
-        uiController.HourButtonPressed += HourButtonHandler;
-        uiController.DayButtonPressed += DayButtonHandler;
-        uiController.WeekButtonPressed += WeekButtonHandler;
-
-        uiController.SellButtonPressed += isCancellation => SellAnimalHandler(isCancellation);
-        uiController.RemoveButtonPressed += isCancellation => RemoveObjectHandler(isCancellation);
-
-        economyManager.GoneBankrupt += () => GameOverHandler(false);
-  
-        timeManager.Elapsed += () => TimeManagerElapsedHandler();
-        timeManager.Elapsed += () => touristManager.TouristsArrive();
-        timeManager.Elapsed += () => animalManager.AgeAnimals();
-        timeManager.TimeIntervalChanged += () => SetSpeedMultiplierOfEntities();
+        InitUIData();
+        UIControllerEventSubscription();
+        EconomyManagerEventSubscription();
+        TimeManagerEventSubsciption();
     }
 
     private void Update()
     {
-        cameraMovement.MoveCamera(new Vector3(inputManager.CameraMovementVector.x,0, inputManager.CameraMovementVector.y));
+        cameraMovement.MoveCamera(new Vector3(inputManager.CameraMovementVector.x, 0, inputManager.CameraMovementVector.y));
     }
 
 
@@ -102,7 +72,6 @@ public class GameManager : MonoBehaviour
             if (result)
             {
                 economyManager.SpendMoney(cost);
-                uiController.UpdateMoneyPanel(economyManager.Money);
             }
         };
     }
@@ -114,9 +83,7 @@ public class GameManager : MonoBehaviour
         {
             animalManager.BuyCarnivore1();
             economyManager.SpendMoney(economyManager.UnitCostOfCarnivore);
-            uiController.UpdateMoneyPanel(economyManager.Money);
         }
-        //animalManager.SpawnAnimal(animalManager.carnivore1Prefab);
     }
 
     private void Carnivore2PurchaseHandler()
@@ -126,9 +93,7 @@ public class GameManager : MonoBehaviour
         {
             animalManager.BuyCarnivore2();
             economyManager.SpendMoney(economyManager.UnitCostOfCarnivore);
-            uiController.UpdateMoneyPanel(economyManager.Money);
         }
-        //animalManager.SpawnAnimal(animalManager.carnivore2Prefab);
     }
 
     private void Herbivore1PurchaseHandler()
@@ -138,9 +103,7 @@ public class GameManager : MonoBehaviour
         {
             animalManager.BuyHerbivore1();
             economyManager.SpendMoney(economyManager.UnitCostOfHerbivore);
-            uiController.UpdateMoneyPanel(economyManager.Money);
         }
-        //animalManager.SpawnAnimal(animalManager.herbivore1Prefab);
     }
 
     private void Herbivore2PurchaseHandler()
@@ -150,9 +113,7 @@ public class GameManager : MonoBehaviour
         {
             animalManager.BuyHerbivore2();
             economyManager.SpendMoney(economyManager.UnitCostOfHerbivore);
-            uiController.UpdateMoneyPanel(economyManager.Money);
         }
-        //animalManager.SpawnAnimal(animalManager.herbivore2Prefab);
     }
 
     private void NaturePlacementHandler(bool isCancellation, GameObject type)
@@ -172,7 +133,6 @@ public class GameManager : MonoBehaviour
             if (result)
             {
                 economyManager.SpendMoney(cost);
-                uiController.UpdateMoneyPanel(economyManager.Money);
             }
         };
     }
@@ -194,7 +154,6 @@ public class GameManager : MonoBehaviour
             if (result)
             {
                 economyManager.SpendMoney(cost);
-                uiController.UpdateMoneyPanel(economyManager.Money);
             }
         };
     }
@@ -241,15 +200,9 @@ public class GameManager : MonoBehaviour
         inputManager.OnMouseClick += placementManager.RemoveStructure;
     }
 
-    private void TimeManagerElapsedHandler()
-    {
-        economyManager.DailyMaintenance();
-        uiController.UpdateMoneyPanel(economyManager.Money);
-    }
-
     private void SetSpeedMultiplierOfEntities()
     {
-        //animalManager.SetSpeedMultiplier(timeManager.EntitySpeedMultiplier);
+        animalManager.SetSpeedMultiplier(timeManager.EntitySpeedMultiplier);
         touristManager.SetSpeedMultiplier(timeManager.EntitySpeedMultiplier);
 
     }
@@ -267,4 +220,61 @@ public class GameManager : MonoBehaviour
         }
     }
     
+    private void InitUIData()
+    {
+        uiController.UpdateMoneyPanel(economyManager.Money);
+        uiController.UpdateAdmissionFeePanel(economyManager.AdmissionFee);
+        uiController.UpdateDatePanel(timeManager.CurrentTime);
+        uiController.UpdateJeepPanel(touristManager.JeepCount);
+        //uiController.UpdateCarnivore1Panel(animalManager.Carnivore1Count);
+        //uiController.UpdateCarnivore2Panel(animalManager.Carnivore2Count);
+        //uiController.UpdateHerbivore1Panel(animalManager.Herbivore1Count);
+        //uiController.UpdateHerbivore2Panel(animalManager.Herbivore2Count);
+        uiController.UpdateSatisfactionPanel(touristManager.Satisfaction);
+        uiController.UpdateTouristsPanel(touristManager.TouristsInQueue);
+    }
+
+    private void UIControllerEventSubscription()
+    {
+        uiController.admissionFeeEndEdit += admissionFee =>
+        {
+            economyManager.AdmissionFee = admissionFee;
+            uiController.UpdateAdmissionFeePanel(economyManager.AdmissionFee);
+        };
+
+        uiController.JeepButtonPressed += JeepPurchaseHandler;
+        uiController.RoadButtonPressed += isCancellation => RoadPlacementHandler(isCancellation);
+        uiController.Carnivore1ButtonPressed += () => Carnivore1PurchaseHandler();
+        uiController.Carnivore2ButtonPressed += () => Carnivore2PurchaseHandler();
+        uiController.Herbivore1ButtonPressed += () => Herbivore1PurchaseHandler();
+        uiController.Herbivore2ButtonPressed += () => Herbivore2PurchaseHandler();
+        uiController.Plant1ButtonPressed += isCancellation => NaturePlacementHandler(isCancellation, Plant1);
+        uiController.Plant2ButtonPressed += isCancellation => NaturePlacementHandler(isCancellation, Plant2);
+        uiController.Plant3ButtonPressed += isCancellation => NaturePlacementHandler(isCancellation, Plant3);
+        uiController.LakeButtonPressed += isCancellation => WaterPlacementHandler(isCancellation);
+
+        uiController.PauseButtonPressed += PauseButtonHandler;
+        uiController.HourButtonPressed += HourButtonHandler;
+        uiController.DayButtonPressed += DayButtonHandler;
+        uiController.WeekButtonPressed += WeekButtonHandler;
+
+        uiController.SellButtonPressed += isCancellation => SellAnimalHandler(isCancellation);
+        uiController.RemoveButtonPressed += isCancellation => RemoveObjectHandler(isCancellation);
+    }
+
+    private void EconomyManagerEventSubscription()
+    {
+        economyManager.GoneBankrupt += () => GameOverHandler(false);
+        economyManager.moneyChanged += money => uiController.UpdateMoneyPanel(money);
+    }
+
+    private void TimeManagerEventSubsciption()
+    {
+        timeManager.Elapsed += () => economyManager.DailyMaintenance();
+        timeManager.Elapsed += () => touristManager.ManageTick();
+        timeManager.Elapsed += () => animalManager.ManageTick();
+        timeManager.Elapsed += () => uiController.UpdateDatePanel(timeManager.CurrentTime);
+
+        timeManager.TimeIntervalChanged += () => SetSpeedMultiplierOfEntities();
+    }
 }

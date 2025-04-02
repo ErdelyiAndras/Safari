@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class TouristManager : MonoBehaviour
+public class TouristManager : MonoBehaviour, ITimeHandler
 {
     public float Satisfaction { get; private set; }
     private int touristCount;
@@ -29,13 +29,6 @@ public class TouristManager : MonoBehaviour
     }
     
     public int JeepCount => jeeps.Count;
-
-    public void TouristsArrive()
-    {
-        TouristsInQueue += 1;
-        TouristsInQueueChanged?.Invoke(touristCount);
-        // logic to calculate how many tourists arrive
-    }
     private void TouristsLeave(Jeep jeep)
     {
         ModifySatisfaction(jeep.tourists.CalculateSatisfaction());
@@ -66,6 +59,13 @@ public class TouristManager : MonoBehaviour
     public void AcquireNewJeep()
     {
         jeeps.Add(new Jeep(placementManager, jeepPrefab, this));
+    }
+
+    public void ManageTick()
+    {
+        TouristsInQueue += 1;
+        TouristsInQueueChanged?.Invoke(touristCount);
+        // logic to calculate how many tourists arrive
     }
 }
 
