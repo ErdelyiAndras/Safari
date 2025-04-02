@@ -158,7 +158,7 @@ public class PlacementManager : MonoBehaviour
     }
 
 
-    internal List<Vector3Int> FindRoadOnlyPath(Vector3Int start, Vector3Int end)
+    internal List<Vector3Int> PickShortestPath(Vector3Int start, Vector3Int end)
     {
         return TryFindRoadPath(start, end, out var path) ? path : null;
     }
@@ -223,6 +223,48 @@ public class PlacementManager : MonoBehaviour
             list[j] = temp;
         }
     }
+
+    internal List<Vector3Int> PickRandomRoadPath(Vector3Int start, Vector3Int end)
+    {
+        List<List<Vector3Int>> allPaths = new List<List<Vector3Int>>();
+        FindAllRoadPaths(start, end, new HashSet<Vector3Int>(), new List<Vector3Int>(), allPaths);
+
+        if (allPaths.Count == 0)
+            return null;
+
+        int index = UnityEngine.Random.Range(0, allPaths.Count);
+        return allPaths[index];
+    }
+
+    private void FindAllRoadPaths(Vector3Int current, Vector3Int end, HashSet<Vector3Int> visited, List<Vector3Int> path, List<List<Vector3Int>> allPaths)
+    {
+        visited.Add(current);
+        path.Add(current);
+
+        if (current == end)
+        {
+            allPaths.Add(new List<Vector3Int>(path));
+        }
+        else
+        {
+            List<Point> neighbors = placementGrid.GetAdjacentCellsOfType(current.x, current.z, CellType.Road);
+            Shuffle(neighbors); // véletlen sorrend
+
+            foreach (Point p in neighbors)
+            {
+                Vector3Int neighbor = new Vector3Int(p.X, 0, p.Y);
+                if (!visited.Contains(neighbor))
+                {
+                    FindAllRoadPaths(neighbor, end, visited, path, allPaths);
+                }
+            }
+        }
+
+        visited.Remove(current);
+        path.RemoveAt(path.Count - 1);
+    }
+
+
 
     internal void RemoveAllTemporaryStructures()
     {
