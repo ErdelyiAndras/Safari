@@ -7,7 +7,7 @@ public class Herd
     public int Count {  get { return animals.Count; } }
     private Vector2Int centroid;
     public Vector3Int Spawnpoint { get { return animals.Count == 0 ? GetRandomPosition() : new Vector3Int(centroid.x, 0, centroid.y); } }
-    public int DistributionRadius { get; } = 20;
+    public int DistributionRadius { get; } = 5; // TO BE BALANCED
     private PlacementManager placementManager;
 
     public Herd(PlacementManager placementManager)
@@ -15,6 +15,7 @@ public class Herd
         animals = new List<Animal>();
         this.placementManager = placementManager;
     }
+
     public void CalculateCentroid()
     {
         if (animals.Count == 0)
@@ -34,6 +35,11 @@ public class Herd
         Debug.Log("Adding constructed animal to herd");
         animals.Add(animal);
     }
+    public void RemoveAnimalFromHerd(Animal animal)
+    {
+        animals.Remove(animal);
+    }
+
     public void CheckState()
     {
         foreach(Animal animal in animals)

@@ -38,7 +38,6 @@ public class Jeep : Entity
         tourists.readyToGo += () => MyState = State.Moving;
         SpawnEntity(prefab, parent.transform);
         baseMoveSpeed = 1.0f; // TO BE BALANCED
-        SpeedMultiplier = 1.0f; // TO BE BALANCED
         hasFullPath = false;
         baseRotationSpeed = 5.0f;
 

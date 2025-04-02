@@ -5,7 +5,7 @@ using UnityEngine;
 public class HerbivoreBase : Animal
 {
     List<Vector3Int> discoveredFood;
-    public HerbivoreBase(GameObject prefab, PlacementManager _placementManager, Herd parent) : base(prefab, _placementManager, parent)
+    public HerbivoreBase(GameObject prefab, PlacementManager _placementManager, Herd parent, AnimalManager manager, AnimalType type) : base(prefab, _placementManager, parent, manager, type)
     {
         discoveredFood = new List<Vector3Int>();
     }
@@ -38,7 +38,7 @@ public class HerbivoreBase : Animal
         }
         else
         {
-            discoveredFood.Sort((a, b) => Vector3Int.Distance(Vector3Int.RoundToInt(Position), a).CompareTo(Vector3Int.Distance(Vector3Int.RoundToInt(Position), b)));
+            discoveredFood.Sort((a, b) => Vector3Int.Distance(Vector3Int.RoundToInt(Position), a).CompareTo(Vector3Int.Distance(Vector3Int.RoundToInt(Position), b))); // TODO check if there is any in herd radius
             while (Vector3Int.Distance(Vector3Int.RoundToInt(Position), discoveredFood[0]) <= ViewDistance)
             {
                 discoveredFood.RemoveAt(0);
