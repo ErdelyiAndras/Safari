@@ -20,6 +20,11 @@ public class GameManager : MonoBehaviour
 
     public Difficulty gameDifficulty;
 
+    private void Awake()
+    {
+        gameDifficulty = DifficultySelector.SelectedDifficulty;
+    }
+
     private void Start()
     {
         economyManager.InitMoney(gameDifficulty);
