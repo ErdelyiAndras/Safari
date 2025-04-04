@@ -1,6 +1,7 @@
 using SVS;
 using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -214,6 +215,7 @@ public class GameManager : MonoBehaviour
 
     private void GameOverHandler(bool isGameWon)
     {
+        // TODO: disable camera movement
         if (isGameWon)
         {
             //TODO
@@ -223,6 +225,17 @@ public class GameManager : MonoBehaviour
             //TODO
             Debug.Log("Lose");
         }
+        uiController.ShowPopupWindow(isGameWon);
+    }
+
+    private void StartNewGame()
+    {
+        SceneManager.LoadScene("GameScene");
+    }
+
+    private void ExitToMainMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
     }
     
     private void InitUIData()
@@ -265,6 +278,9 @@ public class GameManager : MonoBehaviour
 
         uiController.SellButtonPressed += isCancellation => SellAnimalHandler(isCancellation);
         uiController.RemoveButtonPressed += isCancellation => RemoveObjectHandler(isCancellation);
+
+        uiController.popupWindowNewGameButtonPressed += () => StartNewGame();
+        uiController.popupWindowQuitButtonPressed += () => ExitToMainMenu();
     }
 
     private void EconomyManagerEventSubscription()

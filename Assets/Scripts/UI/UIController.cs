@@ -57,6 +57,16 @@ public class UIController : MonoBehaviour
     public Color removeButtonOutlineColor;
 
 
+    public GameObject wonWindow;
+    public GameObject lostWindow;
+
+    public List<Button> popupWindowNewGameButtons;
+    public List<Button> popupWindowQuitButtons;
+
+    public Action popupWindowNewGameButtonPressed;
+    public Action popupWindowQuitButtonPressed;
+
+
     private List<Button> placementButtonList;
     private List<Button> timeButtonList;
     private List<Button> removeButtonList;
@@ -124,29 +134,29 @@ public class UIController : MonoBehaviour
         Carnivore1Button.onClick.AddListener(() => UncancelablePlacementButtonPressedListener(Carnivore1ButtonPressed));
 
         Carnivore2Button.onClick.AddListener(() => UncancelablePlacementButtonPressedListener(Carnivore2ButtonPressed));
-        
+
         Herbivore1Button.onClick.AddListener(() => UncancelablePlacementButtonPressedListener(Herbivore1ButtonPressed));
-        
+
         Herbivore2Button.onClick.AddListener(() => UncancelablePlacementButtonPressedListener(Herbivore2ButtonPressed));
-        
+
         Plant1Button.onClick.AddListener(() => CancelableButtonPressedListener(
             ButtonGroup.Placement,
             Plant1Button,
             Plant1ButtonPressed)
         );
-        
+
         Plant2Button.onClick.AddListener(() => CancelableButtonPressedListener(
             ButtonGroup.Placement,
             Plant2Button,
             Plant2ButtonPressed)
         );
-        
+
         Plant3Button.onClick.AddListener(() => CancelableButtonPressedListener(
             ButtonGroup.Placement,
             Plant3Button,
             Plant3ButtonPressed)
         );
-        
+
         LakeButton.onClick.AddListener(() => CancelableButtonPressedListener(
             ButtonGroup.Placement,
             LakeButton,
@@ -174,6 +184,16 @@ public class UIController : MonoBehaviour
 
 
         admissionFeeInputField.onEndEdit.AddListener(value => OnAdmissionFeeEndEdit(value));
+
+
+        foreach (Button button in popupWindowNewGameButtons)
+        {
+            button.onClick.AddListener(() => OnNewGameButtonPressed());
+        }
+        foreach (Button button in popupWindowQuitButtons)
+        {
+            button.onClick.AddListener(() => OnQuitButtonPressed());
+        }
     }
 
     private void Start()
@@ -259,6 +279,12 @@ public class UIController : MonoBehaviour
         {
             touristCount.text = tourist.ToString();
         }
+    }
+
+    public void ShowPopupWindow(bool showWon)
+    {
+        wonWindow.SetActive(showWon);
+        lostWindow.SetActive(!showWon);
     }
 
     private void CancelableButtonPressedListener(
@@ -355,6 +381,16 @@ public class UIController : MonoBehaviour
     {
         ModifyOutline(button, timeButtonOutlineColor);
         selectedTimeButton = button;
+    }
+
+    private void OnNewGameButtonPressed()
+    {
+        popupWindowNewGameButtonPressed?.Invoke();
+    }
+
+    private void OnQuitButtonPressed()
+    {
+        popupWindowQuitButtonPressed?.Invoke();
     }
 
     private void ModifyOutline(Button button, Color outlineColor)

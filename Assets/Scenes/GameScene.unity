@@ -350,7 +350,7 @@ GameObject:
   - component: {fileID: 60591236}
   - component: {fileID: 60591235}
   m_Layer: 5
-  m_Name: QuitButton
+  m_Name: LostQuitButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -757,6 +757,14 @@ MonoBehaviour:
   placementButtonOutlineColor: {r: 0, g: 0, b: 1, a: 1}
   timeButtonOutlineColor: {r: 0, g: 1, b: 0, a: 1}
   removeButtonOutlineColor: {r: 1, g: 0, b: 0, a: 1}
+  wonWindow: {fileID: 816490724}
+  lostWindow: {fileID: 1088262468}
+  popupWindowNewGameButtons:
+  - {fileID: 426801558}
+  - {fileID: 1264862094}
+  popupWindowQuitButtons:
+  - {fileID: 682945316}
+  - {fileID: 60591235}
   moneyText: {fileID: 591040646}
   admissionFeeInputField: {fileID: 1808220701}
   dateText: {fileID: 357125406}
@@ -1693,7 +1701,7 @@ GameObject:
   - component: {fileID: 426801559}
   - component: {fileID: 426801558}
   m_Layer: 5
-  m_Name: StartNewGameButton
+  m_Name: WonStartNewGameButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2483,7 +2491,7 @@ GameObject:
   - component: {fileID: 682945317}
   - component: {fileID: 682945316}
   m_Layer: 5
-  m_Name: QuitButton
+  m_Name: WonQuitButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5116,7 +5124,7 @@ GameObject:
   - component: {fileID: 1264862095}
   - component: {fileID: 1264862094}
   m_Layer: 5
-  m_Name: StartNewGameButton
+  m_Name: LostStartNewGameButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
