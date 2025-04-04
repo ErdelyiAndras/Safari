@@ -7,6 +7,7 @@ public class InputManager : MonoBehaviour
 {
     public Action<Vector3Int> OnMouseClick, OnMouseHold;
     public Action OnMouseUp;
+	public Action Paused;
 	private Vector2 cameraMovementVector;
 	private ScrollRect scrollRect;
 
@@ -41,6 +42,7 @@ public class InputManager : MonoBehaviour
 		OnClickHold();
         //InvertScrollDirection();
         CheckArrowInput();
+        CheckPauseInput();
     }
 
 	private Vector3Int? RaycastGround()
@@ -67,6 +69,14 @@ public class InputManager : MonoBehaviour
 		{
 			cameraMovementVector = Vector2.zero;
         }
+	}
+
+	private void CheckPauseInput()
+	{
+		if (Input.GetKeyDown(KeyCode.Escape))
+		{
+			Paused?.Invoke();
+		}
 	}
 
 	/*private void InvertScrollDirection()

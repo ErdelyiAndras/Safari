@@ -35,6 +35,7 @@ public class GameManager : MonoBehaviour
         UIControllerEventSubscription();
         EconomyManagerEventSubscription();
         TimeManagerEventSubsciption();
+        InputManagerEventSubscription();
     }
 
     private void Update()
@@ -237,6 +238,26 @@ public class GameManager : MonoBehaviour
     {
         SceneManager.LoadScene("MainMenu");
     }
+
+    private void ResumeGame()
+    {
+        if (!uiController.IsPaused)
+        {
+            timeManager.TogglePause();
+        }
+
+        uiController.ShowPauseMenu(false);
+    }
+
+    private void SaveGame()
+    {
+        Debug.Log("save");
+    }
+
+    private void LoadGame()
+    {
+        Debug.Log("load");
+    }
     
     private void InitUIData()
     {
@@ -281,6 +302,11 @@ public class GameManager : MonoBehaviour
 
         uiController.popupWindowNewGameButtonPressed += () => StartNewGame();
         uiController.popupWindowQuitButtonPressed += () => ExitToMainMenu();
+
+        uiController.pauseMenuResumeButtonPressed += () => ResumeGame();
+        uiController.pauseMenuSaveButtonPressed += () => SaveGame();
+        uiController.pauseMenuLoadButtonPressed += () => LoadGame();
+        uiController.pauseMenuQuitButtonPressed += () => ExitToMainMenu();
     }
 
     private void EconomyManagerEventSubscription()
@@ -295,5 +321,28 @@ public class GameManager : MonoBehaviour
         timeManager.Elapsed += () => touristManager.TouristsArrive();
         timeManager.Elapsed += () => uiController.UpdateDatePanel(timeManager.CurrentTime);
         timeManager.TimeIntervalChanged += () => SetSpeedMultiplierOfEntities();
+    }
+
+    private void InputManagerEventSubscription()
+    {
+        inputManager.Paused += () =>
+        {
+            if (uiController.IsPauseMenuActive)
+            {
+                if (!uiController.IsPaused)
+                {
+                    timeManager.TogglePause();
+                }
+                uiController.ShowPauseMenu(false);
+            }
+            else
+            {
+                if (!uiController.IsPaused)
+                {
+                    timeManager.TogglePause();
+                }
+                uiController.ShowPauseMenu(true);
+            }
+        };
     }
 }

@@ -67,6 +67,19 @@ public class UIController : MonoBehaviour
     public Action popupWindowQuitButtonPressed;
 
 
+    public GameObject pauseMenu;
+
+    public Button PauseMenuResumeButton;
+    public Button PauseMenuSaveButton;
+    public Button PauseMenuLoadButton;
+    public Button PauseMenuQuitButton;
+
+    public Action pauseMenuResumeButtonPressed;
+    public Action pauseMenuSaveButtonPressed;
+    public Action pauseMenuLoadButtonPressed;
+    public Action pauseMenuQuitButtonPressed;
+
+
     private List<Button> placementButtonList;
     private List<Button> timeButtonList;
     private List<Button> removeButtonList;
@@ -92,6 +105,16 @@ public class UIController : MonoBehaviour
     public Text touristCount;
 
     public Action<int> admissionFeeEndEdit;
+
+    public bool IsPauseMenuActive
+    {
+        get { return pauseMenu.activeSelf; }
+    }
+
+    public bool IsPaused
+    {
+        get { return isPaused; }
+    }
 
     private void Awake()
     {
@@ -194,6 +217,12 @@ public class UIController : MonoBehaviour
         {
             button.onClick.AddListener(() => OnQuitButtonPressed());
         }
+
+
+        PauseMenuResumeButton.onClick.AddListener(() => OnPauseMenuResumeButtonPressed());
+        PauseMenuSaveButton.onClick.AddListener(() => OnPauseMenuSaveButtonPressed());
+        PauseMenuLoadButton.onClick.AddListener(() => OnPauseMenuLoadButtonPressed());
+        PauseMenuQuitButton.onClick.AddListener(() => OnPauseMenuQuitButtonPressed());
     }
 
     private void Start()
@@ -285,6 +314,11 @@ public class UIController : MonoBehaviour
     {
         wonWindow.SetActive(showWon);
         lostWindow.SetActive(!showWon);
+    }
+
+    public void ShowPauseMenu(bool show)
+    {
+        pauseMenu.SetActive(show);
     }
 
     private void CancelableButtonPressedListener(
@@ -391,6 +425,27 @@ public class UIController : MonoBehaviour
     private void OnQuitButtonPressed()
     {
         popupWindowQuitButtonPressed?.Invoke();
+    }
+
+    private void OnPauseMenuResumeButtonPressed()
+    {
+        pauseMenuResumeButtonPressed?.Invoke();
+        //ShowPauseMenu(false);
+    }
+
+    private void OnPauseMenuSaveButtonPressed()
+    {
+        pauseMenuSaveButtonPressed?.Invoke();
+    }
+
+    private void OnPauseMenuLoadButtonPressed()
+    {
+        pauseMenuLoadButtonPressed?.Invoke();
+    }
+
+    private void OnPauseMenuQuitButtonPressed()
+    {
+        pauseMenuQuitButtonPressed?.Invoke();
     }
 
     private void ModifyOutline(Button button, Color outlineColor)
