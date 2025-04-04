@@ -55,20 +55,16 @@ public class MainMenuUIController : MonoBehaviour
     private void OnStartNewGameButtonPressed()
     {
         startNewGameButtonPressed?.Invoke();
-        SceneManager.LoadScene("GameScene");
     }
 
     private void OnLoadGameButtonPressed()
     {
         loadGameButtonPressed?.Invoke();
-        Debug.Log("Load Game button pressed");
     }
 
     private void OnQuitButtonPressed()
     {
         quitButtonPressed?.Invoke();
-        Debug.Log("Quit button pressed");
-        Application.Quit();
     }
 
     private void OnEasyButtonPressed()
