@@ -5,7 +5,7 @@ using UnityEngine;
 public class HerbivoreBase : Animal
 {
     List<Vector3Int> discoveredFood;
-    public HerbivoreBase(GameObject prefab, PlacementManager _placementManager, Herd parent, AnimalManager manager, AnimalType type) : base(prefab, _placementManager, parent, manager, type)
+    public HerbivoreBase(GameObject prefab, PlacementManager _placementManager, Herd parent, AnimalType type) : base(prefab, _placementManager, parent, type)
     {
         discoveredFood = new List<Vector3Int>();
     }

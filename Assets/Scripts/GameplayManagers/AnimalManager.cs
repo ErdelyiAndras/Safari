@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.Linq;
+using Unity.VisualScripting;
 
 
 public class AnimalManager : MonoBehaviour, ITimeHandler
@@ -8,7 +10,7 @@ public class AnimalManager : MonoBehaviour, ITimeHandler
     public PlacementManager placementManager;
     public GameObject carnivore1Prefab, carnivore2Prefab, herbivore1Prefab, herbivore2Prefab;
     private List<Herd> herds = new List<Herd>();
-    private Dictionary<AnimalType, uint> animalCount;
+    private Dictionary<AnimalType, uint> animalCount = new Dictionary<AnimalType, uint>();
     public Action<AnimalType> NewAnimal, AnimalDied;
     
 
@@ -48,59 +50,53 @@ public class AnimalManager : MonoBehaviour, ITimeHandler
 
     public void BuyCarnivore1()
     {
-        Herd _herd = ChooseHerd();
-        Animal animal = new Carnivore1(herbivore1Prefab, placementManager, _herd, this);
+        Herd _herd = ChooseHerd(HerdType.Carnivore1Herd);
+        Animal animal = new Carnivore1(carnivore1Prefab, placementManager, _herd);
         InitAnimal(_herd, animal);
     }
 
     public void BuyCarnivore2()
     {
-        Herd _herd = ChooseHerd();
-        Animal animal = new Carnivore2(herbivore1Prefab, placementManager, _herd, this);
+        Herd _herd = ChooseHerd(HerdType.Carnivore2Herd);
+        Animal animal = new Carnivore2(carnivore2Prefab, placementManager, _herd);
         InitAnimal(_herd, animal);
     }
 
     public void BuyHerbivore1()
     {
-        Herd _herd = ChooseHerd();
-        Animal animal = new Herbivore1(herbivore1Prefab, placementManager, _herd, this);
+        Herd _herd = ChooseHerd(HerdType.Herbivore1Herd);
+        Animal animal = new Herbivore1(herbivore1Prefab, placementManager, _herd);
         InitAnimal(_herd, animal);
     }
 
     public void BuyHerbivore2()
     {
-        Herd _herd = ChooseHerd();
-        Animal animal = new Herbivore2(herbivore1Prefab, placementManager, _herd, this);
+        Herd _herd = ChooseHerd(HerdType.Herbivore2Herd);
+        Animal animal = new Herbivore2(herbivore2Prefab, placementManager, _herd);
         InitAnimal(_herd, animal);
     }
 
-    private Herd ChooseHerd()
+    private Herd ChooseHerd(HerdType type)
     {
-        if (herds.Count == 0)
+        var herdsOfType = herds.Where(h => h.herdType == type);
+        if (herdsOfType.Count() == 0)
         {
-            Herd newHerd = new Herd(placementManager);
+            Herd newHerd =  type == HerdType.Herbivore1Herd || 
+                            type == HerdType.Herbivore2Herd ? 
+                            new HerbivoreHerd(placementManager, this, type) : new CarnivoreHerd(placementManager, this, type);
             herds.Add(newHerd);
             return newHerd;
         }
-        int mincount = int.MaxValue;
-        Herd choosenHerd = null;
         int random = UnityEngine.Random.Range(0, 10);
         if (random < 8)
         {
-            foreach(var herd in herds)
-            {
-                if (herd.Count < mincount)
-                {
-                    mincount = herd.Count;
-                    choosenHerd = herd;
-                }
-            }
-            return choosenHerd;
-            
+            return herdsOfType.OrderBy(h => h.Count).First();
         }
         else
         {
-            Herd newHerd = new Herd(placementManager);
+            Herd newHerd =  type == HerdType.Herbivore1Herd || 
+                            type == HerdType.Herbivore2Herd ? 
+                            new HerbivoreHerd(placementManager, this, type) : new CarnivoreHerd(placementManager, this, type);
             herds.Add(newHerd);
             return newHerd;
         }

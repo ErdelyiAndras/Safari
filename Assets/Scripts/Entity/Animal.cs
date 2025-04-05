@@ -24,7 +24,7 @@ public abstract class Animal : Entity
     }
     public readonly AnimalType type;
     public Action<Animal> AnimalDied;
-    protected float maxFood = 100.0f, maxDrink = 100.0f, foodThreshold = 70.0f, drinkThreshold = 70.0f, foodNutrition = 30.0f, drinkNutrition = 30.0f;
+    protected float maxFood = 100.0f, maxDrink = 100.0f, foodThreshold = 0.7f, drinkThreshold = 0.7f, foodNutrition = 30.0f, drinkNutrition = 30.0f;
     protected float remainingLifetime = 100.0f, food = 100.0f, drink = 100.0f;
     protected readonly float basicViewDistance = 10.0f, viewExtendScale = 2.0f;
     protected List<Vector3Int> discoveredDrink;
@@ -45,14 +45,14 @@ public abstract class Animal : Entity
     public State MyState { get; private set; }
     protected bool IsAnimalDead() => remainingLifetime <= 0 || Health <= 0 || food <= 0 || drink <= 0;
 
-    public Animal(GameObject prefab, PlacementManager _placementManager, Herd parent, AnimalManager manager, AnimalType myType)
+    public Animal(GameObject prefab, PlacementManager _placementManager, Herd parent, AnimalType _type)
     {
         myHerd = parent;
         placementManager = _placementManager;
         spawnPosition = parent.Spawnpoint;
         baseMoveSpeed = 2.0f;
-        type = myType;
-        SpawnEntity(prefab, manager.transform);
+        type = _type;
+        SpawnEntity(prefab, parent.gameObject.transform);
         targetPosition = spawnPosition;
         MyState = State.Moving;
     }
@@ -123,8 +123,11 @@ public abstract class Animal : Entity
         drink--;
         if (IsAnimalDead())
         {
+            Debug.Log("AnimalDies");
             AnimalDies();
         }
+        Debug.Log("Before State: " + MyState);
+
         if (MyState != State.Eating && MyState != State.Drinking && MyState != State.Mating)
         {
             if (food < maxFood * foodThreshold && MyState != State.SearchingForWater)
@@ -134,6 +137,7 @@ public abstract class Animal : Entity
             if (drink < maxDrink * drinkThreshold && MyState != State.SearchingForFood)
             {
                 MyState = State.SearchingForWater;
+                Debug.Log("Searching for water first");
             }
             if (food < maxFood * foodThreshold && drink < maxDrink * drinkThreshold)
             {
@@ -144,9 +148,12 @@ public abstract class Animal : Entity
                 else
                 {
                     MyState = State.SearchingForWater;
+                    Debug.Log("Searching for water econd");
+
                 }
             }
         }
+        Debug.Log("After State: " + MyState);
     }
     abstract protected void MoveToFood(); // logika: keres a viewDistancen belül,
                                           // majd ha nem talál megy a legközelebbi eltárolthoz, ha ez sincs akkor megy random
