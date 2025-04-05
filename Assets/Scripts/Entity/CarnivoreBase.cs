@@ -5,6 +5,8 @@ public class CarnivoreBase : Animal
 {
     public CarnivoreBase(GameObject prefab, PlacementManager _placementManager, Herd parent, AnimalType type) : base(prefab, _placementManager, parent, type)
     {
+        List<Vector3Int> empty = new List<Vector3Int>();
+        discoverEnvironment = new SearchViewDistance(ref empty, ref discoveredDrink, placementManager);
     }
 
     protected override void MoveToFood()
@@ -12,15 +14,4 @@ public class CarnivoreBase : Animal
         throw new System.NotImplementedException();
     }
 
-    protected override void DiscoverEnvironment()
-    {
-        List<Vector3Int> inViewDistance = SearchInViewDistance();
-        foreach (Vector3Int position in inViewDistance)
-        {
-            if (placementManager.GetTypeOfPosition(position) == CellType.Water && !discoveredDrink.Contains(position))
-            {
-                discoveredDrink.Add(position);
-            }
-        }
-    }
 }

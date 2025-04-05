@@ -33,6 +33,7 @@ public abstract class Animal : Entity
     public float rotationSpeed = 5.0f;
     protected Vector3 targetPosition;
     public Herd myHerd;
+    protected SearchViewDistance discoverEnvironment;
 
     protected float ViewDistance { 
         get 
@@ -52,9 +53,11 @@ public abstract class Animal : Entity
         spawnPosition = parent.Spawnpoint;
         baseMoveSpeed = 2.0f;
         type = _type;
+        discoveredDrink = new List<Vector3Int>();
         SpawnEntity(prefab, parent.gameObject.transform);
         targetPosition = spawnPosition;
         MyState = State.Moving;
+        
     }
 
     public override void CheckState()
@@ -82,9 +85,7 @@ public abstract class Animal : Entity
             case State.Mating:
                 WaitAction(restTime, State.Moving);
                 break;
-
         }
-        
     }
 
     private void WaitAction(float duration, ref float toAdvance, float advanceStep, State changeStateTo)
@@ -155,11 +156,70 @@ public abstract class Animal : Entity
         }
         Debug.Log("After State: " + MyState);
     }
-    abstract protected void MoveToFood(); // logika: keres a viewDistancen belül,
-                                          // majd ha nem talál megy a legközelebbi eltárolthoz, ha ez sincs akkor megy random
-    protected void MoveToWater()
+    abstract protected void MoveToFood();
+    private void MoveToWater() => MoveToTarget(discoverEnvironment.GetDrinkResult, discoveredDrink);
+    protected void MoveToTarget(Func<List<Vector3Int>> getResultList, List<Vector3Int> discoveredTargets)
     {
-
+        discoverEnvironment.SearchInViewDistance(ViewDistance, Position);
+        List<Vector3Int> targetInviewDistance = getResultList();
+        if (targetInviewDistance.Count == 1)
+        {
+            targetPosition = (Vector3)targetInviewDistance[0];
+        }
+        else if (targetInviewDistance.Count > 1)
+        {
+            Vector3Int? closestWithinHerd = null;
+            Vector3Int? closestOutOFHerd = null;
+            float closestDistanceInHerd = float.MaxValue;
+            float closestDistanceOutOfHerd = float.MaxValue;
+            foreach (Vector3Int position in targetInviewDistance)
+            {
+                if (Vector3Int.Distance(myHerd.Spawnpoint, position) <= myHerd.DistributionRadius)
+                {
+                    float distanceFromPostiion = Vector3Int.Distance(Vector3Int.RoundToInt(Position), position);
+                    if (distanceFromPostiion < closestDistanceInHerd)
+                    {
+                        closestWithinHerd = position;
+                        closestDistanceInHerd = distanceFromPostiion;
+                    }
+                }
+                else
+                {
+                    float distanceFromPostiion = Vector3Int.Distance(Vector3Int.RoundToInt(Position), position);
+                    if (distanceFromPostiion < closestDistanceOutOfHerd)
+                    {
+                        closestOutOFHerd = position;
+                        closestDistanceOutOfHerd = distanceFromPostiion;
+                    }
+                }
+            }
+            if (closestWithinHerd != null)
+            {
+                targetPosition = (Vector3)closestWithinHerd;
+            } 
+            else if(closestOutOFHerd != null)
+            {
+                targetPosition = (Vector3)closestOutOFHerd;
+            }
+        }
+        else
+        {
+            discoveredTargets.Sort((a, b) => Vector3Int.Distance(Vector3Int.RoundToInt(Position), a).CompareTo(Vector3Int.Distance(Vector3Int.RoundToInt(Position), b)));
+            while (Vector3Int.Distance(Vector3Int.RoundToInt(Position), discoveredTargets[0]) <= ViewDistance)
+            {
+                discoveredTargets.RemoveAt(0);
+            }
+            Vector3Int? inHerdRadius = null;
+            int i = 0;
+            while (inHerdRadius == null && i < discoveredTargets.Count)
+            {
+                if (Vector3Int.Distance(Vector3Int.RoundToInt(discoveredTargets[i]), myHerd.Spawnpoint) <= myHerd.DistributionRadius)
+                {
+                    inHerdRadius = discoveredTargets[i];
+                }
+            }
+            targetPosition = inHerdRadius ?? discoveredTargets[0];
+        }
     }
 
     public void AgeAnimal()
@@ -215,7 +275,7 @@ public abstract class Animal : Entity
         }
     }
 
-    abstract protected void DiscoverEnvironment();
+    protected void DiscoverEnvironment() => discoverEnvironment.SearchInViewDistance(ViewDistance, Position);
     
 
     private void SetRandomTargetPosition(bool inHerd = true)
@@ -244,58 +304,5 @@ public abstract class Animal : Entity
         } while (!placementManager.CheckIfPositionInBound(Vector3Int.RoundToInt(temporatyPosition)) || !placementManager.IsPositionWalkable(Vector3Int.RoundToInt(temporatyPosition)));
         Debug.Log("Random position: " + temporatyPosition);
         targetPosition = temporatyPosition;
-    }
-
-    protected List<Vector3Int> SearchInViewDistance() // kölön osztályt adjon vissza ahol van víz és növény lista is --> midnenki azt kéri le ami neki kell
-    {
-        List<Vector3Int> result = new List<Vector3Int>();
-        Queue<Vector3Int> queue = new Queue<Vector3Int>();
-        HashSet<Vector3Int> visited = new HashSet<Vector3Int>();
-
-        Vector3Int startPosition = Vector3Int.RoundToInt(Position);
-        queue.Enqueue(startPosition);
-        visited.Add(startPosition);
-
-        while (queue.Count > 0)
-        {
-            Vector3Int current = queue.Dequeue();
-            if (placementManager.GetTypeOfPosition(current) == CellType.Nature)
-            {
-                result.Add(current);
-            }
-
-            if (Vector3Int.Distance(startPosition, current) <= ViewDistance)
-            {
-                foreach (Vector3Int neighbor in GetNeighbors(current))
-                {
-                    if (!visited.Contains(neighbor))
-                    {
-                        queue.Enqueue(neighbor);
-                        visited.Add(neighbor);
-                    }
-                }
-            }
-        }
-
-        return result;
-    }
-
-    private List<Vector3Int> GetNeighbors(Vector3Int position)
-    {
-        List<Vector3Int> neighbors = new List<Vector3Int>
-        {
-            position + Vector3Int.right,
-            position + Vector3Int.left,
-            position + Vector3Int.up,
-            position + Vector3Int.down,
-            position + new Vector3Int(1, 0, 1),
-            position + new Vector3Int(1, 0, -1),
-            position + new Vector3Int(-1, 0, 1),
-            position + new Vector3Int(-1, 0, -1)
-        };
-
-        neighbors.RemoveAll(neighbor => !placementManager.CheckIfPositionInBound(neighbor) || !placementManager.IsPositionWalkable(neighbor));
-
-        return neighbors;
     }
 }
