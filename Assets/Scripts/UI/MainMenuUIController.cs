@@ -7,11 +7,9 @@ using UnityEngine.UI;
 
 public class MainMenuUIController : MonoBehaviour
 {
-    // TODO: these actions only needed if there will be classes such as newgameloader, loadgameloader, ...
     public Action startNewGameButtonPressed;
     public Action loadGameButtonPressed;
     public Action quitButtonPressed;
-    // these actions are actually needed
     public Action easyButtonPressed;
     public Action normalButtonPressed;
     public Action hardButtonPressed;

@@ -11,6 +11,9 @@ public class InputManager : MonoBehaviour
 	private Vector2 cameraMovementVector;
 	private ScrollRect scrollRect;
 
+	public bool IsArrowInputActive { get; set; } = true;
+	public bool IsGameOver { get; set; } = false;
+
     [SerializeField]
 	Camera mainCamera;
 
@@ -41,8 +44,18 @@ public class InputManager : MonoBehaviour
 		OnClickUp();
 		OnClickHold();
         //InvertScrollDirection();
-        CheckArrowInput();
-        CheckPauseInput();
+		if (IsArrowInputActive == true)
+		{
+            CheckArrowInput();
+		}
+		else
+		{
+            cameraMovementVector = Vector2.zero;
+        }
+		if (!IsGameOver)
+		{
+			CheckPauseInput();
+		}
     }
 
 	private Vector3Int? RaycastGround()

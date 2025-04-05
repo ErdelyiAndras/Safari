@@ -430,7 +430,6 @@ public class UIController : MonoBehaviour
     private void OnPauseMenuResumeButtonPressed()
     {
         pauseMenuResumeButtonPressed?.Invoke();
-        //ShowPauseMenu(false);
     }
 
     private void OnPauseMenuSaveButtonPressed()

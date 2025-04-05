@@ -216,7 +216,6 @@ public class GameManager : MonoBehaviour
 
     private void GameOverHandler(bool isGameWon)
     {
-        // TODO: disable camera movement
         if (isGameWon)
         {
             //TODO
@@ -226,6 +225,9 @@ public class GameManager : MonoBehaviour
             //TODO
             Debug.Log("Lose");
         }
+        inputManager.IsArrowInputActive = false;
+        inputManager.IsGameOver = true;
+        uiController.ShowPauseMenu(false);
         uiController.ShowPopupWindow(isGameWon);
     }
 
@@ -245,7 +247,7 @@ public class GameManager : MonoBehaviour
         {
             timeManager.TogglePause();
         }
-
+        inputManager.IsArrowInputActive = true;
         uiController.ShowPauseMenu(false);
     }
 
@@ -336,6 +338,7 @@ public class GameManager : MonoBehaviour
                 {
                     timeManager.TogglePause();
                 }
+                inputManager.IsArrowInputActive = true;
                 uiController.ShowPauseMenu(false);
             }
             else
@@ -344,6 +347,7 @@ public class GameManager : MonoBehaviour
                 {
                     timeManager.TogglePause();
                 }
+                inputManager.IsArrowInputActive = false;
                 uiController.ShowPauseMenu(true);
             }
         };
