@@ -9,7 +9,7 @@ public abstract class Entity
     protected float baseMoveSpeed, baseRotationSpeed;
     protected float MoveSpeed { get { return baseMoveSpeed * SpeedMultiplier; } }
     protected float RotationSpeed { get { return baseRotationSpeed * SpeedMultiplier; } }
-    public float SpeedMultiplier { get; set; } = 1.0f;
+    public static float SpeedMultiplier { get; set; } = 1.0f;
     public Vector3 Position 
     {
         get { return entityInstance.transform.position; }

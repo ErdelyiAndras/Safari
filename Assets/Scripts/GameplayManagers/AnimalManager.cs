@@ -11,9 +11,19 @@ public class AnimalManager : MonoBehaviour, ITimeHandler
     public GameObject carnivore1Prefab, carnivore2Prefab, herbivore1Prefab, herbivore2Prefab;
     private List<Herd> herds = new List<Herd>();
     private Dictionary<AnimalType, uint> animalCount = new Dictionary<AnimalType, uint>();
-    public Action<AnimalType> NewAnimal, AnimalDied;
-    
+    public Action<uint> Carnivore1Changed, Carnivore2Changed, Herbivore1Changed, Herbivore2Changed;
+    private Dictionary<AnimalType, Action<uint>> animalChangedActions;
 
+    private void Start()
+    {
+        animalChangedActions = new Dictionary<AnimalType, Action<uint>>
+        {
+            { AnimalType.Carnivore1, Carnivore1Changed },
+            { AnimalType.Carnivore2, Carnivore2Changed },
+            { AnimalType.Herbivore1, Herbivore1Changed },
+            { AnimalType.Herbivore2, Herbivore2Changed },
+        };
+    }
     private void Update()
     {
         foreach(var herd in herds)
@@ -37,14 +47,6 @@ public class AnimalManager : MonoBehaviour, ITimeHandler
         foreach (var herd in herds)
         {
             herd.AgeAnimals();
-        }
-    }
-
-    public void SetSpeedMultiplier(float multiplier)
-    {
-        foreach (var herd in herds)
-        {
-            herd.SetSpeedMultiplier(multiplier);
         }
     }
 
@@ -76,6 +78,7 @@ public class AnimalManager : MonoBehaviour, ITimeHandler
         InitAnimal(_herd, animal);
     }
 
+    //TODO: ha van 1 elemű csorda akkor ne jöhesen létre random, hanem abba kerüljön az új állat
     private Herd ChooseHerd(HerdType type)
     {
         var herdsOfType = herds.Where(h => h.herdType == type);
@@ -107,7 +110,7 @@ public class AnimalManager : MonoBehaviour, ITimeHandler
         animal.AnimalDied += DeleteAnimalFromHerd;
         animalHerd.AddAnimalToHerd(animal);
         SetAnimalCount(animal.type);
-        NewAnimal?.Invoke(animal.type);
+        animalChangedActions[animal.type]?.Invoke(animalCount[animal.type]);
     }
 
     private void SetAnimalCount(AnimalType type)
@@ -125,14 +128,10 @@ public class AnimalManager : MonoBehaviour, ITimeHandler
     private void DeleteAnimalFromHerd(Animal animal)
     {
         animal.myHerd.RemoveAnimalFromHerd(animal);
-        try
+        if (animalCount[animal.type] != 0)
         {
             animalCount[animal.type]--;
+            animalChangedActions[animal.type]?.Invoke(animalCount[animal.type]);
         }
-        catch
-        {
-            throw new Exception("Critical failure: Animal count cannot be negative");
-        }
-        AnimalDied?.Invoke(animal.type);
     }
 }

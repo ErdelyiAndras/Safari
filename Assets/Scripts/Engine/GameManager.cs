@@ -200,13 +200,7 @@ public class GameManager : MonoBehaviour
         inputManager.OnMouseClick += placementManager.RemoveStructure;
     }
 
-    private void SetSpeedMultiplierOfEntities()
-    {
-        animalManager.SetSpeedMultiplier(timeManager.EntitySpeedMultiplier);
-        touristManager.SetSpeedMultiplier(timeManager.EntitySpeedMultiplier);
-
-    }
-
+    private void SetSpeedMultiplierOfEntities() => Entity.SpeedMultiplier = timeManager.EntitySpeedMultiplier;
     private void GameOverHandler(bool isGameWon)
     {
         if (isGameWon)

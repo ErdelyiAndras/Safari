@@ -45,7 +45,6 @@ public class Herd
 
     public void AddAnimalToHerd(Animal animal)
     {
-        Debug.Log("Adding constructed animal to herd");
         animals.Add(animal);
     }
     public void RemoveAnimalFromHerd(Animal animal)
@@ -65,14 +64,6 @@ public class Herd
         foreach (Animal animal in animals)
         {
             animal.AgeAnimal();
-        }
-    }
-
-    public void SetSpeedMultiplier(float multiplier)
-    {
-        foreach (Animal animal in animals)
-        {
-            animal.SpeedMultiplier = multiplier;
         }
     }
 

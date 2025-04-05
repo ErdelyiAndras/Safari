@@ -12,6 +12,7 @@ public class SearchViewDistance
     private List<Vector3Int> foodResult = new List<Vector3Int>();
     private List<Vector3Int> drinkResult = new List<Vector3Int>();
 
+    PlacementManager placementManager;
     public List<Vector3Int> GetFoodResult()
     {
         return foodResult;
@@ -21,8 +22,6 @@ public class SearchViewDistance
         return discoveredDrink;
     }
 
-
-    PlacementManager placementManager;
 
     public SearchViewDistance(ref List<Vector3Int> food, ref List<Vector3Int> water, PlacementManager _placementManager)
     {

@@ -34,14 +34,6 @@ public class TouristManager : MonoBehaviour, ITimeHandler
         ModifySatisfaction(jeep.tourists.CalculateSatisfaction());
     }
 
-    public void SetSpeedMultiplier(float multiplier)
-    {
-        foreach (var jeep in jeeps)
-        {
-            jeep.SpeedMultiplier = multiplier;
-        }
-    }
-
     private void FillJeep(Jeep jeep)
     {
         if (TouristsInQueue > 0)
