@@ -277,7 +277,10 @@ public class GameManager : MonoBehaviour
     {
         uiController.admissionFeeEndEdit += admissionFee =>
         {
-            economyManager.AdmissionFee = admissionFee;
+            if (admissionFee != 0)
+            {
+                economyManager.AdmissionFee = admissionFee;
+            }
             uiController.UpdateAdmissionFeePanel(economyManager.AdmissionFee);
         };
 

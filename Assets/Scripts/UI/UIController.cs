@@ -465,6 +465,13 @@ public class UIController : MonoBehaviour
 
     private void OnAdmissionFeeEndEdit(string input)
     {
-        admissionFeeEndEdit?.Invoke(Convert.ToInt32(input));
+        if (string.IsNullOrEmpty(input))
+        {
+            admissionFeeEndEdit?.Invoke(0);
+        }
+        else
+        {
+            admissionFeeEndEdit?.Invoke(Convert.ToInt32(input));
+        }
     }
 }
