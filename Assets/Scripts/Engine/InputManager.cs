@@ -7,8 +7,12 @@ public class InputManager : MonoBehaviour
 {
     public Action<Vector3Int> OnMouseClick, OnMouseHold;
     public Action OnMouseUp;
+	public Action Paused;
 	private Vector2 cameraMovementVector;
 	private ScrollRect scrollRect;
+
+	public bool IsArrowInputActive { get; set; } = true;
+	public bool IsGameOver { get; set; } = false;
 
     [SerializeField]
 	Camera mainCamera;
@@ -40,7 +44,18 @@ public class InputManager : MonoBehaviour
 		OnClickUp();
 		OnClickHold();
         //InvertScrollDirection();
-        CheckArrowInput();
+		if (IsArrowInputActive == true)
+		{
+            CheckArrowInput();
+		}
+		else
+		{
+            cameraMovementVector = Vector2.zero;
+        }
+		if (!IsGameOver)
+		{
+			CheckPauseInput();
+		}
     }
 
 	private Vector3Int? RaycastGround()
@@ -67,6 +82,14 @@ public class InputManager : MonoBehaviour
 		{
 			cameraMovementVector = Vector2.zero;
         }
+	}
+
+	private void CheckPauseInput()
+	{
+		if (Input.GetKeyDown(KeyCode.Escape))
+		{
+			Paused?.Invoke();
+		}
 	}
 
 	/*private void InvertScrollDirection()

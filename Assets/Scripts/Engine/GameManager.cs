@@ -1,6 +1,7 @@
 using SVS;
 using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -20,6 +21,11 @@ public class GameManager : MonoBehaviour
 
     public Difficulty gameDifficulty;
 
+    private void Awake()
+    {
+        gameDifficulty = DifficultySelector.SelectedDifficulty;
+    }
+
     private void Start()
     {
         economyManager.InitMoney(gameDifficulty);
@@ -28,6 +34,7 @@ public class GameManager : MonoBehaviour
         UIControllerEventSubscription();
         EconomyManagerEventSubscription();
         TimeManagerEventSubsciption();
+        InputManagerEventSubscription();
     }
 
     private void Update()
@@ -212,6 +219,40 @@ public class GameManager : MonoBehaviour
             //TODO
             Debug.Log("Lose");
         }
+        inputManager.IsArrowInputActive = false;
+        inputManager.IsGameOver = true;
+        uiController.ShowPauseMenu(false);
+        uiController.ShowPopupWindow(isGameWon);
+    }
+
+    private void StartNewGame()
+    {
+        SceneManager.LoadScene("GameScene");
+    }
+
+    private void ExitToMainMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
+    }
+
+    private void ResumeGame()
+    {
+        if (!uiController.IsPaused)
+        {
+            timeManager.TogglePause();
+        }
+        inputManager.IsArrowInputActive = true;
+        uiController.ShowPauseMenu(false);
+    }
+
+    private void SaveGame()
+    {
+        Debug.Log("save");
+    }
+
+    private void LoadGame()
+    {
+        Debug.Log("load");
     }
     
     private void InitUIData()
@@ -232,7 +273,10 @@ public class GameManager : MonoBehaviour
     {
         uiController.admissionFeeEndEdit += admissionFee =>
         {
-            economyManager.AdmissionFee = admissionFee;
+            if (admissionFee != 0)
+            {
+                economyManager.AdmissionFee = admissionFee;
+            }
             uiController.UpdateAdmissionFeePanel(economyManager.AdmissionFee);
         };
 
@@ -254,6 +298,14 @@ public class GameManager : MonoBehaviour
 
         uiController.SellButtonPressed += isCancellation => SellAnimalHandler(isCancellation);
         uiController.RemoveButtonPressed += isCancellation => RemoveObjectHandler(isCancellation);
+
+        uiController.popupWindowNewGameButtonPressed += () => StartNewGame();
+        uiController.popupWindowQuitButtonPressed += () => ExitToMainMenu();
+
+        uiController.pauseMenuResumeButtonPressed += () => ResumeGame();
+        uiController.pauseMenuSaveButtonPressed += () => SaveGame();
+        uiController.pauseMenuLoadButtonPressed += () => LoadGame();
+        uiController.pauseMenuQuitButtonPressed += () => ExitToMainMenu();
     }
 
     private void EconomyManagerEventSubscription()
@@ -270,5 +322,30 @@ public class GameManager : MonoBehaviour
         timeManager.Elapsed += () => uiController.UpdateDatePanel(timeManager.CurrentTime);
 
         timeManager.TimeIntervalChanged += () => SetSpeedMultiplierOfEntities();
+    }
+
+    private void InputManagerEventSubscription()
+    {
+        inputManager.Paused += () =>
+        {
+            if (uiController.IsPauseMenuActive)
+            {
+                if (!uiController.IsPaused)
+                {
+                    timeManager.TogglePause();
+                }
+                inputManager.IsArrowInputActive = true;
+                uiController.ShowPauseMenu(false);
+            }
+            else
+            {
+                if (!uiController.IsPaused)
+                {
+                    timeManager.TogglePause();
+                }
+                inputManager.IsArrowInputActive = false;
+                uiController.ShowPauseMenu(true);
+            }
+        };
     }
 }

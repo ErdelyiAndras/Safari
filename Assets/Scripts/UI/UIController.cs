@@ -57,6 +57,29 @@ public class UIController : MonoBehaviour
     public Color removeButtonOutlineColor;
 
 
+    public GameObject wonWindow;
+    public GameObject lostWindow;
+
+    public List<Button> popupWindowNewGameButtons;
+    public List<Button> popupWindowQuitButtons;
+
+    public Action popupWindowNewGameButtonPressed;
+    public Action popupWindowQuitButtonPressed;
+
+
+    public GameObject pauseMenu;
+
+    public Button PauseMenuResumeButton;
+    public Button PauseMenuSaveButton;
+    public Button PauseMenuLoadButton;
+    public Button PauseMenuQuitButton;
+
+    public Action pauseMenuResumeButtonPressed;
+    public Action pauseMenuSaveButtonPressed;
+    public Action pauseMenuLoadButtonPressed;
+    public Action pauseMenuQuitButtonPressed;
+
+
     private List<Button> placementButtonList;
     private List<Button> timeButtonList;
     private List<Button> removeButtonList;
@@ -82,6 +105,16 @@ public class UIController : MonoBehaviour
     public Text touristCount;
 
     public Action<int> admissionFeeEndEdit;
+
+    public bool IsPauseMenuActive
+    {
+        get { return pauseMenu.activeSelf; }
+    }
+
+    public bool IsPaused
+    {
+        get { return isPaused; }
+    }
 
     private void Awake()
     {
@@ -124,29 +157,29 @@ public class UIController : MonoBehaviour
         Carnivore1Button.onClick.AddListener(() => UncancelablePlacementButtonPressedListener(Carnivore1ButtonPressed));
 
         Carnivore2Button.onClick.AddListener(() => UncancelablePlacementButtonPressedListener(Carnivore2ButtonPressed));
-        
+
         Herbivore1Button.onClick.AddListener(() => UncancelablePlacementButtonPressedListener(Herbivore1ButtonPressed));
-        
+
         Herbivore2Button.onClick.AddListener(() => UncancelablePlacementButtonPressedListener(Herbivore2ButtonPressed));
-        
+
         Plant1Button.onClick.AddListener(() => CancelableButtonPressedListener(
             ButtonGroup.Placement,
             Plant1Button,
             Plant1ButtonPressed)
         );
-        
+
         Plant2Button.onClick.AddListener(() => CancelableButtonPressedListener(
             ButtonGroup.Placement,
             Plant2Button,
             Plant2ButtonPressed)
         );
-        
+
         Plant3Button.onClick.AddListener(() => CancelableButtonPressedListener(
             ButtonGroup.Placement,
             Plant3Button,
             Plant3ButtonPressed)
         );
-        
+
         LakeButton.onClick.AddListener(() => CancelableButtonPressedListener(
             ButtonGroup.Placement,
             LakeButton,
@@ -174,6 +207,22 @@ public class UIController : MonoBehaviour
 
 
         admissionFeeInputField.onEndEdit.AddListener(value => OnAdmissionFeeEndEdit(value));
+
+
+        foreach (Button button in popupWindowNewGameButtons)
+        {
+            button.onClick.AddListener(() => OnNewGameButtonPressed());
+        }
+        foreach (Button button in popupWindowQuitButtons)
+        {
+            button.onClick.AddListener(() => OnQuitButtonPressed());
+        }
+
+
+        PauseMenuResumeButton.onClick.AddListener(() => OnPauseMenuResumeButtonPressed());
+        PauseMenuSaveButton.onClick.AddListener(() => OnPauseMenuSaveButtonPressed());
+        PauseMenuLoadButton.onClick.AddListener(() => OnPauseMenuLoadButtonPressed());
+        PauseMenuQuitButton.onClick.AddListener(() => OnPauseMenuQuitButtonPressed());
     }
 
     private void Start()
@@ -259,6 +308,17 @@ public class UIController : MonoBehaviour
         {
             touristCount.text = tourist.ToString();
         }
+    }
+
+    public void ShowPopupWindow(bool showWon)
+    {
+        wonWindow.SetActive(showWon);
+        lostWindow.SetActive(!showWon);
+    }
+
+    public void ShowPauseMenu(bool show)
+    {
+        pauseMenu.SetActive(show);
     }
 
     private void CancelableButtonPressedListener(
@@ -357,6 +417,36 @@ public class UIController : MonoBehaviour
         selectedTimeButton = button;
     }
 
+    private void OnNewGameButtonPressed()
+    {
+        popupWindowNewGameButtonPressed?.Invoke();
+    }
+
+    private void OnQuitButtonPressed()
+    {
+        popupWindowQuitButtonPressed?.Invoke();
+    }
+
+    private void OnPauseMenuResumeButtonPressed()
+    {
+        pauseMenuResumeButtonPressed?.Invoke();
+    }
+
+    private void OnPauseMenuSaveButtonPressed()
+    {
+        pauseMenuSaveButtonPressed?.Invoke();
+    }
+
+    private void OnPauseMenuLoadButtonPressed()
+    {
+        pauseMenuLoadButtonPressed?.Invoke();
+    }
+
+    private void OnPauseMenuQuitButtonPressed()
+    {
+        pauseMenuQuitButtonPressed?.Invoke();
+    }
+
     private void ModifyOutline(Button button, Color outlineColor)
     {
         var outline = button.GetComponent<Outline>();
@@ -374,6 +464,13 @@ public class UIController : MonoBehaviour
 
     private void OnAdmissionFeeEndEdit(string input)
     {
-        admissionFeeEndEdit?.Invoke(Convert.ToInt32(input));
+        if (string.IsNullOrEmpty(input))
+        {
+            admissionFeeEndEdit?.Invoke(0);
+        }
+        else
+        {
+            admissionFeeEndEdit?.Invoke(Convert.ToInt32(input));
+        }
     }
 }
