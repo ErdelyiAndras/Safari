@@ -61,9 +61,9 @@ public class Herd
     }
     public void AgeAnimals()
     {
-        foreach (Animal animal in animals)
+        for (int i = animals.Count - 1; i >= 0; i--)
         {
-            animal.AgeAnimal();
+            animals[i].AgeAnimal();
         }
     }
 

@@ -26,10 +26,16 @@ public class AnimalManager : MonoBehaviour, ITimeHandler
     }
     private void Update()
     {
-        foreach(var herd in herds)
+        for (int i = herds.Count - 1; i >= 0; i--)
         {
-            herd.CalculateCentroid();
-            herd.CheckState();
+            if (herds[i].Count == 0)
+            {
+                Destroy(herds[i].gameObject);
+                herds.RemoveAt(i);
+                continue;
+            }
+            herds[i].CalculateCentroid();
+            herds[i].CheckState();
         }
     }
 

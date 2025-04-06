@@ -24,12 +24,13 @@ public abstract class Animal : Entity
     }
     public readonly AnimalType type;
     public Action<Animal> AnimalDied;
-    protected float maxFood = 100.0f, maxDrink = 100.0f, foodThreshold = 0.97f, drinkThreshold = 0.7f, foodNutrition = 3.0f, drinkNutrition = 30.0f;
-    protected float remainingLifetime = 100.0f, food = 100.0f, drink = 100.0f;
+    protected float maxFood = 100.0f, maxDrink = 100.0f, foodThreshold = 0.92f, drinkThreshold = 0.98f, foodNutrition = 6.0f, drinkNutrition = 3.0f;
+    protected float remainingLifetime = 2.0f, food = 100.0f, drink = 100.0f;
     protected readonly float basicViewDistance = 10.0f, viewExtendScale = 2.0f;
     protected List<Vector3Int> discoveredDrink;
-    protected float eatingTime = 2.0f, drinkingTime = 2.0f, restTime = 10.0f;
+    protected float eatingTime = 10.0f, drinkingTime = 10.0f, restTime = 7.0f;
     private float elapsedTime = 0.0f;
+
     public float rotationSpeed = 5.0f;
     protected Vector3 targetPosition;
     public Herd myHerd;
@@ -69,25 +70,22 @@ public abstract class Animal : Entity
         switch(MyState)
         {
             case State.Resting:
-                Debug.Log("RESING");
                 WaitAction(restTime, State.Moving);
                 break;
             case State.Moving:
-                Debug.Log("MOVING");
                 Move();
                 break;
             case State.SearchingForFood:
-                Debug.Log("LOOKING FOR FOOD");
                 MoveToFood();
                 break;
             case State.SearchingForWater:
                 MoveToWater();
                 break;
             case State.Eating:
-                Debug.Log("EATING");
                 WaitAction(eatingTime, ref food, foodNutrition, State.Resting);
                 break;
             case State.Drinking:
+
                 WaitAction(drinkingTime, ref drink, drinkNutrition, State.Resting);
                 break;
             case State.Mating:
@@ -104,7 +102,6 @@ public abstract class Animal : Entity
         }
         else
         {
-            Debug.Log("Eating Done");
             toAdvance += advanceStep;
             MyState = changeStateTo;
             elapsedTime = 0.0f;
@@ -320,7 +317,6 @@ public abstract class Animal : Entity
                 randomX = UnityEngine.Random.Range(0, placementManager.width);
                 randomZ = UnityEngine.Random.Range(0, placementManager.height);
                 temporatyPosition = new Vector3(randomX, 0, randomZ);
-                Debug.Log("Random position to find food" + temporatyPosition);
             }
         } while (!placementManager.CheckIfPositionInBound(Vector3Int.RoundToInt(temporatyPosition)) || !placementManager.IsPositionWalkable(Vector3Int.RoundToInt(temporatyPosition)));
         targetPosition = temporatyPosition;

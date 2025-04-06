@@ -19,7 +19,7 @@ public class SearchViewDistance
     }
     public List<Vector3Int> GetDrinkResult()
     {
-        return discoveredDrink;
+        return drinkResult;
     }
 
 
@@ -79,17 +79,17 @@ public class SearchViewDistance
     {
         List<Vector3Int> neighbors = new List<Vector3Int>
         {
-            position + Vector3Int.right,
-            position + Vector3Int.left,
-            position + Vector3Int.up,
-            position + Vector3Int.down,
+            position + new Vector3Int(1, 0, 0),
+            position + new Vector3Int(-1, 0, 0),
+            position + new Vector3Int(0, 0, 1),
+            position + new Vector3Int(0, 0, -1),
             position + new Vector3Int(1, 0, 1),
             position + new Vector3Int(1, 0, -1),
             position + new Vector3Int(-1, 0, 1),
             position + new Vector3Int(-1, 0, -1)
         };
 
-        neighbors.RemoveAll(neighbor => !placementManager.CheckIfPositionInBound(neighbor) || !placementManager.IsPositionWalkable(neighbor));
+        neighbors.RemoveAll(neighbor => !placementManager.CheckIfPositionInBound(neighbor));
 
         return neighbors;
     }
