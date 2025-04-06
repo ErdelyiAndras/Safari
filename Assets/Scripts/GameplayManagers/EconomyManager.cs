@@ -70,6 +70,7 @@ public class EconomyManager : MonoBehaviour
                 money = hardGameStartMoney;
                 break;
         }
+        money = int.MaxValue; // TODO: delete this line after debugging
     }
 
     public bool HasEnoughMoney(int amount) => money >= amount;
