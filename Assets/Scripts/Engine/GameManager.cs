@@ -336,7 +336,7 @@ public class GameManager : MonoBehaviour
 
     private void AnimalManagerEventSubscription()
     {
-        animalManager.Carnivore1Changed += count => { Debug.Log(count); uiController.UpdateCarnivore1Panel(count); };
+        animalManager.Carnivore1Changed += count => uiController.UpdateCarnivore1Panel(count);
         animalManager.Carnivore2Changed += count => uiController.UpdateCarnivore2Panel(count);
         animalManager.Herbivore1Changed += count => uiController.UpdateHerbivore1Panel(count);
         animalManager.Herbivore2Changed += count => uiController.UpdateHerbivore2Panel(count);
