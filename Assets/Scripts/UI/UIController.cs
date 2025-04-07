@@ -262,7 +262,7 @@ public class UIController : MonoBehaviour
         }
     }
 
-    public void UpdateCarnivore1Panel(int carnivore1)
+    public void UpdateCarnivore1Panel(uint carnivore1)
     {
         if (carnivore1Count != null)
         {
@@ -270,7 +270,7 @@ public class UIController : MonoBehaviour
         }
     }
 
-    public void UpdateCarnivore2Panel(int carnivore2)
+    public void UpdateCarnivore2Panel(uint carnivore2)
     {
         if (carnivore2Count != null)
         {
@@ -278,7 +278,7 @@ public class UIController : MonoBehaviour
         }
     }
 
-    public void UpdateHerbivore1Panel(int herbivore1)
+    public void UpdateHerbivore1Panel(uint herbivore1)
     {
         if (herbivore1Count != null)
         {
@@ -286,7 +286,7 @@ public class UIController : MonoBehaviour
         }
     }
 
-    public void UpdateHerbivore2Panel(int herbivore2)
+    public void UpdateHerbivore2Panel(uint herbivore2)
     {
         if (herbivore2Count != null)
         {
@@ -298,7 +298,7 @@ public class UIController : MonoBehaviour
     {
         if (satisfactionCount != null)
         {
-            satisfactionCount.text = satisfaction.ToString();
+            satisfactionCount.text = satisfaction.ToString("F2");
         }
     }
 

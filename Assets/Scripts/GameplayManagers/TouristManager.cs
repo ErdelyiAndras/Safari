@@ -12,8 +12,9 @@ public class TouristManager : MonoBehaviour, ITimeHandler
     public PlacementManager placementManager;
     private List<Jeep> jeeps = new List<Jeep>();
     public GameObject jeepPrefab;
-    public Action<float> SatisfactionChanged; // TODO feliratkozni rá a UI változásához
-    public Action<int> TouristsInQueueChanged; // TODO feliratkozni rá a UI változásához
+    public Action<float> SatisfactionChanged;
+    public Action<int> TouristsInQueueChanged;
+    public Action<int> JeepCountChanged;
 
     private void Start()
     {
@@ -29,6 +30,7 @@ public class TouristManager : MonoBehaviour, ITimeHandler
     }
     
     public int JeepCount => jeeps.Count;
+
     private void TouristsLeave(Jeep jeep)
     {
         ModifySatisfaction(jeep.tourists.CalculateSatisfaction());
@@ -40,6 +42,7 @@ public class TouristManager : MonoBehaviour, ITimeHandler
         {
             TouristsInQueue--;
             jeep.tourists.AddTourist();
+            TouristsInQueueChanged?.Invoke(TouristsInQueue);
         }
     }
 
@@ -48,15 +51,17 @@ public class TouristManager : MonoBehaviour, ITimeHandler
         Satisfaction = (Satisfaction + satisfaction) / 2;
         SatisfactionChanged?.Invoke(Satisfaction);
     }
+
     public void AcquireNewJeep()
     {
         jeeps.Add(new Jeep(placementManager, jeepPrefab, this));
+        JeepCountChanged?.Invoke(JeepCount);
     }
 
     public void ManageTick()
     {
         TouristsInQueue += 1;
-        TouristsInQueueChanged?.Invoke(touristCount);
+        TouristsInQueueChanged?.Invoke(TouristsInQueue);
         // logic to calculate how many tourists arrive
     }
 }

@@ -12,18 +12,7 @@ public class AnimalManager : MonoBehaviour, ITimeHandler
     private List<Herd> herds = new List<Herd>();
     private Dictionary<AnimalType, uint> animalCount = new Dictionary<AnimalType, uint>();
     public Action<uint> Carnivore1Changed, Carnivore2Changed, Herbivore1Changed, Herbivore2Changed;
-    private Dictionary<AnimalType, Action<uint>> animalChangedActions;
 
-    private void Start()
-    {
-        animalChangedActions = new Dictionary<AnimalType, Action<uint>>
-        {
-            { AnimalType.Carnivore1, Carnivore1Changed },
-            { AnimalType.Carnivore2, Carnivore2Changed },
-            { AnimalType.Herbivore1, Herbivore1Changed },
-            { AnimalType.Herbivore2, Herbivore2Changed },
-        };
-    }
     private void Update()
     {
         for (int i = herds.Count - 1; i >= 0; i--)
@@ -39,7 +28,12 @@ public class AnimalManager : MonoBehaviour, ITimeHandler
         }
     }
 
-    public uint GetAnimalCount(AnimalType type)
+    public uint Carnivore1Count => GetAnimalCount(AnimalType.Carnivore1);
+    public uint Carnivore2Count => GetAnimalCount(AnimalType.Carnivore2);
+    public uint Herbivore1Count => GetAnimalCount(AnimalType.Herbivore1);
+    public uint Herbivore2Count => GetAnimalCount(AnimalType.Herbivore2);
+
+    private uint GetAnimalCount(AnimalType type)
     {
         if (animalCount.ContainsKey(type))
         {
@@ -116,7 +110,8 @@ public class AnimalManager : MonoBehaviour, ITimeHandler
         animal.AnimalDied += DeleteAnimalFromHerd;
         animalHerd.AddAnimalToHerd(animal);
         SetAnimalCount(animal.type);
-        animalChangedActions[animal.type]?.Invoke(animalCount[animal.type]);
+        //animalChangedActions[animal.type]?.Invoke(animalCount[animal.type]);
+        InvokeAnimalCountChanged(animal.type);
     }
 
     private void SetAnimalCount(AnimalType type)
@@ -137,7 +132,27 @@ public class AnimalManager : MonoBehaviour, ITimeHandler
         if (animalCount[animal.type] != 0)
         {
             animalCount[animal.type]--;
-            animalChangedActions[animal.type]?.Invoke(animalCount[animal.type]);
+            //animalChangedActions[animal.type]?.Invoke(animalCount[animal.type]);
+            InvokeAnimalCountChanged(animal.type);
+        }
+    }
+
+    private void InvokeAnimalCountChanged(AnimalType type)
+    {
+        switch (type)
+        {
+            case AnimalType.Carnivore1:
+                Carnivore1Changed?.Invoke(Carnivore1Count);
+                break;
+            case AnimalType.Carnivore2:
+                Carnivore2Changed?.Invoke(Carnivore2Count);
+                break;
+            case AnimalType.Herbivore1:
+                Herbivore1Changed?.Invoke(Herbivore1Count);
+                break;
+            case AnimalType.Herbivore2:
+                Herbivore2Changed?.Invoke(Herbivore2Count);
+                break;
         }
     }
 }

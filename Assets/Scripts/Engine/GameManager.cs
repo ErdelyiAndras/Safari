@@ -33,7 +33,9 @@ public class GameManager : MonoBehaviour
         InitUIData();
         UIControllerEventSubscription();
         EconomyManagerEventSubscription();
-        TimeManagerEventSubsciption();
+        TouristManagerEventSubscription();
+        AnimalManagerEventSubscription();
+        TimeManagerEventSubscription();
         InputManagerEventSubscription();
     }
 
@@ -261,10 +263,11 @@ public class GameManager : MonoBehaviour
         uiController.UpdateAdmissionFeePanel(economyManager.AdmissionFee);
         uiController.UpdateDatePanel(timeManager.CurrentTime);
         uiController.UpdateJeepPanel(touristManager.JeepCount);
-        //uiController.UpdateCarnivore1Panel(animalManager.Carnivore1Count);
-        //uiController.UpdateCarnivore2Panel(animalManager.Carnivore2Count);
-        //uiController.UpdateHerbivore1Panel(animalManager.Herbivore1Count);
-        //uiController.UpdateHerbivore2Panel(animalManager.Herbivore2Count);
+        uiController.UpdateCarnivore1Panel(animalManager.Carnivore1Count);
+        uiController.UpdateCarnivore2Panel(animalManager.Carnivore2Count);
+        uiController.UpdateHerbivore1Panel(animalManager.Herbivore1Count);
+        uiController.UpdateHerbivore2Panel(animalManager.Herbivore2Count);
+        uiController.UpdateJeepPanel(touristManager.JeepCount);
         uiController.UpdateSatisfactionPanel(touristManager.Satisfaction);
         uiController.UpdateTouristsPanel(touristManager.TouristsInQueue);
     }
@@ -314,7 +317,7 @@ public class GameManager : MonoBehaviour
         economyManager.moneyChanged += money => uiController.UpdateMoneyPanel(money);
     }
 
-    private void TimeManagerEventSubsciption()
+    private void TimeManagerEventSubscription()
     {
         timeManager.Elapsed += () => economyManager.DailyMaintenance();
         timeManager.Elapsed += () => touristManager.ManageTick();
@@ -322,6 +325,21 @@ public class GameManager : MonoBehaviour
         timeManager.Elapsed += () => uiController.UpdateDatePanel(timeManager.CurrentTime);
 
         timeManager.TimeIntervalChanged += () => SetSpeedMultiplierOfEntities();
+    }
+
+    private void TouristManagerEventSubscription()
+    {
+        touristManager.TouristsInQueueChanged += tourists => uiController.UpdateTouristsPanel(tourists);
+        touristManager.SatisfactionChanged += satisfaction => uiController.UpdateSatisfactionPanel(satisfaction);
+        touristManager.JeepCountChanged += jeepCount => uiController.UpdateJeepPanel(jeepCount);
+    }
+
+    private void AnimalManagerEventSubscription()
+    {
+        animalManager.Carnivore1Changed += count => { Debug.Log(count); uiController.UpdateCarnivore1Panel(count); };
+        animalManager.Carnivore2Changed += count => uiController.UpdateCarnivore2Panel(count);
+        animalManager.Herbivore1Changed += count => uiController.UpdateHerbivore1Panel(count);
+        animalManager.Herbivore2Changed += count => uiController.UpdateHerbivore2Panel(count);
     }
 
     private void InputManagerEventSubscription()
