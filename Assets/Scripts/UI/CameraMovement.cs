@@ -6,7 +6,7 @@ namespace SVS
     public class CameraMovement : MonoBehaviour
     {
         public Camera gameCamera;
-        public float cameraMovementSpeed = 5;
+        public float cameraMovementSpeed = Constants.CameraMovementSpeed;
 
         private void Start()
         {

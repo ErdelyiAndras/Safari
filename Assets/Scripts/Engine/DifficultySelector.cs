@@ -1,4 +1,4 @@
 public static class DifficultySelector
 {
-    public static Difficulty SelectedDifficulty { get; set; } = Difficulty.Normal;
+    public static Difficulty SelectedDifficulty { get; set; } = Constants.DefaultDifficulty;
 }

@@ -29,6 +29,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         economyManager.InitMoney(gameDifficulty);
+        Entity.SpeedMultiplier = timeManager.EntitySpeedMultiplier;
 
         InitUIData();
         UIControllerEventSubscription();
@@ -59,7 +60,6 @@ public class GameManager : MonoBehaviour
         {
             touristManager.AcquireNewJeep();
             economyManager.SpendMoney(economyManager.UnitCostOfJeep);
-            // TODO: JeepCount
         }
     }
 

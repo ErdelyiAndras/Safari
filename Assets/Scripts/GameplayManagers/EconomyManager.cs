@@ -4,18 +4,18 @@ using UnityEngine;
 public class EconomyManager : MonoBehaviour
 {
     // TODO: balance start money
-    public int easyGameStartMoney = 700;
-    public int normalGameStartMoney = 500;
-    public int hardGameStartMoney = 300;
+    public int easyGameStartMoney = Constants.EasyGameStartMoney;
+    public int normalGameStartMoney = Constants.NormalGameStartMoney;
+    public int hardGameStartMoney = Constants.HardGameStartMoney;
 
     public int money;
-    private int admissionFee = 40;
+    private int admissionFee = Constants.DefaultAdmissionFee;
 
     public Action<int> moneyChanged;
 
     private bool wasInitialized = false;
 
-    private int maintenanceFee = 20;
+    private int maintenanceFee = Constants.MaintenanceFee;
 
     public int Money
     {
@@ -44,12 +44,12 @@ public class EconomyManager : MonoBehaviour
     public Action GoneBankrupt;
     
     // TODO: balance costs
-    public int UnitCostOfNature => 20; 
-    public int UnitCostOfHerbivore => 50;
-    public int UnitCostOfCarnivore => 100;
-    public int UnitCostOfJeep => 200;
-    public int UnitCostOfRoad => 10;
-    public int UnitCostOfWater => 100;
+    public int UnitCostOfNature => Constants.UnitCostOfNature; 
+    public int UnitCostOfHerbivore => Constants.UnitCostOfHerbivore;
+    public int UnitCostOfCarnivore => Constants.UnitCostOfCarnivore;
+    public int UnitCostOfJeep => Constants.UnitCostOfJeep;
+    public int UnitCostOfRoad => Constants.UnitCostOfRoad;
+    public int UnitCostOfWater => Constants.UnitCostOfWater;
 
     public void InitMoney(Difficulty difficulty)
     {

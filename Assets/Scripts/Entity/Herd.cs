@@ -12,11 +12,12 @@ public enum HerdType
 public class Herd
 {
     public readonly HerdType herdType;
+    public HerdType HerdType => herdType;
     private List<Animal> animals;
-    public int Count {  get { return animals.Count; } }
+    public int Count { get { return animals.Count; } }
     private Vector2Int centroid;
     public Vector3Int Spawnpoint { get { return animals.Count == 0 ? GetRandomPosition() : new Vector3Int(centroid.x, 0, centroid.y); } }
-    public int DistributionRadius { get; protected set;}
+    public float DistributionRadius { get; protected set;}
     private PlacementManager placementManager;
     public GameObject gameObject = new GameObject();
     

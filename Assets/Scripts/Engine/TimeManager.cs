@@ -9,11 +9,11 @@ public class TimeManager : MonoBehaviour
     public Action Elapsed;
     public Action TimeIntervalChanged;
 
-    public float baseSpeed = 30.0f;
+    public float baseSpeed = Constants.BaseTimeSpeed;
 
-    public float hourSpeedMultiplier = 1.0f;
-    public float daySpeedMultiplier = 2.0f;
-    public float weekSpeedMultiplier = 3.0f;
+    public float hourSpeedMultiplier = Constants.HourSpeedMultiplier;
+    public float daySpeedMultiplier = Constants.DaySpeedMultiplier;
+    public float weekSpeedMultiplier = Constants.WeekSpeedMultiplier;
 
     public float EntitySpeedMultiplier
     {
@@ -68,10 +68,9 @@ public class TimeManager : MonoBehaviour
     {
         tickCounter = 0;
 
-        baseSpeed = 30.0f;
         elapsedTime = 0.0f;
         isPaused = false;
-        timeInterval = TimeInterval.HOUR;
+        timeInterval = Constants.DefaultTimeInterval;
         currentTime = DateTime.Now;
     }
 

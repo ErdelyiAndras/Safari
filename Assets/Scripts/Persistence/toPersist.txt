@@ -1,0 +1,25 @@
+Grid:
+	width, height
+	grid
+	növény prefabek
+
+Camera:
+	position
+
+AnimalManager: animalCount dictionary helyett lehetne hogy kiszámolódik
+	herd lista
+
+Herd:
+	herdType
+	animal lista
+	DistributionRadius?
+
+Animal:
+	type
+	state
+	remaingingLifetime, food, drink
+	discoveredEnvironment: SeearchViewDistance
+	myherd
+	targetposition
+	callOnceflag
+	elapsedTime

@@ -10,7 +10,7 @@ public class AnimalManager : MonoBehaviour, ITimeHandler
     public PlacementManager placementManager;
     public GameObject carnivore1Prefab, carnivore2Prefab, herbivore1Prefab, herbivore2Prefab;
     private List<Herd> herds = new List<Herd>();
-    private Dictionary<AnimalType, uint> animalCount = new Dictionary<AnimalType, uint>();
+    private Dictionary<AnimalType, uint> animalCount = new Dictionary<AnimalType, uint>(); // TODO: use properties and conditional summation
     public Action<uint> Carnivore1Changed, Carnivore2Changed, Herbivore1Changed, Herbivore2Changed;
 
     private void Update()
@@ -40,6 +40,8 @@ public class AnimalManager : MonoBehaviour, ITimeHandler
             return animalCount[type];
         }
         return 0;
+        //herds.Where(h => h.HerdType == type).Sum(x => x.Count);
+
     }
 
     public void ManageTick()
