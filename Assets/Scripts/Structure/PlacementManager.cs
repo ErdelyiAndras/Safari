@@ -13,10 +13,22 @@ public class PlacementManager : MonoBehaviour
 
     private Dictionary<Vector3Int, StructureModel> temporaryRoadobjects = new Dictionary<Vector3Int, StructureModel>();
     private Dictionary<Vector3Int, StructureModel> structureDictionary = new Dictionary<Vector3Int, StructureModel>();
+    public PlacedObjects PlacedObjects { get; private set; } = new PlacedObjects();
 
     private void Awake()
     {
         placementGrid = new Grid(width, height);
+    }
+
+    public void RegisterObject(Guid id, ObjectType type, Entity entity)
+    {
+        SafariObject obj = new SafariObject
+        {
+            guid = id,
+            type = type,
+            entity = entity
+        };
+        PlacedObjects.AddObject(obj);
     }
 
     internal bool CheckIfPositionInBound(Vector3Int position) => position.x >= 0 && position.x < width && position.z >= 0 && position.z < height;

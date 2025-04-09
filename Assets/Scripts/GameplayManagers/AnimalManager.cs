@@ -54,6 +54,7 @@ public class AnimalManager : MonoBehaviour, ITimeHandler
         Herd _herd = ChooseHerd(HerdType.Carnivore1Herd);
         Animal animal = new Carnivore1(carnivore1Prefab, placementManager, _herd, herds);
         InitAnimal(_herd, animal);
+        placementManager.RegisterObject(animal.Id, ObjectType.Carnivore, animal);
     }
 
     public void BuyCarnivore2()
@@ -61,6 +62,7 @@ public class AnimalManager : MonoBehaviour, ITimeHandler
         Herd _herd = ChooseHerd(HerdType.Carnivore2Herd);
         Animal animal = new Carnivore2(carnivore2Prefab, placementManager, _herd, herds);
         InitAnimal(_herd, animal);
+        placementManager.RegisterObject(animal.Id, ObjectType.Carnivore, animal);
     }
 
     public void BuyHerbivore1()
@@ -68,6 +70,7 @@ public class AnimalManager : MonoBehaviour, ITimeHandler
         Herd _herd = ChooseHerd(HerdType.Herbivore1Herd);
         Animal animal = new Herbivore1(herbivore1Prefab, placementManager, _herd);
         InitAnimal(_herd, animal);
+        placementManager.RegisterObject(animal.Id, ObjectType.Herbivore, animal);
     }
 
     public void BuyHerbivore2()
@@ -75,6 +78,8 @@ public class AnimalManager : MonoBehaviour, ITimeHandler
         Herd _herd = ChooseHerd(HerdType.Herbivore2Herd);
         Animal animal = new Herbivore2(herbivore2Prefab, placementManager, _herd);
         InitAnimal(_herd, animal);
+        placementManager.RegisterObject(animal.Id, ObjectType.Herbivore, animal);
+
     }
 
     //TODO: ha van 1 elemű csorda akkor ne jöhesen létre random, hanem abba kerüljön az új állat
@@ -127,6 +132,7 @@ public class AnimalManager : MonoBehaviour, ITimeHandler
 
     private void DeleteAnimalFromHerd(Animal animal)
     {
+        placementManager.PlacedObjects.DeleteObject(animal);
         animal.myHerd.RemoveAnimalFromHerd(animal);
         if (animalCount[animal.Type] != 0)
         {

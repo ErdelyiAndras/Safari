@@ -21,7 +21,6 @@ public abstract class Animal : Entity
         Drinking,
         Mating
     }
-    public Guid Id { get; }
     public Action<Animal> AnimalDied;
     protected List<Vector3Int> discoveredDrink;
     public AnimalInternalState state;

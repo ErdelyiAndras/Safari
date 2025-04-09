@@ -1,7 +1,9 @@
 using UnityEngine;
+using System;
 
 public abstract class Entity
 {
+    public Guid Id { get; protected set; }
     protected Vector3 spawnPosition; 
     protected GameObject entityInstance;
     protected PlacementManager placementManager;
@@ -17,5 +19,5 @@ public abstract class Entity
     }
     public abstract void CheckState();
     protected abstract void Move();
-    protected void SpawnEntity(GameObject prefab, Transform parent = null) => entityInstance = Object.Instantiate(prefab, spawnPosition, Quaternion.identity, parent);
+    protected void SpawnEntity(GameObject prefab, Transform parent = null) => entityInstance = UnityEngine.Object.Instantiate(prefab, spawnPosition, Quaternion.identity, parent);
 }
