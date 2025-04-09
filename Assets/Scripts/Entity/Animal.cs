@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-
 public enum AnimalType
 {
     Herbivore1,
@@ -22,55 +21,44 @@ public abstract class Animal : Entity
         Drinking,
         Mating
     }
-    public readonly AnimalType type;
+    public Guid Id { get; }
     public Action<Animal> AnimalDied;
-    protected float maxFood = 100.0f, maxDrink = 100.0f, foodThreshold = 0.92f, drinkThreshold = 0.98f, foodNutrition = 6.0f, drinkNutrition = 3.0f;
-    protected float remainingLifetime = 2.0f, food = 100.0f, drink = 100.0f;
-    protected readonly float basicViewDistance = 10.0f, viewExtendScale = 2.0f;
     protected List<Vector3Int> discoveredDrink;
-    protected float eatingTime = 10.0f, drinkingTime = 10.0f, restTime = 7.0f;
-    private float elapsedTime = 0.0f;
-
-    public float rotationSpeed = 5.0f;
+    public AnimalInternalState state;
     protected Vector3 targetPosition;
     public Herd myHerd;
+    private float elapsedTime = 0.0f;
     protected SearchViewDistance discoverEnvironment;
-    private bool callOnceFlag;
-    
-
-    // TODO: ViewDistance cuccait kiszervezni a SearchViewDiasntce classba
-    protected float ViewDistance { 
-        get 
-        {
-            return placementManager.GetTypeOfPosition(placementManager.RoundPosition(Position)) == CellType.Hill ? basicViewDistance * viewExtendScale : basicViewDistance;
-        }
-    }
-
-    public float Health { get => (food * drink + remainingLifetime); } // TODO : balance health
-
-    public State MyState { get; private set; }
-    protected bool IsAnimalDead() => remainingLifetime <= 0 || Health <= 0 || food <= 0 || drink <= 0;
+    protected bool callOnceFlag;
+    protected float ViewDistance { get { return placementManager.GetTypeOfPosition(placementManager.RoundPosition(Position)) == CellType.Hill ? visionRange * viewExtenderScale : visionRange; }}
+    public float Health { get => (state.Hunger * state.Thirst * state.RemainingLifetime * state.Health); }
+    public AnimalType Type { get { return state.type; } }
+    //temporary
+    public readonly float viewExtenderScale = 2.0f;
+    //
+    public State MyState { get; protected set; }
 
     public Animal(GameObject prefab, PlacementManager _placementManager, Herd parent, AnimalType _type)
     {
+        Id = Guid.NewGuid();
+        discoveredDrink = new List<Vector3Int>();
         myHerd = parent;
         placementManager = _placementManager;
         spawnPosition = parent.Spawnpoint;
-        baseMoveSpeed = 2.0f;
-        type = _type;
-        discoveredDrink = new List<Vector3Int>();
-        SpawnEntity(prefab, parent.gameObject.transform);
+        state = new AnimalInternalState(_type);
         targetPosition = spawnPosition;
-        MyState = State.Moving;
-        
+        SpawnEntity(prefab, parent.gameObject.transform);
+        MyState = State.Moving; 
     }
+    protected bool IsAnimalDead() => Health <= 0;
 
     public override void CheckState()
     {   
+        Debug.Log(MyState.ToString());
         switch(MyState)
         {
             case State.Resting:
-                WaitAction(restTime, State.Moving);
+                WaitAction(state.RestTime, State.Moving);
                 break;
             case State.Moving:
                 Move();
@@ -82,19 +70,19 @@ public abstract class Animal : Entity
                 MoveToWater();
                 break;
             case State.Eating:
-                WaitAction(eatingTime, ref food, foodNutrition, State.Resting);
+                WaitAction(state.EatingTime, ref state.Hunger, state.MaxFood, state.FoodNutrition, State.Resting);
                 break;
             case State.Drinking:
 
-                WaitAction(drinkingTime, ref drink, drinkNutrition, State.Resting);
+                WaitAction(state.DrinkingTime, ref state.Thirst, state.MaxDrink, state.DrinkNutrition, State.Resting);
                 break;
             case State.Mating:
-                WaitAction(restTime, State.Moving);
+                WaitAction(state.RestTime, State.Moving);
                 break;
         }
     }
 
-    private void WaitAction(float duration, ref float toAdvance, float advanceStep, State changeStateTo)
+    private void WaitAction(float duration, ref float toAdvance, float maxvalue, float advanceStep, State changeStateTo)
     {
         if (elapsedTime < duration)
         {
@@ -102,7 +90,12 @@ public abstract class Animal : Entity
         }
         else
         {
-            toAdvance += advanceStep;
+            
+            toAdvance += toAdvance < maxvalue ? advanceStep : 0.0f;
+            if ( MyState == State.Eating && Health < state.MaxHealth)
+            {
+                state.Health += (state.MaxHealth - state.Health)/2;
+            }
             MyState = changeStateTo;
             elapsedTime = 0.0f;
         }
@@ -123,26 +116,26 @@ public abstract class Animal : Entity
 
     public virtual void MatureAnimal()
     {
-        remainingLifetime--;
-        food--;
-        drink--;
+        state.RemainingLifetime--;
+        state.Hunger--;
+        state.Thirst--;
         if (IsAnimalDead())
         {
             AnimalDies();
         }
         if (MyState != State.Eating && MyState != State.Drinking && MyState != State.Mating)
         {
-            if (food < maxFood * foodThreshold && MyState != State.SearchingForWater)
+            if (state.Hunger < state.MaxFood * state.FoodThreshold && MyState != State.SearchingForWater)
             {
                 MyState = State.SearchingForFood;
             }
-            if (drink < maxDrink * drinkThreshold && MyState != State.SearchingForFood)
+            if (state.Thirst < state.MaxDrink * state.DrinkThreshold && MyState != State.SearchingForFood)
             {
                 MyState = State.SearchingForWater;
             }
-            if (food < maxFood * foodThreshold && drink < maxDrink * drinkThreshold)
+            if (state.Hunger < state.MaxFood * state.FoodThreshold && state.Thirst < state.MaxDrink * state.DrinkThreshold)
             {
-                if (food / foodThreshold < drink / drinkThreshold)
+                if (state.Hunger / state.FoodThreshold < state.Thirst / state.DrinkThreshold)
                 {
                     MyState = State.SearchingForFood;
                 }
@@ -154,6 +147,13 @@ public abstract class Animal : Entity
             }
         }
     }
+    protected void AnimalDies()
+    {
+        Debug.Log("Animal dies");
+        UnityEngine.Object.Destroy(entityInstance);
+        AnimalDied?.Invoke(this);
+    }
+
     abstract protected void MoveToFood();
     private void MoveToWater() => MoveToTarget(discoverEnvironment.GetDrinkResult, discoveredDrink);
     protected void MoveToTarget(Func<List<Vector3Int>> getResultList, List<Vector3Int> discoveredTargets)
@@ -233,12 +233,6 @@ public abstract class Animal : Entity
         Move();
     }
 
-    protected void AnimalDies()
-    {
-        UnityEngine.Object.Destroy(entityInstance);
-        AnimalDied?.Invoke(this);
-    }
-
     protected override void Move()
     {
         if (Vector3.Distance(Position, targetPosition) < 0.1f)
@@ -254,7 +248,7 @@ public abstract class Animal : Entity
             {
                 // Szabadon tudjon mozogni, de vízre ne menjen --> 
                 Quaternion targetRotation = Quaternion.LookRotation(direction);
-                entityInstance.transform.rotation = Quaternion.Slerp(entityInstance.transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+                entityInstance.transform.rotation = Quaternion.Slerp(entityInstance.transform.rotation, targetRotation, RotationSpeed * Time.deltaTime);
             }
         }
     }
@@ -270,10 +264,7 @@ public abstract class Animal : Entity
                 MyState = State.Resting;
                 break;
             case State.SearchingForFood:
-                if (targetType == CellType.Nature)
-                {
-                    MyState = State.Eating;
-                }
+                ArrivedAtFood(targetType);
                 break;
             case State.SearchingForWater:
                 if (targetType == CellType.Water)
@@ -286,9 +277,10 @@ public abstract class Animal : Entity
         }
     }
 
+    protected abstract void ArrivedAtFood(CellType? targetType = null);
     protected void DiscoverEnvironment() => discoverEnvironment.SearchInViewDistance(ViewDistance, Position);
 
-    private void SetRandomTargetPosition(bool inHerd = true)
+    protected void SetRandomTargetPosition(bool inHerd = true)
     {
         float randomX, randomZ; ;
         bool xDirection, zDirection;
@@ -313,5 +305,14 @@ public abstract class Animal : Entity
             }
         } while (!placementManager.CheckIfPositionInBound(Vector3Int.RoundToInt(temporatyPosition)) || !placementManager.IsPositionWalkable(Vector3Int.RoundToInt(temporatyPosition)));
         targetPosition = temporatyPosition;
+    }
+
+    public void DamageTaken(float damageAmout)
+    {
+        state.Health -= damageAmout;
+        if (IsAnimalDead())
+        {
+            AnimalDies();
+        }
     }
 }

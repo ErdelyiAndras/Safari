@@ -13,6 +13,10 @@ public class AnimalManager : MonoBehaviour, ITimeHandler
     private Dictionary<AnimalType, uint> animalCount = new Dictionary<AnimalType, uint>();
     public Action<uint> Carnivore1Changed, Carnivore2Changed, Herbivore1Changed, Herbivore2Changed;
 
+    public uint Carnivore1Count => GetAnimalCount(AnimalType.Carnivore1);
+    public uint Carnivore2Count => GetAnimalCount(AnimalType.Carnivore2);
+    public uint Herbivore1Count => GetAnimalCount(AnimalType.Herbivore1);
+    public uint Herbivore2Count => GetAnimalCount(AnimalType.Herbivore2);
     private void Update()
     {
         for (int i = herds.Count - 1; i >= 0; i--)
@@ -27,11 +31,6 @@ public class AnimalManager : MonoBehaviour, ITimeHandler
             herds[i].CheckState();
         }
     }
-
-    public uint Carnivore1Count => GetAnimalCount(AnimalType.Carnivore1);
-    public uint Carnivore2Count => GetAnimalCount(AnimalType.Carnivore2);
-    public uint Herbivore1Count => GetAnimalCount(AnimalType.Herbivore1);
-    public uint Herbivore2Count => GetAnimalCount(AnimalType.Herbivore2);
 
     private uint GetAnimalCount(AnimalType type)
     {
@@ -53,14 +52,14 @@ public class AnimalManager : MonoBehaviour, ITimeHandler
     public void BuyCarnivore1()
     {
         Herd _herd = ChooseHerd(HerdType.Carnivore1Herd);
-        Animal animal = new Carnivore1(carnivore1Prefab, placementManager, _herd);
+        Animal animal = new Carnivore1(carnivore1Prefab, placementManager, _herd, herds);
         InitAnimal(_herd, animal);
     }
 
     public void BuyCarnivore2()
     {
         Herd _herd = ChooseHerd(HerdType.Carnivore2Herd);
-        Animal animal = new Carnivore2(carnivore2Prefab, placementManager, _herd);
+        Animal animal = new Carnivore2(carnivore2Prefab, placementManager, _herd, herds);
         InitAnimal(_herd, animal);
     }
 
@@ -109,9 +108,9 @@ public class AnimalManager : MonoBehaviour, ITimeHandler
     {
         animal.AnimalDied += DeleteAnimalFromHerd;
         animalHerd.AddAnimalToHerd(animal);
-        SetAnimalCount(animal.type);
+        SetAnimalCount(animal.Type);
         //animalChangedActions[animal.type]?.Invoke(animalCount[animal.type]);
-        InvokeAnimalCountChanged(animal.type);
+        InvokeAnimalCountChanged(animal.Type);
     }
 
     private void SetAnimalCount(AnimalType type)
@@ -129,11 +128,11 @@ public class AnimalManager : MonoBehaviour, ITimeHandler
     private void DeleteAnimalFromHerd(Animal animal)
     {
         animal.myHerd.RemoveAnimalFromHerd(animal);
-        if (animalCount[animal.type] != 0)
+        if (animalCount[animal.Type] != 0)
         {
-            animalCount[animal.type]--;
+            animalCount[animal.Type]--;
             //animalChangedActions[animal.type]?.Invoke(animalCount[animal.type]);
-            InvokeAnimalCountChanged(animal.type);
+            InvokeAnimalCountChanged(animal.Type);
         }
     }
 
