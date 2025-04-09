@@ -78,25 +78,25 @@ public class AnimalInternalState
         maxDrink.Add(AnimalType.Carnivore1, 100.0f);
         maxDrink.Add(AnimalType.Carnivore2, 100.0f);
 
-        foodThreshold.Add(AnimalType.Herbivore1, 96.0f);
-        foodThreshold.Add(AnimalType.Herbivore2, 96.0f);
-        foodThreshold.Add(AnimalType.Carnivore1, 96.0f);
-        foodThreshold.Add(AnimalType.Carnivore2, 96.0f);
+        foodThreshold.Add(AnimalType.Herbivore1, 60.0f);
+        foodThreshold.Add(AnimalType.Herbivore2, 65.0f);
+        foodThreshold.Add(AnimalType.Carnivore1, 48.0f);
+        foodThreshold.Add(AnimalType.Carnivore2, 53.0f);
 
-        drinkThreshold.Add(AnimalType.Herbivore1, 93.0f);
-        drinkThreshold.Add(AnimalType.Herbivore2, 93.0f);
-        drinkThreshold.Add(AnimalType.Carnivore1, 93.0f);
-        drinkThreshold.Add(AnimalType.Carnivore2, 93.0f);
+        drinkThreshold.Add(AnimalType.Herbivore1, 97.0f);
+        drinkThreshold.Add(AnimalType.Herbivore2, 75.0f);
+        drinkThreshold.Add(AnimalType.Carnivore1, 68.0f);
+        drinkThreshold.Add(AnimalType.Carnivore2, 57.0f);
 
-        foodNutrition.Add(AnimalType.Herbivore1, 4.0f);
-        foodNutrition.Add(AnimalType.Herbivore2, 4.0f);
-        foodNutrition.Add(AnimalType.Carnivore1, 4.0f);
-        foodNutrition.Add(AnimalType.Carnivore2, 4.0f);
+        foodNutrition.Add(AnimalType.Herbivore1, 30.0f);
+        foodNutrition.Add(AnimalType.Herbivore2, 30.0f);
+        foodNutrition.Add(AnimalType.Carnivore1, 40.0f);
+        foodNutrition.Add(AnimalType.Carnivore2, 40.0f);
 
-        drinkNutrition.Add(AnimalType.Herbivore1, 7.0f);
-        drinkNutrition.Add(AnimalType.Herbivore2, 7.0f);
-        drinkNutrition.Add(AnimalType.Carnivore1, 7.0f);
-        drinkNutrition.Add(AnimalType.Carnivore2, 7.0f);
+        drinkNutrition.Add(AnimalType.Herbivore1, 20.0f);
+        drinkNutrition.Add(AnimalType.Herbivore2, 30.0f);
+        drinkNutrition.Add(AnimalType.Carnivore1, 50.0f);
+        drinkNutrition.Add(AnimalType.Carnivore2, 40.0f);
 
         eatingTime.Add(AnimalType.Herbivore1, 7.0f);
         eatingTime.Add(AnimalType.Herbivore2, 7.0f);

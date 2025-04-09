@@ -229,6 +229,15 @@ public abstract class Animal : Entity
                 SetRandomTargetPosition(false);
             }
         }
+        if (placementManager.GetTypeOfPosition(Vector3Int.RoundToInt(targetPosition)) == CellType.Water)
+        {
+            List<Vector3Int> neighbours = placementManager.GetNeighboursOfType(Vector3Int.RoundToInt(targetPosition), CellType.Empty);
+            if (neighbours.Count > 0)
+            {
+                neighbours.Sort((a, b) => Vector3Int.Distance(Vector3Int.RoundToInt(Position), a).CompareTo(Vector3Int.Distance(Vector3Int.RoundToInt(Position), b)));
+                targetPosition = (neighbours[0] + targetPosition) / 2;
+            }
+        }
         Move();
     }
 

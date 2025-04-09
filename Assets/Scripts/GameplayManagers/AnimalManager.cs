@@ -2,8 +2,6 @@
 using UnityEngine;
 using System;
 using System.Linq;
-using Unity.VisualScripting;
-
 
 public class AnimalManager : MonoBehaviour, ITimeHandler
 {
