@@ -121,7 +121,7 @@ public abstract class Animal : Entity
         }
     }
 
-    protected virtual void MatureAnimal()
+    public virtual void MatureAnimal()
     {
         remainingLifetime--;
         food--;
@@ -156,7 +156,6 @@ public abstract class Animal : Entity
     }
     abstract protected void MoveToFood();
     private void MoveToWater() => MoveToTarget(discoverEnvironment.GetDrinkResult, discoveredDrink);
-    //TODO: Mi van ha nincs se a közelbe se a listába?
     protected void MoveToTarget(Func<List<Vector3Int>> getResultList, List<Vector3Int> discoveredTargets)
     {
         discoverEnvironment.SearchInViewDistance(ViewDistance, Position);
@@ -234,11 +233,6 @@ public abstract class Animal : Entity
         Move();
     }
 
-    public void AgeAnimal()
-    {
-        MatureAnimal();
-    }
-
     protected void AnimalDies()
     {
         UnityEngine.Object.Destroy(entityInstance);
@@ -269,7 +263,7 @@ public abstract class Animal : Entity
     {
         CellType targetType = placementManager.GetTypeOfPosition(Vector3Int.RoundToInt(targetPosition));
         callOnceFlag = false;
-        SetRandomTargetPosition(); // kimehet a csora radiusabol
+        SetRandomTargetPosition();
         switch (MyState) 
         {
             case State.Moving:
@@ -293,7 +287,6 @@ public abstract class Animal : Entity
     }
 
     protected void DiscoverEnvironment() => discoverEnvironment.SearchInViewDistance(ViewDistance, Position);
-    
 
     private void SetRandomTargetPosition(bool inHerd = true)
     {

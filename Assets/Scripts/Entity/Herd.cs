@@ -63,7 +63,7 @@ public class Herd
     {
         for (int i = animals.Count - 1; i >= 0; i--)
         {
-            animals[i].AgeAnimal();
+            animals[i].MatureAnimal();
         }
     }
 
