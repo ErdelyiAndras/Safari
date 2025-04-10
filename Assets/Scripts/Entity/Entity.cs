@@ -1,12 +1,14 @@
 using UnityEngine;
+using System;
 
 public abstract class Entity
 {
+    public Guid Id { get; protected set; }
     protected Vector3 spawnPosition; 
     protected GameObject entityInstance;
     protected PlacementManager placementManager;
-    protected int visionRange;
-    protected float baseMoveSpeed, baseRotationSpeed;
+    protected float visionRange; // IViewRange
+    protected float baseMoveSpeed, baseRotationSpeed = 5.0f;
     protected float MoveSpeed { get { return baseMoveSpeed * SpeedMultiplier; } }
     protected float RotationSpeed { get { return baseRotationSpeed * SpeedMultiplier; } }
     public static float SpeedMultiplier { get; set; }
@@ -16,11 +18,6 @@ public abstract class Entity
         set { entityInstance.transform.position = value; }
     }
     public abstract void CheckState();
-    // Need Input --> destructor deletes the object (ex: animal dies and disposes of itself), constructor instantiates the object
-
     protected abstract void Move();
-
-    protected void SpawnEntity(GameObject prefab, Transform parent = null) => entityInstance = Object.Instantiate(prefab, spawnPosition, Quaternion.identity, parent);
-    // jó lenne ha vízbe meg hegybe nem spawnolna animal
-
+    protected void SpawnEntity(GameObject prefab, Transform parent = null) => entityInstance = UnityEngine.Object.Instantiate(prefab, spawnPosition, Quaternion.identity, parent);
 }

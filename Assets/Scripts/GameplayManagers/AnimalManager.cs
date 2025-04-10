@@ -2,8 +2,6 @@
 using UnityEngine;
 using System;
 using System.Linq;
-using Unity.VisualScripting;
-
 
 public class AnimalManager : MonoBehaviour, ITimeHandler
 {
@@ -13,6 +11,10 @@ public class AnimalManager : MonoBehaviour, ITimeHandler
     private Dictionary<AnimalType, uint> animalCount = new Dictionary<AnimalType, uint>(); // TODO: use properties and conditional summation
     public Action<uint> Carnivore1Changed, Carnivore2Changed, Herbivore1Changed, Herbivore2Changed;
 
+    public uint Carnivore1Count => GetAnimalCount(AnimalType.Carnivore1);
+    public uint Carnivore2Count => GetAnimalCount(AnimalType.Carnivore2);
+    public uint Herbivore1Count => GetAnimalCount(AnimalType.Herbivore1);
+    public uint Herbivore2Count => GetAnimalCount(AnimalType.Herbivore2);
     private void Update()
     {
         for (int i = herds.Count - 1; i >= 0; i--)
@@ -27,11 +29,6 @@ public class AnimalManager : MonoBehaviour, ITimeHandler
             herds[i].CheckState();
         }
     }
-
-    public uint Carnivore1Count => GetAnimalCount(AnimalType.Carnivore1);
-    public uint Carnivore2Count => GetAnimalCount(AnimalType.Carnivore2);
-    public uint Herbivore1Count => GetAnimalCount(AnimalType.Herbivore1);
-    public uint Herbivore2Count => GetAnimalCount(AnimalType.Herbivore2);
 
     private uint GetAnimalCount(AnimalType type)
     {
@@ -55,15 +52,17 @@ public class AnimalManager : MonoBehaviour, ITimeHandler
     public void BuyCarnivore1()
     {
         Herd _herd = ChooseHerd(HerdType.Carnivore1Herd);
-        Animal animal = new Carnivore1(carnivore1Prefab, placementManager, _herd);
+        Animal animal = new Carnivore1(carnivore1Prefab, placementManager, _herd, herds);
         InitAnimal(_herd, animal);
+        placementManager.RegisterObject(animal.Id, ObjectType.Carnivore, animal);
     }
 
     public void BuyCarnivore2()
     {
         Herd _herd = ChooseHerd(HerdType.Carnivore2Herd);
-        Animal animal = new Carnivore2(carnivore2Prefab, placementManager, _herd);
+        Animal animal = new Carnivore2(carnivore2Prefab, placementManager, _herd, herds);
         InitAnimal(_herd, animal);
+        placementManager.RegisterObject(animal.Id, ObjectType.Carnivore, animal);
     }
 
     public void BuyHerbivore1()
@@ -71,6 +70,7 @@ public class AnimalManager : MonoBehaviour, ITimeHandler
         Herd _herd = ChooseHerd(HerdType.Herbivore1Herd);
         Animal animal = new Herbivore1(herbivore1Prefab, placementManager, _herd);
         InitAnimal(_herd, animal);
+        placementManager.RegisterObject(animal.Id, ObjectType.Herbivore, animal);
     }
 
     public void BuyHerbivore2()
@@ -78,6 +78,8 @@ public class AnimalManager : MonoBehaviour, ITimeHandler
         Herd _herd = ChooseHerd(HerdType.Herbivore2Herd);
         Animal animal = new Herbivore2(herbivore2Prefab, placementManager, _herd);
         InitAnimal(_herd, animal);
+        placementManager.RegisterObject(animal.Id, ObjectType.Herbivore, animal);
+
     }
 
     //TODO: ha van 1 elemű csorda akkor ne jöhesen létre random, hanem abba kerüljön az új állat
@@ -111,9 +113,9 @@ public class AnimalManager : MonoBehaviour, ITimeHandler
     {
         animal.AnimalDied += DeleteAnimalFromHerd;
         animalHerd.AddAnimalToHerd(animal);
-        SetAnimalCount(animal.type);
+        SetAnimalCount(animal.Type);
         //animalChangedActions[animal.type]?.Invoke(animalCount[animal.type]);
-        InvokeAnimalCountChanged(animal.type);
+        InvokeAnimalCountChanged(animal.Type);
     }
 
     private void SetAnimalCount(AnimalType type)
@@ -130,12 +132,13 @@ public class AnimalManager : MonoBehaviour, ITimeHandler
 
     private void DeleteAnimalFromHerd(Animal animal)
     {
+        placementManager.PlacedObjects.DeleteObject(animal);
         animal.myHerd.RemoveAnimalFromHerd(animal);
-        if (animalCount[animal.type] != 0)
+        if (animalCount[animal.Type] != 0)
         {
-            animalCount[animal.type]--;
+            animalCount[animal.Type]--;
             //animalChangedActions[animal.type]?.Invoke(animalCount[animal.type]);
-            InvokeAnimalCountChanged(animal.type);
+            InvokeAnimalCountChanged(animal.Type);
         }
     }
 

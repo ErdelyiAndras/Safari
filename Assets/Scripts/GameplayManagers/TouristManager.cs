@@ -1,6 +1,4 @@
-﻿using NUnit.Framework;
-using Unity.VisualScripting;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using System;
 
@@ -48,13 +46,15 @@ public class TouristManager : MonoBehaviour, ITimeHandler
 
     private void ModifySatisfaction(int satisfaction)
     {
-        Satisfaction = (Satisfaction + satisfaction) / 2;
+        Satisfaction = (Satisfaction + satisfaction * (4 / touristCount)) / 2;
         SatisfactionChanged?.Invoke(Satisfaction);
     }
 
     public void AcquireNewJeep()
     {
-        jeeps.Add(new Jeep(placementManager, jeepPrefab, this));
+        Jeep jeep = new Jeep(placementManager, jeepPrefab, this);
+        jeeps.Add(jeep);
+        placementManager.RegisterObject(jeep.Id, ObjectType.Jeep, jeep);
         JeepCountChanged?.Invoke(JeepCount);
     }
 

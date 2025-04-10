@@ -1,10 +1,6 @@
-﻿using Unity.VisualScripting;
-using UnityEngine;
+﻿using UnityEngine;
 using System;
 using System.Collections.Generic;
-using TMPro;
-using System.IO;
-using NUnit;
 
 public class Jeep : Entity
 {
@@ -27,20 +23,20 @@ public class Jeep : Entity
 
     public State MyState { get; private set; }
     public static Action<Jeep> JeepArrived, JeepWaiting;
-    bool hasFullPath;
+    bool hasFullPath = false;
     public Jeep(PlacementManager _placementManager, GameObject prefab, TouristManager parent)
     {
+        Id = Guid.NewGuid();
         placementManager = _placementManager;
         endPosition = new Vector3Int(placementManager.width - 1, 0, placementManager.height - 1);
         spawnPosition = new Vector3(0, 0, 0);
         MyState = State.Waiting;
         tourists = new TouristGroup();
+        tourists.SetDefault();
         tourists.readyToGo += () => MyState = State.Moving;
         SpawnEntity(prefab, parent.transform);
         baseMoveSpeed = 1.0f; // TO BE BALANCED
-        hasFullPath = false;
-        baseRotationSpeed = 5.0f;
-
+        visionRange = 15.0f;
     }
 
     public override void CheckState()
@@ -69,7 +65,7 @@ public class Jeep : Entity
                 else
                 {
                     Move();
-                    //CheckForNewAnimals();
+                    CheckForNewAnimals();
                 }
                 break;
             case State.Leaving:
@@ -137,7 +133,13 @@ public class Jeep : Entity
 
     private void CheckForNewAnimals()
     {
-        // ha látunk új állatot akkor a touristgroup metrikáit állítjuk
+        foreach(var animal in placementManager.PlacedObjects.AnimalObjects)
+        {
+            if (animal.Distance(Position) < visionRange)
+            {
+                tourists.AddSeenAnimal((Animal)animal.entity);
+            }
+        }
     }
 
 }

@@ -14,12 +14,13 @@ public class Herd
     public readonly HerdType herdType;
     public HerdType HerdType => herdType;
     private List<Animal> animals;
-    public int Count { get { return animals.Count; } }
     private Vector2Int centroid;
-    public Vector3Int Spawnpoint { get { return animals.Count == 0 ? GetRandomPosition() : new Vector3Int(centroid.x, 0, centroid.y); } }
-    public float DistributionRadius { get; protected set;}
     private PlacementManager placementManager;
+    public int Count {  get { return animals.Count; } }
+    public Vector3Int Spawnpoint { get { return animals.Count == 0 ? GetRandomPosition() : new Vector3Int(centroid.x, 0, centroid.y); } }
+    public int DistributionRadius { get; protected set;}
     public GameObject gameObject = new GameObject();
+    public List<Animal> Animals{ get { return animals; }}
     
 
     public Herd(PlacementManager placementManager, AnimalManager parent, HerdType type)
@@ -55,16 +56,16 @@ public class Herd
 
     public void CheckState()
     {
-        foreach(Animal animal in animals)
+        for (int i = animals.Count - 1; i >= 0; i--)
         {
-            animal.CheckState();
+            animals[i].CheckState();
         }
     }
     public void AgeAnimals()
     {
         for (int i = animals.Count - 1; i >= 0; i--)
         {
-            animals[i].AgeAnimal();
+            animals[i].MatureAnimal();
         }
     }
 

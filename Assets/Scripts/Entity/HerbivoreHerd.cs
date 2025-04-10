@@ -1,5 +1,4 @@
-﻿
-public class HerbivoreHerd : Herd
+﻿public class HerbivoreHerd : Herd
 {
     public HerbivoreHerd(PlacementManager placementManager, AnimalManager parent, HerdType type) : base(placementManager, parent, type) 
     {
