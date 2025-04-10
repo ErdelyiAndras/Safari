@@ -78,12 +78,12 @@ public class AnimalInternalState
         maxDrink.Add(AnimalType.Carnivore1, 100.0f);
         maxDrink.Add(AnimalType.Carnivore2, 100.0f);
 
-        foodThreshold.Add(AnimalType.Herbivore1, 60.0f);
+        foodThreshold.Add(AnimalType.Herbivore1, 95.0f);
         foodThreshold.Add(AnimalType.Herbivore2, 65.0f);
         foodThreshold.Add(AnimalType.Carnivore1, 48.0f);
         foodThreshold.Add(AnimalType.Carnivore2, 53.0f);
 
-        drinkThreshold.Add(AnimalType.Herbivore1, 97.0f);
+        drinkThreshold.Add(AnimalType.Herbivore1, 92.0f);
         drinkThreshold.Add(AnimalType.Herbivore2, 75.0f);
         drinkThreshold.Add(AnimalType.Carnivore1, 68.0f);
         drinkThreshold.Add(AnimalType.Carnivore2, 57.0f);

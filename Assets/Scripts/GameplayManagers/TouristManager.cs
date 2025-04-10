@@ -31,7 +31,7 @@ public class TouristManager : MonoBehaviour, ITimeHandler
 
     private void TouristsLeave(Jeep jeep)
     {
-        ModifySatisfaction(jeep.tourists.CalculateSatisfaction());
+        ModifySatisfaction(jeep.CalculateSatisfaction());
     }
 
     private void FillJeep(Jeep jeep)
@@ -46,7 +46,7 @@ public class TouristManager : MonoBehaviour, ITimeHandler
 
     private void ModifySatisfaction(int satisfaction)
     {
-        Satisfaction = (Satisfaction + satisfaction * (4 / touristCount)) / 2;
+        Satisfaction = (Satisfaction + satisfaction * (4 / 1)) / 2;
         SatisfactionChanged?.Invoke(Satisfaction);
     }
 

@@ -8,14 +8,7 @@ public class TouristGroup
 {
     public Action readyToGo;
     private int numberOfTourists;
-    private HashSet<Guid> animalsSeen;
-    private HashSet<AnimalType> animalTypesSeen;
 
-    public void AddSeenAnimal(Animal animal)
-    {
-        animalsSeen.Add(animal.Id);
-        animalTypesSeen.Add(animal.Type);
-    }
     
     public void AddTourist()
     {
@@ -30,12 +23,6 @@ public class TouristGroup
     public void SetDefault()
     {
         numberOfTourists = 0;
-        animalsSeen = new HashSet<Guid>();
-        animalTypesSeen = new HashSet<AnimalType>();
-    }
-    public int CalculateSatisfaction()
-    {
-        return animalsSeen.Count * animalTypesSeen.Count;
     }
 }
 
