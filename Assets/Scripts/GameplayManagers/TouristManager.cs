@@ -4,7 +4,7 @@ using System;
 
 public class TouristManager : MonoBehaviour, ITimeHandler
 {
-    public float Satisfaction { get; private set; }
+    public float Satisfaction { get; private set; } = 50.0f;
     private int touristCount;
     public int TouristsInQueue { get; private set; }
     public PlacementManager placementManager;
@@ -31,6 +31,7 @@ public class TouristManager : MonoBehaviour, ITimeHandler
 
     private void TouristsLeave(Jeep jeep)
     {
+        Debug.Log("Tourists leaving jeep " + jeep.tourists.CalculateSatisfaction());
         ModifySatisfaction(jeep.tourists.CalculateSatisfaction());
     }
 
@@ -46,7 +47,15 @@ public class TouristManager : MonoBehaviour, ITimeHandler
 
     private void ModifySatisfaction(int satisfaction)
     {
-        Satisfaction = (Satisfaction + satisfaction * (4 / touristCount)) / 2;
+        if (touristCount == 0)
+        {
+            Satisfaction = (Satisfaction + satisfaction * 4.0f) / 2;
+        }
+        else
+        {
+            Satisfaction = (Satisfaction + satisfaction * (4.0f / touristCount)) / 2;
+        }
+        Satisfaction = Mathf.Clamp(Satisfaction, 0.0f, 100.0f);
         SatisfactionChanged?.Invoke(Satisfaction);
     }
 
@@ -60,9 +69,10 @@ public class TouristManager : MonoBehaviour, ITimeHandler
 
     public void ManageTick()
     {
-        TouristsInQueue += 1;
+        int newTourists = 1; // logic to calculate how many tourists arrive
+        touristCount += newTourists;
+        TouristsInQueue += newTourists;
         TouristsInQueueChanged?.Invoke(TouristsInQueue);
-        // logic to calculate how many tourists arrive
     }
 }
 

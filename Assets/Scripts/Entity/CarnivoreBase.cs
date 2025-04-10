@@ -22,7 +22,7 @@ public class CarnivoreBase : Animal
     {   
         //the possibility is negligeble but theoratically possible that the closes animal is not the animal that is the closes from the closes herd
         //however this implementation is more efficient as it is not needed to examine every animal
-        List<Herd> carnivoreHerds = herds.Where(h => h.herdType == HerdType.Herbivore1Herd || h.herdType == HerdType.Herbivore2Herd).ToList();
+        List<Herd> carnivoreHerds = herds.Where(h => h.animalTypesOfHerd == AnimalType.Herbivore1 || h.animalTypesOfHerd == AnimalType.Herbivore2).ToList();
         if (carnivoreHerds.Count != 0)
         {
             closestHerd = carnivoreHerds.OrderBy(h => Vector3Int.Distance(h.Spawnpoint, Vector3Int.RoundToInt(Position))).FirstOrDefault();

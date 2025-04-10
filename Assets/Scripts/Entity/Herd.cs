@@ -2,32 +2,25 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum HerdType
-{
-    Herbivore1Herd,
-    Herbivore2Herd,
-    Carnivore1Herd,
-    Carnivore2Herd
-}
 public class Herd
 {
-    public readonly HerdType herdType;
-    public HerdType HerdType => herdType;
+    public readonly AnimalType animalTypesOfHerd; // if mixed herds are allowed this can be a set
+    public AnimalType AnimalTypesOfHerd => animalTypesOfHerd;
     private List<Animal> animals;
     private Vector2Int centroid;
     private PlacementManager placementManager;
     public int Count {  get { return animals.Count; } }
     public Vector3Int Spawnpoint { get { return animals.Count == 0 ? GetRandomPosition() : new Vector3Int(centroid.x, 0, centroid.y); } }
-    public int DistributionRadius { get; protected set;}
+    public float DistributionRadius { get; protected set;}
     public GameObject gameObject = new GameObject();
     public List<Animal> Animals{ get { return animals; }}
     
 
-    public Herd(PlacementManager placementManager, AnimalManager parent, HerdType type)
+    public Herd(PlacementManager placementManager, AnimalManager parent, AnimalType type)
     {
         animals = new List<Animal>();
         this.placementManager = placementManager;
-        herdType = type;
+        animalTypesOfHerd = type;
         gameObject.transform.SetParent(parent.transform);
     }
 

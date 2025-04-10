@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class UIController : MonoBehaviour
@@ -205,8 +206,8 @@ public class UIController : MonoBehaviour
             RemoveButtonPressed)
         );
 
-
         admissionFeeInputField.onEndEdit.AddListener(value => OnAdmissionFeeEndEdit(value));
+        admissionFeeInputField.onSubmit.AddListener(value => EventSystem.current.SetSelectedGameObject(null));
 
 
         foreach (Button button in popupWindowNewGameButtons)
