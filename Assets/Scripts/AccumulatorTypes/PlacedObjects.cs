@@ -21,6 +21,7 @@ public class PlacedObjects
     private HashSet<SafariObject> objects;
     public HashSet<SafariObject> AnimalObjects { get { return new HashSet<SafariObject>(objects.Where(h => h.type != ObjectType.Jeep)); } }
     public HashSet<SafariObject> CarnivoreObjects { get { return new HashSet<SafariObject>(objects.Where(h => h.type == ObjectType.Carnivore)); } }
+    public HashSet<SafariObject> HerbivoreObjects { get { return new HashSet<SafariObject>(objects.Where(h => h.type == ObjectType.Herbivore)); } }
 
     public void AddObject(SafariObject obj)
     {

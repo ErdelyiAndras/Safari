@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System;
 using System.Collections.Generic;
+using Unity.Burst.CompilerServices;
 
 public class Jeep : Entity
 {
@@ -37,7 +38,7 @@ public class Jeep : Entity
         SpawnEntity(prefab, parent.transform);
         baseMoveSpeed = Constants.JeepBaseMoveSpeed;
         baseRotationSpeed = Constants.JeepBaseRotationSpeed;
-        visionRange = 15.0f;
+        discoverEnvironment = new JeepSearchInRange(15.0f, placementManager);
     }
 
     public override void CheckState()
@@ -66,11 +67,12 @@ public class Jeep : Entity
                 else
                 {
                     Move();
-                    CheckForNewAnimals();
+                    discoverEnvironment.SearchInViewDistance(Position);
                 }
                 break;
             case State.Leaving:
                 tourists.SetDefault();
+                ((JeepSearchInRange)discoverEnvironment).SetDefault();
                 MyState = State.Returning;
                 break;
             case State.Returning:
@@ -131,17 +133,7 @@ public class Jeep : Entity
             currentPathIndex++;
         }
     }
-
-    private void CheckForNewAnimals()
-    {
-        foreach(var animal in placementManager.PlacedObjects.AnimalObjects)
-        {
-            if (animal.Distance(Position) < visionRange)
-            {
-                tourists.AddSeenAnimal((Animal)animal.entity);
-            }
-        }
-    }
-
+    public int CalculateSatisfaction() => ((JeepSearchInRange)discoverEnvironment).AnimalsSeenCount * ((JeepSearchInRange)discoverEnvironment).AnimalTypesSeenCount;
+    
 }
 

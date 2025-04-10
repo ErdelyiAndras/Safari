@@ -7,13 +7,11 @@ public class HerbivoreBase : Animal
     public HerbivoreBase(GameObject prefab, PlacementManager _placementManager, Herd parent, AnimalType type) : base(prefab, _placementManager, parent, type)
     {
         discoveredFood = new List<Vector3Int>();
-        discoverEnvironment = new SearchViewDistance(ref discoveredFood, ref discoveredDrink, placementManager);
-        visionRange = 6.0f;
+        discoverEnvironment = new HerbivoreSearchInRange(6.0f, placementManager, 2.0f);
+        baseMoveSpeed = 1.5f;
     }
-    protected override void MoveToFood()
-    {
-        MoveToTarget(discoverEnvironment.GetFoodResult, discoveredFood);
-    }
+    protected override void MoveToFood() => MoveToTarget(((HerbivoreSearchInRange)discoverEnvironment).GetClosestFood);
+
     protected override void ArrivedAtFood(CellType? targetType = null)
     {
         if (targetType == CellType.Nature)

@@ -7,7 +7,7 @@ public abstract class Entity
     protected Vector3 spawnPosition; 
     protected GameObject entityInstance;
     protected PlacementManager placementManager;
-    protected float visionRange; // IViewRange
+    protected SearchInRange discoverEnvironment;
     protected float baseMoveSpeed, baseRotationSpeed;
     protected float MoveSpeed { get { return baseMoveSpeed * SpeedMultiplier; } }
     protected float RotationSpeed { get { return baseRotationSpeed * SpeedMultiplier; } }

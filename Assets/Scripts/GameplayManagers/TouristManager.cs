@@ -31,8 +31,7 @@ public class TouristManager : MonoBehaviour, ITimeHandler
 
     private void TouristsLeave(Jeep jeep)
     {
-        Debug.Log("Tourists leaving jeep " + jeep.tourists.CalculateSatisfaction());
-        ModifySatisfaction(jeep.tourists.CalculateSatisfaction());
+        ModifySatisfaction(jeep.CalculateSatisfaction());
     }
 
     private void FillJeep(Jeep jeep)

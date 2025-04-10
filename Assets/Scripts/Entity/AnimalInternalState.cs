@@ -38,6 +38,7 @@ public class AnimalInternalState
         Hunger = MaxFood;
         Thirst = MaxDrink;
         Health = MaxHealth;
+
     }
 }
 

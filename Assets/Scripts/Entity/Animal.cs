@@ -22,25 +22,19 @@ public abstract class Animal : Entity
         Mating
     }
     public Action<Animal> AnimalDied;
-    protected List<Vector3Int> discoveredDrink;
     public AnimalInternalState state;
     protected Vector3 targetPosition;
     public Herd myHerd;
-    private float elapsedTime = 0.0f;
-    protected SearchViewDistance discoverEnvironment;
     protected bool callOnceFlag;
-    protected float ViewDistance { get { return placementManager.GetTypeOfPosition(placementManager.RoundPosition(Position)) == CellType.Hill ? visionRange * viewExtenderScale : visionRange; }}
+    private float elapsedTime = 0.0f;
     public float Health { get => (state.Hunger * state.Thirst * state.RemainingLifetime * state.Health); }
     public AnimalType Type { get { return state.type; } }
-    //temporary
-    public readonly float viewExtenderScale = 2.0f;
-    //
+
     public State MyState { get; protected set; }
 
     public Animal(GameObject prefab, PlacementManager _placementManager, Herd parent, AnimalType _type)
     {
         Id = Guid.NewGuid();
-        discoveredDrink = new List<Vector3Int>();
         myHerd = parent;
         placementManager = _placementManager;
         spawnPosition = parent.Spawnpoint;
@@ -156,89 +150,33 @@ public abstract class Animal : Entity
     }
 
     abstract protected void MoveToFood();
-    private void MoveToWater() => MoveToTarget(discoverEnvironment.GetDrinkResult, discoveredDrink);
-    protected void MoveToTarget(Func<List<Vector3Int>> getResultList, List<Vector3Int> discoveredTargets)
+    private void MoveToWater() => MoveToTarget(((AnimalSearchInRange)discoverEnvironment).GetClosestWater);
+    protected void MoveToTarget(Func<Vector3, Vector3Int, int, Vector3?> getClosestFunction)
     {
-        discoverEnvironment.SearchInViewDistance(ViewDistance, Position);
-        List<Vector3Int> targetInviewDistance = getResultList();
-        if (targetInviewDistance.Count == 1)
+        discoverEnvironment.SearchInViewDistance(Position);
+        Vector3? target = getClosestFunction(Position, myHerd.Spawnpoint, myHerd.DistributionRadius);
+        
+        if (!callOnceFlag)
         {
-            targetPosition = (Vector3)targetInviewDistance[0];
-        }
-        else if (targetInviewDistance.Count > 1)
-        {
-            Vector3Int? closestWithinHerd = null;
-            Vector3Int? closestOutOFHerd = null;
-            float closestDistanceInHerd = float.MaxValue;
-            float closestDistanceOutOfHerd = float.MaxValue;
-            foreach (Vector3Int position in targetInviewDistance)
-            {
-                if (Vector3Int.Distance(myHerd.Spawnpoint, position) <= myHerd.DistributionRadius)
-                {
-                    float distanceFromPostiion = Vector3Int.Distance(Vector3Int.RoundToInt(Position), position);
-                    if (distanceFromPostiion < closestDistanceInHerd)
-                    {
-                        closestWithinHerd = position;
-                        closestDistanceInHerd = distanceFromPostiion;
-                    }
-                }
-                else
-                {
-                    float distanceFromPostiion = Vector3Int.Distance(Vector3Int.RoundToInt(Position), position);
-                    if (distanceFromPostiion < closestDistanceOutOfHerd)
-                    {
-                        closestOutOFHerd = position;
-                        closestDistanceOutOfHerd = distanceFromPostiion;
-                    }
-                }
-            }
-            if (closestWithinHerd != null)
-            {
-                targetPosition = (Vector3)closestWithinHerd;
-            } 
-            else if(closestOutOFHerd != null)
-            {
-                targetPosition = (Vector3)closestOutOFHerd;
-            }
-        }
-        else if (discoveredTargets.Count != 0)
-        {
-            discoveredTargets.Sort((a, b) => Vector3Int.Distance(Vector3Int.RoundToInt(Position), a).CompareTo(Vector3Int.Distance(Vector3Int.RoundToInt(Position), b)));
-            while (discoveredTargets.Count != 0 && Vector3Int.Distance(Vector3Int.RoundToInt(Position), discoveredTargets[0]) <= ViewDistance)
-            {
-                discoveredTargets.RemoveAt(0);
-            }
-            if (discoveredTargets.Count != 0)
-            {
-                Vector3Int? inHerdRadius = null;
-                int i = 0;
-                while (inHerdRadius == null && i < discoveredTargets.Count)
-                {
-                    if (Vector3Int.Distance(Vector3Int.RoundToInt(discoveredTargets[i]), myHerd.Spawnpoint) <= myHerd.DistributionRadius)
-                    {
-                        inHerdRadius = discoveredTargets[i];
-                    }
-                    ++i;
-                }
-                targetPosition = inHerdRadius ?? discoveredTargets[0];
-            }
-        }
-        else
-        {
-            if (!callOnceFlag)
+            if (target == null)
             {
                 callOnceFlag = true;
                 SetRandomTargetPosition(false);
             }
+            else
+            {
+                targetPosition = (Vector3)target;
+            }
         }
         if (placementManager.GetTypeOfPosition(Vector3Int.RoundToInt(targetPosition)) == CellType.Water)
         {
+            /*
             List<Vector3Int> neighbours = placementManager.GetNeighboursOfType(Vector3Int.RoundToInt(targetPosition), CellType.Empty);
             if (neighbours.Count > 0)
             {
                 neighbours.Sort((a, b) => Vector3Int.Distance(Vector3Int.RoundToInt(Position), a).CompareTo(Vector3Int.Distance(Vector3Int.RoundToInt(Position), b)));
-                targetPosition = (neighbours[0] + targetPosition) / 2;
-            }
+                targetPosition = (neighbours[0] + targetPosition) / 2.0f;
+            }*/
         }
         Move();
     }
@@ -288,7 +226,7 @@ public abstract class Animal : Entity
     }
 
     protected abstract void ArrivedAtFood(CellType? targetType = null);
-    protected void DiscoverEnvironment() => discoverEnvironment.SearchInViewDistance(ViewDistance, Position);
+    protected void DiscoverEnvironment() => discoverEnvironment.SearchInViewDistance(Position);
 
     protected void SetRandomTargetPosition(bool inHerd = true)
     {
