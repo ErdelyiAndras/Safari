@@ -35,7 +35,8 @@ public class Jeep : Entity
         tourists.SetDefault();
         tourists.readyToGo += () => MyState = State.Moving;
         SpawnEntity(prefab, parent.transform);
-        baseMoveSpeed = 1.0f; // TO BE BALANCED
+        baseMoveSpeed = Constants.JeepBaseMoveSpeed;
+        baseRotationSpeed = Constants.JeepBaseRotationSpeed;
         visionRange = 15.0f;
     }
 

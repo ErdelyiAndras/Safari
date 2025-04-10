@@ -8,7 +8,7 @@ public abstract class Entity
     protected GameObject entityInstance;
     protected PlacementManager placementManager;
     protected float visionRange; // IViewRange
-    protected float baseMoveSpeed, baseRotationSpeed = 5.0f;
+    protected float baseMoveSpeed, baseRotationSpeed;
     protected float MoveSpeed { get { return baseMoveSpeed * SpeedMultiplier; } }
     protected float RotationSpeed { get { return baseRotationSpeed * SpeedMultiplier; } }
     public static float SpeedMultiplier { get; set; }

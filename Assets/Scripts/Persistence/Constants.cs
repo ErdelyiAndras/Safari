@@ -1,4 +1,6 @@
-﻿public static class Constants
+﻿using System.Collections.Generic;
+
+public static class Constants
 {
     // DifficultySelector
     public static Difficulty DefaultDifficulty { get; private set; } = Difficulty.Normal;
@@ -12,22 +14,119 @@
     public static float WeekSpeedMultiplier { get; private set; } = 3.0f;
     public static TimeInterval DefaultTimeInterval { get; private set; } = TimeInterval.HOUR;
 
-    // TODO: assign these values
-    // OPT: different animals have different values
     // Animal
-    public static float MaxFood { get; private set; } = 100.0f;
-    public static float MaxDrink { get; private set; } = 100.0f;
-    public static float FoodThreshold { get; private set; } = 0.92f;
-    public static float DrinkThreshold { get; private set; } = 0.98f;
-    public static float FoodNutrition { get; private set; } = 6.0f;
-    public static float DrinkNutrition { get; private set; } = 3.0f;
-    public static float EatingTime { get; private set; } = 10.0f;
-    public static float DrinkingTime { get; private set; } = 10.0f;
-    public static float RestTime { get; private set; } = 7.0f;
-    public static float AnimalBasicViewDistance { get; private set; } = 10.0f; // TODO: possible rename to match
-    public static float AnimalViewExtendScale { get; private set; } = 2.0f; // TODO: possible rename to match
-    public static float AnimalBaseMoveSpeed { get; private set; } = 2.0f;
-    public static float AnimalBaseRotationSpeed { get; private set; } = 5.0f;
+    public static Dictionary<AnimalType, float> MaxFood { get; private set; } = new Dictionary<AnimalType, float>
+    {
+        { AnimalType.Carnivore1, 100.0f },
+        { AnimalType.Carnivore2, 100.0f },
+        { AnimalType.Herbivore1, 100.0f },
+        { AnimalType.Herbivore2, 100.0f }
+    };
+    public static Dictionary<AnimalType, float> MaxDrink { get; private set; } = new Dictionary<AnimalType, float>
+    {
+        { AnimalType.Carnivore1, 100.0f },
+        { AnimalType.Carnivore2, 100.0f },
+        { AnimalType.Herbivore1, 100.0f },
+        { AnimalType.Herbivore2, 100.0f }
+    };
+    public static Dictionary<AnimalType, float> FoodThreshold { get; private set; } = new Dictionary<AnimalType, float>
+    {
+        { AnimalType.Carnivore1, 48.0f },
+        { AnimalType.Carnivore2, 53.0f },
+        { AnimalType.Herbivore1, 60.0f },
+        { AnimalType.Herbivore2, 65.0f }
+    };
+    public static Dictionary<AnimalType, float> DrinkThreshold { get; private set; } = new Dictionary<AnimalType, float>
+    {
+        { AnimalType.Carnivore1, 68.0f },
+        { AnimalType.Carnivore2, 57.0f },
+        { AnimalType.Herbivore1, 97.0f },
+        { AnimalType.Herbivore2, 75.0f }
+    };
+    public static Dictionary<AnimalType, float> FoodNutrition { get; private set; } = new Dictionary<AnimalType, float>
+    {
+        { AnimalType.Carnivore1, 40.0f },
+        { AnimalType.Carnivore2, 40.0f },
+        { AnimalType.Herbivore1, 30.0f },
+        { AnimalType.Herbivore2, 30.0f }
+    };
+    public static Dictionary<AnimalType, float> DrinkNutrition { get; private set; } = new Dictionary<AnimalType, float>
+    {
+        { AnimalType.Carnivore1, 50.0f },
+        { AnimalType.Carnivore2, 40.0f },
+        { AnimalType.Herbivore1, 20.0f },
+        { AnimalType.Herbivore2, 30.0f }
+    };
+    public static Dictionary<AnimalType, float> EatingTime { get; private set; } = new Dictionary<AnimalType, float>
+    {
+        { AnimalType.Carnivore1, 7.0f },
+        { AnimalType.Carnivore2, 7.0f },
+        { AnimalType.Herbivore1, 7.0f },
+        { AnimalType.Herbivore2, 7.0f }
+    };
+    public static Dictionary<AnimalType, float> DrinkingTime { get; private set; } = new Dictionary<AnimalType, float>
+    {
+        { AnimalType.Carnivore1, 7.0f },
+        { AnimalType.Carnivore2, 7.0f },
+        { AnimalType.Herbivore1, 7.0f },
+        { AnimalType.Herbivore2, 7.0f }
+    };
+    public static Dictionary<AnimalType, float> RestTime { get; private set; } = new Dictionary<AnimalType, float>
+    {
+        { AnimalType.Carnivore1, 7.0f },
+        { AnimalType.Carnivore2, 7.0f },
+        { AnimalType.Herbivore1, 7.0f },
+        { AnimalType.Herbivore2, 7.0f }
+    };
+    public static Dictionary<AnimalType, float> MaxLifeTime { get; private set; } = new Dictionary<AnimalType, float>
+    {
+        { AnimalType.Carnivore1, 100.0f },
+        { AnimalType.Carnivore2, 100.0f },
+        { AnimalType.Herbivore1, 100.0f },
+        { AnimalType.Herbivore2, 100.0f }
+    };
+    public static Dictionary<AnimalType, float> MaxHealth { get; private set; } = new Dictionary<AnimalType, float>
+    {
+        { AnimalType.Carnivore1, 100.0f },
+        { AnimalType.Carnivore2, 100.0f },
+        { AnimalType.Herbivore1, 100.0f },
+        { AnimalType.Herbivore2, 100.0f }
+    };
+    public static Dictionary<AnimalType, float> DamageToAnimals { get; private set; } = new Dictionary<AnimalType, float>
+    {
+        { AnimalType.Carnivore1, 30.0f },
+        { AnimalType.Carnivore2, 30.0f },
+        { AnimalType.Herbivore1, 0.0f },
+        { AnimalType.Herbivore2, 0.0f }
+    };
+    public static Dictionary<AnimalType, float> AnimalBasicViewDistance { get; private set; } = new Dictionary<AnimalType, float>
+    {
+        { AnimalType.Carnivore1, 100.0f },
+        { AnimalType.Carnivore2, 100.0f },
+        { AnimalType.Herbivore1, 100.0f },
+        { AnimalType.Herbivore2, 100.0f }
+    }; // TODO: possible rename to match
+    public static Dictionary<AnimalType, float> AnimalViewExtendScale { get; private set; } = new Dictionary<AnimalType, float>
+    {
+        { AnimalType.Carnivore1, 100.0f },
+        { AnimalType.Carnivore2, 100.0f },
+        { AnimalType.Herbivore1, 100.0f },
+        { AnimalType.Herbivore2, 100.0f }
+    }; // TODO: possible rename to match
+    public static Dictionary<AnimalType, float> AnimalBaseMoveSpeed { get; private set; } = new Dictionary<AnimalType, float>
+    {
+        { AnimalType.Carnivore1, 3.0f },
+        { AnimalType.Carnivore2, 3.0f },
+        { AnimalType.Herbivore1, 1.5f },
+        { AnimalType.Herbivore2, 1.5f }
+    };
+    public static Dictionary<AnimalType, float> AnimalBaseRotationSpeed { get; private set; } = new Dictionary<AnimalType, float>
+    {
+        { AnimalType.Carnivore1, 5.0f },
+        { AnimalType.Carnivore2, 5.0f },
+        { AnimalType.Herbivore1, 5.0f },
+        { AnimalType.Herbivore2, 5.0f }
+    };
 
     // Herd
     public static float CarnivoreHerdDistributionRadius { get; private set; } = 5.0f;
@@ -49,6 +148,9 @@
     public static int UnitCostOfJeep { get; private set; } = 200;
     public static int UnitCostOfRoad { get; private set; } = 10;
     public static int UnitCostOfWater { get; private set; } = 100;
+
+    // TouristManager
+    public static float DefaultSatisfaction { get; private set; } = 50.0f;
 
     // CameraMovement
     public static float CameraMovementSpeed { get; private set; } = 5.0f;

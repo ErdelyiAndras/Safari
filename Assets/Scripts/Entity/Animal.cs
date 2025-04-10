@@ -47,7 +47,9 @@ public abstract class Animal : Entity
         state = new AnimalInternalState(_type);
         targetPosition = spawnPosition;
         SpawnEntity(prefab, parent.gameObject.transform);
-        MyState = State.Moving; 
+        MyState = State.Moving;
+        baseMoveSpeed = Constants.AnimalBaseMoveSpeed[_type];
+        baseRotationSpeed = Constants.AnimalBaseRotationSpeed[_type];
     }
     protected bool IsAnimalDead() => Health <= 0;
 

@@ -14,8 +14,6 @@ public class CarnivoreBase : Animal
         discoverEnvironment = new SearchViewDistance(ref empty, ref discoveredDrink, placementManager);
         visionRange = 12.0f;
         this.herds = herds;
-        baseMoveSpeed = 3.0f;
-
     }
 
     protected override void MoveToFood()

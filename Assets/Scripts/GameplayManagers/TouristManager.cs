@@ -4,9 +4,9 @@ using System;
 
 public class TouristManager : MonoBehaviour, ITimeHandler
 {
-    public float Satisfaction { get; private set; } = 50.0f;
-    private int touristCount;
-    public int TouristsInQueue { get; private set; }
+    public float Satisfaction { get; private set; } = Constants.DefaultSatisfaction;
+    private int touristCount = 0;
+    public int TouristsInQueue { get; private set; } = 0;
     public PlacementManager placementManager;
     private List<Jeep> jeeps = new List<Jeep>();
     public GameObject jeepPrefab;

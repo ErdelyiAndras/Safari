@@ -9,8 +9,6 @@ public class HerbivoreBase : Animal
         discoveredFood = new List<Vector3Int>();
         discoverEnvironment = new SearchViewDistance(ref discoveredFood, ref discoveredDrink, placementManager);
         visionRange = 6.0f;
-        baseMoveSpeed = 1.5f;
-
     }
     protected override void MoveToFood()
     {
