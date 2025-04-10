@@ -11,7 +11,7 @@ public class Herd
     private PlacementManager placementManager;
     public int Count {  get { return animals.Count; } }
     public Vector3Int Spawnpoint { get { return animals.Count == 0 ? GetRandomPosition() : new Vector3Int(centroid.x, 0, centroid.y); } }
-    public float DistributionRadius { get; protected set;}
+    public int DistributionRadius { get; protected set;}
     public GameObject gameObject = new GameObject();
     public List<Animal> Animals{ get { return animals; }}
     

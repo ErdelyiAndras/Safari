@@ -7,9 +7,6 @@ public class CarnivoreBase : Animal
 {
     public CarnivoreBase(GameObject prefab, PlacementManager _placementManager, Herd parent, AnimalType type, List<Herd> herds) : base(prefab, _placementManager, parent, type)
     {
-        List<Vector3Int> empty = new List<Vector3Int>();
-        discoverEnvironment = new CarnivoreSearchInRange(12.0f, placementManager, 2.0f, herds);
-        baseMoveSpeed = 3.0f;
     }
 
     protected override void MoveToFood()

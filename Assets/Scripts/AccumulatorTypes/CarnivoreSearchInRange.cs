@@ -30,7 +30,7 @@ public class CarnivoreSearchInRange : AnimalSearchInRange
     public Vector3? GetClosestFood(Vector3 Position)
     {
         Vector3? targetPosition = null;
-        List<Herd> herbivoreHerds = herds.Where(h => h.herdType == HerdType.Herbivore1Herd || h.herdType == HerdType.Herbivore2Herd).ToList();
+        List<Herd> herbivoreHerds = herds.Where(h => h.AnimalTypesOfHerd == AnimalType.Herbivore1 || h.AnimalTypesOfHerd == AnimalType.Herbivore2).ToList();
         if (herbivoreHerds.Count != 0)
         {
             closestHerd = herbivoreHerds.OrderBy(h => Vector3Int.Distance(h.Spawnpoint, Vector3Int.RoundToInt(Position))).FirstOrDefault();

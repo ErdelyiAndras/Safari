@@ -99,20 +99,20 @@ public static class Constants
         { AnimalType.Herbivore1, 0.0f },
         { AnimalType.Herbivore2, 0.0f }
     };
-    public static Dictionary<AnimalType, float> AnimalBasicViewDistance { get; private set; } = new Dictionary<AnimalType, float>
+    public static Dictionary<AnimalType, float> AnimalVisionRange { get; private set; } = new Dictionary<AnimalType, float>
     {
-        { AnimalType.Carnivore1, 100.0f },
-        { AnimalType.Carnivore2, 100.0f },
-        { AnimalType.Herbivore1, 100.0f },
-        { AnimalType.Herbivore2, 100.0f }
-    }; // TODO: possible rename to match
-    public static Dictionary<AnimalType, float> AnimalViewExtendScale { get; private set; } = new Dictionary<AnimalType, float>
+        { AnimalType.Carnivore1, 12.0f },
+        { AnimalType.Carnivore2, 12.0f },
+        { AnimalType.Herbivore1, 6.0f },
+        { AnimalType.Herbivore2, 6.0f }
+    };
+    public static Dictionary<AnimalType, float> AnimalViewExtenderScale { get; private set; } = new Dictionary<AnimalType, float>
     {
-        { AnimalType.Carnivore1, 100.0f },
-        { AnimalType.Carnivore2, 100.0f },
-        { AnimalType.Herbivore1, 100.0f },
-        { AnimalType.Herbivore2, 100.0f }
-    }; // TODO: possible rename to match
+        { AnimalType.Carnivore1, 2.0f },
+        { AnimalType.Carnivore2, 2.0f },
+        { AnimalType.Herbivore1, 2.0f },
+        { AnimalType.Herbivore2, 2.0f }
+    };
     public static Dictionary<AnimalType, float> AnimalBaseMoveSpeed { get; private set; } = new Dictionary<AnimalType, float>
     {
         { AnimalType.Carnivore1, 3.0f },
@@ -129,8 +129,8 @@ public static class Constants
     };
 
     // Herd
-    public static float CarnivoreHerdDistributionRadius { get; private set; } = 5.0f;
-    public static float HerbivoreHerdDistributionRadius { get; private set; } = 2.0f;
+    public static int CarnivoreHerdDistributionRadius { get; private set; } = 5;
+    public static int HerbivoreHerdDistributionRadius { get; private set; } = 2;
 
     // Jeep
     public static float JeepBaseMoveSpeed { get; private set; } = 1.0f;
