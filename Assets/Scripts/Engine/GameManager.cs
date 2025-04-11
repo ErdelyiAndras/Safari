@@ -21,7 +21,6 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        economyManager.InitMoney(DifficultySelector.SelectedDifficulty);
         SetSpeedMultiplierOfEntities();
 
         InitUIData();
@@ -244,6 +243,7 @@ public class GameManager : MonoBehaviour
     {
         PersistenceManager.Difficulty = DifficultySelector.SelectedDifficulty;
         PersistenceManager.TimeData = timeManager.SaveData();
+        PersistenceManager.EconomyManagerData = economyManager.SaveData();
         PersistenceManager.TouristManagerData = touristManager.SaveData();
         PersistenceManager.GridData = placementManager.placementGrid.SaveData();
 

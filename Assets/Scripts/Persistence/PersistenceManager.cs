@@ -13,6 +13,7 @@ public static class PersistenceManager
     {
         public Difficulty difficulty;
         public TimeData timeData;
+        public EconomyManagerData economyManagerData;
         public TouristManagerData touristManagerData;
         public GridData gridData;
     }
@@ -42,6 +43,18 @@ public static class PersistenceManager
         set
         {
             data.timeData = value;
+        }
+    }
+
+    public static EconomyManagerData EconomyManagerData
+    {
+        get
+        {
+            return data.economyManagerData;
+        }
+        set
+        {
+            data.economyManagerData = value;
         }
     }
 

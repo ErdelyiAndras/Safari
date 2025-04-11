@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-public class EconomyManager : MonoBehaviour
+public class EconomyManager : MonoBehaviour, ISaveable<EconomyManagerData>
 {
     // TODO: balance start money
     public int easyGameStartMoney = Constants.EasyGameStartMoney;
@@ -12,8 +12,6 @@ public class EconomyManager : MonoBehaviour
     private int admissionFee = Constants.DefaultAdmissionFee;
 
     public Action<int> moneyChanged;
-
-    private bool wasInitialized = false;
 
     private int maintenanceFee = Constants.MaintenanceFee;
 
@@ -51,13 +49,13 @@ public class EconomyManager : MonoBehaviour
     public int UnitCostOfRoad => Constants.UnitCostOfRoad;
     public int UnitCostOfWater => Constants.UnitCostOfWater;
 
-    public void InitMoney(Difficulty difficulty)
+    private void Awake()
     {
-        if (wasInitialized)
-        {
-            throw new InvalidOperationException("EconomyManager was already initialized");
-        }
-        wasInitialized = true;
+        InitMoney(DifficultySelector.SelectedDifficulty);
+    }
+
+    private void InitMoney(Difficulty difficulty)
+    {
         switch (difficulty)
         {
             case Difficulty.Easy:
@@ -105,5 +103,15 @@ public class EconomyManager : MonoBehaviour
     private void OnGoneBankrupt()
     {
         GoneBankrupt?.Invoke();
+    }
+
+    public EconomyManagerData SaveData()
+    {
+        return new EconomyManagerData(money, admissionFee);
+    }
+
+    public void LoadData(EconomyManagerData data)
+    {
+        throw new NotImplementedException();
     }
 }
