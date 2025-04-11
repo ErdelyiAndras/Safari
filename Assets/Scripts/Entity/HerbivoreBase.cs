@@ -6,7 +6,11 @@ public class HerbivoreBase : Animal
     public HerbivoreBase(GameObject prefab, PlacementManager _placementManager, Herd parent, AnimalType type) : base(prefab, _placementManager, parent, type)
     {
     }
-    protected override void MoveToFood() => MoveToTarget(((HerbivoreSearchInRange)discoverEnvironment).GetClosestFood);
+    protected override void MoveToFood()
+    {
+        discoverEnvironment.SearchInViewDistance(Position);
+        MoveToTarget(_ => ((HerbivoreSearchInRange)discoverEnvironment).GetClosestFood(_, myHerd.Spawnpoint, myHerd.DistributionRadius));
+    }
 
     protected override void ArrivedAtFood(CellType? targetType = null)
     {

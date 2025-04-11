@@ -150,11 +150,14 @@ public abstract class Animal : Entity
     }
 
     abstract protected void MoveToFood();
-    private void MoveToWater() => MoveToTarget(((AnimalSearchInRange)discoverEnvironment).GetClosestWater);
-    protected void MoveToTarget(Func<Vector3, Vector3Int, int, Vector3?> getClosestFunction)
+    private void MoveToWater()
     {
         discoverEnvironment.SearchInViewDistance(Position);
-        Vector3? target = getClosestFunction(Position, myHerd.Spawnpoint, myHerd.DistributionRadius);
+        MoveToTarget((_) => ((AnimalSearchInRange)discoverEnvironment).GetClosestWater(_, myHerd.Spawnpoint, myHerd.DistributionRadius));
+    }
+    protected void MoveToTarget(Func<Vector3, Vector3?> getClosestFunction)
+    {
+        Vector3? target = getClosestFunction(Position);
         
         if (!callOnceFlag)
         {

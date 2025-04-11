@@ -9,23 +9,8 @@ public class CarnivoreBase : Animal
     {
     }
 
-    protected override void MoveToFood()
-    {
-        Vector3? target = ((CarnivoreSearchInRange)discoverEnvironment).GetClosestFood(Position);
-        if (!callOnceFlag)
-        {
-            if (target == null)
-            {
-                callOnceFlag = true;
-                SetRandomTargetPosition(false);
-            }
-            else
-            {
-                targetPosition = (Vector3)target;
-            }
-        }
-        Move();
-    }
+    protected override void MoveToFood() => MoveToTarget(((CarnivoreSearchInRange)discoverEnvironment).GetClosestFood);
+
     protected override void ArrivedAtFood(CellType? targetType = null)
     {
         if (((CarnivoreSearchInRange)discoverEnvironment).PreyGuid == Guid.Empty)
