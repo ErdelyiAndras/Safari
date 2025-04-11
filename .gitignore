@@ -75,4 +75,6 @@ crashlytics-build.properties
 *.orig
 *.orig.meta
 
+# Persistence
+Assets/Saves/*.json
 # End of https://mrkandreev.name/snippets/gitignore-generator/#Unity

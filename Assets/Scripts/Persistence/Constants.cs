@@ -33,14 +33,14 @@ public static class Constants
     {
         { AnimalType.Carnivore1, 48.0f },
         { AnimalType.Carnivore2, 53.0f },
-        { AnimalType.Herbivore1, 60.0f },
+        { AnimalType.Herbivore1, 97.0f },
         { AnimalType.Herbivore2, 65.0f }
     };
     public static Dictionary<AnimalType, float> DrinkThreshold { get; private set; } = new Dictionary<AnimalType, float>
     {
         { AnimalType.Carnivore1, 68.0f },
         { AnimalType.Carnivore2, 57.0f },
-        { AnimalType.Herbivore1, 97.0f },
+        { AnimalType.Herbivore1, 70.0f },
         { AnimalType.Herbivore2, 75.0f }
     };
     public static Dictionary<AnimalType, float> FoodNutrition { get; private set; } = new Dictionary<AnimalType, float>

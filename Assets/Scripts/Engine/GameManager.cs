@@ -19,17 +19,10 @@ public class GameManager : MonoBehaviour
     public TimeManager timeManager;
     public TouristManager touristManager;
 
-    public Difficulty gameDifficulty;
-
-    private void Awake()
-    {
-        gameDifficulty = DifficultySelector.SelectedDifficulty;
-    }
-
     private void Start()
     {
-        economyManager.InitMoney(gameDifficulty);
-        Entity.SpeedMultiplier = timeManager.EntitySpeedMultiplier;
+        economyManager.InitMoney(DifficultySelector.SelectedDifficulty);
+        SetSpeedMultiplierOfEntities();
 
         InitUIData();
         UIControllerEventSubscription();
@@ -249,12 +242,16 @@ public class GameManager : MonoBehaviour
 
     private void SaveGame()
     {
-        Debug.Log("save");
+        PersistenceManager.Difficulty = DifficultySelector.SelectedDifficulty;
+        PersistenceManager.TimeData = timeManager.SaveData();
+        PersistenceManager.GridData = placementManager.placementGrid.SaveData();
+
+        PersistenceManager.Save("save.json");
     }
 
     private void LoadGame()
     {
-        Debug.Log("load");
+        PersistenceManager.Load("save.json");
     }
     
     private void InitUIData()

@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class TimeManager : MonoBehaviour
+public class TimeManager : MonoBehaviour, ISaveable<TimeData>
 {
     // TODO: csak a unity miatt public
     public TimeInterval timeInterval;
@@ -109,5 +109,17 @@ public class TimeManager : MonoBehaviour
     {
         isPaused = !isPaused;
         TimeIntervalChanged?.Invoke();
+    }
+
+    public TimeData SaveData()
+    {
+        return new TimeData(currentTime, elapsedTime, tickCounter);
+    }
+
+    public void LoadData(TimeData data)
+    {
+        currentTime = data.CurrentTime;
+        elapsedTime = data.ElapsedTime;
+        tickCounter = data.TickCounter;
     }
 }

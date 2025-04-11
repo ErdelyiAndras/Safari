@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 
+[System.Serializable]
 public class Point
 {
-    public int X { get; set; }
-    public int Y { get; set; }
+    public int X;
+    public int Y;
 
     public Point(int x, int y)
     {
@@ -53,7 +54,7 @@ public enum CellType
     None
 }
 
-public class Grid
+public class Grid : ISaveable<GridData>
 {
     private CellType[,] _grid;
     private int _width;
@@ -208,5 +209,18 @@ public class Grid
         }
 
         return neighbours;
+    }
+
+    public GridData SaveData()
+    {
+        return new GridData(_width, _height, _grid, _roadList);
+    }
+
+    public void LoadData(GridData data)
+    {
+        _width = data.Width;
+        _height = data.Height;
+        _grid = data.Grid;
+        _roadList = data.RoadList;
     }
 }
