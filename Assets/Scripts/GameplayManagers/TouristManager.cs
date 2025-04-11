@@ -2,7 +2,7 @@
 using UnityEngine;
 using System;
 
-public class TouristManager : MonoBehaviour, ITimeHandler
+public class TouristManager : MonoBehaviour, ITimeHandler, ISaveable<TouristManagerData>
 {
     public float Satisfaction { get; private set; } = Constants.DefaultSatisfaction;
     private int touristCount = 0;
@@ -72,6 +72,16 @@ public class TouristManager : MonoBehaviour, ITimeHandler
         touristCount += newTourists;
         TouristsInQueue += newTourists;
         TouristsInQueueChanged?.Invoke(TouristsInQueue);
+    }
+
+    public TouristManagerData SaveData()
+    {
+        return new TouristManagerData(Satisfaction, touristCount, TouristsInQueue, placementManager, jeeps);
+    }
+
+    public void LoadData(TouristManagerData data)
+    {
+        throw new NotImplementedException();
     }
 }
 

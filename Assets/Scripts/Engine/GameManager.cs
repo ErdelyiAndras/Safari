@@ -244,6 +244,7 @@ public class GameManager : MonoBehaviour
     {
         PersistenceManager.Difficulty = DifficultySelector.SelectedDifficulty;
         PersistenceManager.TimeData = timeManager.SaveData();
+        PersistenceManager.TouristManagerData = touristManager.SaveData();
         PersistenceManager.GridData = placementManager.placementGrid.SaveData();
 
         PersistenceManager.Save("save.json");
@@ -252,6 +253,7 @@ public class GameManager : MonoBehaviour
     private void LoadGame()
     {
         PersistenceManager.Load("save.json");
+        Debug.Log(PersistenceManager.TimeData.CurrentTime);
     }
     
     private void InitUIData()

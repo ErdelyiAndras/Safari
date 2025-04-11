@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using Unity.Burst.CompilerServices;
 
-public class Jeep : Entity
+public class Jeep : Entity, ISaveable<JeepData>
 {
     public enum State
     {
@@ -15,9 +15,6 @@ public class Jeep : Entity
 
     private Vector3 endPosition;
     public TouristGroup tourists;
-
-
-    private Vector3 targetPosition;
 
     private List<Vector3Int> jeepPath;
     private int currentPathIndex = 0;
@@ -134,6 +131,18 @@ public class Jeep : Entity
         }
     }
     public int CalculateSatisfaction() => ((JeepSearchInRange)discoverEnvironment).AnimalsSeenCount * ((JeepSearchInRange)discoverEnvironment).AnimalTypesSeenCount;
-    
+
+    public JeepData SaveData()
+    {
+        return new JeepData(
+            Id, spawnPosition, placementManager, discoverEnvironment, Position, entityInstance.transform.rotation,
+            MyState, endPosition, tourists, jeepPath, currentPathIndex, hasFullPath
+        );
+    }
+
+    public void LoadData(JeepData data)
+    {
+        throw new NotImplementedException();
+    }
 }
 
