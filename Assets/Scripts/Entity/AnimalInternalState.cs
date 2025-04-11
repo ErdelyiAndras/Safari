@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 
-public class AnimalInternalState
+public class AnimalInternalState : ISaveable<AnimalInternalStateData>
 {
-    public readonly AnimalType type;
+    public AnimalType type;
 
     private float remainingLifetime, hunger, thirst, health;
 
@@ -18,27 +18,43 @@ public class AnimalInternalState
     public float DrinkingTime { get { return Constants.DrinkingTime[type]; } }
     public float RestTime { get { return Constants.RestTime[type]; } }
     public float Damage { get { return Constants.DamageToAnimals[type]; } }
+
     public ref float RemainingLifetime { get { return ref remainingLifetime; }}
     public ref float Hunger { get { return ref hunger; } }
     public ref float Thirst { get { return ref thirst; } }
-
     public ref float Health { get { return ref health; } }
-
-    public readonly float viewExtenderScale = 2.0f;
 
     public AnimalInternalState(AnimalType type)
     {
         this.type = type;
-        LoadData();
+        LoadAnimalData();
     }
 
-    private void LoadData()
+    public AnimalInternalState(AnimalInternalStateData data)
+    {
+        LoadData(data);
+    }
+
+    private void LoadAnimalData()
     {
         RemainingLifetime = MaxLifeTime;
         Hunger = MaxFood;
         Thirst = MaxDrink;
         Health = MaxHealth;
+    }
 
+    public AnimalInternalStateData SaveData()
+    {
+        return new AnimalInternalStateData(type, RemainingLifetime, Hunger, Thirst, Health);
+    }
+
+    public void LoadData(AnimalInternalStateData data)
+    {
+        type = data.Type;
+        RemainingLifetime = data.RemainingLifetime;
+        Hunger = data.Hunger;
+        Thirst = data.Thirst;
+        Health = data.Health;
     }
 }
 

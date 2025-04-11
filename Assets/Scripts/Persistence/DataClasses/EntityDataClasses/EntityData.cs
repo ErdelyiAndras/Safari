@@ -11,7 +11,7 @@ public abstract class EntityData
     [SerializeField]
     private PlacementManagerData placementManager;
     [SerializeField]
-    private SearchInRangeData discoverEnvironment;
+    protected SearchInRangeData discoverEnvironment;
     [SerializeField]
     private Vector3 position;
     [SerializeField]
@@ -32,13 +32,7 @@ public abstract class EntityData
         get { return new PlacementManager(); }
     }
 
-    public SearchInRange DiscoverEnvironment
-    {
-        get
-        {
-            return new HerbivoreSearchInRange(1.0f, PlacementManager, 2.0f);
-        }
-    }
+    public abstract SearchInRange DiscoverEnvironment { get; }
 
     public Vector3 Position
     {
@@ -57,7 +51,7 @@ public abstract class EntityData
         this.id = id;
         this.spawnPosition = spawnPosition;
         this.placementManager = new PlacementManagerData(1);
-        this.discoverEnvironment = new SearchInRangeData(2);
+        this.discoverEnvironment = discoverEnvironment.SaveData();
         this.position = position;
         this.rotation = rotation;
     }

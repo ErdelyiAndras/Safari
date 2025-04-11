@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Herd
+public abstract class Herd : ISaveable<HerdData>
 {
     public readonly AnimalType animalTypesOfHerd; // if mixed herds are allowed this can be a set
     public AnimalType AnimalTypesOfHerd => animalTypesOfHerd;
@@ -74,5 +74,14 @@ public class Herd
         return new Vector3Int(randomX, 0, randomZ);
     }
 
+    public HerdData SaveData()
+    {
+        return new HerdData(animalTypesOfHerd, animals, centroid, placementManager, DistributionRadius);
+    }
+
+    public void LoadData(HerdData data)
+    {
+        throw new NotImplementedException();
+    }
 }
 

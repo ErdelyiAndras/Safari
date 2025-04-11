@@ -7,4 +7,9 @@ public class Herbivore2 : HerbivoreBase
         AnimalType type = AnimalType.Herbivore2;
         discoverEnvironment = new HerbivoreSearchInRange(Constants.AnimalVisionRange[type], placementManager, Constants.AnimalViewExtenderScale[type]);
     }
+
+    public Herbivore2(HerbivoreData data) : base(data)
+    {
+
+    }
 }

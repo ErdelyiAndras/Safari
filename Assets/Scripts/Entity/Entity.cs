@@ -1,7 +1,7 @@
 using UnityEngine;
 using System;
 
-public abstract class Entity
+public abstract class Entity : ISaveable<EntityData>
 {
     public Guid Id { get; protected set; }
     protected Vector3 spawnPosition; 
@@ -20,4 +20,15 @@ public abstract class Entity
     public abstract void CheckState();
     protected abstract void Move();
     protected void SpawnEntity(GameObject prefab, Transform parent = null) => entityInstance = UnityEngine.Object.Instantiate(prefab, spawnPosition, Quaternion.identity, parent);
+    public abstract EntityData SaveData();
+
+    public virtual void LoadData(EntityData data)
+    {
+        Id = data.Id;
+        spawnPosition = data.SpawnPosition;
+        placementManager = data.PlacementManager;
+        discoverEnvironment = data.DiscoverEnvironment;
+        Position = data.Position;
+        entityInstance.transform.rotation = data.Rotation;
+    }
 }

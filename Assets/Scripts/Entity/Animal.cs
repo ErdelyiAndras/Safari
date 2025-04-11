@@ -26,7 +26,7 @@ public abstract class Animal : Entity
     protected Vector3 targetPosition;
     public Herd myHerd;
     protected bool callOnceFlag;
-    private float elapsedTime = 0.0f;
+    protected float elapsedTime = 0.0f;
     public float Health { get => (state.Hunger * state.Thirst * state.RemainingLifetime * state.Health); }
     public AnimalType Type { get { return state.type; } }
 
@@ -45,7 +45,13 @@ public abstract class Animal : Entity
         baseMoveSpeed = Constants.AnimalBaseMoveSpeed[_type];
         baseRotationSpeed = Constants.AnimalBaseRotationSpeed[_type];
     }
-    protected bool IsAnimalDead() => Health <= 0;
+
+    public Animal(AnimalData data)
+    {
+        LoadData(data);
+    }
+
+    protected bool IsAnimalDead() => Health <= 0; // ez így nem mûködik pl: hunger és thirst is negatív akkor még nem halt meg
 
     public override void CheckState()
     {   
@@ -265,5 +271,16 @@ public abstract class Animal : Entity
         {
             AnimalDies();
         }
+    }
+
+    public override void LoadData(EntityData data)
+    {
+        base.LoadData(data);
+        MyState = ((AnimalData)data).MyState;
+        state = ((AnimalData)data).State;
+        targetPosition = ((AnimalData)data).TargetPosition;
+        myHerd = ((AnimalData)data).MyHerd;
+        callOnceFlag = ((AnimalData)data).CallOnceFlag;
+        elapsedTime = ((AnimalData)data).ElapsedTime;
     }
 }

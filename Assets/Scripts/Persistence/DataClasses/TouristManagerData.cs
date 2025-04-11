@@ -63,7 +63,7 @@ public class TouristManagerData
         this.jeepsData = new List<JeepData>();
         foreach (Jeep jeep in jeeps)
         {
-            jeepsData.Add(jeep.SaveData());
+            jeepsData.Add((JeepData)jeep.SaveData());
         }
     }
 }

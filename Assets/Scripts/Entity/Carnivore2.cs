@@ -8,4 +8,9 @@ public class Carnivore2 : CarnivoreBase
         AnimalType type = AnimalType.Carnivore2;
         discoverEnvironment = new CarnivoreSearchInRange(Constants.AnimalVisionRange[type], placementManager, Constants.AnimalViewExtenderScale[type], herds);
     }
+
+    public Carnivore2(CarnivoreData data) : base(data)
+    {
+
+    }
 }

@@ -4,22 +4,28 @@ using UnityEngine;
 using UnityEngine.UIElements;
 
 
-public class BFSLists 
-{
-    public List<Vector3Int> permanentList;
-    public List<Vector3Int> temporaryList;
-}
 public abstract class AnimalSearchInRange : SearchInRange
 {
+    protected class BFSLists 
+    {
+        public List<Vector3Int> permanentList;
+        public List<Vector3Int> temporaryList;
+    }
+
     protected List<Vector3Int> discoveredDrink = new List<Vector3Int>();
     protected List<Vector3Int> drinkInRange = new List<Vector3Int>();
 
-    private readonly float viewExtenderScale;
+    protected float viewExtenderScale;
     protected float GetViewDistance(Vector3 Position) => placementManager.GetTypeOfPosition(placementManager.RoundPosition(Position)) == CellType.Hill ? visionRange * viewExtenderScale : visionRange; 
    
-    protected AnimalSearchInRange(float _visionRange, PlacementManager _placementManager, float _viewExtenderScale) : base(_visionRange, _placementManager)
+    public AnimalSearchInRange(float _visionRange, PlacementManager _placementManager, float _viewExtenderScale) : base(_visionRange, _placementManager)
     {
         viewExtenderScale = _viewExtenderScale;
+    }
+
+    public AnimalSearchInRange(AnimalSearchInRangeData data) : base(data)
+    {
+        LoadData(data);
     }
 
     public List<Vector3Int> GetDrinkResult() => drinkInRange;
@@ -149,6 +155,14 @@ public abstract class AnimalSearchInRange : SearchInRange
             }
         }
         return targetPosition;
+    }
+
+    public override void LoadData(SearchInRangeData data)
+    {
+        base.LoadData(data);
+        discoveredDrink = ((AnimalSearchInRangeData)data).DiscoveredDrink;
+        drinkInRange = ((AnimalSearchInRangeData)data).DrinkInRange;
+        viewExtenderScale = ((AnimalSearchInRangeData)data).ViewExtenderScale;
     }
 }
 

@@ -3,10 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class CarnivoreBase : Animal
+public abstract class CarnivoreBase : Animal
 {
     public CarnivoreBase(GameObject prefab, PlacementManager _placementManager, Herd parent, AnimalType type, List<Herd> herds) : base(prefab, _placementManager, parent, type)
     {
+    }
+
+    public CarnivoreBase(CarnivoreData data) : base(data)
+    {
+        LoadData(data);
     }
 
     protected override void MoveToFood() => MoveToTarget(((CarnivoreSearchInRange)discoverEnvironment).GetClosestFood);
@@ -39,5 +44,17 @@ public class CarnivoreBase : Animal
         }
     }
 
+    public override EntityData SaveData()
+    {
+        return new CarnivoreData(
+            Id, spawnPosition, placementManager, (CarnivoreSearchInRange)discoverEnvironment, Position, entityInstance.transform.rotation,
+            MyState, state, targetPosition, myHerd, callOnceFlag, elapsedTime
+        );
+    }
 
+    public override void LoadData(EntityData data)
+    {
+        base.LoadData(data);
+        discoverEnvironment = ((CarnivoreData)data).DiscoverEnvironment;
+    }
 }

@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using Unity.Burst.CompilerServices;
 
-public class Jeep : Entity, ISaveable<JeepData>
+public class Jeep : Entity
 {
     public enum State
     {
@@ -36,6 +36,11 @@ public class Jeep : Entity, ISaveable<JeepData>
         baseMoveSpeed = Constants.JeepBaseMoveSpeed;
         baseRotationSpeed = Constants.JeepBaseRotationSpeed;
         discoverEnvironment = new JeepSearchInRange(15.0f, placementManager);
+    }
+
+    public Jeep(JeepData data)
+    {
+        LoadData(data);
     }
 
     public override void CheckState()
@@ -132,17 +137,23 @@ public class Jeep : Entity, ISaveable<JeepData>
     }
     public int CalculateSatisfaction() => ((JeepSearchInRange)discoverEnvironment).AnimalsSeenCount * ((JeepSearchInRange)discoverEnvironment).AnimalTypesSeenCount;
 
-    public JeepData SaveData()
+    public override EntityData SaveData()
     {
         return new JeepData(
-            Id, spawnPosition, placementManager, discoverEnvironment, Position, entityInstance.transform.rotation,
+            Id, spawnPosition, placementManager, (JeepSearchInRange)discoverEnvironment, Position, entityInstance.transform.rotation,
             MyState, endPosition, tourists, jeepPath, currentPathIndex, hasFullPath
         );
     }
 
-    public void LoadData(JeepData data)
+    public override void LoadData(EntityData data)
     {
-        throw new NotImplementedException();
+        base.LoadData(data);
+        MyState = ((JeepData)data).State;
+        endPosition = ((JeepData)data).EndPosition;
+        tourists = ((JeepData)data).TouristGroup;
+        jeepPath = ((JeepData)data).JeepPath;
+        currentPathIndex = ((JeepData)data).CurrentPathIndex;
+        hasFullPath = ((JeepData)data).HasFullPath;
     }
 }
 

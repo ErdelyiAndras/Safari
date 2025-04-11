@@ -18,6 +18,14 @@ public class JeepData : EntityData
     [SerializeField]
     private bool hasFullPath;
 
+    public override SearchInRange DiscoverEnvironment
+    {
+        get
+        {
+            return new JeepSearchInRange((JeepSearchInRangeData)discoverEnvironment);
+        }
+    }
+
     public Jeep.State State
     {
         get { return state; }
@@ -28,9 +36,9 @@ public class JeepData : EntityData
         get { return endPosition; }
     }
 
-    public TouristGroupData TouristGroup
+    public TouristGroup TouristGroup
     {
-        get { return touristGroup; }
+        get { return new TouristGroup(touristGroup); }
     }
 
     public List<Vector3Int> JeepPath
@@ -49,7 +57,7 @@ public class JeepData : EntityData
     }
 
     public JeepData(
-        Guid id, Vector3 spawnPosition, PlacementManager placementManager, SearchInRange discoverEnvironment, Vector3 position, Quaternion rotation,
+        Guid id, Vector3 spawnPosition, PlacementManager placementManager, JeepSearchInRange discoverEnvironment, Vector3 position, Quaternion rotation,
         Jeep.State state, Vector3 endPosition, TouristGroup touristGroup, List<Vector3Int> jeepPath, int currentPathIndex, bool hasFullPath
     ) : base(id, spawnPosition, placementManager, discoverEnvironment, position, rotation)
     {

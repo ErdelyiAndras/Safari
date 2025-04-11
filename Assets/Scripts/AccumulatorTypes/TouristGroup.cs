@@ -9,6 +9,15 @@ public class TouristGroup : ISaveable<TouristGroupData>
     public Action readyToGo;
     private int numberOfTourists;
 
+    public TouristGroup()
+    {
+        numberOfTourists = 0;
+    }
+
+    public TouristGroup(TouristGroupData data)
+    {
+        LoadData(data);
+    }
     
     public void AddTourist()
     {
@@ -36,7 +45,4 @@ public class TouristGroup : ISaveable<TouristGroupData>
     {
         numberOfTourists = data.NumberOfTourists;
     }
-
-
 }
-
