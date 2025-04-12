@@ -9,7 +9,7 @@ public abstract class CarnivoreBase : Animal
     {
     }
 
-    public CarnivoreBase(CarnivoreData data, PlacementManager placementManager) : base(data, placementManager)
+    public CarnivoreBase(CarnivoreData data, PlacementManager placementManager, GameObject prefab, GameObject parent) : base(data, placementManager, prefab, parent)
     {
         LoadData(data, placementManager);
     }

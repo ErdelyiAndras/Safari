@@ -14,6 +14,8 @@ public abstract class Herd : ISaveable<HerdData>
     public int DistributionRadius { get; protected set;}
     public GameObject gameObject = new GameObject();
     public List<Animal> Animals{ get { return animals; }}
+
+    private AnimalManager animalManager;
     
 
     public Herd(PlacementManager placementManager, AnimalManager parent, AnimalType type)
@@ -22,6 +24,7 @@ public abstract class Herd : ISaveable<HerdData>
         this.placementManager = placementManager;
         animalTypesOfHerd = type;
         gameObject.transform.SetParent(parent.transform);
+        animalManager = parent;
     }
 
     public Herd(HerdData data, PlacementManager placementManager)
@@ -89,7 +92,7 @@ public abstract class Herd : ISaveable<HerdData>
     public void LoadData(HerdData data, PlacementManager placementManager)
     {
         animalTypesOfHerd = data.AnimalTypesOfHerd;
-        animals = data.Animals(placementManager);
+        animals = data.Animals(placementManager, animalManager, this);
         centroid = data.Centroid;
         this.placementManager = placementManager;
         DistributionRadius = data.DistributionRadius;

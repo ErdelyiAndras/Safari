@@ -22,10 +22,8 @@ public class Jeep : Entity
     public State MyState { get; private set; }
     public static Action<Jeep> JeepArrived, JeepWaiting;
     bool hasFullPath = false;
-    public Jeep(PlacementManager _placementManager, GameObject prefab, TouristManager parent)
+    public Jeep(PlacementManager _placementManager, GameObject prefab, TouristManager parent) : base(_placementManager, prefab)
     {
-        Id = Guid.NewGuid();
-        placementManager = _placementManager;
         endPosition = new Vector3Int(placementManager.width - 1, 0, placementManager.height - 1);
         spawnPosition = new Vector3(0, 0, 0);
         MyState = State.Waiting;
@@ -33,13 +31,16 @@ public class Jeep : Entity
         tourists.SetDefault();
         tourists.readyToGo += () => MyState = State.Moving;
         SpawnEntity(prefab, parent.transform);
+        //entityInstance.transform.SetParent(parent.transform);
         baseMoveSpeed = Constants.JeepBaseMoveSpeed;
         baseRotationSpeed = Constants.JeepBaseRotationSpeed;
         discoverEnvironment = new JeepSearchInRange(15.0f, placementManager);
     }
 
-    public Jeep(JeepData data, PlacementManager placementManager)
+    public Jeep(JeepData data, PlacementManager placementManager, TouristManager parent) : base(data, placementManager, parent.jeepPrefab, parent.gameObject)
     {
+        
+        //SpawnEntity(parent.jeepPrefab, parent.transform);
         LoadData(data, placementManager);
     }
 
@@ -147,13 +148,17 @@ public class Jeep : Entity
 
     public override void LoadData(EntityData data, PlacementManager placementManager)
     {
-        base.LoadData(data, placementManager);
+        base.LoadData((JeepData)data, placementManager);
+        discoverEnvironment = ((JeepData)data).DiscoverEnvironment(placementManager);
         MyState = ((JeepData)data).State;
         endPosition = ((JeepData)data).EndPosition;
         tourists = ((JeepData)data).TouristGroup;
         jeepPath = ((JeepData)data).JeepPath;
         currentPathIndex = ((JeepData)data).CurrentPathIndex;
         hasFullPath = ((JeepData)data).HasFullPath;
+        baseMoveSpeed = Constants.JeepBaseMoveSpeed;
+        baseRotationSpeed = Constants.JeepBaseRotationSpeed;
+        tourists.readyToGo += () => MyState = State.Moving;
     }
 }
 

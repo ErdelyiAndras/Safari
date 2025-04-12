@@ -21,7 +21,7 @@ public class HerdData
         }
     }
 
-    public List<Animal> Animals(PlacementManager placementManager)
+    public List<Animal> Animals(PlacementManager placementManager, AnimalManager animalManager, Herd parent)
     {
         List<Animal> animalList = new List<Animal>();
         foreach (AnimalData animalData in animals)
@@ -30,16 +30,16 @@ public class HerdData
             switch (animalData.State.type)
             {
                 case AnimalType.Herbivore1:
-                    animal = new Herbivore1((HerbivoreData)animalData, placementManager);
+                    animal = new Herbivore1((HerbivoreData)animalData, placementManager, animalManager.herbivore1Prefab, parent.gameObject);
                     break;
                 case AnimalType.Herbivore2:
-                    animal = new Herbivore2((HerbivoreData)animalData, placementManager);
+                    animal = new Herbivore2((HerbivoreData)animalData, placementManager, animalManager.herbivore2Prefab, parent.gameObject);
                     break;
                 case AnimalType.Carnivore1:
-                    animal = new Carnivore1((CarnivoreData)animalData, placementManager);
+                    animal = new Carnivore1((CarnivoreData)animalData, placementManager, animalManager.carnivore1Prefab, parent.gameObject);
                     break;
                 case AnimalType.Carnivore2:
-                    animal = new Carnivore2((CarnivoreData)animalData, placementManager);
+                    animal = new Carnivore2((CarnivoreData)animalData, placementManager, animalManager.carnivore2Prefab, parent.gameObject);
                     break;
                 default:
                     throw new System.Exception("Unknown animal type");

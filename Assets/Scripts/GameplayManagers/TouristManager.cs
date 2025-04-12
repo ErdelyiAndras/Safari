@@ -84,8 +84,12 @@ public class TouristManager : MonoBehaviour, ITimeHandler, ISaveable<TouristMana
         Satisfaction = data.Satisfaction;
         touristCount = data.TouristCount;
         TouristsInQueue = data.TouristsInQueue;
-        jeeps = data.Jeeps(placementManager);
+        jeeps = data.Jeeps(placementManager, this);
         this.placementManager = placementManager;
+        foreach (Jeep jeep in jeeps)
+        {
+            placementManager.RegisterObject(jeep.Id, ObjectType.Jeep, jeep);
+        }
     }
 }
 

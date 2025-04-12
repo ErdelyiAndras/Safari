@@ -32,21 +32,20 @@ public abstract class Animal : Entity
 
     public State MyState { get; protected set; }
 
-    public Animal(GameObject prefab, PlacementManager _placementManager, Herd parent, AnimalType _type)
+    public Animal(GameObject prefab, PlacementManager _placementManager, Herd parent, AnimalType _type) : base(_placementManager, prefab)
     {
-        Id = Guid.NewGuid();
         myHerd = parent;
-        placementManager = _placementManager;
         spawnPosition = parent.Spawnpoint;
         state = new AnimalInternalState(_type);
         targetPosition = spawnPosition;
         SpawnEntity(prefab, parent.gameObject.transform);
+        //entityInstance.transform.SetParent(parent.gameObject.transform);
         MyState = State.Moving;
         baseMoveSpeed = Constants.AnimalBaseMoveSpeed[_type];
         baseRotationSpeed = Constants.AnimalBaseRotationSpeed[_type];
     }
 
-    public Animal(AnimalData data, PlacementManager placementManager)
+    public Animal(AnimalData data, PlacementManager placementManager, GameObject prefab, GameObject parent) : base(data, placementManager, prefab, parent)
     {
         LoadData(data, placementManager);
     }

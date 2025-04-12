@@ -70,7 +70,6 @@ public class PlacementManager : MonoBehaviour, ISaveable<PlacementManagerData>
             return;
         if (structureDictionary.ContainsKey(position))
         {
-            Debug.Log(structureDictionary[position].gameObject.transform.GetChild(0).name);
             if (GetTypeOfPosition(position) != CellType.Hill && GetTypeOfPosition(position) != CellType.Empty)
             {
                 Destroy(structureDictionary[position].gameObject);
@@ -301,6 +300,33 @@ public class PlacementManager : MonoBehaviour, ISaveable<PlacementManagerData>
         temporaryRoadobjects.Clear();
     }
 
+    private void RemoveAnyStructure(Vector3Int position)
+    {
+        if (!CheckIfPositionInBound(position))
+            return;
+        if (structureDictionary.ContainsKey(position))
+        {
+            if (GetTypeOfPosition(position) != CellType.Empty)
+            {
+                Destroy(structureDictionary[position].gameObject);
+                structureDictionary.Remove(position);
+                if (GetTypeOfPosition(position) == CellType.Road)
+                {
+                    placementGrid[position.x, position.z] = CellType.Empty;
+                    foreach (var roadNeighbour in GetNeighboursOfType(position, CellType.Road))
+                    {
+                        RoadRemoved?.Invoke(roadNeighbour);
+                    }
+                }
+                else
+                {
+                    placementGrid[position.x, position.z] = CellType.Empty;
+
+                }
+            }
+        }
+    }
+
     public PlacementManagerData SaveData()
     {
         return new PlacementManagerData(placementGrid, structureDictionary);
@@ -310,5 +336,19 @@ public class PlacementManager : MonoBehaviour, ISaveable<PlacementManagerData>
     public void LoadData(PlacementManagerData data, PlacementManager placementManager = null)
     {
         placementGrid = data.PlacementGrid;
+        width = placementGrid.Width;
+        height = placementGrid.Height;
+    }
+
+    public void ResetData()
+    {
+        for (int i = 0; i < width; ++i)
+        {
+            for (int j = 0; j < height; ++j)
+            {
+                RemoveAnyStructure(new Vector3Int(i, 0, j));
+            }
+        }
+        PlacedObjects = new PlacedObjects();
     }
 }

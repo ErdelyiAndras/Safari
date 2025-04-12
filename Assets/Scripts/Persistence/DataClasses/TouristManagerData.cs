@@ -34,12 +34,12 @@ public class TouristManagerData
         }
     }
 
-    public List<Jeep> Jeeps(PlacementManager placementManager)
+    public List<Jeep> Jeeps(PlacementManager placementManager, TouristManager touristManager)
     {
         List<Jeep> jeepsList = new List<Jeep>();
         foreach (JeepData jeepData in jeeps)
         {
-            jeepsList.Add(new Jeep(jeepData, placementManager));
+            jeepsList.Add(new Jeep(jeepData, placementManager, touristManager));
         }
         return jeepsList;
     }

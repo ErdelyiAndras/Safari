@@ -7,7 +7,7 @@ public abstract class HerbivoreBase : Animal
     {
     }
 
-    public HerbivoreBase(HerbivoreData data, PlacementManager placementManager) : base(data, placementManager)
+    public HerbivoreBase(HerbivoreData data, PlacementManager placementManager, GameObject prefab, GameObject parent) : base(data, placementManager, prefab, parent)
     {
         LoadData(data, placementManager);
     }

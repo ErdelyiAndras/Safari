@@ -8,7 +8,6 @@ public class StructureModel : MonoBehaviour
     {
         var structure = Instantiate(model, transform);
         yHeight = structure.transform.position.y;
-        Debug.Log(structure.name);
     }
 
     public void SwapModel(GameObject model, Quaternion rotation)

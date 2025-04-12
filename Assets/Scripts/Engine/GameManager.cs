@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public GameObject Plant1, Plant2, Plant3;
+    public GameObject Hill;
 
     public CameraMovement cameraMovement;
     public InputManager inputManager;
@@ -254,6 +255,55 @@ public class GameManager : MonoBehaviour
     private void LoadGame()
     {
         PersistenceManager.Load("save.json");
+        DifficultySelector.SelectedDifficulty = PersistenceManager.Difficulty;
+        timeManager.LoadData(PersistenceManager.TimeData);
+        economyManager.LoadData(PersistenceManager.EconomyManagerData);
+        placementManager.ResetData();
+        placementManager.LoadData(PersistenceManager.PlacementManagerData);
+        for (int i = 0; i < placementManager.width; ++i)
+        {
+            for (int j = 0; j < placementManager.height; ++j)
+            {
+                switch (placementManager.placementGrid[i, j])
+                {
+                    case CellType.Road:
+                        placementManager.PlaceStructure(new Vector3Int(i, 0, j), roadManager.roadFixer.deadEnd, CellType.Road);
+                        roadManager.roadFixer.FixRoadAtPosition(placementManager, new Vector3Int(i, 0, j));
+                        break;
+                    case CellType.Water:
+                        placementManager.PlaceStructure(new Vector3Int(i, 0, j), waterManager.waterPrefab, CellType.Water);
+                        break;
+                    case CellType.Nature:
+                        switch (PersistenceManager.PlacementManagerData.StructureDictionaryNature[new Vector3Int(i, 0, j)])
+                        {
+                            case NatureType.Bush1:
+                                placementManager.PlaceStructure(new Vector3Int(i, 0, j), Plant1, CellType.Nature);
+                                break;
+                            case NatureType.Tree2:
+                                placementManager.PlaceStructure(new Vector3Int(i, 0, j), Plant2, CellType.Nature);
+                                break;
+                            case NatureType.Tree4:
+                                placementManager.PlaceStructure(new Vector3Int(i, 0, j), Plant3, CellType.Nature);
+                                break;
+                            default:
+                                Debug.LogError("Unknown nature type");
+                                break;
+                        }
+                        break;
+                    case CellType.Hill:
+                        placementManager.PlaceStructure(new Vector3Int(i, 0, j), Hill, CellType.Hill);
+                        break;
+                    case CellType.Empty:
+                        break;
+                    default:
+                        Debug.LogError("unknown celltype");
+                        break;
+                }
+            }
+        }
+        touristManager.LoadData(PersistenceManager.TouristManagerData, placementManager);
+        InitUIData();
+        SetSpeedMultiplierOfEntities();
         Debug.Log(PersistenceManager.TimeData.CurrentTime);
     }
     
