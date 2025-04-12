@@ -1,7 +1,7 @@
 using UnityEngine;
 using System;
 
-public abstract class Entity
+public abstract class Entity : IPositionable
 {
     public Guid Id { get; protected set; }
     protected Vector3 spawnPosition; 

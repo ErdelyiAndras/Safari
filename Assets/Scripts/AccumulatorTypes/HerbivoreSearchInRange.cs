@@ -4,8 +4,8 @@ using Unity.VisualScripting;
 
 class HerbivoreSearchInRange : AnimalSearchInRange
 {
-    private List<Vector3Int> discoveredFood = new List<Vector3Int>();
-    private List<Vector3Int> foodInRange = new List<Vector3Int>();
+    private List<Vector3> discoveredFood = new List<Vector3>();
+    private List<Vector3> foodInRange = new List<Vector3>();
     public HerbivoreSearchInRange(float _visionRange, PlacementManager _placementManager, float _viewExtenderScale) : base(_visionRange, _placementManager, _viewExtenderScale)
     {
     }
@@ -20,6 +20,6 @@ class HerbivoreSearchInRange : AnimalSearchInRange
         GeneralBFS(position, data);
     }
 
-    public Vector3? GetClosestFood(Vector3 Position, Vector3Int herdspawnpoint, int herdradius) => GetClosestTarget(Position, herdspawnpoint, herdradius, foodInRange, discoveredFood);
+    public Vector3? GetClosestFood(Vector3 Position, Vector3 herdspawnpoint, int herdradius) => GetClosestTarget(Position, herdspawnpoint, herdradius, foodInRange, discoveredFood);
 
 }

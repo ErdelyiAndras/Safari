@@ -21,6 +21,7 @@ public class AnimalManager : MonoBehaviour, ITimeHandler
             if (herds[i].Count == 0)
             {
                 Destroy(herds[i].gameObject);
+                placementManager.PlacedObjects.DeleteObject(herds[i].Id);
                 herds.RemoveAt(i);
                 continue;
             }
@@ -51,7 +52,7 @@ public class AnimalManager : MonoBehaviour, ITimeHandler
     public void BuyCarnivore1()
     {
         Herd _herd = ChooseHerd(AnimalType.Carnivore1);
-        Animal animal = new Carnivore1(carnivore1Prefab, placementManager, _herd, herds);
+        Animal animal = new Carnivore1(carnivore1Prefab, placementManager, _herd.Id);
         InitAnimal(_herd, animal);
         placementManager.RegisterObject(animal.Id, ObjectType.Carnivore, animal);
     }
@@ -59,7 +60,7 @@ public class AnimalManager : MonoBehaviour, ITimeHandler
     public void BuyCarnivore2()
     {
         Herd _herd = ChooseHerd(AnimalType.Carnivore2);
-        Animal animal = new Carnivore2(carnivore2Prefab, placementManager, _herd, herds);
+        Animal animal = new Carnivore2(carnivore2Prefab, placementManager, _herd.Id);
         InitAnimal(_herd, animal);
         placementManager.RegisterObject(animal.Id, ObjectType.Carnivore, animal);
     }
@@ -67,7 +68,7 @@ public class AnimalManager : MonoBehaviour, ITimeHandler
     public void BuyHerbivore1()
     {
         Herd _herd = ChooseHerd(AnimalType.Herbivore1);
-        Animal animal = new Herbivore1(herbivore1Prefab, placementManager, _herd);
+        Animal animal = new Herbivore1(herbivore1Prefab, placementManager, _herd.Id);
         InitAnimal(_herd, animal);
         placementManager.RegisterObject(animal.Id, ObjectType.Herbivore, animal);
     }
@@ -75,7 +76,7 @@ public class AnimalManager : MonoBehaviour, ITimeHandler
     public void BuyHerbivore2()
     {
         Herd _herd = ChooseHerd(AnimalType.Herbivore2);
-        Animal animal = new Herbivore2(herbivore2Prefab, placementManager, _herd);
+        Animal animal = new Herbivore2(herbivore2Prefab, placementManager, _herd.Id);
         InitAnimal(_herd, animal);
         placementManager.RegisterObject(animal.Id, ObjectType.Herbivore, animal);
 
@@ -87,11 +88,7 @@ public class AnimalManager : MonoBehaviour, ITimeHandler
         var herdsOfType = herds.Where(h => h.animalTypesOfHerd == type);
         if (herdsOfType.Count() == 0)
         {
-            Herd newHerd =  type == AnimalType.Herbivore1 || 
-                            type == AnimalType.Herbivore2 ? 
-                            new HerbivoreHerd(placementManager, this, type) : new CarnivoreHerd(placementManager, this, type);
-            herds.Add(newHerd);
-            return newHerd;
+            return CreateNewHerd(type);
         }
         int random = UnityEngine.Random.Range(0, 10);
         if (random < 8)
@@ -100,12 +97,25 @@ public class AnimalManager : MonoBehaviour, ITimeHandler
         }
         else
         {
-            Herd newHerd =  type == AnimalType.Herbivore1 || 
-                            type == AnimalType.Herbivore2 ? 
-                            new HerbivoreHerd(placementManager, this, type) : new CarnivoreHerd(placementManager, this, type);
-            herds.Add(newHerd);
-            return newHerd;
+            return CreateNewHerd(type);
         }
+    }
+
+    private Herd CreateNewHerd(AnimalType type)
+    {
+        Herd newHerd;
+        if ( type == AnimalType.Herbivore1 || type == AnimalType.Herbivore2)
+        {
+            newHerd = new HerbivoreHerd(placementManager, this, type);
+            placementManager.RegisterObject(newHerd.Id, ObjectType.HerbivoreHerd, newHerd);
+        }
+        else
+        {
+            newHerd = new CarnivoreHerd(placementManager, this, type);
+            placementManager.RegisterObject(newHerd.Id, ObjectType.CarnivoreHerd, newHerd);
+        }
+        herds.Add(newHerd);
+        return newHerd;
     }
 
     private void InitAnimal(Herd animalHerd, Animal animal)
@@ -133,8 +143,8 @@ public class AnimalManager : MonoBehaviour, ITimeHandler
 
     private void DeleteAnimalFromHerd(Animal animal)
     {
-        placementManager.PlacedObjects.DeleteObject(animal);
-        animal.myHerd.RemoveAnimalFromHerd(animal);
+        placementManager.PlacedObjects.DeleteObject(animal.Id);
+        animal.GetMyHerd.RemoveAnimalFromHerd(animal);
         /*if (animalCount[animal.Type] != 0)
         {
             animalCount[animal.Type]--;

@@ -24,7 +24,7 @@ public abstract class Animal : Entity
     public Action<Animal> AnimalDied;
     public AnimalInternalState state;
     protected Vector3 targetPosition;
-    public Herd myHerd;
+    public Guid myHerd;
     protected bool callOnceFlag;
     private float elapsedTime = 0.0f;
     public float Health { get => (state.Hunger * state.Thirst * state.RemainingLifetime * state.Health); }
@@ -32,21 +32,21 @@ public abstract class Animal : Entity
 
     public State MyState { get; protected set; }
 
-    public Animal(GameObject prefab, PlacementManager _placementManager, Herd parent, AnimalType _type)
+    public Animal(GameObject prefab, PlacementManager _placementManager, Guid parentID, AnimalType _type)
     {
         Id = Guid.NewGuid();
-        myHerd = parent;
+        myHerd = parentID;
         placementManager = _placementManager;
-        spawnPosition = parent.Spawnpoint;
+        spawnPosition = GetMyHerd.Position;
         state = new AnimalInternalState(_type);
         targetPosition = spawnPosition;
-        SpawnEntity(prefab, parent.gameObject.transform);
+        SpawnEntity(prefab, GetMyHerd.gameObject.transform);
         MyState = State.Moving;
         baseMoveSpeed = Constants.AnimalBaseMoveSpeed[_type];
         baseRotationSpeed = Constants.AnimalBaseRotationSpeed[_type];
     }
     protected bool IsAnimalDead() => Health <= 0;
-
+    public Herd GetMyHerd => placementManager.PlacedObjects.GetMyHerd(myHerd);
     public override void CheckState()
     {   
         Debug.Log(MyState.ToString());
@@ -153,7 +153,7 @@ public abstract class Animal : Entity
     private void MoveToWater()
     {
         discoverEnvironment.SearchInViewDistance(Position);
-        MoveToTarget((_) => ((AnimalSearchInRange)discoverEnvironment).GetClosestWater(_, myHerd.Spawnpoint, myHerd.DistributionRadius));
+        MoveToTarget((_) => ((AnimalSearchInRange)discoverEnvironment).GetClosestWater(_, GetMyHerd.Position, GetMyHerd.DistributionRadius));
     }
     protected void MoveToTarget(Func<Vector3, Vector3?> getClosestFunction)
     {
@@ -197,7 +197,7 @@ public abstract class Animal : Entity
             DiscoverEnvironment();
             if (direction != Vector3.zero)
             {
-                // Szabadon tudjon mozogni, de vízre ne menjen --> 
+                // Szabadon tudjon mozogni, de vï¿½zre ne menjen --> 
                 Quaternion targetRotation = Quaternion.LookRotation(direction);
                 entityInstance.transform.rotation = Quaternion.Slerp(entityInstance.transform.rotation, targetRotation, RotationSpeed * Time.deltaTime);
             }
@@ -240,8 +240,8 @@ public abstract class Animal : Entity
         {
             if (inHerd)
             {
-                randomX = UnityEngine.Random.Range(0, myHerd.DistributionRadius + 1);
-                randomZ = UnityEngine.Random.Range(0, myHerd.DistributionRadius + 1);
+                randomX = UnityEngine.Random.Range(0, GetMyHerd.DistributionRadius + 1);
+                randomZ = UnityEngine.Random.Range(0, GetMyHerd.DistributionRadius + 1);
                 xDirection = UnityEngine.Random.Range(0, 2) == 0;
                 zDirection = UnityEngine.Random.Range(0, 2) == 0;
                 randomX = xDirection ? randomX : -randomX;

@@ -2,15 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Herd
+public class Herd : IPositionable
 {
+    public Guid Id { get; }
     public readonly AnimalType animalTypesOfHerd; // if mixed herds are allowed this can be a set
     public AnimalType AnimalTypesOfHerd => animalTypesOfHerd;
     private List<Animal> animals;
     private Vector2Int centroid;
     private PlacementManager placementManager;
     public int Count {  get { return animals.Count; } }
-    public Vector3Int Spawnpoint { get { return animals.Count == 0 ? GetRandomPosition() : new Vector3Int(centroid.x, 0, centroid.y); } }
+    public Vector3 Position { get { return animals.Count == 0 ? GetRandomPosition() : new Vector3(centroid.x, 0, centroid.y); } }
     public int DistributionRadius { get; protected set;}
     public GameObject gameObject = new GameObject();
     public List<Animal> Animals{ get { return animals; }}
@@ -18,6 +19,7 @@ public class Herd
 
     public Herd(PlacementManager placementManager, AnimalManager parent, AnimalType type)
     {
+        Id = Guid.NewGuid();
         animals = new List<Animal>();
         this.placementManager = placementManager;
         animalTypesOfHerd = type;
@@ -62,7 +64,7 @@ public class Herd
         }
     }
 
-    private Vector3Int GetRandomPosition()
+    private Vector3 GetRandomPosition()
     {
         int randomX = 0, randomZ = 0;
         do{
@@ -71,7 +73,7 @@ public class Herd
         }
         while (!placementManager.IsPositionWalkable(new Vector3Int(randomX, 0, randomZ)));
 
-        return new Vector3Int(randomX, 0, randomZ);
+        return new Vector3(randomX, 0, randomZ);
     }
 
 }
