@@ -5,13 +5,9 @@ using UnityEngine;
 public abstract class EntityData
 {
     [SerializeField]
-    private Guid id;
+    private string id;
     [SerializeField]
     private Vector3 spawnPosition;
-    [SerializeField]
-    private PlacementManagerData placementManager;
-    [SerializeField]
-    protected SearchInRangeData discoverEnvironment;
     [SerializeField]
     private Vector3 position;
     [SerializeField]
@@ -19,7 +15,7 @@ public abstract class EntityData
 
     public Guid Id
     {
-        get { return id; }
+        get { return Guid.Parse(id); }
     }
 
     public Vector3 SpawnPosition
@@ -32,8 +28,6 @@ public abstract class EntityData
         get { return new PlacementManager(); }
     }
 
-    public abstract SearchInRange DiscoverEnvironment { get; }
-
     public Vector3 Position
     {
         get { return position; }
@@ -45,16 +39,12 @@ public abstract class EntityData
     }
 
     public EntityData(
-        Guid id, Vector3 spawnPosition, PlacementManager placementManager, SearchInRange discoverEnvironment, Vector3 position, Quaternion rotation
+        Guid id, Vector3 spawnPosition, Vector3 position, Quaternion rotation
     )
     {
-        this.id = id;
+        this.id = id.ToString();
         this.spawnPosition = spawnPosition;
-        this.placementManager = new PlacementManagerData(1);
-        this.discoverEnvironment = discoverEnvironment.SaveData();
         this.position = position;
         this.rotation = rotation;
     }
-
-
 }

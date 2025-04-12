@@ -47,10 +47,6 @@ public class GridData
                 this.grid.Add(grid[i, j]);
             }
         }
-        this.roadList = new List<Point>(roadList);
-        for (int i = 0; i < roadList.Count; i++)
-        {
-            this.roadList[i] = new Point(roadList[i].X, roadList[i].Y);
-        }
+        this.roadList = roadList;
     }
 }

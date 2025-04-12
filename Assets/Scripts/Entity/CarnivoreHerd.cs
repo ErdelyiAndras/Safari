@@ -4,7 +4,11 @@
     {
         DistributionRadius = Constants.CarnivoreHerdDistributionRadius;
         gameObject.name = "CarnivoreHerd";
+    }
 
+    public CarnivoreHerd(HerdData data, PlacementManager placementManager) : base(data, placementManager)
+    {
+        gameObject.name = "CarnivoreHerd";
     }
 
 

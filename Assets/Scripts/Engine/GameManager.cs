@@ -244,8 +244,9 @@ public class GameManager : MonoBehaviour
         PersistenceManager.Difficulty = DifficultySelector.SelectedDifficulty;
         PersistenceManager.TimeData = timeManager.SaveData();
         PersistenceManager.EconomyManagerData = economyManager.SaveData();
+        //PersistenceManager.AnimalManagerData = animalManager.SaveData();
         PersistenceManager.TouristManagerData = touristManager.SaveData();
-        PersistenceManager.GridData = placementManager.placementGrid.SaveData();
+        PersistenceManager.PlacementManagerData = placementManager.SaveData();
 
         PersistenceManager.Save("save.json");
     }

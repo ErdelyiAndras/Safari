@@ -76,12 +76,16 @@ public class TouristManager : MonoBehaviour, ITimeHandler, ISaveable<TouristMana
 
     public TouristManagerData SaveData()
     {
-        return new TouristManagerData(Satisfaction, touristCount, TouristsInQueue, placementManager, jeeps);
+        return new TouristManagerData(Satisfaction, touristCount, TouristsInQueue, jeeps);
     }
 
-    public void LoadData(TouristManagerData data)
+    public void LoadData(TouristManagerData data, PlacementManager placementManager)
     {
-        throw new NotImplementedException();
+        Satisfaction = data.Satisfaction;
+        touristCount = data.TouristCount;
+        TouristsInQueue = data.TouristsInQueue;
+        jeeps = data.Jeeps(placementManager);
+        this.placementManager = placementManager;
     }
 }
 

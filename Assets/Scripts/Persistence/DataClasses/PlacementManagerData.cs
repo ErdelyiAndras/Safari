@@ -1,23 +1,69 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
-// TODO: this is an entirely dummy class, it should be replaced with a real one
+public enum NatureType
+{
+    Bush1,
+    Tree2,
+    Tree4
+}
 
 [System.Serializable]
 public class PlacementManagerData
 {
     [SerializeField]
-    private int placementManager;
+    private GridData placementGrid;
+    [SerializeField]
+    private List<Vector3Int> structureDictionaryNatureKeys;
+    [SerializeField]
+    private List<NatureType> structureDictionaryNatureValues;
 
-    public int PlacementManager
+    public Grid PlacementGrid
     {
         get
         {
-            return placementManager;
+            return new Grid(placementGrid);
         }
     }
 
-    public PlacementManagerData(int placementManager)
+    public Dictionary<Vector3Int, NatureType> StructureDictionaryNature
     {
-        this.placementManager = placementManager;
+        get
+        {
+            Dictionary<Vector3Int, NatureType> structureDictionary = new Dictionary<Vector3Int, NatureType>();
+            for (int i = 0; i < structureDictionaryNatureKeys.Count; i++)
+            {
+                structureDictionary.Add(structureDictionaryNatureKeys[i], structureDictionaryNatureValues[i]);
+            }
+            return structureDictionary;
+        }
+    }
+
+    public PlacementManagerData(Grid placementGrid, Dictionary<Vector3Int, StructureModel> structureDictionary)
+    {
+        this.placementGrid = placementGrid.SaveData();
+        structureDictionaryNatureKeys = new List<Vector3Int>();
+        structureDictionaryNatureValues = new List<NatureType>();
+        foreach (var item in structureDictionary)
+        {
+            if (placementGrid[item.Key.x, item.Key.z] == CellType.Nature)
+            {
+                structureDictionaryNatureKeys.Add(item.Key);
+                switch (item.Value.gameObject.transform.GetChild(0).name)
+                {
+                    case "Bush1(Clone)":
+                        structureDictionaryNatureValues.Add(NatureType.Bush1);
+                        break;
+                    case "Tree2(Clone)":
+                        structureDictionaryNatureValues.Add(NatureType.Tree2);
+                        break;
+                    case "Tree4(Clone)":
+                        structureDictionaryNatureValues.Add(NatureType.Tree4);
+                        break;
+                    default:
+                        throw new System.Exception("Unknown structure type: " + item.Value.gameObject.name);
+                }
+            }
+        }
     }
 }

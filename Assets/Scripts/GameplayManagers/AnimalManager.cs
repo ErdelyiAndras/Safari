@@ -3,7 +3,7 @@ using UnityEngine;
 using System;
 using System.Linq;
 
-public class AnimalManager : MonoBehaviour, ITimeHandler
+public class AnimalManager : MonoBehaviour, ITimeHandler, ISaveable<AnimalManagerData>
 {
     public PlacementManager placementManager;
     public GameObject carnivore1Prefab, carnivore2Prefab, herbivore1Prefab, herbivore2Prefab;
@@ -160,5 +160,16 @@ public class AnimalManager : MonoBehaviour, ITimeHandler
                 Herbivore2Changed?.Invoke(Herbivore2Count);
                 break;
         }
+    }
+
+    public AnimalManagerData SaveData()
+    {
+        return new AnimalManagerData(herds);
+    }
+
+    public void LoadData(AnimalManagerData data, PlacementManager placementManager)
+    {
+        herds = data.Herds(placementManager);
+        this.placementManager = placementManager;
     }
 }

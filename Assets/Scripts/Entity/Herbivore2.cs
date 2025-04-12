@@ -8,7 +8,7 @@ public class Herbivore2 : HerbivoreBase
         discoverEnvironment = new HerbivoreSearchInRange(Constants.AnimalVisionRange[type], placementManager, Constants.AnimalViewExtenderScale[type]);
     }
 
-    public Herbivore2(HerbivoreData data) : base(data)
+    public Herbivore2(HerbivoreData data, PlacementManager placementManager) : base(data, placementManager)
     {
 
     }

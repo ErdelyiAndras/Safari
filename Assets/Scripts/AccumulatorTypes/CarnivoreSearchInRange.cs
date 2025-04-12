@@ -20,9 +20,9 @@ public class CarnivoreSearchInRange : AnimalSearchInRange
         herds = _herds;
     }
 
-    public CarnivoreSearchInRange(CarnivoreSearchInRangeData data) : base(data)
+    public CarnivoreSearchInRange(CarnivoreSearchInRangeData data, PlacementManager placementManager) : base(data, placementManager)
     {
-        LoadData(data);
+        LoadData(data, placementManager);
     }
 
     public override void SearchInViewDistance(Vector3 position)
@@ -57,14 +57,14 @@ public class CarnivoreSearchInRange : AnimalSearchInRange
 
     public override SearchInRangeData SaveData()
     {
-        return new CarnivoreSearchInRangeData(visionRange, placementManager, discoveredDrink, drinkInRange, viewExtenderScale, herds, preyGuid, closestHerd);
+        return new CarnivoreSearchInRangeData(visionRange, discoveredDrink, drinkInRange, viewExtenderScale, herds, preyGuid, closestHerd);
     }
 
-    public override void LoadData(SearchInRangeData data)
+    public override void LoadData(SearchInRangeData data, PlacementManager placementManager)
     {
-        base.LoadData(data);
-        herds = ((CarnivoreSearchInRangeData)data).Herds;
+        base.LoadData(data, placementManager);
+        //herds = ((CarnivoreSearchInRangeData)data).Herds;
         preyGuid = ((CarnivoreSearchInRangeData)data).PreyGuid;
-        closestHerd = ((CarnivoreSearchInRangeData)data).ClosestHerd;
+        //closestHerd = ((CarnivoreSearchInRangeData)data).ClosestHerd;
     }
 }

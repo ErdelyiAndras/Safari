@@ -7,9 +7,9 @@ public abstract class HerbivoreBase : Animal
     {
     }
 
-    public HerbivoreBase(HerbivoreData data) : base(data)
+    public HerbivoreBase(HerbivoreData data, PlacementManager placementManager) : base(data, placementManager)
     {
-        LoadData(data);
+        LoadData(data, placementManager);
     }
     protected override void MoveToFood()
     {
@@ -28,14 +28,14 @@ public abstract class HerbivoreBase : Animal
     public override EntityData SaveData()
     {
         return new HerbivoreData(
-            Id, spawnPosition, placementManager, (HerbivoreSearchInRange)discoverEnvironment, Position, entityInstance.transform.rotation,
-            MyState, state, targetPosition, myHerd, callOnceFlag, elapsedTime
+            Id, spawnPosition, Position, entityInstance.transform.rotation,
+            (HerbivoreSearchInRange)discoverEnvironment, MyState, state, targetPosition, myHerd, callOnceFlag, elapsedTime
         );
     }
 
-    public override void LoadData(EntityData data)
+    public override void LoadData(EntityData data, PlacementManager placementManager)
     {
-        base.LoadData(data);
-        discoverEnvironment = ((HerbivoreData)data).DiscoverEnvironment;
+        base.LoadData(data, placementManager);
+        //discoverEnvironment = ((HerbivoreData)data).DiscoverEnvironment;
     }
 }

@@ -10,9 +10,9 @@ public class HerbivoreSearchInRange : AnimalSearchInRange
     {
     }
 
-    public HerbivoreSearchInRange(HerbivoreSearchInRangeData data) : base(data)
+    public HerbivoreSearchInRange(HerbivoreSearchInRangeData data, PlacementManager placementManager) : base(data, placementManager)
     {
-        LoadData(data);
+        LoadData(data, placementManager);
     }
 
     public override void SearchInViewDistance(Vector3 position)
@@ -29,12 +29,12 @@ public class HerbivoreSearchInRange : AnimalSearchInRange
 
     public override SearchInRangeData SaveData()
     {
-        return new HerbivoreSearchInRangeData(visionRange, placementManager, discoveredDrink, drinkInRange, viewExtenderScale, discoveredFood, foodInRange);
+        return new HerbivoreSearchInRangeData(visionRange, discoveredDrink, drinkInRange, viewExtenderScale, discoveredFood, foodInRange);
     }
 
-    public override void LoadData(SearchInRangeData data)
+    public override void LoadData(SearchInRangeData data, PlacementManager placementManager)
     {
-        base.LoadData(data);
+        base.LoadData(data, placementManager);
         discoveredFood = ((HerbivoreSearchInRangeData)data).DiscoveredFood;
         foodInRange = ((HerbivoreSearchInRangeData)data).FoodInRange;
     }

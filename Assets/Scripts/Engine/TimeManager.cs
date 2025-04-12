@@ -116,7 +116,7 @@ public class TimeManager : MonoBehaviour, ISaveable<TimeData>
         return new TimeData(currentTime, elapsedTime, tickCounter);
     }
 
-    public void LoadData(TimeData data)
+    public void LoadData(TimeData data, PlacementManager placementManager = null)
     {
         currentTime = data.CurrentTime;
         elapsedTime = data.ElapsedTime;

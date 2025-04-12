@@ -9,9 +9,9 @@ public abstract class CarnivoreBase : Animal
     {
     }
 
-    public CarnivoreBase(CarnivoreData data) : base(data)
+    public CarnivoreBase(CarnivoreData data, PlacementManager placementManager) : base(data, placementManager)
     {
-        LoadData(data);
+        LoadData(data, placementManager);
     }
 
     protected override void MoveToFood() => MoveToTarget(((CarnivoreSearchInRange)discoverEnvironment).GetClosestFood);
@@ -47,14 +47,14 @@ public abstract class CarnivoreBase : Animal
     public override EntityData SaveData()
     {
         return new CarnivoreData(
-            Id, spawnPosition, placementManager, (CarnivoreSearchInRange)discoverEnvironment, Position, entityInstance.transform.rotation,
-            MyState, state, targetPosition, myHerd, callOnceFlag, elapsedTime
+            Id, spawnPosition, Position, entityInstance.transform.rotation,
+            (CarnivoreSearchInRange)discoverEnvironment, MyState, state, targetPosition, myHerd, callOnceFlag, elapsedTime
         );
     }
 
-    public override void LoadData(EntityData data)
+    public override void LoadData(EntityData data, PlacementManager placementManager)
     {
-        base.LoadData(data);
-        discoverEnvironment = ((CarnivoreData)data).DiscoverEnvironment;
+        base.LoadData(data, placementManager);
+        //discoverEnvironment = ((CarnivoreData)data).DiscoverEnvironment;
     }
 }

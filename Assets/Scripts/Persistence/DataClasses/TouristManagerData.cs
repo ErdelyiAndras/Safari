@@ -11,9 +11,7 @@ public class TouristManagerData
     [SerializeField]
     private int touristsInQueue;
     [SerializeField]
-    private PlacementManagerData placementManagerData;
-    [SerializeField]
-    private List<JeepData> jeepsData;
+    private List<JeepData> jeeps;
 
     public float Satisfaction
     {
@@ -36,34 +34,27 @@ public class TouristManagerData
         }
     }
 
-    public PlacementManager PlacementManager
+    public List<Jeep> Jeeps(PlacementManager placementManager)
     {
-        get 
-        { 
-            return new PlacementManager(); 
-        }
-    }
-
-    public List<Jeep> Jeeps
-    {
-        get
+        List<Jeep> jeepsList = new List<Jeep>();
+        foreach (JeepData jeepData in jeeps)
         {
-            return new List<Jeep>();
+            jeepsList.Add(new Jeep(jeepData, placementManager));
         }
+        return jeepsList;
     }
 
     public TouristManagerData(
-        float satisfaction, int touristCount, int touristsInQueue, PlacementManager placementManager, List<Jeep> jeeps
+        float satisfaction, int touristCount, int touristsInQueue, List<Jeep> jeeps
     )
     {
         this.satisfaction = satisfaction;
         this.touristCount = touristCount;
         this.touristsInQueue = touristsInQueue;
-        this.placementManagerData = new PlacementManagerData(3);
-        this.jeepsData = new List<JeepData>();
+        this.jeeps = new List<JeepData>();
         foreach (Jeep jeep in jeeps)
         {
-            jeepsData.Add((JeepData)jeep.SaveData());
+            this.jeeps.Add((JeepData)jeep.SaveData());
         }
     }
 }

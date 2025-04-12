@@ -26,9 +26,9 @@ public class HerbivoreSearchInRangeData : AnimalSearchInRangeData
     }
 
     public HerbivoreSearchInRangeData(
-        float visionRange, PlacementManager placementManager, List<Vector3Int> discoveredDrink, List<Vector3Int> drinkInRange, float viewExtenderScale,
+        float visionRange, List<Vector3Int> discoveredDrink, List<Vector3Int> drinkInRange, float viewExtenderScale,
         List<Vector3Int> discoveredFood, List<Vector3Int> foodInRange
-    ) : base(visionRange, placementManager, discoveredDrink, drinkInRange, viewExtenderScale)
+    ) : base(visionRange, discoveredDrink, drinkInRange, viewExtenderScale)
     {
         this.discoveredFood = discoveredFood;
         this.foodInRange = foodInRange;

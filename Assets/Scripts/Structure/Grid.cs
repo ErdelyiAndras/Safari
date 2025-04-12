@@ -72,6 +72,11 @@ public class Grid : ISaveable<GridData>
         _grid = new CellType[width, height];
     }
 
+    public Grid(GridData data)
+    {
+        LoadData(data);
+    }
+
     public CellType this[int i, int j]
     {
         get
@@ -216,7 +221,7 @@ public class Grid : ISaveable<GridData>
         return new GridData(_width, _height, _grid, _roadList);
     }
 
-    public void LoadData(GridData data)
+    public void LoadData(GridData data, PlacementManager placementManager = null)
     {
         _width = data.Width;
         _height = data.Height;

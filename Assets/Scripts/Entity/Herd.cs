@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class Herd : ISaveable<HerdData>
 {
-    public readonly AnimalType animalTypesOfHerd; // if mixed herds are allowed this can be a set
+    public AnimalType animalTypesOfHerd; // if mixed herds are allowed this can be a set
     public AnimalType AnimalTypesOfHerd => animalTypesOfHerd;
     private List<Animal> animals;
     private Vector2Int centroid;
@@ -21,6 +21,13 @@ public abstract class Herd : ISaveable<HerdData>
         animals = new List<Animal>();
         this.placementManager = placementManager;
         animalTypesOfHerd = type;
+        gameObject.transform.SetParent(parent.transform);
+    }
+
+    public Herd(HerdData data, PlacementManager placementManager)
+    {
+        LoadData(data, placementManager);
+        AnimalManager parent = UnityEngine.Object.FindFirstObjectByType<AnimalManager>();
         gameObject.transform.SetParent(parent.transform);
     }
 
@@ -76,12 +83,20 @@ public abstract class Herd : ISaveable<HerdData>
 
     public HerdData SaveData()
     {
-        return new HerdData(animalTypesOfHerd, animals, centroid, placementManager, DistributionRadius);
+        return new HerdData(animalTypesOfHerd, animals, centroid, DistributionRadius);
     }
 
-    public void LoadData(HerdData data)
+    public void LoadData(HerdData data, PlacementManager placementManager)
     {
-        throw new NotImplementedException();
+        animalTypesOfHerd = data.AnimalTypesOfHerd;
+        animals = data.Animals(placementManager);
+        centroid = data.Centroid;
+        this.placementManager = placementManager;
+        DistributionRadius = data.DistributionRadius;
+        foreach (Animal animal in animals)
+        {
+            animal.myHerd = this;
+        }
     }
 }
 

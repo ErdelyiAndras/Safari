@@ -11,8 +11,6 @@ public abstract class AnimalData : EntityData
     [SerializeField]
     private Vector3 targetPosition;
     [SerializeField]
-    private HerdData herd;
-    [SerializeField]
     private bool callOnceFlag;
     [SerializeField]
     private float elapsedTime;
@@ -41,14 +39,6 @@ public abstract class AnimalData : EntityData
         }
     }
 
-    public Herd MyHerd
-    {
-        get
-        {
-            return new HerbivoreHerd(PlacementManager, new AnimalManager(), AnimalType.Herbivore2);
-        }
-    }
-
     public bool CallOnceFlag
     {
         get
@@ -66,14 +56,14 @@ public abstract class AnimalData : EntityData
     }
 
     public AnimalData(
-        Guid id, Vector3 spawnPosition, PlacementManager placementManager, AnimalSearchInRange discoverEnvironment, Vector3 position, Quaternion rotation,
+        Guid id, Vector3 spawnPosition, Vector3 position, Quaternion rotation,
         Animal.State state, AnimalInternalState internalState, Vector3 targetPosition, Herd herd, bool callOnceFlag, float elapsedTime
-    ) : base(id, spawnPosition, placementManager, discoverEnvironment, position, rotation)
+    ) : base(id, spawnPosition, position, rotation)
     {
         this.state = state;
         this.internalState = internalState.SaveData();
         this.targetPosition = targetPosition;
-        this.herd = herd.SaveData();
+        //this.herd = herd.SaveData();
         this.callOnceFlag = callOnceFlag;
         this.elapsedTime = elapsedTime;
     }

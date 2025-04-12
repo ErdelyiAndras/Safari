@@ -14,8 +14,9 @@ public static class PersistenceManager
         public Difficulty difficulty;
         public TimeData timeData;
         public EconomyManagerData economyManagerData;
+        public AnimalManagerData animalManagerData;
         public TouristManagerData touristManagerData;
-        public GridData gridData;
+        public PlacementManagerData placementManagerData;
     }
 
     private static readonly string saveFolderPath = Path.Combine(Application.dataPath, "Saves"); // Application.persistentDataPath;
@@ -58,6 +59,18 @@ public static class PersistenceManager
         }
     }
 
+    public static AnimalManagerData AnimalManagerData
+    {
+        get
+        {
+            return data.animalManagerData;
+        }
+        set
+        {
+            data.animalManagerData = value;
+        }
+    }
+
     public static TouristManagerData TouristManagerData
     {
         get
@@ -70,15 +83,15 @@ public static class PersistenceManager
         }
     }
 
-    public static GridData GridData
+    public static PlacementManagerData PlacementManagerData
     {
         get
         {
-            return data.gridData;
+            return data.placementManagerData;
         }
         set
         {
-            data.gridData = value;
+            data.placementManagerData = value;
         }
     }
 

@@ -5257,8 +5257,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 800f1ed260338014e9a47a7b88749159, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Plant1: {fileID: 8961060414691119292, guid: f04715c35df96d24daf46814db582a15, type: 3}
-  Plant2: {fileID: 4245984584134214309, guid: c8c46a24f1192964a9c4a213493c1c7b, type: 3}
+  Plant1: {fileID: 1231750990164085603, guid: aed2aed4bcf2ca849b78ed9886eb775b, type: 3}
+  Plant2: {fileID: 8961060414691119292, guid: f04715c35df96d24daf46814db582a15, type: 3}
   Plant3: {fileID: 2732043988329127880, guid: bb8a349e47100e3438e3350c256e20e3, type: 3}
   cameraMovement: {fileID: 330585548}
   inputManager: {fileID: 1360255462}
@@ -5271,7 +5271,6 @@ MonoBehaviour:
   animalManager: {fileID: 812757148}
   timeManager: {fileID: 1210205437}
   touristManager: {fileID: 1039970318}
-  gameDifficulty: 1
 --- !u!1 &1130501723
 GameObject:
   m_ObjectHideFlags: 0
@@ -10067,12 +10066,7 @@ MonoBehaviour:
   placementManager: {fileID: 1434987243}
   naturePrefabs:
   - {fileID: 1231750990164085603, guid: aed2aed4bcf2ca849b78ed9886eb775b, type: 3}
-  - {fileID: 2955873173738021753, guid: 89c8c1683471988428f3493e670af149, type: 3}
-  - {fileID: 7925051415129203009, guid: 22e716ef34672e9429129cbfd0853e95, type: 3}
-  - {fileID: 6806877314895711884, guid: 4a980b701bf56d344a17e0247a24ff8d, type: 3}
-  - {fileID: 6135660522080923414, guid: cfa659a61039840438021d3380477cd7, type: 3}
   - {fileID: 8961060414691119292, guid: f04715c35df96d24daf46814db582a15, type: 3}
-  - {fileID: 4245984584134214309, guid: c8c46a24f1192964a9c4a213493c1c7b, type: 3}
   - {fileID: 2732043988329127880, guid: bb8a349e47100e3438e3350c256e20e3, type: 3}
   waterPrefab: {fileID: 2138452382528300987, guid: 358089f4ed332bf4c84b277e0fab5d24, type: 3}
   hillPrefab: {fileID: 5415228831098412824, guid: efba7964ffd90db4db5a672bfa3ab415, type: 3}

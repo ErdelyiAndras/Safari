@@ -5,7 +5,7 @@ using JetBrains.Annotations;
 using Unity.Collections;
 using UnityEngine;
 
-public class PlacementManager : MonoBehaviour
+public class PlacementManager : MonoBehaviour, ISaveable<PlacementManagerData>
 {
     public int width, height; // TODO public till decision is made of the final mapsize
     public Grid placementGrid { get; private set; }
@@ -65,10 +65,12 @@ public class PlacementManager : MonoBehaviour
 
     internal void RemoveStructure(Vector3Int position)
     {
+
         if (!CheckIfPositionInBound(position) || CheckIfPositionIsUnremovable(position))
             return;
         if (structureDictionary.ContainsKey(position))
         {
+            Debug.Log(structureDictionary[position].gameObject.transform.GetChild(0).name);
             if (GetTypeOfPosition(position) != CellType.Hill && GetTypeOfPosition(position) != CellType.Empty)
             {
                 Destroy(structureDictionary[position].gameObject);
@@ -299,4 +301,14 @@ public class PlacementManager : MonoBehaviour
         temporaryRoadobjects.Clear();
     }
 
+    public PlacementManagerData SaveData()
+    {
+        return new PlacementManagerData(placementGrid, structureDictionary);
+    }
+
+    // StructureDictionary has to be loaded from GameManager using Road, Nature and Water managersS
+    public void LoadData(PlacementManagerData data, PlacementManager placementManager = null)
+    {
+        placementGrid = data.PlacementGrid;
+    }
 }

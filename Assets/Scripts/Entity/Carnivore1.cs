@@ -9,7 +9,7 @@ public class Carnivore1 : CarnivoreBase
         discoverEnvironment = new CarnivoreSearchInRange(Constants.AnimalVisionRange[type], placementManager, Constants.AnimalViewExtenderScale[type], herds);
     }
 
-    public Carnivore1(CarnivoreData data) : base(data)
+    public Carnivore1(CarnivoreData data, PlacementManager placementManager) : base(data, placementManager)
     {
 
     }

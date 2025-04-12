@@ -6,6 +6,9 @@
         gameObject.name = "HerbivoreHerd";
     }
 
-
+    public HerbivoreHerd(HerdData data, PlacementManager placementManager) : base(data, placementManager)
+    {
+        gameObject.name = "HerbivoreHerd";
+    }
 }
 

@@ -5,8 +5,6 @@ public abstract class SearchInRangeData
 {
     [SerializeField]
     private float visionRange;
-    [SerializeField]
-    private PlacementManagerData placementManager;
 
     public float VisionRange
     {
@@ -16,17 +14,8 @@ public abstract class SearchInRangeData
         }
     }
 
-    public PlacementManager PlacementManager
-    {
-        get
-        {
-            return new PlacementManager();
-        }
-    }
-
-    public SearchInRangeData(float visionRange, PlacementManager placementManager)
+    public SearchInRangeData(float visionRange)
     {
         this.visionRange = visionRange;
-        this.placementManager = new PlacementManagerData(6);
     }
 }

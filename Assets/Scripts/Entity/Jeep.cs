@@ -38,9 +38,9 @@ public class Jeep : Entity
         discoverEnvironment = new JeepSearchInRange(15.0f, placementManager);
     }
 
-    public Jeep(JeepData data)
+    public Jeep(JeepData data, PlacementManager placementManager)
     {
-        LoadData(data);
+        LoadData(data, placementManager);
     }
 
     public override void CheckState()
@@ -140,14 +140,14 @@ public class Jeep : Entity
     public override EntityData SaveData()
     {
         return new JeepData(
-            Id, spawnPosition, placementManager, (JeepSearchInRange)discoverEnvironment, Position, entityInstance.transform.rotation,
-            MyState, endPosition, tourists, jeepPath, currentPathIndex, hasFullPath
+            Id, spawnPosition, Position, entityInstance.transform.rotation,
+            (JeepSearchInRange)discoverEnvironment, MyState, endPosition, tourists, jeepPath, currentPathIndex, hasFullPath
         );
     }
 
-    public override void LoadData(EntityData data)
+    public override void LoadData(EntityData data, PlacementManager placementManager)
     {
-        base.LoadData(data);
+        base.LoadData(data, placementManager);
         MyState = ((JeepData)data).State;
         endPosition = ((JeepData)data).EndPosition;
         tourists = ((JeepData)data).TouristGroup;

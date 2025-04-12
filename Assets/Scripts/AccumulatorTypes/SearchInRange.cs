@@ -13,16 +13,16 @@ public abstract class SearchInRange : ISaveable<SearchInRangeData>
         placementManager = _placementManager;
     }
 
-    public SearchInRange(SearchInRangeData data)
+    public SearchInRange(SearchInRangeData data, PlacementManager placementManager)
     {
-        LoadData(data);
+        LoadData(data, placementManager);
     }
 
     public abstract SearchInRangeData SaveData();
-    public virtual void LoadData(SearchInRangeData data)
+    public virtual void LoadData(SearchInRangeData data, PlacementManager placementManager)
     {
         visionRange = data.VisionRange;
-        placementManager = data.PlacementManager;
+        this.placementManager = placementManager;
     }
 }
 

@@ -4,19 +4,19 @@ using UnityEngine;
 [System.Serializable]
 public class HerbivoreData : AnimalData
 {
-    public override SearchInRange DiscoverEnvironment
+    [SerializeField]
+    private HerbivoreSearchInRangeData discoverEnvironment;
+
+    public HerbivoreSearchInRange DiscoverEnvironment(PlacementManager placementManager)
     {
-        get
-        {
-            return new HerbivoreSearchInRange((HerbivoreSearchInRangeData)discoverEnvironment);
-        }
+        return new HerbivoreSearchInRange(discoverEnvironment, placementManager);
     }
 
     public HerbivoreData(
-        Guid id, Vector3 spawnPosition, PlacementManager placementManager, HerbivoreSearchInRange discoverEnvironment, Vector3 position, Quaternion rotation,
-        Animal.State state, AnimalInternalState internalState, Vector3 targetPosition, Herd herd, bool callOnceFlag, float elapsedTime
-    ) : base(id, spawnPosition, placementManager, discoverEnvironment, position, rotation, state, internalState, targetPosition, herd, callOnceFlag, elapsedTime)
+        Guid id, Vector3 spawnPosition, Vector3 position, Quaternion rotation,
+        HerbivoreSearchInRange discoverEnvironment, Animal.State state, AnimalInternalState internalState, Vector3 targetPosition, Herd herd, bool callOnceFlag, float elapsedTime
+    ) : base(id, spawnPosition, position, rotation, state, internalState, targetPosition, herd, callOnceFlag, elapsedTime)
     {
-
+        this.discoverEnvironment = (HerbivoreSearchInRangeData)discoverEnvironment.SaveData();
     }
 }

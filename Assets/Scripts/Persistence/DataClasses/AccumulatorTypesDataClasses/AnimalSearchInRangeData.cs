@@ -36,8 +36,8 @@ public abstract class AnimalSearchInRangeData : SearchInRangeData
     }
 
     public AnimalSearchInRangeData(
-        float visionRange, PlacementManager placementManager, List<Vector3Int> discoveredDrink, List<Vector3Int> drinkInRange, float viewExtenderScale
-    ) : base(visionRange, placementManager)
+        float visionRange, List<Vector3Int> discoveredDrink, List<Vector3Int> drinkInRange, float viewExtenderScale
+    ) : base(visionRange)
     {
         this.discoveredDrink = discoveredDrink;
         this.drinkInRange = drinkInRange;

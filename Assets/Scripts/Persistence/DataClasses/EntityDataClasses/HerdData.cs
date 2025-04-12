@@ -11,11 +11,9 @@ public class HerdData
     [SerializeField]
     private Vector2Int centroid;
     [SerializeField]
-    private PlacementManagerData placementManager;
-    [SerializeField]
     private int distributionRadius;
 
-    public AnimalType AnimalType
+    public AnimalType AnimalTypesOfHerd
     {
         get
         {
@@ -23,12 +21,32 @@ public class HerdData
         }
     }
 
-    public List<Animal> Animals
+    public List<Animal> Animals(PlacementManager placementManager)
     {
-        get
+        List<Animal> animalList = new List<Animal>();
+        foreach (AnimalData animalData in animals)
         {
-            return new List<Animal>();
+            Animal animal;
+            switch (animalData.State.type)
+            {
+                case AnimalType.Herbivore1:
+                    animal = new Herbivore1((HerbivoreData)animalData, placementManager);
+                    break;
+                case AnimalType.Herbivore2:
+                    animal = new Herbivore2((HerbivoreData)animalData, placementManager);
+                    break;
+                case AnimalType.Carnivore1:
+                    animal = new Carnivore1((CarnivoreData)animalData, placementManager);
+                    break;
+                case AnimalType.Carnivore2:
+                    animal = new Carnivore2((CarnivoreData)animalData, placementManager);
+                    break;
+                default:
+                    throw new System.Exception("Unknown animal type");
+            }
+            animalList.Add(animal);
         }
+        return animalList;
     }
 
     public Vector2Int Centroid
@@ -36,14 +54,6 @@ public class HerdData
         get
         {
             return centroid;
-        }
-    }
-
-    public PlacementManager PlacementManager
-    {
-        get
-        {
-            return new PlacementManager();
         }
     }
 
@@ -55,16 +65,16 @@ public class HerdData
         }
     }
 
-    public HerdData(AnimalType animalTypesOfHerd, List<Animal> animals, Vector2Int centroid, PlacementManager placementManager, int distributionRadius)
+    public HerdData(AnimalType animalTypesOfHerd, List<Animal> animals, Vector2Int centroid, int distributionRadius)
     {
         this.animalTypesOfHerd = animalTypesOfHerd;
         this.animals = new List<AnimalData>();
         foreach (Animal animal in animals)
         {
-            this.animals.Add((AnimalData)animal.SaveData());
+            AnimalData animalData = (AnimalData)animal.SaveData();
+            this.animals.Add(animalData);
         }
         this.centroid = centroid;
-        this.placementManager = new PlacementManagerData(4);
         this.distributionRadius = distributionRadius;
     }
 }

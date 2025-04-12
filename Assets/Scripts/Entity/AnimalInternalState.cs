@@ -48,7 +48,7 @@ public class AnimalInternalState : ISaveable<AnimalInternalStateData>
         return new AnimalInternalStateData(type, RemainingLifetime, Hunger, Thirst, Health);
     }
 
-    public void LoadData(AnimalInternalStateData data)
+    public void LoadData(AnimalInternalStateData data, PlacementManager placementManager = null)
     {
         type = data.Type;
         RemainingLifetime = data.RemainingLifetime;

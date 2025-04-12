@@ -12,9 +12,9 @@ public class JeepSearchInRange : SearchInRange
         SetDefault();
     }
 
-    public JeepSearchInRange(JeepSearchInRangeData data) : base(data)
+    public JeepSearchInRange(JeepSearchInRangeData data, PlacementManager placementManager) : base(data, placementManager)
     {
-        LoadData(data);
+        LoadData(data, placementManager);
     }
 
     public int AnimalsSeenCount => animalsSeen.Count;
@@ -45,12 +45,12 @@ public class JeepSearchInRange : SearchInRange
 
     public override SearchInRangeData SaveData()
     {
-        return new JeepSearchInRangeData(visionRange, placementManager, animalsSeen, animalTypesSeen);
+        return new JeepSearchInRangeData(visionRange, animalsSeen, animalTypesSeen);
     }
 
-    public override void LoadData(SearchInRangeData data)
+    public override void LoadData(SearchInRangeData data, PlacementManager placementManager)
     {
-        base.LoadData(data);
+        base.LoadData(data, placementManager);
         animalsSeen = ((JeepSearchInRangeData)data).AnimalsSeen;
         animalTypesSeen = ((JeepSearchInRangeData)data).AnimalTypesSeen;
     }

@@ -46,9 +46,9 @@ public abstract class Animal : Entity
         baseRotationSpeed = Constants.AnimalBaseRotationSpeed[_type];
     }
 
-    public Animal(AnimalData data)
+    public Animal(AnimalData data, PlacementManager placementManager)
     {
-        LoadData(data);
+        LoadData(data, placementManager);
     }
 
     protected bool IsAnimalDead() => Health <= 0; // ez így nem mûködik pl: hunger és thirst is negatív akkor még nem halt meg
@@ -273,13 +273,12 @@ public abstract class Animal : Entity
         }
     }
 
-    public override void LoadData(EntityData data)
+    public override void LoadData(EntityData data, PlacementManager placementManager)
     {
-        base.LoadData(data);
+        base.LoadData(data, placementManager);
         MyState = ((AnimalData)data).MyState;
         state = ((AnimalData)data).State;
         targetPosition = ((AnimalData)data).TargetPosition;
-        myHerd = ((AnimalData)data).MyHerd;
         callOnceFlag = ((AnimalData)data).CallOnceFlag;
         elapsedTime = ((AnimalData)data).ElapsedTime;
     }

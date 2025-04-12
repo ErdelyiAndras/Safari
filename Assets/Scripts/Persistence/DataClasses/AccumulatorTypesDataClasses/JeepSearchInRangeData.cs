@@ -6,7 +6,7 @@ using UnityEngine;
 public class JeepSearchInRangeData : SearchInRangeData
 {
     [SerializeField]
-    private List<Guid> animalsSeen;
+    private List<string> animalsSeen;
     [SerializeField]
     private List<AnimalType> animalTypesSeen;
 
@@ -15,9 +15,9 @@ public class JeepSearchInRangeData : SearchInRangeData
         get
         {
             HashSet<Guid> animalsSeenSet = new HashSet<Guid>();
-            foreach (Guid guid in animalsSeen)
+            foreach (string guid in animalsSeen)
             {
-                animalsSeenSet.Add(guid);
+                animalsSeenSet.Add(Guid.Parse(guid));
             }
             return animalsSeenSet;
         }
@@ -36,13 +36,13 @@ public class JeepSearchInRangeData : SearchInRangeData
         }
     }
 
-    public JeepSearchInRangeData(float visionRange, PlacementManager placementManager, HashSet<Guid> animalsSeen, HashSet<AnimalType> animalTypesSeen) : 
-        base(visionRange, placementManager)
+    public JeepSearchInRangeData(float visionRange, HashSet<Guid> animalsSeen, HashSet<AnimalType> animalTypesSeen) : 
+        base(visionRange)
     {
-        this.animalsSeen = new List<Guid>();
+        this.animalsSeen = new List<string>();
         foreach (Guid guid in animalsSeen)
         {
-            this.animalsSeen.Add(guid);
+            this.animalsSeen.Add(guid.ToString());
         }
         this.animalTypesSeen = new List<AnimalType>();
         foreach (AnimalType type in animalTypesSeen)

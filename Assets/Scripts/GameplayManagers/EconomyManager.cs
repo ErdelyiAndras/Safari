@@ -110,8 +110,9 @@ public class EconomyManager : MonoBehaviour, ISaveable<EconomyManagerData>
         return new EconomyManagerData(money, admissionFee);
     }
 
-    public void LoadData(EconomyManagerData data)
+    public void LoadData(EconomyManagerData data, PlacementManager placementManager = null)
     {
-        throw new NotImplementedException();
+        money = data.Money;
+        admissionFee = data.AmissionFee;
     }
 }

@@ -22,12 +22,12 @@ public abstract class Entity : ISaveable<EntityData>
     protected void SpawnEntity(GameObject prefab, Transform parent = null) => entityInstance = UnityEngine.Object.Instantiate(prefab, spawnPosition, Quaternion.identity, parent);
     public abstract EntityData SaveData();
 
-    public virtual void LoadData(EntityData data)
+    public virtual void LoadData(EntityData data, PlacementManager placementManager)
     {
         Id = data.Id;
         spawnPosition = data.SpawnPosition;
-        placementManager = data.PlacementManager;
-        discoverEnvironment = data.DiscoverEnvironment;
+        this.placementManager = placementManager;
+        //discoverEnvironment = data.DiscoverEnvironment;
         Position = data.Position;
         entityInstance.transform.rotation = data.Rotation;
     }

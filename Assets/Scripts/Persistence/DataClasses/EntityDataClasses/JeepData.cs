@@ -6,6 +6,8 @@ using UnityEngine;
 public class JeepData : EntityData
 {
     [SerializeField]
+    private JeepSearchInRangeData discoverEnvironment;
+    [SerializeField]
     private Jeep.State state;
     [SerializeField]
     private Vector3 endPosition;
@@ -18,12 +20,9 @@ public class JeepData : EntityData
     [SerializeField]
     private bool hasFullPath;
 
-    public override SearchInRange DiscoverEnvironment
+    public JeepSearchInRange DiscoverEnvironment(PlacementManager placementManager)
     {
-        get
-        {
-            return new JeepSearchInRange((JeepSearchInRangeData)discoverEnvironment);
-        }
+        return new JeepSearchInRange(discoverEnvironment, placementManager);
     }
 
     public Jeep.State State
@@ -57,10 +56,11 @@ public class JeepData : EntityData
     }
 
     public JeepData(
-        Guid id, Vector3 spawnPosition, PlacementManager placementManager, JeepSearchInRange discoverEnvironment, Vector3 position, Quaternion rotation,
-        Jeep.State state, Vector3 endPosition, TouristGroup touristGroup, List<Vector3Int> jeepPath, int currentPathIndex, bool hasFullPath
-    ) : base(id, spawnPosition, placementManager, discoverEnvironment, position, rotation)
+        Guid id, Vector3 spawnPosition, Vector3 position, Quaternion rotation,
+        JeepSearchInRange discoverEnvironment, Jeep.State state, Vector3 endPosition, TouristGroup touristGroup, List<Vector3Int> jeepPath, int currentPathIndex, bool hasFullPath
+    ) : base(id, spawnPosition, position, rotation)
     {
+        this.discoverEnvironment = (JeepSearchInRangeData)discoverEnvironment.SaveData();
         this.state = state;
         this.endPosition = endPosition;
         this.touristGroup = touristGroup.SaveData();

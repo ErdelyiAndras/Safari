@@ -41,7 +41,7 @@ public class TouristGroup : ISaveable<TouristGroupData>
         return new TouristGroupData(numberOfTourists);
     }
     
-    public void LoadData(TouristGroupData data)
+    public void LoadData(TouristGroupData data, PlacementManager placementManager = null)
     {
         numberOfTourists = data.NumberOfTourists;
     }

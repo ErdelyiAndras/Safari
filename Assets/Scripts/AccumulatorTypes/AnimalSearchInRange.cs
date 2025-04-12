@@ -23,9 +23,9 @@ public abstract class AnimalSearchInRange : SearchInRange
         viewExtenderScale = _viewExtenderScale;
     }
 
-    public AnimalSearchInRange(AnimalSearchInRangeData data) : base(data)
+    public AnimalSearchInRange(AnimalSearchInRangeData data, PlacementManager placementManager) : base(data, placementManager)
     {
-        LoadData(data);
+        LoadData(data, placementManager);
     }
 
     public List<Vector3Int> GetDrinkResult() => drinkInRange;
@@ -157,9 +157,9 @@ public abstract class AnimalSearchInRange : SearchInRange
         return targetPosition;
     }
 
-    public override void LoadData(SearchInRangeData data)
+    public override void LoadData(SearchInRangeData data, PlacementManager placementManager)
     {
-        base.LoadData(data);
+        base.LoadData(data, placementManager);
         discoveredDrink = ((AnimalSearchInRangeData)data).DiscoveredDrink;
         drinkInRange = ((AnimalSearchInRangeData)data).DrinkInRange;
         viewExtenderScale = ((AnimalSearchInRangeData)data).ViewExtenderScale;
