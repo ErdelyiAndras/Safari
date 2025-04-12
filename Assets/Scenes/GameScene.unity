@@ -5260,6 +5260,7 @@ MonoBehaviour:
   Plant1: {fileID: 1231750990164085603, guid: aed2aed4bcf2ca849b78ed9886eb775b, type: 3}
   Plant2: {fileID: 8961060414691119292, guid: f04715c35df96d24daf46814db582a15, type: 3}
   Plant3: {fileID: 2732043988329127880, guid: bb8a349e47100e3438e3350c256e20e3, type: 3}
+  Hill: {fileID: 5415228831098412824, guid: efba7964ffd90db4db5a672bfa3ab415, type: 3}
   cameraMovement: {fileID: 330585548}
   inputManager: {fileID: 1360255462}
   roadManager: {fileID: 1742676474}
