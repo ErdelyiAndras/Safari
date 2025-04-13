@@ -46,6 +46,7 @@ public abstract class Animal : Entity
         baseRotationSpeed = Constants.AnimalBaseRotationSpeed[_type];
     }
     protected bool IsAnimalDead() => Health <= 0;
+    private float SlowingTerrain { get => (placementManager.GetTypeOfPosition(Vector3Int.RoundToInt(Position)) == CellType.Water ? 0.3f : 1.0f); }
     public Herd GetMyHerd => placementManager.PlacedObjects.GetMyHerd(myHerd);
     public override void CheckState()
     {   
@@ -192,7 +193,7 @@ public abstract class Animal : Entity
         }
         else
         {
-            Position = Vector3.MoveTowards(Position, targetPosition, MoveSpeed * Time.deltaTime);
+            Position = Vector3.MoveTowards(Position, targetPosition, MoveSpeed * SlowingTerrain * Time.deltaTime);
             Vector3 direction = targetPosition - Position;
             DiscoverEnvironment();
             if (direction != Vector3.zero)
