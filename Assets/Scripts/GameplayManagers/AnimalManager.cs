@@ -115,6 +115,7 @@ public class AnimalManager : MonoBehaviour, ITimeHandler
             placementManager.RegisterObject(newHerd.Id, ObjectType.CarnivoreHerd, newHerd);
         }
         herds.Add(newHerd);
+        newHerd.Reproduce += ReproduceAnimal;
         return newHerd;
     }
 
@@ -170,5 +171,29 @@ public class AnimalManager : MonoBehaviour, ITimeHandler
                 Herbivore2Changed?.Invoke(Herbivore2Count);
                 break;
         }
+    }
+
+    private void ReproduceAnimal(Herd _herd)
+    {
+        Animal children = null;
+        switch (_herd.animalTypesOfHerd)
+        {
+            case AnimalType.Herbivore1:
+                children = new Herbivore1(herbivore1Prefab, placementManager, _herd.Id);
+                break;
+            case AnimalType.Herbivore2:
+                children = new Herbivore2(herbivore2Prefab, placementManager, _herd.Id);
+                break;
+            case AnimalType.Carnivore1:
+                children = new Carnivore1(carnivore1Prefab, placementManager, _herd.Id);
+                break;
+            case AnimalType.Carnivore2:
+                children = new Carnivore2(carnivore2Prefab, placementManager, _herd.Id);
+                break;
+            default:
+                break;
+        }
+        InitAnimal(_herd, children);
+        placementManager.RegisterObject(children.Id, ObjectType.Herbivore, children);
     }
 }

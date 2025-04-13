@@ -15,6 +15,8 @@ public class Herd : IPositionable
     public int DistributionRadius { get; protected set;}
     public GameObject gameObject = new GameObject();
     public List<Animal> Animals{ get { return animals; }}
+    public Action<Herd> Reproduce;
+    private int reproductionCoolDown;
     
 
     public Herd(PlacementManager placementManager, AnimalManager parent, AnimalType type)
@@ -24,6 +26,7 @@ public class Herd : IPositionable
         this.placementManager = placementManager;
         animalTypesOfHerd = type;
         gameObject.transform.SetParent(parent.transform);
+        reproductionCoolDown = 8;
     }
 
     public void CalculateCentroid()
@@ -61,6 +64,12 @@ public class Herd : IPositionable
         for (int i = animals.Count - 1; i >= 0; i--)
         {
             animals[i].MatureAnimal();
+        }
+        reproductionCoolDown--;
+        if (reproductionCoolDown <= 0 && Count >=2)
+        {
+            Reproduce.Invoke(this);
+            reproductionCoolDown = 8;
         }
     }
 
