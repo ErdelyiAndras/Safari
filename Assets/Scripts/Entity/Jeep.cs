@@ -30,8 +30,7 @@ public class Jeep : Entity
         tourists = new TouristGroup();
         tourists.SetDefault();
         tourists.readyToGo += () => MyState = State.Moving;
-        SpawnEntity(prefab, parent.transform);
-        //entityInstance.transform.SetParent(parent.transform);
+        entityInstance.transform.SetParent(parent.transform);
         baseMoveSpeed = Constants.JeepBaseMoveSpeed;
         baseRotationSpeed = Constants.JeepBaseRotationSpeed;
         discoverEnvironment = new JeepSearchInRange(15.0f, placementManager);
@@ -39,8 +38,6 @@ public class Jeep : Entity
 
     public Jeep(JeepData data, PlacementManager placementManager, TouristManager parent) : base(data, placementManager, parent.jeepPrefab, parent.gameObject)
     {
-        
-        //SpawnEntity(parent.jeepPrefab, parent.transform);
         LoadData(data, placementManager);
     }
 

@@ -7,17 +7,13 @@ using UnityEngine.UIElements;
 
 public class CarnivoreSearchInRange : AnimalSearchInRange
 {
-    private List<Herd> herds;
     private Guid preyGuid = Guid.Empty;
     private Herd closestHerd;
     public Herd ClosestHerd { get { return closestHerd; } }
     public Guid PreyGuid { get { return preyGuid; } }
 
-    
-
-    public CarnivoreSearchInRange(float _visionRange, PlacementManager _placementManager, float _viewExtenderScale, List<Herd> _herds) : base(_visionRange, _placementManager, _viewExtenderScale)
+    public CarnivoreSearchInRange(float _visionRange, PlacementManager _placementManager, float _viewExtenderScale) : base(_visionRange, _placementManager, _viewExtenderScale)
     {
-        herds = _herds;
     }
 
     public CarnivoreSearchInRange(CarnivoreSearchInRangeData data, PlacementManager placementManager) : base(data, placementManager)
@@ -37,10 +33,10 @@ public class CarnivoreSearchInRange : AnimalSearchInRange
     public Vector3? GetClosestFood(Vector3 Position)
     {
         Vector3? targetPosition = null;
-        List<Herd> herbivoreHerds = herds.Where(h => h.AnimalTypesOfHerd == AnimalType.Herbivore1 || h.AnimalTypesOfHerd == AnimalType.Herbivore2).ToList();
+        List<HerbivoreHerd> herbivoreHerds = placementManager.PlacedObjects.GetHerbivoreHerds().ToList();
         if (herbivoreHerds.Count != 0)
         {
-            closestHerd = herbivoreHerds.OrderBy(h => Vector3Int.Distance(h.Spawnpoint, Vector3Int.RoundToInt(Position))).FirstOrDefault();
+            closestHerd = herbivoreHerds.OrderBy(h => Vector3.Distance(h.Position, Position)).FirstOrDefault();
             closestHerd.Animals.Sort((a, b) => Vector3.Distance(Position, a.Position).CompareTo(Vector3.Distance(Position, b.Position)));
             try
             {
@@ -57,7 +53,7 @@ public class CarnivoreSearchInRange : AnimalSearchInRange
 
     public override SearchInRangeData SaveData()
     {
-        return new CarnivoreSearchInRangeData(visionRange, discoveredDrink, drinkInRange, viewExtenderScale, herds, preyGuid, closestHerd);
+        return new CarnivoreSearchInRangeData(visionRange, discoveredDrink, drinkInRange, viewExtenderScale, preyGuid, closestHerd);
     }
 
     public override void LoadData(SearchInRangeData data, PlacementManager placementManager)

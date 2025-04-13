@@ -7,13 +7,15 @@ public enum ObjectType
 {
     Jeep,
     Carnivore,
-    Herbivore
+    Herbivore,
+    CarnivoreHerd,
+    HerbivoreHerd
 }
 public struct SafariObject
 {
     public Guid guid;
     public ObjectType type;
-    public Entity entity;
+    public IPositionable entity;
     public float Distance(Vector3 target) => Vector3.Distance(target, entity.Position);
 }
 public class PlacedObjects
@@ -22,6 +24,8 @@ public class PlacedObjects
     public HashSet<SafariObject> AnimalObjects { get { return new HashSet<SafariObject>(objects.Where(h => h.type != ObjectType.Jeep)); } }
     public HashSet<SafariObject> CarnivoreObjects { get { return new HashSet<SafariObject>(objects.Where(h => h.type == ObjectType.Carnivore)); } }
     public HashSet<SafariObject> HerbivoreObjects { get { return new HashSet<SafariObject>(objects.Where(h => h.type == ObjectType.Herbivore)); } }
+    public Herd GetMyHerd(Guid guid) => (Herd)objects.FirstOrDefault(h => h.guid == guid).entity;
+    public HashSet<HerbivoreHerd> GetHerbivoreHerds() => new HashSet<HerbivoreHerd>(objects.Where(h => h.type == ObjectType.HerbivoreHerd).Select(h => (HerbivoreHerd)h.entity));
 
     public void AddObject(SafariObject obj)
     {
@@ -32,9 +36,9 @@ public class PlacedObjects
         objects.Add(obj);
     }
 
-    public void DeleteObject(Entity entity)
+    public void DeleteObject(Guid id)
     {
-        objects.RemoveWhere(h => h.guid == entity.Id);
+        objects.RemoveWhere(h => h.guid == id);
     }
 }
 

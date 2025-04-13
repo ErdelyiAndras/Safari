@@ -24,22 +24,22 @@ public abstract class Animal : Entity
     public Action<Animal> AnimalDied;
     public AnimalInternalState state;
     protected Vector3 targetPosition;
-    public Herd myHerd;
-    protected bool callOnceFlag;
-    protected float elapsedTime = 0.0f;
+    public Guid myHerd;
+    protected bool callOnceFlag, targetCorrection;
+    private float elapsedTime = 0.0f;
     public float Health { get => (state.Hunger * state.Thirst * state.RemainingLifetime * state.Health); }
     public AnimalType Type { get { return state.type; } }
 
     public State MyState { get; protected set; }
 
-    public Animal(GameObject prefab, PlacementManager _placementManager, Herd parent, AnimalType _type) : base(_placementManager, prefab)
+
+    public Animal(GameObject prefab, PlacementManager _placementManager, Guid parentID, AnimalType _type) : base(_placementManager, prefab)
     {
-        myHerd = parent;
-        spawnPosition = parent.Spawnpoint;
+        myHerd = parentID;
+        spawnPosition = GetMyHerd.Position;
         state = new AnimalInternalState(_type);
         targetPosition = spawnPosition;
-        SpawnEntity(prefab, parent.gameObject.transform);
-        //entityInstance.transform.SetParent(parent.gameObject.transform);
+        entityInstance.transform.SetParent(GetMyHerd.gameObject.transform);
         MyState = State.Moving;
         baseMoveSpeed = Constants.AnimalBaseMoveSpeed[_type];
         baseRotationSpeed = Constants.AnimalBaseRotationSpeed[_type];
@@ -50,8 +50,9 @@ public abstract class Animal : Entity
         LoadData(data, placementManager);
     }
 
-    protected bool IsAnimalDead() => Health <= 0; // ez így nem mûködik pl: hunger és thirst is negatív akkor még nem halt meg
-
+    protected bool IsAnimalDead() => Health <= 0;
+    private float SlowingTerrain { get => (placementManager.GetTypeOfPosition(Vector3Int.RoundToInt(Position)) == CellType.Water ? 0.3f : 1.0f); }
+    public Herd GetMyHerd => placementManager.PlacedObjects.GetMyHerd(myHerd);
     public override void CheckState()
     {   
         Debug.Log(MyState.ToString());
@@ -91,7 +92,7 @@ public abstract class Animal : Entity
         else
         {
             
-            toAdvance += toAdvance < maxvalue ? advanceStep : 0.0f;
+            toAdvance += (toAdvance + advanceStep) < maxvalue ? advanceStep : maxvalue - toAdvance;
             if ( MyState == State.Eating && Health < state.MaxHealth)
             {
                 state.Health += (state.MaxHealth - state.Health)/2;
@@ -116,7 +117,7 @@ public abstract class Animal : Entity
 
     public virtual void MatureAnimal()
     {
-        state.RemainingLifetime--;
+        state.RemainingLifetime--; // TODO: ne mehessen minuszba
         state.Hunger--;
         state.Thirst--;
         if (IsAnimalDead())
@@ -131,6 +132,7 @@ public abstract class Animal : Entity
             }
             if (state.Thirst < state.MaxDrink * state.DrinkThreshold && MyState != State.SearchingForFood)
             {
+                Debug.Log(state.Thirst + " " + state.MaxDrink * state.DrinkThreshold + "maxdirnk: " + state.MaxDrink + "treshold:" + state.DrinkThreshold);
                 MyState = State.SearchingForWater;
             }
             if (state.Hunger < state.MaxFood * state.FoodThreshold && state.Thirst < state.MaxDrink * state.DrinkThreshold)
@@ -141,6 +143,7 @@ public abstract class Animal : Entity
                 }
                 else
                 {
+                    Debug.Log(state.Thirst + " " + state.MaxDrink * state.DrinkThreshold + "maxdirnk: " + state.MaxDrink + "treshold:" + state.DrinkThreshold);
                     MyState = State.SearchingForWater;
 
                 }
@@ -158,7 +161,7 @@ public abstract class Animal : Entity
     private void MoveToWater()
     {
         discoverEnvironment.SearchInViewDistance(Position);
-        MoveToTarget((_) => ((AnimalSearchInRange)discoverEnvironment).GetClosestWater(_, myHerd.Spawnpoint, myHerd.DistributionRadius));
+        MoveToTarget((_) => ((AnimalSearchInRange)discoverEnvironment).GetClosestWater(_, GetMyHerd.Position, GetMyHerd.DistributionRadius));
     }
     protected void MoveToTarget(Func<Vector3, Vector3?> getClosestFunction)
     {
@@ -178,13 +181,13 @@ public abstract class Animal : Entity
         }
         if (placementManager.GetTypeOfPosition(Vector3Int.RoundToInt(targetPosition)) == CellType.Water)
         {
-            /*
             List<Vector3Int> neighbours = placementManager.GetNeighboursOfType(Vector3Int.RoundToInt(targetPosition), CellType.Empty);
             if (neighbours.Count > 0)
             {
                 neighbours.Sort((a, b) => Vector3Int.Distance(Vector3Int.RoundToInt(Position), a).CompareTo(Vector3Int.Distance(Vector3Int.RoundToInt(Position), b)));
                 targetPosition = (neighbours[0] + targetPosition) / 2.0f;
-            }*/
+                targetCorrection = true;
+            }
         }
         Move();
     }
@@ -197,12 +200,24 @@ public abstract class Animal : Entity
         }
         else
         {
-            Position = Vector3.MoveTowards(Position, targetPosition, MoveSpeed * Time.deltaTime);
+            if(placementManager.GetTypeOfPosition(Vector3Int.RoundToInt(Position)) == CellType.Hill)
+            {
+                Position = new Vector3(Position.x, 0.65f, Position.z);
+            }
+            else if (Position.y != 0)
+            {
+                Position = new Vector3(Position.x, Position.y/6.0f, Position.z);
+            } 
+            if (placementManager.GetTypeOfPosition(Vector3Int.RoundToInt(targetPosition)) == CellType.Hill)
+            {
+                targetPosition = new Vector3(targetPosition.x, 0.65f, targetPosition.z);
+            }
+            Position = Vector3.MoveTowards(Position, targetPosition, MoveSpeed * SlowingTerrain * Time.deltaTime);
             Vector3 direction = targetPosition - Position;
+            //direction.y = 0;
             DiscoverEnvironment();
             if (direction != Vector3.zero)
             {
-                // Szabadon tudjon mozogni, de vízre ne menjen --> 
                 Quaternion targetRotation = Quaternion.LookRotation(direction);
                 entityInstance.transform.rotation = Quaternion.Slerp(entityInstance.transform.rotation, targetRotation, RotationSpeed * Time.deltaTime);
             }
@@ -223,9 +238,10 @@ public abstract class Animal : Entity
                 ArrivedAtFood(targetType);
                 break;
             case State.SearchingForWater:
-                if (targetType == CellType.Water)
+                if (targetType == CellType.Water || targetCorrection)
                 {
                     MyState = State.Drinking;
+                    targetCorrection = false;
                 }
                 break;
             default:
@@ -245,8 +261,8 @@ public abstract class Animal : Entity
         {
             if (inHerd)
             {
-                randomX = UnityEngine.Random.Range(0, myHerd.DistributionRadius + 1);
-                randomZ = UnityEngine.Random.Range(0, myHerd.DistributionRadius + 1);
+                randomX = UnityEngine.Random.Range(0, GetMyHerd.DistributionRadius + 1);
+                randomZ = UnityEngine.Random.Range(0, GetMyHerd.DistributionRadius + 1);
                 xDirection = UnityEngine.Random.Range(0, 2) == 0;
                 zDirection = UnityEngine.Random.Range(0, 2) == 0;
                 randomX = xDirection ? randomX : -randomX;

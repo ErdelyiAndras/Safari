@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 
 public abstract class HerbivoreBase : Animal
 {
-    public HerbivoreBase(GameObject prefab, PlacementManager _placementManager, Herd parent, AnimalType type) : base(prefab, _placementManager, parent, type)
+    public HerbivoreBase(GameObject prefab, PlacementManager _placementManager, Guid parentID, AnimalType type) : base(prefab, _placementManager, parentID, type)
     {
     }
 
@@ -14,7 +14,7 @@ public abstract class HerbivoreBase : Animal
     protected override void MoveToFood()
     {
         discoverEnvironment.SearchInViewDistance(Position);
-        MoveToTarget(_ => ((HerbivoreSearchInRange)discoverEnvironment).GetClosestFood(_, myHerd.Spawnpoint, myHerd.DistributionRadius));
+        MoveToTarget(_ => ((HerbivoreSearchInRange)discoverEnvironment).GetClosestFood(_, GetMyHerd.Position, GetMyHerd.DistributionRadius));
     }
 
     protected override void ArrivedAtFood(CellType? targetType = null)

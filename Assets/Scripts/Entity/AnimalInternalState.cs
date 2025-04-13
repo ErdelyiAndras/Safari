@@ -12,7 +12,7 @@ public class AnimalInternalState : ISaveable<AnimalInternalStateData>
     public float MaxDrink { get { return Constants.MaxDrink[type]; } }
     public float FoodThreshold { get { return Constants.FoodThreshold[type]; } }
     public float DrinkThreshold { get { return Constants.DrinkThreshold[type]; } }
-    public float FoodNutrition { get { return Constants.FoodNutrition[type]; } }
+    public float FoodNutrition { get { return Constants.FoodNutrition[type] * remainingLifetime / 100.0f; } }
     public float DrinkNutrition { get { return Constants.DrinkNutrition[type]; } }
     public float EatingTime { get { return Constants.EatingTime[type]; } }
     public float DrinkingTime { get { return Constants.DrinkingTime[type]; } }
@@ -37,10 +37,10 @@ public class AnimalInternalState : ISaveable<AnimalInternalStateData>
 
     private void LoadAnimalData()
     {
-        RemainingLifetime = MaxLifeTime;
-        Hunger = MaxFood;
-        Thirst = MaxDrink;
-        Health = MaxHealth;
+        remainingLifetime = MaxLifeTime;
+        hunger = MaxFood;
+        thirst = MaxDrink;
+        health = MaxHealth;
     }
 
     public AnimalInternalStateData SaveData()

@@ -20,7 +20,7 @@ public class PlacementManager : MonoBehaviour, ISaveable<PlacementManagerData>
         placementGrid = new Grid(width, height);
     }
 
-    public void RegisterObject(Guid id, ObjectType type, Entity entity)
+    public void RegisterObject(Guid id, ObjectType type, IPositionable entity)
     {
         SafariObject obj = new SafariObject
         {

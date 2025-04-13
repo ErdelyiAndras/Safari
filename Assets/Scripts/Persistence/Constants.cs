@@ -31,17 +31,17 @@ public static class Constants
     };
     public static Dictionary<AnimalType, float> FoodThreshold { get; private set; } = new Dictionary<AnimalType, float>
     {
-        { AnimalType.Carnivore1, 48.0f },
-        { AnimalType.Carnivore2, 53.0f },
-        { AnimalType.Herbivore1, 97.0f },
-        { AnimalType.Herbivore2, 65.0f }
+        { AnimalType.Carnivore1, 0.48f },
+        { AnimalType.Carnivore2, 0.53f },
+        { AnimalType.Herbivore1, 0.60f },
+        { AnimalType.Herbivore2, 0.65f }
     };
     public static Dictionary<AnimalType, float> DrinkThreshold { get; private set; } = new Dictionary<AnimalType, float>
     {
-        { AnimalType.Carnivore1, 68.0f },
-        { AnimalType.Carnivore2, 57.0f },
-        { AnimalType.Herbivore1, 70.0f },
-        { AnimalType.Herbivore2, 75.0f }
+        { AnimalType.Carnivore1, 0.68f },
+        { AnimalType.Carnivore2, 0.57f },
+        { AnimalType.Herbivore1, 0.97f },
+        { AnimalType.Herbivore2, 0.75f }
     };
     public static Dictionary<AnimalType, float> FoodNutrition { get; private set; } = new Dictionary<AnimalType, float>
     {
@@ -115,7 +115,7 @@ public static class Constants
     };
     public static Dictionary<AnimalType, float> AnimalBaseMoveSpeed { get; private set; } = new Dictionary<AnimalType, float>
     {
-        { AnimalType.Carnivore1, 3.0f },
+        { AnimalType.Carnivore1, 2.0f },
         { AnimalType.Carnivore2, 3.0f },
         { AnimalType.Herbivore1, 1.5f },
         { AnimalType.Herbivore2, 1.5f }

@@ -1,7 +1,7 @@
 using UnityEngine;
 using System;
 
-public abstract class Entity : ISaveable<EntityData>
+public abstract class Entity : IPositionable, ISaveable<EntityData>
 {
     public Guid Id { get; protected set; }
     protected Vector3 spawnPosition; 
@@ -25,7 +25,7 @@ public abstract class Entity : ISaveable<EntityData>
     {
         Id = Guid.NewGuid();
         placementManager = _placementManager;
-        //SpawnEntity(prefab);
+        SpawnEntity(prefab);
     }
 
     public Entity(EntityData data, PlacementManager placementManager, GameObject prefab, GameObject parent)

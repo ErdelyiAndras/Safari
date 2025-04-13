@@ -1,19 +1,16 @@
 ﻿using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
-using UnityEngine.UIElements;
-
 
 public abstract class AnimalSearchInRange : SearchInRange
 {
     protected class BFSLists 
     {
-        public List<Vector3Int> permanentList;
-        public List<Vector3Int> temporaryList;
+        public List<Vector3> permanentList;
+        public List<Vector3> temporaryList;
     }
 
-    protected List<Vector3Int> discoveredDrink = new List<Vector3Int>();
-    protected List<Vector3Int> drinkInRange = new List<Vector3Int>();
+    protected List<Vector3> discoveredDrink = new List<Vector3>();
+    protected List<Vector3> drinkInRange = new List<Vector3>();
 
     protected float viewExtenderScale;
     protected float GetViewDistance(Vector3 Position) => placementManager.GetTypeOfPosition(placementManager.RoundPosition(Position)) == CellType.Hill ? visionRange * viewExtenderScale : visionRange; 
@@ -28,7 +25,7 @@ public abstract class AnimalSearchInRange : SearchInRange
         LoadData(data, placementManager);
     }
 
-    public List<Vector3Int> GetDrinkResult() => drinkInRange;
+    public List<Vector3> GetDrinkResult() => drinkInRange;
 
     protected void GeneralBFS(Vector3 Position, Dictionary<CellType, BFSLists> data)
     {
@@ -88,25 +85,25 @@ public abstract class AnimalSearchInRange : SearchInRange
 
         return neighbors;
     }
-    public Vector3? GetClosestWater(Vector3 Position, Vector3Int herdspawnpoint, int herdradius) => GetClosestTarget(Position, herdspawnpoint, herdradius, drinkInRange, discoveredDrink);
-    protected Vector3? GetClosestTarget(Vector3 Position, Vector3Int Spawnpoint, int DistributionRadius, List<Vector3Int> targetInviewDistance, List<Vector3Int> discoveredTargets)
+    public Vector3? GetClosestWater(Vector3 Position, Vector3 herdspawnpoint, int herdradius) => GetClosestTarget(Position, herdspawnpoint, herdradius, drinkInRange, discoveredDrink);
+    protected Vector3? GetClosestTarget(Vector3 Position, Vector3 Spawnpoint, int DistributionRadius, List<Vector3> targetInviewDistance, List<Vector3> discoveredTargets)
     {
         Vector3? targetPosition = null;
         if (targetInviewDistance.Count == 1)
         {
-            targetPosition = (Vector3)targetInviewDistance[0];
+            targetPosition = targetInviewDistance[0];
         }
         else if (targetInviewDistance.Count > 1)
         {
-            Vector3Int? closestWithinHerd = null;
-            Vector3Int? closestOutOFHerd = null;
+            Vector3? closestWithinHerd = null;
+            Vector3? closestOutOFHerd = null;
             float closestDistanceInHerd = float.MaxValue;
             float closestDistanceOutOfHerd = float.MaxValue;
-            foreach (Vector3Int position in targetInviewDistance)
+            foreach (Vector3 position in targetInviewDistance)
             {
-                if (Vector3Int.Distance(Spawnpoint, position) <= DistributionRadius)
+                if (Vector3.Distance(Spawnpoint, position) <= DistributionRadius)
                 {
-                    float distanceFromPostiion = Vector3Int.Distance(Vector3Int.RoundToInt(Position), position);
+                    float distanceFromPostiion = Vector3.Distance(Position, position);
                     if (distanceFromPostiion < closestDistanceInHerd)
                     {
                         closestWithinHerd = position;
@@ -115,7 +112,7 @@ public abstract class AnimalSearchInRange : SearchInRange
                 }
                 else
                 {
-                    float distanceFromPostiion = Vector3Int.Distance(Vector3Int.RoundToInt(Position), position);
+                    float distanceFromPostiion = Vector3.Distance(Position, position);
                     if (distanceFromPostiion < closestDistanceOutOfHerd)
                     {
                         closestOutOFHerd = position;
@@ -134,18 +131,18 @@ public abstract class AnimalSearchInRange : SearchInRange
         }
         else if (discoveredTargets.Count != 0)
         {
-            discoveredTargets.Sort((a, b) => Vector3Int.Distance(Vector3Int.RoundToInt(Position), a).CompareTo(Vector3Int.Distance(Vector3Int.RoundToInt(Position), b)));
-            while (discoveredTargets.Count != 0 && Vector3Int.Distance(Vector3Int.RoundToInt(Position), discoveredTargets[0]) <= GetViewDistance(Position))
+            discoveredTargets.Sort((a, b) => Vector3.Distance(Position, a).CompareTo(Vector3.Distance(Position, b)));
+            while (discoveredTargets.Count != 0 && Vector3.Distance(Position, discoveredTargets[0]) <= GetViewDistance(Position))
             {
                 discoveredTargets.RemoveAt(0);
             }
             if (discoveredTargets.Count != 0)
             {
-                Vector3Int? inHerdRadius = null;
+                Vector3? inHerdRadius = null;
                 int i = 0;
                 while (inHerdRadius == null && i < discoveredTargets.Count)
                 {
-                    if (Vector3Int.Distance(Vector3Int.RoundToInt(discoveredTargets[i]), Spawnpoint) <= DistributionRadius)
+                    if (Vector3.Distance(discoveredTargets[i], Spawnpoint) <= DistributionRadius)
                     {
                         inHerdRadius = discoveredTargets[i];
                     }

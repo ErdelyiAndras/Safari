@@ -5,13 +5,13 @@ using UnityEngine;
 public abstract class AnimalSearchInRangeData : SearchInRangeData
 {
     [SerializeField]
-    private List<Vector3Int> discoveredDrink;
+    private List<Vector3> discoveredDrink;
     [SerializeField]
-    private List<Vector3Int> drinkInRange;
+    private List<Vector3> drinkInRange;
     [SerializeField]
     private float viewExtenderScale;
 
-    public List<Vector3Int> DiscoveredDrink
+    public List<Vector3> DiscoveredDrink
     {
         get
         {
@@ -19,7 +19,7 @@ public abstract class AnimalSearchInRangeData : SearchInRangeData
         }
     }
 
-    public List<Vector3Int> DrinkInRange
+    public List<Vector3> DrinkInRange
     {
         get
         {
@@ -36,7 +36,7 @@ public abstract class AnimalSearchInRangeData : SearchInRangeData
     }
 
     public AnimalSearchInRangeData(
-        float visionRange, List<Vector3Int> discoveredDrink, List<Vector3Int> drinkInRange, float viewExtenderScale
+        float visionRange, List<Vector3> discoveredDrink, List<Vector3> drinkInRange, float viewExtenderScale
     ) : base(visionRange)
     {
         this.discoveredDrink = discoveredDrink;
