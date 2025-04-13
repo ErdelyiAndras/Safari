@@ -112,7 +112,7 @@ public abstract class Animal : Entity
 
     public virtual void MatureAnimal()
     {
-        state.RemainingLifetime--;
+        state.RemainingLifetime--; // TODO: ne mehessen minuszba
         state.Hunger--;
         state.Thirst--;
         if (IsAnimalDead())

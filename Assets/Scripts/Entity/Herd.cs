@@ -66,9 +66,9 @@ public class Herd : IPositionable
             animals[i].MatureAnimal();
         }
         reproductionCoolDown--;
-        if (reproductionCoolDown <= 0 && Count >=2)
+        if (reproductionCoolDown <= 0 && Count >=2) // TODO és felnőttek is legyenek az egyedek
         {
-            Reproduce.Invoke(this);
+            Reproduce?.Invoke(this);
             reproductionCoolDown = 8;
         }
     }
