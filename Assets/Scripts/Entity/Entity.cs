@@ -44,5 +44,7 @@ public abstract class Entity : ISaveable<EntityData>
         //discoverEnvironment = data.DiscoverEnvironment;
         Position = data.Position;
         entityInstance.transform.rotation = data.Rotation;
+        baseMoveSpeed = data.BaseMoveSpeed;
+        baseRotationSpeed = data.BaseRotationSpeed;
     }
 }

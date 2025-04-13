@@ -56,9 +56,9 @@ public class JeepData : EntityData
     }
 
     public JeepData(
-        Guid id, Vector3 spawnPosition, Vector3 position, Quaternion rotation,
+        Guid id, Vector3 spawnPosition, Vector3 position, Quaternion rotation, float baseMoveSpeed, float baseRotationSpeed,
         JeepSearchInRange discoverEnvironment, Jeep.State state, Vector3 endPosition, TouristGroup touristGroup, List<Vector3Int> jeepPath, int currentPathIndex, bool hasFullPath
-    ) : base(id, spawnPosition, position, rotation)
+    ) : base(id, spawnPosition, position, rotation, baseMoveSpeed, baseRotationSpeed)
     {
         this.discoverEnvironment = (JeepSearchInRangeData)discoverEnvironment.SaveData();
         this.state = state;

@@ -303,7 +303,7 @@ public class GameManager : MonoBehaviour
         }
         touristManager.LoadData(PersistenceManager.TouristManagerData, placementManager);
         InitUIData();
-        SetSpeedMultiplierOfEntities();
+        //SetSpeedMultiplierOfEntities();
         Debug.Log(PersistenceManager.TimeData.CurrentTime);
     }
     

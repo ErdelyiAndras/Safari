@@ -56,9 +56,9 @@ public abstract class AnimalData : EntityData
     }
 
     public AnimalData(
-        Guid id, Vector3 spawnPosition, Vector3 position, Quaternion rotation,
+        Guid id, Vector3 spawnPosition, Vector3 position, Quaternion rotation, float baseMoveSpeed, float baseRotationSpeed,
         Animal.State state, AnimalInternalState internalState, Vector3 targetPosition, Herd herd, bool callOnceFlag, float elapsedTime
-    ) : base(id, spawnPosition, position, rotation)
+    ) : base(id, spawnPosition, position, rotation, baseMoveSpeed, baseRotationSpeed)
     {
         this.state = state;
         this.internalState = internalState.SaveData();

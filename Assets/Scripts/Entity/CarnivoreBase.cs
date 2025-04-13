@@ -47,7 +47,7 @@ public abstract class CarnivoreBase : Animal
     public override EntityData SaveData()
     {
         return new CarnivoreData(
-            Id, spawnPosition, Position, entityInstance.transform.rotation,
+            Id, spawnPosition, Position, entityInstance.transform.rotation, baseMoveSpeed, baseRotationSpeed,
             (CarnivoreSearchInRange)discoverEnvironment, MyState, state, targetPosition, myHerd, callOnceFlag, elapsedTime
         );
     }

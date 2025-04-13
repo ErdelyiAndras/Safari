@@ -13,9 +13,9 @@ public class HerbivoreData : AnimalData
     }
 
     public HerbivoreData(
-        Guid id, Vector3 spawnPosition, Vector3 position, Quaternion rotation,
+        Guid id, Vector3 spawnPosition, Vector3 position, Quaternion rotation, float baseMoveSpeed, float baseRotationSpeed,
         HerbivoreSearchInRange discoverEnvironment, Animal.State state, AnimalInternalState internalState, Vector3 targetPosition, Herd herd, bool callOnceFlag, float elapsedTime
-    ) : base(id, spawnPosition, position, rotation, state, internalState, targetPosition, herd, callOnceFlag, elapsedTime)
+    ) : base(id, spawnPosition, position, rotation, baseMoveSpeed, baseRotationSpeed, state, internalState, targetPosition, herd, callOnceFlag, elapsedTime)
     {
         this.discoverEnvironment = (HerbivoreSearchInRangeData)discoverEnvironment.SaveData();
     }

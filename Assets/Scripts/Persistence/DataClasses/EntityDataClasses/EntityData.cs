@@ -12,6 +12,10 @@ public abstract class EntityData
     private Vector3 position;
     [SerializeField]
     private Quaternion rotation;
+    [SerializeField]
+    private float baseMoveSpeed;
+    [SerializeField]
+    private float baseRotationSpeed;
 
     public Guid Id
     {
@@ -38,13 +42,25 @@ public abstract class EntityData
         get { return rotation; }
     }
 
+    public float BaseMoveSpeed
+    {
+        get { return baseMoveSpeed; }
+    }
+
+    public float BaseRotationSpeed
+    {
+        get { return baseRotationSpeed; }
+    }
+
     public EntityData(
-        Guid id, Vector3 spawnPosition, Vector3 position, Quaternion rotation
+        Guid id, Vector3 spawnPosition, Vector3 position, Quaternion rotation, float baseMoveSpeed, float baseRotationSpeed
     )
     {
         this.id = id.ToString();
         this.spawnPosition = spawnPosition;
         this.position = position;
         this.rotation = rotation;
+        this.baseMoveSpeed = baseMoveSpeed;
+        this.baseRotationSpeed = baseRotationSpeed;
     }
 }

@@ -141,7 +141,7 @@ public class Jeep : Entity
     public override EntityData SaveData()
     {
         return new JeepData(
-            Id, spawnPosition, Position, entityInstance.transform.rotation,
+            Id, spawnPosition, Position, entityInstance.transform.rotation, baseMoveSpeed, baseRotationSpeed,
             (JeepSearchInRange)discoverEnvironment, MyState, endPosition, tourists, jeepPath, currentPathIndex, hasFullPath
         );
     }
@@ -156,8 +156,6 @@ public class Jeep : Entity
         jeepPath = ((JeepData)data).JeepPath;
         currentPathIndex = ((JeepData)data).CurrentPathIndex;
         hasFullPath = ((JeepData)data).HasFullPath;
-        baseMoveSpeed = Constants.JeepBaseMoveSpeed;
-        baseRotationSpeed = Constants.JeepBaseRotationSpeed;
         tourists.readyToGo += () => MyState = State.Moving;
     }
 }
