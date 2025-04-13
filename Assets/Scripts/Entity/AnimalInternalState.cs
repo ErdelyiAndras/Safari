@@ -12,7 +12,7 @@ public class AnimalInternalState
     public float MaxDrink { get { return Constants.MaxDrink[type]; } }
     public float FoodThreshold { get { return Constants.FoodThreshold[type]; } }
     public float DrinkThreshold { get { return Constants.DrinkThreshold[type]; } }
-    public float FoodNutrition { get { return Constants.FoodNutrition[type]; } }
+    public float FoodNutrition { get { return Constants.FoodNutrition[type] * remainingLifetime / 100.0f; } }
     public float DrinkNutrition { get { return Constants.DrinkNutrition[type]; } }
     public float EatingTime { get { return Constants.EatingTime[type]; } }
     public float DrinkingTime { get { return Constants.DrinkingTime[type]; } }
