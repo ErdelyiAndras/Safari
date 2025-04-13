@@ -25,7 +25,7 @@ public abstract class Animal : Entity
     public AnimalInternalState state;
     protected Vector3 targetPosition;
     public Guid myHerd;
-    protected bool callOnceFlag;
+    protected bool callOnceFlag, targetCorrection;
     private float elapsedTime = 0.0f;
     public float Health { get => (state.Hunger * state.Thirst * state.RemainingLifetime * state.Health); }
     public AnimalType Type { get { return state.type; } }
@@ -86,7 +86,7 @@ public abstract class Animal : Entity
         else
         {
             
-            toAdvance += toAdvance < maxvalue ? advanceStep : 0.0f;
+            toAdvance += (toAdvance + advanceStep) < maxvalue ? advanceStep : maxvalue - toAdvance;
             if ( MyState == State.Eating && Health < state.MaxHealth)
             {
                 state.Health += (state.MaxHealth - state.Health)/2;
@@ -173,13 +173,13 @@ public abstract class Animal : Entity
         }
         if (placementManager.GetTypeOfPosition(Vector3Int.RoundToInt(targetPosition)) == CellType.Water)
         {
-            /*
             List<Vector3Int> neighbours = placementManager.GetNeighboursOfType(Vector3Int.RoundToInt(targetPosition), CellType.Empty);
             if (neighbours.Count > 0)
             {
                 neighbours.Sort((a, b) => Vector3Int.Distance(Vector3Int.RoundToInt(Position), a).CompareTo(Vector3Int.Distance(Vector3Int.RoundToInt(Position), b)));
                 targetPosition = (neighbours[0] + targetPosition) / 2.0f;
-            }*/
+                targetCorrection = true;
+            }
         }
         Move();
     }
@@ -218,9 +218,10 @@ public abstract class Animal : Entity
                 ArrivedAtFood(targetType);
                 break;
             case State.SearchingForWater:
-                if (targetType == CellType.Water)
+                if (targetType == CellType.Water || targetCorrection)
                 {
                     MyState = State.Drinking;
+                    targetCorrection = false;
                 }
                 break;
             default:
