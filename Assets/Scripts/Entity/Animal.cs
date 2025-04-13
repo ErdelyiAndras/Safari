@@ -127,6 +127,7 @@ public abstract class Animal : Entity
             }
             if (state.Thirst < state.MaxDrink * state.DrinkThreshold && MyState != State.SearchingForFood)
             {
+                Debug.Log(state.Thirst + " " + state.MaxDrink * state.DrinkThreshold + "maxdirnk: " + state.MaxDrink + "treshold:" + state.DrinkThreshold);
                 MyState = State.SearchingForWater;
             }
             if (state.Hunger < state.MaxFood * state.FoodThreshold && state.Thirst < state.MaxDrink * state.DrinkThreshold)
@@ -137,6 +138,7 @@ public abstract class Animal : Entity
                 }
                 else
                 {
+                    Debug.Log(state.Thirst + " " + state.MaxDrink * state.DrinkThreshold + "maxdirnk: " + state.MaxDrink + "treshold:" + state.DrinkThreshold);
                     MyState = State.SearchingForWater;
 
                 }
@@ -193,12 +195,24 @@ public abstract class Animal : Entity
         }
         else
         {
+            if(placementManager.GetTypeOfPosition(Vector3Int.RoundToInt(Position)) == CellType.Hill)
+            {
+                Position = new Vector3(Position.x, 0.65f, Position.z);
+            }
+            else if (Position.y != 0)
+            {
+                Position = new Vector3(Position.x, Position.y/6.0f, Position.z);
+            } 
+            if (placementManager.GetTypeOfPosition(Vector3Int.RoundToInt(targetPosition)) == CellType.Hill)
+            {
+                targetPosition = new Vector3(targetPosition.x, 0.65f, targetPosition.z);
+            }
             Position = Vector3.MoveTowards(Position, targetPosition, MoveSpeed * SlowingTerrain * Time.deltaTime);
             Vector3 direction = targetPosition - Position;
+            //direction.y = 0;
             DiscoverEnvironment();
             if (direction != Vector3.zero)
             {
-                // Szabadon tudjon mozogni, de v�zre ne menjen --> 
                 Quaternion targetRotation = Quaternion.LookRotation(direction);
                 entityInstance.transform.rotation = Quaternion.Slerp(entityInstance.transform.rotation, targetRotation, RotationSpeed * Time.deltaTime);
             }

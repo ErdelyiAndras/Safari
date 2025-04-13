@@ -34,10 +34,10 @@ public class AnimalInternalState
 
     private void LoadData()
     {
-        RemainingLifetime = MaxLifeTime;
-        Hunger = MaxFood;
-        Thirst = MaxDrink;
-        Health = MaxHealth;
+        remainingLifetime = MaxLifeTime;
+        hunger = MaxFood;
+        thirst = MaxDrink;
+        health = MaxHealth;
 
     }
 }
