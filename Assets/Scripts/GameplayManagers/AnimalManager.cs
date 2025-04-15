@@ -6,7 +6,7 @@ using System.Linq;
 public class AnimalManager : MonoBehaviour, ITimeHandler, ISaveable<AnimalManagerData>
 {
     public PlacementManager placementManager;
-    public GameObject carnivore1Prefab, carnivore2Prefab, herbivore1Prefab, herbivore2Prefab;
+    private GameObject carnivore1Prefab, carnivore2Prefab, herbivore1Prefab, herbivore2Prefab;
     private List<Herd> herds = new List<Herd>();
     public Action<uint> Carnivore1Changed, Carnivore2Changed, Herbivore1Changed, Herbivore2Changed;
 
@@ -14,6 +14,15 @@ public class AnimalManager : MonoBehaviour, ITimeHandler, ISaveable<AnimalManage
     public uint Carnivore2Count => GetAnimalCount(AnimalType.Carnivore2);
     public uint Herbivore1Count => GetAnimalCount(AnimalType.Herbivore1);
     public uint Herbivore2Count => GetAnimalCount(AnimalType.Herbivore2);
+
+    private void Start()
+    {
+        carnivore1Prefab = placementManager.prefabManager.Carnivore1Prefab;
+        carnivore2Prefab = placementManager.prefabManager.Carnivore2Prefab;
+        herbivore1Prefab = placementManager.prefabManager.Herbivore1Prefab;
+        herbivore2Prefab = placementManager.prefabManager.Herbivore2Prefab;
+    }
+
     private void Update()
     {
         for (int i = herds.Count - 1; i >= 0; i--)
@@ -85,7 +94,7 @@ public class AnimalManager : MonoBehaviour, ITimeHandler, ISaveable<AnimalManage
     //TODO: ha van 1 elemű csorda akkor ne jöhesen létre random, hanem abba kerüljön az új állat
     private Herd ChooseHerd(AnimalType type)
     {
-        var herdsOfType = herds.Where(h => h.animalTypesOfHerd == type);
+        IEnumerable<Herd> herdsOfType = herds.Where(h => h.AnimalTypesOfHerd == type);
         if (herdsOfType.Count() == 0)
         {
             return CreateNewHerd(type);
@@ -116,41 +125,13 @@ public class AnimalManager : MonoBehaviour, ITimeHandler, ISaveable<AnimalManage
         }
         herds.Add(newHerd);
         newHerd.Reproduce += ReproduceAnimal;
+        newHerd.animalRemovedFromHerd += h => InvokeAnimalCountChanged(h.AnimalTypesOfHerd);
         return newHerd;
     }
 
     private void InitAnimal(Herd animalHerd, Animal animal)
     {
-        animal.AnimalDied += DeleteAnimalFromHerd;
         animalHerd.AddAnimalToHerd(animal);
-        //SetAnimalCount(animal.Type);
-        //animalChangedActions[animal.type]?.Invoke(animalCount[animal.type]);
-        InvokeAnimalCountChanged(animal.Type);
-    }
-
-    /*
-    private void SetAnimalCount(AnimalType type)
-    {
-        if (animalCount.ContainsKey(type))
-        {
-            animalCount[type]++;
-        }
-        else
-        {
-            animalCount.Add(type, 1);
-        }
-    }
-    */
-
-    private void DeleteAnimalFromHerd(Animal animal)
-    {
-        placementManager.PlacedObjects.DeleteObject(animal.Id);
-        animal.GetMyHerd.RemoveAnimalFromHerd(animal);
-        /*if (animalCount[animal.Type] != 0)
-        {
-            animalCount[animal.Type]--;
-            //animalChangedActions[animal.type]?.Invoke(animalCount[animal.type]);
-        }*/
         InvokeAnimalCountChanged(animal.Type);
     }
 
@@ -176,7 +157,7 @@ public class AnimalManager : MonoBehaviour, ITimeHandler, ISaveable<AnimalManage
     private void ReproduceAnimal(Herd _herd)
     {
         Animal children = null;
-        switch (_herd.animalTypesOfHerd)
+        switch (_herd.AnimalTypesOfHerd)
         {
             case AnimalType.Herbivore1:
                 children = new Herbivore1(herbivore1Prefab, placementManager, _herd.Id);
@@ -194,7 +175,19 @@ public class AnimalManager : MonoBehaviour, ITimeHandler, ISaveable<AnimalManage
                 break;
         }
         InitAnimal(_herd, children);
-        placementManager.RegisterObject(children.Id, ObjectType.Herbivore, children);
+        // old version was probably wrong, it was registering a herbivore all the time
+        if (_herd.AnimalTypesOfHerd == AnimalType.Herbivore1 || _herd.AnimalTypesOfHerd == AnimalType.Herbivore2)
+        {
+            placementManager.RegisterObject(children.Id, ObjectType.Herbivore, children);
+        }
+        else if (_herd.AnimalTypesOfHerd == AnimalType.Carnivore1 || _herd.AnimalTypesOfHerd == AnimalType.Carnivore2)
+        {
+            placementManager.RegisterObject(children.Id, ObjectType.Carnivore, children);
+        }
+        else
+        {
+            throw new Exception("Invalid animal type");
+        }
     }
 
     public AnimalManagerData SaveData()
@@ -204,7 +197,25 @@ public class AnimalManager : MonoBehaviour, ITimeHandler, ISaveable<AnimalManage
 
     public void LoadData(AnimalManagerData data, PlacementManager placementManager)
     {
-        herds = data.Herds(placementManager);
+        // TODO: delete old herds, animals and jeeps from touristmanager
         this.placementManager = placementManager;
+        herds = data.Herds(placementManager, this);
+        foreach (Herd herd in herds)
+        {
+            herd.Reproduce += ReproduceAnimal;
+            herd.animalRemovedFromHerd += h => InvokeAnimalCountChanged(h.AnimalTypesOfHerd);
+            if (herd.AnimalTypesOfHerd == AnimalType.Herbivore1 || herd.AnimalTypesOfHerd == AnimalType.Herbivore2)
+            {
+                placementManager.RegisterObject(herd.Id, ObjectType.HerbivoreHerd, (HerbivoreHerd)herd);
+            }
+            else if (herd.AnimalTypesOfHerd == AnimalType.Carnivore1 || herd.AnimalTypesOfHerd == AnimalType.Carnivore2)
+            {
+                placementManager.RegisterObject(herd.Id, ObjectType.CarnivoreHerd, (CarnivoreHerd)herd);
+            }
+            else
+            {
+                throw new Exception("Unknown animal type in herds");
+            }
+        }
     }
 }

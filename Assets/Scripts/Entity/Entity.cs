@@ -21,11 +21,11 @@ public abstract class Entity : IPositionable, ISaveable<EntityData>
     protected abstract void Move();
     protected void SpawnEntity(GameObject prefab, Transform parent = null) => entityInstance = UnityEngine.Object.Instantiate(prefab, spawnPosition, Quaternion.identity, parent);
     
-    public Entity(PlacementManager _placementManager, GameObject prefab)
+    public Entity(PlacementManager _placementManager)
     {
         Id = Guid.NewGuid();
         placementManager = _placementManager;
-        SpawnEntity(prefab);
+        //SpawnEntity(prefab);
     }
 
     public Entity(EntityData data, PlacementManager placementManager, GameObject prefab, GameObject parent)
@@ -38,10 +38,9 @@ public abstract class Entity : IPositionable, ISaveable<EntityData>
 
     public virtual void LoadData(EntityData data, PlacementManager placementManager)
     {
+        this.placementManager = placementManager;
         Id = data.Id;
         spawnPosition = data.SpawnPosition;
-        this.placementManager = placementManager;
-        //discoverEnvironment = data.DiscoverEnvironment;
         Position = data.Position;
         entityInstance.transform.rotation = data.Rotation;
         baseMoveSpeed = data.BaseMoveSpeed;

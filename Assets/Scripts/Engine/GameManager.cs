@@ -5,8 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    public GameObject Plant1, Plant2, Plant3;
-    public GameObject Hill;
+    private GameObject Plant1, Plant2, Plant3;
+    private GameObject Hill;
 
     public CameraMovement cameraMovement;
     public InputManager inputManager;
@@ -22,6 +22,11 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        Plant1 = placementManager.prefabManager.Plant1;
+        Plant2 = placementManager.prefabManager.Plant2;
+        Plant3 = placementManager.prefabManager.Plant3;
+        Hill = placementManager.prefabManager.Hill;
+
         SetSpeedMultiplierOfEntities();
 
         InitUIData();
@@ -245,7 +250,7 @@ public class GameManager : MonoBehaviour
         PersistenceManager.Difficulty = DifficultySelector.SelectedDifficulty;
         PersistenceManager.TimeData = timeManager.SaveData();
         PersistenceManager.EconomyManagerData = economyManager.SaveData();
-        //PersistenceManager.AnimalManagerData = animalManager.SaveData();
+        PersistenceManager.AnimalManagerData = animalManager.SaveData();
         PersistenceManager.TouristManagerData = touristManager.SaveData();
         PersistenceManager.PlacementManagerData = placementManager.SaveData();
 
@@ -258,7 +263,6 @@ public class GameManager : MonoBehaviour
         DifficultySelector.SelectedDifficulty = PersistenceManager.Difficulty;
         timeManager.LoadData(PersistenceManager.TimeData);
         economyManager.LoadData(PersistenceManager.EconomyManagerData);
-        placementManager.ResetData();
         placementManager.LoadData(PersistenceManager.PlacementManagerData);
         for (int i = 0; i < placementManager.width; ++i)
         {
@@ -267,11 +271,11 @@ public class GameManager : MonoBehaviour
                 switch (placementManager.placementGrid[i, j])
                 {
                     case CellType.Road:
-                        placementManager.PlaceStructure(new Vector3Int(i, 0, j), roadManager.roadFixer.deadEnd, CellType.Road);
+                        placementManager.PlaceStructure(new Vector3Int(i, 0, j), placementManager.prefabManager.DeadEnd, CellType.Road);
                         roadManager.roadFixer.FixRoadAtPosition(placementManager, new Vector3Int(i, 0, j));
                         break;
                     case CellType.Water:
-                        placementManager.PlaceStructure(new Vector3Int(i, 0, j), waterManager.waterPrefab, CellType.Water);
+                        placementManager.PlaceStructure(new Vector3Int(i, 0, j), placementManager.prefabManager.Water, CellType.Water);
                         break;
                     case CellType.Nature:
                         switch (PersistenceManager.PlacementManagerData.StructureDictionaryNature[new Vector3Int(i, 0, j)])
@@ -302,9 +306,8 @@ public class GameManager : MonoBehaviour
             }
         }
         touristManager.LoadData(PersistenceManager.TouristManagerData, placementManager);
+        animalManager.LoadData(PersistenceManager.AnimalManagerData, placementManager);
         InitUIData();
-        //SetSpeedMultiplierOfEntities();
-        Debug.Log(PersistenceManager.TimeData.CurrentTime);
     }
     
     private void InitUIData()

@@ -13,10 +13,10 @@ public class MapGenerator : MonoBehaviour
     public int natureDensity;
 
     public PlacementManager placementManager;
-    public GameObject[] naturePrefabs;
-    public GameObject waterPrefab;
-    public GameObject hillPrefab;
-    public GameObject deadEnd;
+    private List<GameObject> naturePrefabs;
+    private GameObject waterPrefab;
+    private GameObject hillPrefab;
+    private GameObject deadEnd;
 
     private Dictionary<Vector3Int, CellType> usedPositions = new Dictionary<Vector3Int, CellType>();
 
@@ -24,6 +24,11 @@ public class MapGenerator : MonoBehaviour
 
     private void Start()
     {
+        naturePrefabs = new List<GameObject> { placementManager.prefabManager.Plant1, placementManager.prefabManager.Plant2, placementManager.prefabManager.Plant3 };
+        waterPrefab = placementManager.prefabManager.Water;
+        hillPrefab = placementManager.prefabManager.Hill;
+        deadEnd = placementManager.prefabManager.DeadEnd;
+
         if (natureDensity < 0)
         {
             natureDensity = 0;
@@ -100,7 +105,7 @@ public class MapGenerator : MonoBehaviour
         {
             if (position.Value == CellType.Nature)
             {
-                placementManager.PlaceStructure(position.Key, naturePrefabs[random.Next(0, naturePrefabs.Length)], CellType.Nature);
+                placementManager.PlaceStructure(position.Key, naturePrefabs[random.Next(0, naturePrefabs.Count)], CellType.Nature);
             }
             else if (position.Value == CellType.Water)
             {

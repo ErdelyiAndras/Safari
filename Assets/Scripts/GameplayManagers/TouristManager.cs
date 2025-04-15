@@ -9,13 +9,14 @@ public class TouristManager : MonoBehaviour, ITimeHandler, ISaveable<TouristMana
     public int TouristsInQueue { get; private set; } = 0;
     public PlacementManager placementManager;
     private List<Jeep> jeeps = new List<Jeep>();
-    public GameObject jeepPrefab;
+    private GameObject jeepPrefab;
     public Action<float> SatisfactionChanged;
     public Action<int> TouristsInQueueChanged;
     public Action<int> JeepCountChanged;
 
     private void Start()
     {
+        jeepPrefab = placementManager.prefabManager.JeepPrefab;
         Jeep.JeepWaiting += FillJeep;
         Jeep.JeepArrived += TouristsLeave;
     }

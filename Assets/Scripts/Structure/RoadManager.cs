@@ -5,7 +5,6 @@ using UnityEngine;
 public class RoadManager : BuildManagerBase
 {
     public List<Vector3Int> roadPositionsToRecheck = new List<Vector3Int>();
-
     private Vector3Int startPosition;
     private bool placementMode = false;
 
@@ -31,7 +30,7 @@ public class RoadManager : BuildManagerBase
             startPosition = position;
 
             temporaryPlacementPositions.Add(position);
-            placementManager.PlaceTemporaryStructure(position, roadFixer.deadEnd, CellType.Road);
+            placementManager.PlaceTemporaryStructure(position, placementManager.prefabManager.DeadEnd, CellType.Road);
 
         }
         else
@@ -55,7 +54,7 @@ public class RoadManager : BuildManagerBase
                     roadPositionsToRecheck.Add(temporaryPosition);
                     continue;
                 }
-                placementManager.PlaceTemporaryStructure(temporaryPosition, roadFixer.deadEnd, CellType.Road);
+                placementManager.PlaceTemporaryStructure(temporaryPosition, placementManager.prefabManager.DeadEnd, CellType.Road);
             }
         }
         FixRoadPrefabs();

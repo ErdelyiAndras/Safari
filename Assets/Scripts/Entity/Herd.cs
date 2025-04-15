@@ -4,11 +4,11 @@ using UnityEngine;
 
 public abstract class Herd : IPositionable, ISaveable<HerdData>
 {
-    public Guid Id { get; }
-    public AnimalType animalTypesOfHerd; // if mixed herds are allowed this can be a set
+    public Guid Id { get; private set; }
+    private AnimalType animalTypesOfHerd; // if mixed herds are allowed this can be a set
     public AnimalType AnimalTypesOfHerd => animalTypesOfHerd;
-    private List<Animal> animals;
-    private Vector2Int centroid;
+    protected List<Animal> animals;
+    protected Vector2Int centroid;
     private PlacementManager placementManager;
     public int Count {  get { return animals.Count; } }
     public Vector3 Position { get { return animals.Count == 0 ? GetRandomPosition() : new Vector3(centroid.x, 0, centroid.y); } }
@@ -16,8 +16,8 @@ public abstract class Herd : IPositionable, ISaveable<HerdData>
     public GameObject gameObject = new GameObject();
     public List<Animal> Animals{ get { return animals; }}
     public Action<Herd> Reproduce;
-    private int reproductionCoolDown;
-    
+    protected int reproductionCoolDown;
+    public Action<Herd> animalRemovedFromHerd;
 
     public Herd(PlacementManager placementManager, AnimalManager parent, AnimalType type)
     {
@@ -29,10 +29,9 @@ public abstract class Herd : IPositionable, ISaveable<HerdData>
         reproductionCoolDown = 8;
     }
 
-    public Herd(HerdData data, PlacementManager placementManager)
+    public Herd(HerdData data, PlacementManager placementManager, AnimalManager parent)
     {
         LoadData(data, placementManager);
-        AnimalManager parent = UnityEngine.Object.FindFirstObjectByType<AnimalManager>();
         gameObject.transform.SetParent(parent.transform);
     }
 
@@ -52,11 +51,20 @@ public abstract class Herd : IPositionable, ISaveable<HerdData>
 
     public void AddAnimalToHerd(Animal animal)
     {
+        animal.AnimalDied += a => AnimalDiedHandler(a);
         animals.Add(animal);
     }
-    public void RemoveAnimalFromHerd(Animal animal)
+
+    private void RemoveAnimalFromHerd(Animal animal)
     {
         animals.Remove(animal);
+    }
+
+    protected void AnimalDiedHandler(Animal animal)
+    {
+        RemoveAnimalFromHerd(animal);
+        placementManager.PlacedObjects.DeleteObject(animal.Id);
+        animalRemovedFromHerd?.Invoke(this);
     }
 
     public void CheckState()
@@ -92,22 +100,16 @@ public abstract class Herd : IPositionable, ISaveable<HerdData>
         return new Vector3(randomX, 0, randomZ);
     }
 
-    public HerdData SaveData()
-    {
-        return new HerdData(animalTypesOfHerd, animals, centroid, DistributionRadius);
-    }
+    public abstract HerdData SaveData();
 
-    public void LoadData(HerdData data, PlacementManager placementManager)
+    public virtual void LoadData(HerdData data, PlacementManager placementManager)
     {
-        animalTypesOfHerd = data.AnimalTypesOfHerd;
-        animals = data.Animals(placementManager, animalManager, this);
-        centroid = data.Centroid;
         this.placementManager = placementManager;
+        Id = data.Guid;
+        animalTypesOfHerd = data.AnimalTypesOfHerd;
+        centroid = data.Centroid;
         DistributionRadius = data.DistributionRadius;
-        foreach (Animal animal in animals)
-        {
-            animal.myHerd = this;
-        }
+        reproductionCoolDown = data.ReproductionCoolDown;
     }
 }
 

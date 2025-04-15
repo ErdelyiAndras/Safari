@@ -9,6 +9,7 @@ public class PlacementManager : MonoBehaviour, ISaveable<PlacementManagerData>
 {
     public int width, height; // TODO public till decision is made of the final mapsize
     public Grid placementGrid { get; private set; }
+    public PrefabManager prefabManager;
     internal Action<Vector3Int> RoadRemoved;
 
     private Dictionary<Vector3Int, StructureModel> temporaryRoadobjects = new Dictionary<Vector3Int, StructureModel>();
@@ -335,12 +336,13 @@ public class PlacementManager : MonoBehaviour, ISaveable<PlacementManagerData>
     // StructureDictionary has to be loaded from GameManager using Road, Nature and Water managersS
     public void LoadData(PlacementManagerData data, PlacementManager placementManager = null)
     {
+        ResetData();
         placementGrid = data.PlacementGrid;
         width = placementGrid.Width;
         height = placementGrid.Height;
     }
 
-    public void ResetData()
+    private void ResetData()
     {
         for (int i = 0; i < width; ++i)
         {

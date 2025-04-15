@@ -5,12 +5,10 @@ using UnityEngine;
 [System.Serializable]
 public class CarnivoreSearchInRangeData : AnimalSearchInRangeData
 {
-    //[SerializeField]
-    //private List<HerdData> herds;
     [SerializeField]
     private string preyGuid;
-    //[SerializeField]
-    //private HerdData closestHerd;
+    [SerializeField]
+    private string closestHerd;
 
     public Guid PreyGuid
     {
@@ -20,17 +18,20 @@ public class CarnivoreSearchInRangeData : AnimalSearchInRangeData
         }
     }
 
+    public Guid ClosestHerd
+    {
+        get
+        {
+            return Guid.Parse(closestHerd);
+        }
+    }
+
     public CarnivoreSearchInRangeData(
         float visionRange, List<Vector3> discoveredDrink, List<Vector3> drinkInRange, float viewExtenderScale,
-        Guid preyGuid, Herd closestHerd
+        Guid preyGuid, Guid closestHerd
     ) : base(visionRange, discoveredDrink, drinkInRange, viewExtenderScale)
     {
-        //this.herds = new List<HerdData>();
-        //foreach (Herd herd in herds)
-        //{
-        //    this.herds.Add(herd.SaveData());
-        //}
         this.preyGuid = preyGuid.ToString();
-        //this.closestHerd = closestHerd.SaveData();
+        this.closestHerd = closestHerd.ToString();
     }
 }

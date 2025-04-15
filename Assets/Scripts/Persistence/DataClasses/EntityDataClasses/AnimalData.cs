@@ -5,13 +5,17 @@ using UnityEngine;
 public abstract class AnimalData : EntityData
 {
     [SerializeField]
-    private Animal.State state;
+    private Animal.State myState;
     [SerializeField]
-    private AnimalInternalStateData internalState;
+    private AnimalInternalStateData state;
     [SerializeField]
     private Vector3 targetPosition;
     [SerializeField]
+    private string myHerd;
+    [SerializeField]
     private bool callOnceFlag;
+    [SerializeField]
+    private bool targetCorrection;
     [SerializeField]
     private float elapsedTime;
 
@@ -19,7 +23,7 @@ public abstract class AnimalData : EntityData
     {
         get
         {
-            return state;
+            return myState;
         }
     }
 
@@ -27,7 +31,7 @@ public abstract class AnimalData : EntityData
     {
         get
         {
-            return new AnimalInternalState(internalState);
+            return new AnimalInternalState(state);
         }
     }
 
@@ -39,11 +43,27 @@ public abstract class AnimalData : EntityData
         }
     }
 
+    public Guid MyHerd
+    {
+        get
+        {
+            return Guid.Parse(myHerd);
+        }
+    }
+
     public bool CallOnceFlag
     {
         get
         {
             return callOnceFlag;
+        }
+    }
+
+    public bool TargetCorrection
+    {
+        get
+        {
+            return targetCorrection;
         }
     }
 
@@ -57,14 +77,15 @@ public abstract class AnimalData : EntityData
 
     public AnimalData(
         Guid id, Vector3 spawnPosition, Vector3 position, Quaternion rotation, float baseMoveSpeed, float baseRotationSpeed,
-        Animal.State state, AnimalInternalState internalState, Vector3 targetPosition, Herd herd, bool callOnceFlag, float elapsedTime
+        Animal.State myState, AnimalInternalState state, Vector3 targetPosition, Guid myHerd, bool callOnceFlag, bool targetCorrection, float elapsedTime
     ) : base(id, spawnPosition, position, rotation, baseMoveSpeed, baseRotationSpeed)
     {
-        this.state = state;
-        this.internalState = internalState.SaveData();
+        this.myState = myState;
+        this.state = state.SaveData();
         this.targetPosition = targetPosition;
-        //this.herd = herd.SaveData();
+        this.myHerd = myHerd.ToString();
         this.callOnceFlag = callOnceFlag;
+        this.targetCorrection = targetCorrection;
         this.elapsedTime = elapsedTime;
     }
 }

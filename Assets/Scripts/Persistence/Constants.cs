@@ -31,7 +31,7 @@ public static class Constants
     };
     public static Dictionary<AnimalType, float> FoodThreshold { get; private set; } = new Dictionary<AnimalType, float>
     {
-        { AnimalType.Carnivore1, 0.48f },
+        { AnimalType.Carnivore1, 0.97f },
         { AnimalType.Carnivore2, 0.53f },
         { AnimalType.Herbivore1, 0.60f },
         { AnimalType.Herbivore2, 0.65f }

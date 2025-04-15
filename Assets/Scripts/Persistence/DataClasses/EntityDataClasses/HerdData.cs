@@ -1,17 +1,28 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class HerdData
+public abstract class HerdData
 {
     [SerializeField]
-    private AnimalType animalTypesOfHerd;
+    private string guid;
     [SerializeField]
-    private List<AnimalData> animals;
+    private AnimalType animalTypesOfHerd;
     [SerializeField]
     private Vector2Int centroid;
     [SerializeField]
     private int distributionRadius;
+    [SerializeField]
+    private int reproductionCoolDown;
+
+    public Guid Guid
+    {
+        get
+        {
+            return Guid.Parse(guid);
+        }
+    }
 
     public AnimalType AnimalTypesOfHerd
     {
@@ -19,34 +30,6 @@ public class HerdData
         {
             return animalTypesOfHerd;
         }
-    }
-
-    public List<Animal> Animals(PlacementManager placementManager, AnimalManager animalManager, Herd parent)
-    {
-        List<Animal> animalList = new List<Animal>();
-        foreach (AnimalData animalData in animals)
-        {
-            Animal animal;
-            switch (animalData.State.type)
-            {
-                case AnimalType.Herbivore1:
-                    animal = new Herbivore1((HerbivoreData)animalData, placementManager, animalManager.herbivore1Prefab, parent.gameObject);
-                    break;
-                case AnimalType.Herbivore2:
-                    animal = new Herbivore2((HerbivoreData)animalData, placementManager, animalManager.herbivore2Prefab, parent.gameObject);
-                    break;
-                case AnimalType.Carnivore1:
-                    animal = new Carnivore1((CarnivoreData)animalData, placementManager, animalManager.carnivore1Prefab, parent.gameObject);
-                    break;
-                case AnimalType.Carnivore2:
-                    animal = new Carnivore2((CarnivoreData)animalData, placementManager, animalManager.carnivore2Prefab, parent.gameObject);
-                    break;
-                default:
-                    throw new System.Exception("Unknown animal type");
-            }
-            animalList.Add(animal);
-        }
-        return animalList;
     }
 
     public Vector2Int Centroid
@@ -65,16 +48,20 @@ public class HerdData
         }
     }
 
-    public HerdData(AnimalType animalTypesOfHerd, List<Animal> animals, Vector2Int centroid, int distributionRadius)
+    public int ReproductionCoolDown
     {
-        this.animalTypesOfHerd = animalTypesOfHerd;
-        this.animals = new List<AnimalData>();
-        foreach (Animal animal in animals)
+        get
         {
-            AnimalData animalData = (AnimalData)animal.SaveData();
-            this.animals.Add(animalData);
+            return reproductionCoolDown;
         }
+    }
+
+    public HerdData(Guid guid, AnimalType animalTypesOfHerd, Vector2Int centroid, int distributionRadius, int reproductionCoolDown)
+    {
+        this.guid = guid.ToString();
+        this.animalTypesOfHerd = animalTypesOfHerd;
         this.centroid = centroid;
         this.distributionRadius = distributionRadius;
+        this.reproductionCoolDown = reproductionCoolDown;
     }
 }

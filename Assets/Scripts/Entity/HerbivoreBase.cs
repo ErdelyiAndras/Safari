@@ -29,13 +29,13 @@ public abstract class HerbivoreBase : Animal
     {
         return new HerbivoreData(
             Id, spawnPosition, Position, entityInstance.transform.rotation, baseMoveSpeed, baseRotationSpeed,
-            (HerbivoreSearchInRange)discoverEnvironment, MyState, state, targetPosition, myHerd, callOnceFlag, elapsedTime
+            (HerbivoreSearchInRange)discoverEnvironment, MyState, state, targetPosition, myHerd, callOnceFlag, targetCorrection, elapsedTime
         );
     }
 
     public override void LoadData(EntityData data, PlacementManager placementManager)
     {
         base.LoadData(data, placementManager);
-        //discoverEnvironment = ((HerbivoreData)data).DiscoverEnvironment;
+        discoverEnvironment = ((HerbivoreData)data).DiscoverEnvironment(placementManager);
     }
 }

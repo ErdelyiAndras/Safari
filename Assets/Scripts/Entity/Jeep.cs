@@ -22,7 +22,7 @@ public class Jeep : Entity
     public State MyState { get; private set; }
     public static Action<Jeep> JeepArrived, JeepWaiting;
     bool hasFullPath = false;
-    public Jeep(PlacementManager _placementManager, GameObject prefab, TouristManager parent) : base(_placementManager, prefab)
+    public Jeep(PlacementManager _placementManager, GameObject prefab, TouristManager parent) : base(_placementManager)
     {
         endPosition = new Vector3Int(placementManager.width - 1, 0, placementManager.height - 1);
         spawnPosition = new Vector3(0, 0, 0);
@@ -30,13 +30,13 @@ public class Jeep : Entity
         tourists = new TouristGroup();
         tourists.SetDefault();
         tourists.readyToGo += () => MyState = State.Moving;
-        entityInstance.transform.SetParent(parent.transform);
+        SpawnEntity(prefab, parent.transform);
         baseMoveSpeed = Constants.JeepBaseMoveSpeed;
         baseRotationSpeed = Constants.JeepBaseRotationSpeed;
         discoverEnvironment = new JeepSearchInRange(15.0f, placementManager);
     }
 
-    public Jeep(JeepData data, PlacementManager placementManager, TouristManager parent) : base(data, placementManager, parent.jeepPrefab, parent.gameObject)
+    public Jeep(JeepData data, PlacementManager placementManager, TouristManager parent) : base(data, placementManager, parent.placementManager.prefabManager.JeepPrefab, parent.gameObject)
     {
         LoadData(data, placementManager);
     }

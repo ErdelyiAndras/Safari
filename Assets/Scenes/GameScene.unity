@@ -2199,6 +2199,65 @@ MonoBehaviour:
   m_EffectColor: {r: 1, g: 0, b: 0, a: 1}
   m_EffectDistance: {x: 3, y: 3}
   m_UseGraphicAlpha: 1
+--- !u!1 &442797350
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 442797352}
+  - component: {fileID: 442797351}
+  m_Layer: 0
+  m_Name: PrefabManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &442797351
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 442797350}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a02e7123bce7913479ca27adacd4ebb9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Plant1: {fileID: 1231750990164085603, guid: aed2aed4bcf2ca849b78ed9886eb775b, type: 3}
+  Plant2: {fileID: 8961060414691119292, guid: f04715c35df96d24daf46814db582a15, type: 3}
+  Plant3: {fileID: 2732043988329127880, guid: bb8a349e47100e3438e3350c256e20e3, type: 3}
+  Hill: {fileID: 5415228831098412824, guid: efba7964ffd90db4db5a672bfa3ab415, type: 3}
+  Water: {fileID: 2138452382528300987, guid: 358089f4ed332bf4c84b277e0fab5d24, type: 3}
+  DeadEnd: {fileID: 1120765361980748800, guid: 126bc1b54aa974c45b523eabbb58d51e, type: 3}
+  RoadStraigth: {fileID: 5661862354351878554, guid: 0cf01c743836d154eb47042e1bc62afd, type: 3}
+  Corner: {fileID: 7077802812573144028, guid: fd4c97eb7b86f1149a7745204ed8904e, type: 3}
+  ThreeWay: {fileID: 2384947387477557946, guid: 2524a8437a2d4394da7f7a0546a71f3d, type: 3}
+  FourWay: {fileID: 3351635067702010651, guid: f4402828bce58b54791119f89fa2df61, type: 3}
+  JeepPrefab: {fileID: 7954715419065063505, guid: 10f4671cf44100d409a99458809783f8, type: 3}
+  Carnivore1Prefab: {fileID: 7292518832171594901, guid: 1a6ec3eddfcff8b4a877c7b350e67557, type: 3}
+  Carnivore2Prefab: {fileID: 8779630825536378151, guid: 0191a5e813e2e9c40ad5ea7db94b0a23, type: 3}
+  Herbivore1Prefab: {fileID: 7870442338796372815, guid: d36e084254c30534d869078f20bc0339, type: 3}
+  Herbivore2Prefab: {fileID: 7993729090055200291, guid: b2e37dd66f813c348aedeb7b439ade96, type: 3}
+--- !u!4 &442797352
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 442797350}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &464981575
 GameObject:
   m_ObjectHideFlags: 0
@@ -3745,10 +3804,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   placementManager: {fileID: 1434987243}
-  carnivore1Prefab: {fileID: 7292518832171594901, guid: 1a6ec3eddfcff8b4a877c7b350e67557, type: 3}
-  carnivore2Prefab: {fileID: 8779630825536378151, guid: 0191a5e813e2e9c40ad5ea7db94b0a23, type: 3}
-  herbivore1Prefab: {fileID: 7870442338796372815, guid: d36e084254c30534d869078f20bc0339, type: 3}
-  herbivore2Prefab: {fileID: 7993729090055200291, guid: b2e37dd66f813c348aedeb7b439ade96, type: 3}
+  prefabManager: {fileID: 442797351}
 --- !u!1 &816490724
 GameObject:
   m_ObjectHideFlags: 0
@@ -4455,7 +4511,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   placementManager: {fileID: 1434987243}
-  waterPrefab: {fileID: 2138452382528300987, guid: 358089f4ed332bf4c84b277e0fab5d24, type: 3}
+  prefabManager: {fileID: 442797351}
 --- !u!1 &939106628
 GameObject:
   m_ObjectHideFlags: 0
@@ -4994,7 +5050,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   placementManager: {fileID: 1434987243}
-  jeepPrefab: {fileID: 7954715419065063505, guid: 10f4671cf44100d409a99458809783f8, type: 3}
+  prefabManager: {fileID: 442797351}
 --- !u!1 &1041442037
 GameObject:
   m_ObjectHideFlags: 0
@@ -5273,10 +5329,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 800f1ed260338014e9a47a7b88749159, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Plant1: {fileID: 1231750990164085603, guid: aed2aed4bcf2ca849b78ed9886eb775b, type: 3}
-  Plant2: {fileID: 8961060414691119292, guid: f04715c35df96d24daf46814db582a15, type: 3}
-  Plant3: {fileID: 2732043988329127880, guid: bb8a349e47100e3438e3350c256e20e3, type: 3}
-  Hill: {fileID: 5415228831098412824, guid: efba7964ffd90db4db5a672bfa3ab415, type: 3}
+  prefabManager: {fileID: 442797351}
   cameraMovement: {fileID: 330585548}
   inputManager: {fileID: 1360255462}
   roadManager: {fileID: 1742676474}
@@ -7344,6 +7397,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   width: 51
   height: 51
+  prefabManager: {fileID: 442797351}
 --- !u!4 &1434987244
 Transform:
   m_ObjectHideFlags: 0
@@ -9407,6 +9461,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   placementManager: {fileID: 1434987243}
   roadPositionsToRecheck: []
+  prefabManager: {fileID: 442797351}
   roadFixer: {fileID: 1742676476}
 --- !u!4 &1742676475
 Transform:
@@ -9435,11 +9490,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d76cd60ac75aeb047ba729dba316de1c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deadEnd: {fileID: 1120765361980748800, guid: 126bc1b54aa974c45b523eabbb58d51e, type: 3}
-  roadStraight: {fileID: 5661862354351878554, guid: 0cf01c743836d154eb47042e1bc62afd, type: 3}
-  corner: {fileID: 7077802812573144028, guid: fd4c97eb7b86f1149a7745204ed8904e, type: 3}
-  threeWay: {fileID: 2384947387477557946, guid: 2524a8437a2d4394da7f7a0546a71f3d, type: 3}
-  fourWay: {fileID: 3351635067702010651, guid: f4402828bce58b54791119f89fa2df61, type: 3}
 --- !u!1 &1743742259
 GameObject:
   m_ObjectHideFlags: 0
@@ -10081,13 +10131,7 @@ MonoBehaviour:
   maxRiverAmount: 20
   natureDensity: 40
   placementManager: {fileID: 1434987243}
-  naturePrefabs:
-  - {fileID: 1231750990164085603, guid: aed2aed4bcf2ca849b78ed9886eb775b, type: 3}
-  - {fileID: 8961060414691119292, guid: f04715c35df96d24daf46814db582a15, type: 3}
-  - {fileID: 2732043988329127880, guid: bb8a349e47100e3438e3350c256e20e3, type: 3}
-  waterPrefab: {fileID: 2138452382528300987, guid: 358089f4ed332bf4c84b277e0fab5d24, type: 3}
-  hillPrefab: {fileID: 5415228831098412824, guid: efba7964ffd90db4db5a672bfa3ab415, type: 3}
-  deadEnd: {fileID: 1120765361980748800, guid: 126bc1b54aa974c45b523eabbb58d51e, type: 3}
+  prefabManager: {fileID: 442797351}
 --- !u!4 &1899437699
 Transform:
   m_ObjectHideFlags: 0
@@ -11530,3 +11574,4 @@ SceneRoots:
   - {fileID: 2009713197}
   - {fileID: 812757147}
   - {fileID: 875922475}
+  - {fileID: 442797352}
