@@ -54,6 +54,7 @@ public class GameManager : MonoBehaviour
         inputManager.OnMouseClick = null;
         inputManager.OnMouseHold = null;
         inputManager.OnMouseUp = null;
+        inputManager.OnAnimalClick = null;
     }
 
     private void JeepPurchaseHandler()
@@ -178,7 +179,12 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        // inputManager.OnMouseClick += ;
+        //inputManager.OnAnimalClick += animalManager.SellAnimal;
+        // inputManager.OnAnimalClick type parameter is gameObject, implement 'animalManager.SellAnimal' accoridngly
+        inputManager.OnAnimalClick += animal =>
+        {
+            Debug.Log(animal.name);
+        };
     }
 
     private void PauseButtonHandler()

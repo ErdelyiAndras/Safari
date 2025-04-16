@@ -7,6 +7,7 @@ public class InputManager : MonoBehaviour
 {
     public Action<Vector3Int> OnMouseClick, OnMouseHold;
     public Action OnMouseUp;
+	public Action<GameObject> OnAnimalClick;
 	public Action Paused;
 	private Vector2 cameraMovementVector;
 	private ScrollRect scrollRect;
@@ -18,8 +19,9 @@ public class InputManager : MonoBehaviour
 	Camera mainCamera;
 
 	public LayerMask groundMask;
+	public LayerMask animalMask;
 
-	public Vector2 CameraMovementVector
+    public Vector2 CameraMovementVector
 	{
 		get { return cameraMovementVector; }
 	}
@@ -43,6 +45,7 @@ public class InputManager : MonoBehaviour
 		OnClickDown();
 		OnClickUp();
 		OnClickHold();
+		OnClickDown_Animal();
         //InvertScrollDirection();
 		if (IsArrowInputActive == true)
 		{
@@ -132,4 +135,18 @@ public class InputManager : MonoBehaviour
 
 		}
 	}
+
+	private void OnClickDown_Animal()
+	{
+		if (Input.GetMouseButtonDown(0) && EventSystem.current.IsPointerOverGameObject() == false)
+        {
+            RaycastHit hit;
+            Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity, animalMask))
+            {
+                GameObject animal = hit.collider.gameObject;
+                OnAnimalClick?.Invoke(animal);
+            }
+        }
+    }
 }

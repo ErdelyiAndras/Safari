@@ -62,7 +62,7 @@ public abstract class Animal : Entity
     }
     public override void CheckState()
     {   
-        Debug.Log(MyState.ToString());
+        //Debug.Log(MyState.ToString());
         switch(MyState)
         {
             case State.Resting:
@@ -139,7 +139,7 @@ public abstract class Animal : Entity
             }
             if (state.Thirst < state.MaxDrink * state.DrinkThreshold && MyState != State.SearchingForFood)
             {
-                Debug.Log(state.Thirst + " " + state.MaxDrink * state.DrinkThreshold + "maxdirnk: " + state.MaxDrink + "treshold:" + state.DrinkThreshold);
+                //Debug.Log(state.Thirst + " " + state.MaxDrink * state.DrinkThreshold + "maxdirnk: " + state.MaxDrink + "treshold:" + state.DrinkThreshold);
                 MyState = State.SearchingForWater;
             }
             if (state.Hunger < state.MaxFood * state.FoodThreshold && state.Thirst < state.MaxDrink * state.DrinkThreshold)
@@ -150,7 +150,7 @@ public abstract class Animal : Entity
                 }
                 else
                 {
-                    Debug.Log(state.Thirst + " " + state.MaxDrink * state.DrinkThreshold + "maxdirnk: " + state.MaxDrink + "treshold:" + state.DrinkThreshold);
+                    //Debug.Log(state.Thirst + " " + state.MaxDrink * state.DrinkThreshold + "maxdirnk: " + state.MaxDrink + "treshold:" + state.DrinkThreshold);
                     MyState = State.SearchingForWater;
 
                 }
@@ -159,7 +159,7 @@ public abstract class Animal : Entity
     }
     protected void AnimalDies()
     {
-        Debug.Log("Animal dies");
+        //Debug.Log("Animal dies");
         UnityEngine.Object.Destroy(entityInstance);
         AnimalDied?.Invoke(this);
     }

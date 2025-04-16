@@ -1341,7 +1341,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 63
+    m_Bits: 191
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -3804,7 +3804,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   placementManager: {fileID: 1434987243}
-  prefabManager: {fileID: 442797351}
 --- !u!1 &816490724
 GameObject:
   m_ObjectHideFlags: 0
@@ -4511,7 +4510,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   placementManager: {fileID: 1434987243}
-  prefabManager: {fileID: 442797351}
 --- !u!1 &939106628
 GameObject:
   m_ObjectHideFlags: 0
@@ -5050,7 +5048,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   placementManager: {fileID: 1434987243}
-  prefabManager: {fileID: 442797351}
 --- !u!1 &1041442037
 GameObject:
   m_ObjectHideFlags: 0
@@ -5329,7 +5326,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 800f1ed260338014e9a47a7b88749159, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefabManager: {fileID: 442797351}
   cameraMovement: {fileID: 330585548}
   inputManager: {fileID: 1360255462}
   roadManager: {fileID: 1742676474}
@@ -6564,6 +6560,9 @@ MonoBehaviour:
   groundMask:
     serializedVersion: 2
     m_Bits: 8
+  animalMask:
+    serializedVersion: 2
+    m_Bits: 128
 --- !u!4 &1360255463
 Transform:
   m_ObjectHideFlags: 0
@@ -9461,7 +9460,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   placementManager: {fileID: 1434987243}
   roadPositionsToRecheck: []
-  prefabManager: {fileID: 442797351}
   roadFixer: {fileID: 1742676476}
 --- !u!4 &1742676475
 Transform:
@@ -10131,7 +10129,6 @@ MonoBehaviour:
   maxRiverAmount: 20
   natureDensity: 40
   placementManager: {fileID: 1434987243}
-  prefabManager: {fileID: 442797351}
 --- !u!4 &1899437699
 Transform:
   m_ObjectHideFlags: 0
