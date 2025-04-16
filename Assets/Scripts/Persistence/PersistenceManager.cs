@@ -23,6 +23,8 @@ public static class PersistenceManager
 
     private static Data data = new Data();
 
+    public static bool MainMenuLoad { get; set; } = false;
+
     public static Difficulty Difficulty
     {
         get

@@ -23,7 +23,14 @@ public class MainMenuManager : MonoBehaviour
 
     private void LoadGameHandler()
     {
-        Debug.Log("Load Game button pressed");
+        if (!PersistenceManager.SaveExists("save.json"))
+        {
+            Debug.Log("No save file found. Please start a new game first.");
+            return;
+        }
+
+        PersistenceManager.MainMenuLoad = true;
+        SceneManager.LoadScene("GameScene");
     }
 
     private void QuitHandler()

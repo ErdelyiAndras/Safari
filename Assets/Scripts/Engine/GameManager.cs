@@ -40,6 +40,11 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
+        if (PersistenceManager.MainMenuLoad)
+        {
+            LoadGame();
+            PersistenceManager.MainMenuLoad = false;
+        }
         cameraMovement.MoveCamera(new Vector3(inputManager.CameraMovementVector.x, 0, inputManager.CameraMovementVector.y));
     }
 
