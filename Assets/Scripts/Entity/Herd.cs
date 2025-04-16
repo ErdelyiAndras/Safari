@@ -31,7 +31,6 @@ public abstract class Herd : IPositionable, ISaveable<HerdData>
 
     public Herd(HerdData data, PlacementManager placementManager, AnimalManager parent)
     {
-        LoadData(data, placementManager);
         gameObject.transform.SetParent(parent.transform);
     }
 
