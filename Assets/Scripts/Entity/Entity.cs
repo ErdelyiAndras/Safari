@@ -5,7 +5,7 @@ public abstract class Entity : IPositionable, ISaveable<EntityData>
 {
     public Guid Id { get; protected set; }
     protected Vector3 spawnPosition;
-    public GameObject ObjectInstance { get; set; } = new GameObject();
+    public GameObject ObjectInstance { get; set; }
     protected PlacementManager placementManager;
     protected SearchInRange discoverEnvironment;
     protected float baseMoveSpeed, baseRotationSpeed;

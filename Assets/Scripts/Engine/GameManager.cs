@@ -401,6 +401,7 @@ public class GameManager : MonoBehaviour
         touristManager.TouristsInQueueChanged += tourists => uiController.UpdateTouristsPanel(tourists);
         touristManager.SatisfactionChanged += satisfaction => uiController.UpdateSatisfactionPanel(satisfaction);
         touristManager.JeepCountChanged += jeepCount => uiController.UpdateJeepPanel(jeepCount);
+        touristManager.AcquireAdmissionFee += jeep => jeep.AdmissionFee = economyManager.AdmissionFee;
     }
 
     private void AnimalManagerEventSubscription()

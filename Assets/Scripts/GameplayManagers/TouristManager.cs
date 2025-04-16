@@ -13,12 +13,13 @@ public class TouristManager : MonoBehaviour, ITimeHandler, ISaveable<TouristMana
     public Action<float> SatisfactionChanged;
     public Action<int> TouristsInQueueChanged;
     public Action<int> JeepCountChanged;
-
+    public Action<Jeep> AcquireAdmissionFee;
     private void Start()
     {
         jeepPrefab = placementManager.prefabManager.JeepPrefab;
         Jeep.JeepWaiting += FillJeep;
         Jeep.JeepArrived += TouristsLeave;
+        Jeep.AcquireAdmissionFee += jeep => AcquireAdmissionFee?.Invoke(jeep);
     }
     private void Update()
     {
@@ -45,7 +46,7 @@ public class TouristManager : MonoBehaviour, ITimeHandler, ISaveable<TouristMana
         }
     }
 
-    private void ModifySatisfaction(int satisfaction)
+    private void ModifySatisfaction(float satisfaction)
     {
         if (touristCount == 0)
         {
@@ -69,7 +70,7 @@ public class TouristManager : MonoBehaviour, ITimeHandler, ISaveable<TouristMana
 
     public void ManageTick()
     {
-        int newTourists = 1; // logic to calculate how many tourists arrive
+        int newTourists = (int)(Satisfaction / 10.0f) + 1; // logic to calculate how many tourists arrive
         touristCount += newTourists;
         TouristsInQueue += newTourists;
         TouristsInQueueChanged?.Invoke(TouristsInQueue);

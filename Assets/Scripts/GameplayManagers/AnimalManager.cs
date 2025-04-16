@@ -175,7 +175,6 @@ public class AnimalManager : MonoBehaviour, ITimeHandler, ISaveable<AnimalManage
                 break;
         }
         InitAnimal(_herd, children);
-        // old version was probably wrong, it was registering a herbivore all the time
         if (_herd.AnimalTypesOfHerd == AnimalType.Herbivore1 || _herd.AnimalTypesOfHerd == AnimalType.Herbivore2)
         {
             placementManager.RegisterObject(children.Id, ObjectType.Herbivore, children);

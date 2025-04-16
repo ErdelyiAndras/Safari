@@ -20,8 +20,9 @@ public class Jeep : Entity
     private int currentPathIndex = 0;
 
     public State MyState { get; private set; }
-    public static Action<Jeep> JeepArrived, JeepWaiting;
+    public static Action<Jeep> JeepArrived, JeepWaiting, AcquireAdmissionFee;
     bool hasFullPath = false;
+    public int AdmissionFee { get; set; }
     public Jeep(PlacementManager _placementManager, GameObject prefab, TouristManager parent) : base(_placementManager)
     {
         endPosition = new Vector3Int(placementManager.width - 1, 0, placementManager.height - 1);
@@ -133,7 +134,7 @@ public class Jeep : Entity
             currentPathIndex++;
         }
     }
-    public int CalculateSatisfaction() => ((JeepSearchInRange)discoverEnvironment).AnimalsSeenCount * ((JeepSearchInRange)discoverEnvironment).AnimalTypesSeenCount;
+    public float CalculateSatisfaction() => Math.Clamp(((JeepSearchInRange)discoverEnvironment).AnimalsSeenCount * ((JeepSearchInRange)discoverEnvironment).AnimalTypesSeenCount, 0.0f, 100.0f) - (AdmissionFee / 10.0f);
 
     public override EntityData SaveData()
     {
