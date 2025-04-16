@@ -19,7 +19,7 @@ public static class PersistenceManager
         public PlacementManagerData placementManagerData;
     }
 
-    private static readonly string saveFolderPath = Path.Combine(Application.dataPath, "Saves"); // Application.persistentDataPath;
+    private static readonly string saveFolderPath = Application.persistentDataPath; // Path.Combine(Application.dataPath, "Saves"); 
 
     private static Data data = new Data();
 
@@ -97,22 +97,30 @@ public static class PersistenceManager
 
     public static void Save(string fileName)
     {
-        string filePath = Path.Combine(saveFolderPath, fileName);
         string json = JsonUtility.ToJson(data, true);
-        File.WriteAllText(filePath, json);
+        File.WriteAllText(FilePath(fileName), json);
     }
 
     public static void Load(string fileName)
     {
-        string filePath = Path.Combine(saveFolderPath, fileName);
-        if (File.Exists(filePath))
+        if (SaveExists(fileName))
         {
-            string json = File.ReadAllText(filePath);
+            string json = File.ReadAllText(FilePath(fileName));
             data = JsonUtility.FromJson<Data>(json);
         }
         else
         {
-            Debug.LogError($"File not found: {filePath}");
+            Debug.LogError($"File not found: {FilePath(fileName)}");
         }
+    }
+
+    public static bool SaveExists(string fileName)
+    {
+        return File.Exists(FilePath(fileName));
+    }
+
+    private static string FilePath(string fileName)
+    {
+        return Path.Combine(saveFolderPath, fileName);
     }
 }

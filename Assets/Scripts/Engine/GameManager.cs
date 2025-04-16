@@ -259,6 +259,12 @@ public class GameManager : MonoBehaviour
 
     private void LoadGame()
     {
+        if (!PersistenceManager.SaveExists("save.json")) // TODO: optionally could disable load button if save file does not exist
+        {
+            Debug.Log("Save file not found");
+            return;
+        }
+
         PersistenceManager.Load("save.json");
         DifficultySelector.SelectedDifficulty = PersistenceManager.Difficulty;
         timeManager.LoadData(PersistenceManager.TimeData);
