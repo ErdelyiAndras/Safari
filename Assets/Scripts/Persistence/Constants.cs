@@ -131,6 +131,8 @@ public static class Constants
     // Herd
     public static int CarnivoreHerdDistributionRadius { get; private set; } = 5;
     public static int HerbivoreHerdDistributionRadius { get; private set; } = 2;
+    public static int CarnivoreHerdReproductionCooldown { get; private set; } = 8;
+    public static int HerbivoreHerdReproductionCooldown { get; private set; } = 8;
 
     // Jeep
     public static float JeepBaseMoveSpeed { get; private set; } = 1.0f;

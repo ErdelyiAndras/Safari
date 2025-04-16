@@ -26,7 +26,7 @@ public abstract class Herd : IPositionable, ISaveable<HerdData>
         this.placementManager = placementManager;
         animalTypesOfHerd = type;
         gameObject.transform.SetParent(parent.transform);
-        reproductionCoolDown = 8;
+        //reproductionCoolDown = 8;
     }
 
     public Herd(HerdData data, PlacementManager placementManager, AnimalManager parent)
