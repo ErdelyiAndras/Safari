@@ -30,7 +30,7 @@ public class Jeep : Entity
         MyState = State.Waiting;
         tourists = new TouristGroup();
         tourists.SetDefault();
-        tourists.readyToGo += () => MyState = State.Moving;
+        tourists.readyToGo += () => { AcquireAdmissionFee?.Invoke(this); MyState = State.Moving; }; // is this correct?
         SpawnEntity(prefab, parent.transform);
         baseMoveSpeed = Constants.JeepBaseMoveSpeed;
         baseRotationSpeed = Constants.JeepBaseRotationSpeed;
@@ -140,7 +140,7 @@ public class Jeep : Entity
     {
         return new JeepData(
             Id, spawnPosition, Position, ObjectInstance.transform.rotation, baseMoveSpeed, baseRotationSpeed,
-            (JeepSearchInRange)discoverEnvironment, MyState, endPosition, tourists, jeepPath, currentPathIndex, hasFullPath
+            (JeepSearchInRange)discoverEnvironment, MyState, endPosition, tourists, jeepPath, currentPathIndex, hasFullPath, AdmissionFee
         );
     }
 

@@ -19,6 +19,8 @@ public class JeepData : EntityData
     private int currentPathIndex;
     [SerializeField]
     private bool hasFullPath;
+    [SerializeField]
+    private int admissionFee;
 
     public JeepSearchInRange DiscoverEnvironment(PlacementManager placementManager)
     {
@@ -55,9 +57,14 @@ public class JeepData : EntityData
         get { return hasFullPath; }
     }
 
+    public int AdmissionFee
+    {
+        get { return admissionFee; }
+    }
+
     public JeepData(
         Guid id, Vector3 spawnPosition, Vector3 position, Quaternion rotation, float baseMoveSpeed, float baseRotationSpeed,
-        JeepSearchInRange discoverEnvironment, Jeep.State state, Vector3 endPosition, TouristGroup touristGroup, List<Vector3Int> jeepPath, int currentPathIndex, bool hasFullPath
+        JeepSearchInRange discoverEnvironment, Jeep.State state, Vector3 endPosition, TouristGroup touristGroup, List<Vector3Int> jeepPath, int currentPathIndex, bool hasFullPath, int admissionFee
     ) : base(id, spawnPosition, position, rotation, baseMoveSpeed, baseRotationSpeed)
     {
         this.discoverEnvironment = (JeepSearchInRangeData)discoverEnvironment.SaveData();
@@ -67,5 +74,6 @@ public class JeepData : EntityData
         this.jeepPath = jeepPath;
         this.currentPathIndex = currentPathIndex;
         this.hasFullPath = hasFullPath;
+        this.admissionFee = admissionFee;
     }
 }
