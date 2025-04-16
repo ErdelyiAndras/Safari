@@ -82,6 +82,7 @@ public class TouristManager : MonoBehaviour, ITimeHandler, ISaveable<TouristMana
 
     public void LoadData(TouristManagerData data, PlacementManager placementManager)
     {
+        ResetData();
         Satisfaction = data.Satisfaction;
         touristCount = data.TouristCount;
         TouristsInQueue = data.TouristsInQueue;
@@ -90,6 +91,14 @@ public class TouristManager : MonoBehaviour, ITimeHandler, ISaveable<TouristMana
         foreach (Jeep jeep in jeeps)
         {
             placementManager.RegisterObject(jeep.Id, ObjectType.Jeep, jeep);
+        }
+    }
+
+    private void ResetData()
+    {
+        for (int i = 0; i < jeeps.Count; i++)
+        {
+            jeeps[i].DeleteGameObject();
         }
     }
 }

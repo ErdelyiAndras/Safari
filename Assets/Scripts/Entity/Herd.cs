@@ -111,5 +111,19 @@ public abstract class Herd : IPositionable, ISaveable<HerdData>
         DistributionRadius = data.DistributionRadius;
         reproductionCoolDown = data.ReproductionCoolDown;
     }
+
+    public void ResetData()
+    {
+        foreach (Animal animal in animals)
+        {
+            animal.DeleteGameObject();
+        }
+        if (gameObject != null)
+        {
+            UnityEngine.Object.Destroy(gameObject);
+            gameObject = new GameObject();
+        }
+
+    }
 }
 

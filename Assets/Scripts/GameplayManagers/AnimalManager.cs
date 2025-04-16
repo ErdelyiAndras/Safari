@@ -197,7 +197,7 @@ public class AnimalManager : MonoBehaviour, ITimeHandler, ISaveable<AnimalManage
 
     public void LoadData(AnimalManagerData data, PlacementManager placementManager)
     {
-        // TODO: delete old herds, animals and jeeps from touristmanager
+        ResetData();
         this.placementManager = placementManager;
         herds = data.Herds(placementManager, this);
         foreach (Herd herd in herds)
@@ -216,6 +216,14 @@ public class AnimalManager : MonoBehaviour, ITimeHandler, ISaveable<AnimalManage
             {
                 throw new Exception("Unknown animal type in herds");
             }
+        }
+    }
+
+    private void ResetData()
+    {
+        foreach (Herd herd in herds)
+        {
+            herd.ResetData();
         }
     }
 }

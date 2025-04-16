@@ -34,6 +34,15 @@ public abstract class Entity : IPositionable, ISaveable<EntityData>
         LoadData(data, placementManager);
     }
 
+    public void DeleteGameObject()
+    {
+        if (entityInstance != null)
+        {
+            UnityEngine.Object.Destroy(entityInstance);
+            entityInstance = null;
+        }
+    }
+
     public abstract EntityData SaveData();
 
     public virtual void LoadData(EntityData data, PlacementManager placementManager)
