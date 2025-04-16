@@ -28,7 +28,7 @@ public abstract class HerbivoreBase : Animal
     public override EntityData SaveData()
     {
         return new HerbivoreData(
-            Id, spawnPosition, Position, entityInstance.transform.rotation, baseMoveSpeed, baseRotationSpeed,
+            Id, spawnPosition, Position, ObjectInstance.transform.rotation, baseMoveSpeed, baseRotationSpeed,
             (HerbivoreSearchInRange)discoverEnvironment, MyState, state, targetPosition, myHerd, callOnceFlag, targetCorrection, elapsedTime
         );
     }

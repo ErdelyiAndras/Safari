@@ -4,12 +4,12 @@
     {
         DistributionRadius = Constants.HerbivoreHerdDistributionRadius;
         reproductionCoolDown = Constants.HerbivoreHerdReproductionCooldown;
-        gameObject.name = "HerbivoreHerd";
+        ObjectInstance.name = "HerbivoreHerd";
     }
 
     public HerbivoreHerd(HerdData data, PlacementManager placementManager, AnimalManager parent) : base(data, placementManager, parent)
     {
-        gameObject.name = "HerbivoreHerd";
+        ObjectInstance.name = "HerbivoreHerd";
         LoadData(data, placementManager);
     }
 

@@ -29,7 +29,7 @@ public class AnimalManager : MonoBehaviour, ITimeHandler, ISaveable<AnimalManage
         {
             if (herds[i].Count == 0)
             {
-                Destroy(herds[i].gameObject);
+                Destroy(herds[i].ObjectInstance);
                 placementManager.PlacedObjects.DeleteObject(herds[i].Id);
                 herds.RemoveAt(i);
                 continue;
@@ -226,4 +226,7 @@ public class AnimalManager : MonoBehaviour, ITimeHandler, ISaveable<AnimalManage
             herd.ResetData();
         }
     }
+
+    public void SellAnimal(GameObject animal) => ((Animal)placementManager.PlacedObjects.GetGameObjectWrapper(animal)).AnimalDies();
+
 }

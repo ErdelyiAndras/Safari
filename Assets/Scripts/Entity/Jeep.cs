@@ -120,8 +120,8 @@ public class Jeep : Entity
         if (direction != Vector3.zero)
         {
             Quaternion targetRotation = Quaternion.LookRotation(direction);
-            entityInstance.transform.rotation = Quaternion.Slerp(
-                entityInstance.transform.rotation,
+            ObjectInstance.transform.rotation = Quaternion.Slerp(
+                ObjectInstance.transform.rotation,
                 targetRotation,
                 RotationSpeed * Time.deltaTime
 
@@ -138,7 +138,7 @@ public class Jeep : Entity
     public override EntityData SaveData()
     {
         return new JeepData(
-            Id, spawnPosition, Position, entityInstance.transform.rotation, baseMoveSpeed, baseRotationSpeed,
+            Id, spawnPosition, Position, ObjectInstance.transform.rotation, baseMoveSpeed, baseRotationSpeed,
             (JeepSearchInRange)discoverEnvironment, MyState, endPosition, tourists, jeepPath, currentPathIndex, hasFullPath
         );
     }

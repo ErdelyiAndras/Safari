@@ -88,6 +88,7 @@ public class EconomyManager : MonoBehaviour, ISaveable<EconomyManagerData>
     public void EarnMoney(int amount)
     {
         money += amount;
+        moneyChanged?.Invoke(money);
     }
 
     private void CheckIfGameOver()

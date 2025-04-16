@@ -39,7 +39,7 @@ public abstract class Animal : Entity
         spawnPosition = GetMyHerd.Position;
         state = new AnimalInternalState(_type);
         targetPosition = spawnPosition;
-        SpawnEntity(prefab, GetMyHerd.gameObject.transform);
+        SpawnEntity(prefab, GetMyHerd.ObjectInstance.transform);
         MyState = State.Moving;
         baseMoveSpeed = Constants.AnimalBaseMoveSpeed[_type];
         baseRotationSpeed = Constants.AnimalBaseRotationSpeed[_type];
@@ -157,10 +157,9 @@ public abstract class Animal : Entity
             }
         }
     }
-    protected void AnimalDies()
+    public void AnimalDies()
     {
-        //Debug.Log("Animal dies");
-        UnityEngine.Object.Destroy(entityInstance);
+        UnityEngine.Object.Destroy(ObjectInstance);
         AnimalDied?.Invoke(this);
     }
 
@@ -226,7 +225,7 @@ public abstract class Animal : Entity
             if (direction != Vector3.zero)
             {
                 Quaternion targetRotation = Quaternion.LookRotation(direction);
-                entityInstance.transform.rotation = Quaternion.Slerp(entityInstance.transform.rotation, targetRotation, RotationSpeed * Time.deltaTime);
+                ObjectInstance.transform.rotation = Quaternion.Slerp(ObjectInstance.transform.rotation, targetRotation, RotationSpeed * Time.deltaTime);
             }
         }
     }

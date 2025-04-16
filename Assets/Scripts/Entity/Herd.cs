@@ -13,7 +13,7 @@ public abstract class Herd : IPositionable, ISaveable<HerdData>
     public int Count {  get { return animals.Count; } }
     public Vector3 Position { get { return animals.Count == 0 ? GetRandomPosition() : new Vector3(centroid.x, 0, centroid.y); } }
     public int DistributionRadius { get; protected set;}
-    public GameObject gameObject = new GameObject();
+    public GameObject ObjectInstance { get; set; } = new GameObject();
     public List<Animal> Animals{ get { return animals; }}
     public Action<Herd> Reproduce;
     protected int reproductionCoolDown;
@@ -25,13 +25,13 @@ public abstract class Herd : IPositionable, ISaveable<HerdData>
         animals = new List<Animal>();
         this.placementManager = placementManager;
         animalTypesOfHerd = type;
-        gameObject.transform.SetParent(parent.transform);
+        ObjectInstance.transform.SetParent(parent.transform);
         //reproductionCoolDown = 8;
     }
 
     public Herd(HerdData data, PlacementManager placementManager, AnimalManager parent)
     {
-        gameObject.transform.SetParent(parent.transform);
+        ObjectInstance.transform.SetParent(parent.transform);
     }
 
     public void CalculateCentroid()
@@ -117,10 +117,10 @@ public abstract class Herd : IPositionable, ISaveable<HerdData>
         {
             animal.DeleteGameObject();
         }
-        if (gameObject != null)
+        if (ObjectInstance != null)
         {
-            UnityEngine.Object.Destroy(gameObject);
-            gameObject = new GameObject();
+            UnityEngine.Object.Destroy(ObjectInstance);
+            ObjectInstance = new GameObject();
         }
 
     }

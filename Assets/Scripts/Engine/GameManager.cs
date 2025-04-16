@@ -179,11 +179,10 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        //inputManager.OnAnimalClick += animalManager.SellAnimal;
-        // inputManager.OnAnimalClick type parameter is gameObject, implement 'animalManager.SellAnimal' accoridngly
+        inputManager.OnAnimalClick += animalManager.SellAnimal;
         inputManager.OnAnimalClick += animal =>
         {
-            Debug.Log(animal.name);
+            economyManager.EarnMoney(100); // TODO: balance and query from Constatnts
         };
     }
 

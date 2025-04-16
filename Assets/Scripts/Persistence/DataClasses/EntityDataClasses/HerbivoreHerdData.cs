@@ -17,10 +17,10 @@ public class HerbivoreHerdData : HerdData
             switch (animalData.State.type)
             {
                 case AnimalType.Herbivore1:
-                    animal = new Herbivore1(animalData, placementManager, placementManager.prefabManager.Herbivore1Prefab, parent.gameObject);
+                    animal = new Herbivore1(animalData, placementManager, placementManager.prefabManager.Herbivore1Prefab, parent.ObjectInstance);
                     break;
                 case AnimalType.Herbivore2:
-                    animal = new Herbivore2(animalData, placementManager, placementManager.prefabManager.Herbivore2Prefab, parent.gameObject);
+                    animal = new Herbivore2(animalData, placementManager, placementManager.prefabManager.Herbivore2Prefab, parent.ObjectInstance);
                     break;
                 /*case AnimalType.Carnivore1:
                     animal = new Carnivore1((CarnivoreData)animalData, placementManager, animalManager.carnivore1Prefab, parent.gameObject);
