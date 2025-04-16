@@ -22,20 +22,14 @@ public abstract class CarnivoreBase : Animal
         {
             return;
         }
-        bool isPreyDead = true;
-        
-        //Debug.Log($"1: {discoverEnvironment}");
-        //Debug.Log($"2: {((CarnivoreSearchInRange)discoverEnvironment)}");
-        //Debug.Log($"3: {((CarnivoreSearchInRange)discoverEnvironment).ClosestHerd}");
-        //Debug.Log($"4: {((CarnivoreSearchInRange)discoverEnvironment).ClosestHerd?.Animals}");
-        //Debug.Log($"5: {((CarnivoreSearchInRange)discoverEnvironment).ClosestHerd?.Animals.Select(animal => animal.Id)}");
-        
-        // TODO: validate if this early return doesn't leave animal in inconsistent state
         IEnumerable<Guid> animalsInClosestHerd = ((CarnivoreSearchInRange)discoverEnvironment).ClosestHerd?.Animals.Select(animal => animal.Id);
         if (animalsInClosestHerd == null)
         {
             return;
         }
+
+        bool isPreyDead = true;
+        
         foreach (Guid id in ((CarnivoreSearchInRange)discoverEnvironment).ClosestHerd?.Animals.Select(animal => animal.Id))
         {
             if (id == ((CarnivoreSearchInRange)discoverEnvironment).PreyGuid)
