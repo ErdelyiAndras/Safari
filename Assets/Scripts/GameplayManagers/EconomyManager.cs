@@ -114,6 +114,6 @@ public class EconomyManager : MonoBehaviour, ISaveable<EconomyManagerData>
     public void LoadData(EconomyManagerData data, PlacementManager placementManager = null)
     {
         money = data.Money;
-        admissionFee = data.AmissionFee;
+        admissionFee = data.AdmissionFee;
     }
 }

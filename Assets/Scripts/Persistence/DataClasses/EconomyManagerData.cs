@@ -16,7 +16,7 @@ public class EconomyManagerData
         }
     }
 
-    public int AmissionFee
+    public int AdmissionFee
     {
         get
         {

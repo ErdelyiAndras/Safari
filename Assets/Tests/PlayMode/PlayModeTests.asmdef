@@ -1,0 +1,11 @@
+{
+    "name": "PlayModeTests",
+    "references": [
+        "GameCore"
+    ],
+    "optionalUnityReferences": [ "TestAssemblies" ],
+    "includePlatforms": [ ],
+    "autoReferenced": true,
+    "allowUnsafeCode": false,
+    "noEngineReferences": false
+}

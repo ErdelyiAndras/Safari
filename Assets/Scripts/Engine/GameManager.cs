@@ -1,5 +1,3 @@
-using SVS;
-using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 

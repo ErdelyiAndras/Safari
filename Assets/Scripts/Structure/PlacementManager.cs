@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using JetBrains.Annotations;
-using Unity.Collections;
 using UnityEngine;
 
 public class PlacementManager : MonoBehaviour, ISaveable<PlacementManagerData>

@@ -29,7 +29,7 @@ public class Jeep : Entity
         MyState = State.Waiting;
         tourists = new TouristGroup();
         tourists.SetDefault();
-        tourists.readyToGo += () => { AcquireAdmissionFee?.Invoke(this); MyState = State.Moving; }; // is this correct?
+        tourists.readyToGo += () => { AcquireAdmissionFee?.Invoke(this); MyState = State.Moving; };
         SpawnEntity(prefab, parent.transform);
         baseMoveSpeed = Constants.JeepBaseMoveSpeed;
         baseRotationSpeed = Constants.JeepBaseRotationSpeed;

@@ -1,22 +1,18 @@
 ﻿using UnityEngine;
 
-namespace SVS
+public class CameraMovement : MonoBehaviour
 {
+    public Camera gameCamera;
+    public float cameraMovementSpeed = Constants.CameraMovementSpeed;
 
-    public class CameraMovement : MonoBehaviour
+    private void Start()
     {
-        public Camera gameCamera;
-        public float cameraMovementSpeed = Constants.CameraMovementSpeed;
+        gameCamera = GetComponent<Camera>();
+    }
 
-        private void Start()
-        {
-            gameCamera = GetComponent<Camera>();
-        }
-
-        public void MoveCamera(Vector3 inputVector)
-        {
-            var movementVector = Quaternion.Euler(0,30,0) * inputVector;
-            gameCamera.transform.position += movementVector * Time.deltaTime * cameraMovementSpeed;
-        }
+    public void MoveCamera(Vector3 inputVector)
+    {
+        var movementVector = Quaternion.Euler(0, 30, 0) * inputVector;
+        gameCamera.transform.position += movementVector * Time.deltaTime * cameraMovementSpeed;
     }
 }
