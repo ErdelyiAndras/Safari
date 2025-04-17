@@ -65,8 +65,8 @@ get-unity-version:
   artifacts:
     when: always
     expire_in: 2 weeks
-  tags:
-    - gitlab-org
+  # tags:
+  #   - gitlab-org
   coverage: /<Linecoverage>(.*?)</Linecoverage>/
   rules:
     - if: '$CI_COMMIT_BRANCH == "dev-main"'
@@ -100,8 +100,8 @@ test-editmode:
         - $UNITY_DIR/$TEST_PLATFORM-junit-results.xml
         - "$UNITY_DIR/$TEST_PLATFORM-coverage/coverage.xml"
     expire_in: 2 weeks
-  tags:
-    - gitlab-org
+  # tags:
+  #   - gitlab-org
   coverage: /<Linecoverage>(.*?)</Linecoverage>/
   rules:
     - if: '$CI_COMMIT_BRANCH == "dev-main"'
@@ -127,8 +127,8 @@ test-editmode-with-junit-reports:
   artifacts:
     paths:
       - $UNITY_DIR/Builds/
-  tags:
-    - gitlab-org
+  # tags:
+  #   - gitlab-org
   rules:
     - if: '$CI_COMMIT_BRANCH == "dev-main"'
     - if: '$CI_COMMIT_BRANCH == "ci"'
