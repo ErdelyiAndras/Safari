@@ -1,0 +1,11 @@
+{
+    "name": "EditModeTests",
+    "references": [
+      "GameCore"
+    ],
+    "optionalUnityReferences": [ "TestAssemblies" ],
+    "includePlatforms": [ "Editor" ],
+    "autoReferenced": true,
+    "allowUnsafeCode": false,
+    "noEngineReferences": false
+}

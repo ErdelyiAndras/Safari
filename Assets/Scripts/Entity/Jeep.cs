@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using System;
 using System.Collections.Generic;
-using Unity.Burst.CompilerServices;
 
 public class Jeep : Entity
 {

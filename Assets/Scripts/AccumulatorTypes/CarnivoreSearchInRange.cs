@@ -2,8 +2,6 @@
 using System.Linq;
 using System;
 using UnityEngine;
-using TMPro;
-using UnityEngine.UIElements;
 
 public class CarnivoreSearchInRange : AnimalSearchInRange
 {

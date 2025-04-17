@@ -77,4 +77,8 @@ crashlytics-build.properties
 
 # Persistence
 Assets/Saves/*.json*
+
+# Code Coverage
+Assets/Tests/CodeCoverage*
+
 # End of https://mrkandreev.name/snippets/gitignore-generator/#Unity
