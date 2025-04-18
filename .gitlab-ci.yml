@@ -29,9 +29,9 @@ get-unity-version:
   artifacts:
     reports:
       dotenv: prepare.env
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "dev-main"'
-    - if: '$CI_COMMIT_BRANCH == "ci"'
+  # rules:
+  #   - if: '$CI_COMMIT_BRANCH == "dev-main"'
+  #   - if: '$CI_COMMIT_BRANCH == "ci"'
 
 .unity_before_script: &unity_before_script
   before_script:
@@ -77,11 +77,11 @@ get-activation-file:
     paths:
       - $UNITY_ACTIVATION_FILE
     expire_in: 10 min # Expiring this as artifacts may contain sensitive data and should not be kept public
-  rules:
-    - if: '$UNITY_LICENSE == null'
-      when: manual
-    - if: '$CI_COMMIT_BRANCH == "dev-main"'
-    - if: '$CI_COMMIT_BRANCH == "ci"'
+  # rules:
+  #   - if: '$UNITY_LICENSE == null'
+  #     when: manual
+    # - if: '$CI_COMMIT_BRANCH == "dev-main"'
+    # - if: '$CI_COMMIT_BRANCH == "ci"'
 
 # .test: &test
 #   stage: build_and_test
@@ -183,9 +183,9 @@ get-activation-file:
   # tags:
     # - gitlab-org
   coverage: /<Linecoverage>(.*?)</Linecoverage>/
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "dev-main"'
-    - if: '$CI_COMMIT_BRANCH == "ci"'
+  # rules:
+    # - if: '$CI_COMMIT_BRANCH == "dev-main"'
+    # - if: '$CI_COMMIT_BRANCH == "ci"'
 
 test-playmode-with-junit-reports:
   <<: *test-with-junit-reports
@@ -216,9 +216,9 @@ test-editmode-with-junit-reports:
     - job: test-editmode-with-junit-reports
     - job: get-unity-version
       artifacts: true
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "dev-main"'
-    - if: '$CI_COMMIT_BRANCH == "ci"'
+  # rules:
+  #   - if: '$CI_COMMIT_BRANCH == "dev-main"'
+  #   - if: '$CI_COMMIT_BRANCH == "ci"'
 
 # build-StandaloneLinux64:
 #   <<: *build
