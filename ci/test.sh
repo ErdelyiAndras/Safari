@@ -24,7 +24,6 @@ UNITY_EXIT_CODE=$?
 
 if [ $UNITY_EXIT_CODE -eq 0 ]; then
   echo "Run succeeded, no failures occurred";
-  exit 1;
 elif [ $UNITY_EXIT_CODE -eq 2 ]; then
   echo "Run succeeded, some tests failed";
   if [ $TESTING_TYPE == 'JUNIT' ]; then
