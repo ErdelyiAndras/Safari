@@ -53,4 +53,5 @@ else
 fi
 
 cat $UNITY_DIR/$TEST_PLATFORM-results.xml | grep test-run | grep Passed
+echo "Test.sh : $UNITY_EXIT_CODE"
 exit $UNITY_EXIT_CODE
