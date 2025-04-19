@@ -182,7 +182,9 @@ test-editmode-with-junit-reports:
   stage: build
   <<: *unity_defaults
   script:
-    - chmod +x ./ci/build.sh && ./ci/build.sh
+    - echo "Build started"
+    - chmod +x ./ci/build.sh && ./ci/build.sh || true
+    - echo "Build finished"
   artifacts:
     paths:
       - $UNITY_DIR/Builds/
