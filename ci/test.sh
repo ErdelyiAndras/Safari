@@ -44,7 +44,7 @@ fi
 
 if grep $CODE_COVERAGE_PACKAGE $PACKAGE_MANIFEST_PATH; then
   cat $UNITY_DIR/$TEST_PLATFORM-coverage/Report/Summary.xml | grep Linecoverage
-  cat $UNITY_DIR/$TEST_PLATFORM-coverage/Report/Summary.xml
+  # cat $UNITY_DIR/$TEST_PLATFORM-coverage/Report/Summary.xml
   mv $UNITY_DIR/$TEST_PLATFORM-coverage/$CI_PROJECT_NAME-opencov/*Mode/TestCoverageResults_*.xml $UNITY_DIR/$TEST_PLATFORM-coverage/
   rm -r $UNITY_DIR/$TEST_PLATFORM-coverage/$CI_PROJECT_NAME-opencov/
 else
@@ -54,5 +54,5 @@ else
 fi
 
 cat $UNITY_DIR/$TEST_PLATFORM-results.xml | grep test-run | grep Passed
-echo "Test.sh : $UNITY_EXIT_CODE"
+# echo "Test.sh : $UNITY_EXIT_CODE"
 exit $UNITY_EXIT_CODE
