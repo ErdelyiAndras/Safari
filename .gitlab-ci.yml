@@ -1,6 +1,7 @@
 stages:
   - prepare
-  - build_and_test
+  - test
+  - build
   - deploy
 
 # If you are looking for a place where to add 'UNITY_LICENSE_FILE' and other secrets, please visit your project's gitlab page:
@@ -61,7 +62,7 @@ get-unity-version:
     - *unity_after_script
 
 .test: &test
-  stage: build_and_test
+  stage: test
   <<: *unity_defaults
   script:
     # - echo "test from .gitlab-ci.yml"
@@ -79,17 +80,17 @@ get-unity-version:
     - if: '$CI_COMMIT_BRANCH == "ci"'
 
 # Tests without junit reporting results in GitLab
-test-playmode:
-  <<: *test
-  variables:
-    TEST_PLATFORM: playmode
-    TESTING_TYPE: NUNIT
+# test-playmode:
+#   <<: *test
+#   variables:
+#     TEST_PLATFORM: playmode
+#     TESTING_TYPE: NUNIT
 
-test-editmode:
-  <<: *test
-  variables:
-    TEST_PLATFORM: editmode
-    TESTING_TYPE: NUNIT
+# test-editmode:
+#   <<: *test
+#   variables:
+#     TEST_PLATFORM: editmode
+#     TESTING_TYPE: NUNIT
 
 # uncomment the following blocks if you'd like to have junit reporting unity test results in gitlab
 # We currently have the following issue which prevents it from working right now, but you can give
@@ -137,7 +138,7 @@ test-editmode:
 # https://gitlab.com/gableroux/unity3d-gitlab-ci-example/-/issues/151
 
 .test-with-junit-reports: &test-with-junit-reports
-  stage: build_and_test
+  stage: test
   <<: *unity_defaults
   script:
     # This could be made faster by adding these packages to base image or running in a separate job (and step)
@@ -178,7 +179,7 @@ test-editmode-with-junit-reports:
     TESTING_TYPE: JUNIT
 
 .build: &build
-  stage: build_and_test
+  stage: build
   <<: *unity_defaults
   script:
     - chmod +x ./ci/build.sh && ./ci/build.sh
