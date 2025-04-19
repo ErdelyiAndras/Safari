@@ -46,7 +46,7 @@ get-unity-version:
     key: "$CI_PROJECT_NAMESPACE-$CI_PROJECT_NAME-$CI_COMMIT_REF_SLUG-$TEST_PLATFORM"
     paths:
       - $UNITY_DIR/Library/
-      - $UNITY_DIR/../unity-builder
+      - $UNITY_DIR/unity-builder
 
 .license: &license
   rules:
@@ -64,6 +64,7 @@ get-unity-version:
   stage: build_and_test
   <<: *unity_defaults
   script:
+    - echo "test from .gitlab-ci.yml"
     - chmod +x ./ci/test.sh && ./ci/test.sh || true
   artifacts:
     when: always
