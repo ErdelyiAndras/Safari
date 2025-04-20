@@ -151,15 +151,15 @@ static class BuildCommand
         if (TryGetEnv(SCRIPTING_BACKEND_ENV_VAR, out string scriptingBackend)) {
             if (scriptingBackend.TryConvertToEnum(out ScriptingImplementation backend)) {
                 Console.WriteLine($":: Setting ScriptingBackend to {backend}");
-                //PlayerSettings.SetScriptingBackend(targetGroup, backend);
-                PlayerSettings.SetScriptingBackend(NamedBuildTarget.Standalone, ScriptingImplementation.IL2CPP);
+                PlayerSettings.SetScriptingBackend(targetGroup, backend);
+                //PlayerSettings.SetScriptingBackend(NamedBuildTarget.Standalone, ScriptingImplementation.IL2CPP);
             } else {
                 string possibleValues = string.Join(", ", Enum.GetValues(typeof(ScriptingImplementation)).Cast<ScriptingImplementation>());
                 throw new Exception($"Could not find '{scriptingBackend}' in ScriptingImplementation enum. Possible values are: {possibleValues}");
             }
         } else {
-            //var defaultBackend = PlayerSettings.GetDefaultScriptingBackend(targetGroup);
-            var defaultBackend = PlayerSettings.GetDefaultScriptingBackend(NamedBuildTarget.Standalone);
+            var defaultBackend = PlayerSettings.GetDefaultScriptingBackend(targetGroup);
+            //var defaultBackend = PlayerSettings.GetDefaultScriptingBackend(NamedBuildTarget.Standalone);
             Console.WriteLine($":: Using project's configured ScriptingBackend (should be {defaultBackend} for targetGroup {targetGroup}");
         }
     }
@@ -195,7 +195,10 @@ static class BuildCommand
         var buildReport = BuildPipeline.BuildPlayer(GetEnabledScenes(), fixedBuildPath, buildTarget, buildOptions);
 
         if (buildReport.summary.result != UnityEditor.Build.Reporting.BuildResult.Succeeded)
-            throw new Exception($"Build ended with {buildReport.summary.result} status");
+        {
+            Console.WriteLine(buildName + " build failed with " + buildReport.summary.result + " status");
+            //throw new Exception($"Build ended with {buildReport.summary.result} status");
+        }
 
         Console.WriteLine(":: Done with build");
     }

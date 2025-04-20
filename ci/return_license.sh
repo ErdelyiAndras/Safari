@@ -23,7 +23,7 @@ elif [[ -n "${UNITY_SERIAL:-}" ]]; then
   done
 
   echo "Returning serial license for user: $UNITY_EMAIL"
-  project_path="../unity-builder/dist/BlankProject"
+  project_path="$UNITY_DIR/unity-builder/dist/BlankProject"
   if [[ ! -d "$project_path" ]]; then
     echo "Error: Project path not found. Ensure before_script.sh was executed successfully" >&2
     exit 1
