@@ -40,7 +40,9 @@ get-unity-version:
 
 .unity_after_script: &unity_after_script
   after_script:
+    - ls -la -R $UNITY_DIR
     - chmod +x ./ci/return_license.sh && ./ci/return_license.sh
+    - ls -la -R $UNITY_DIR
 
 .cache: &cache
   cache:
@@ -144,8 +146,6 @@ get-unity-version:
     # This could be made faster by adding these packages to base image or running in a separate job (and step)
     # We could use an image with these two depencencies only and only do the saxonb-xslt command on
     # previous job's artifacts
-    - pwd
-    - ls -la $UNITY_DIR
     - apt-get update && apt-get install -y default-jre libsaxonb-java
     - chmod +x ./ci/test.sh && ./ci/test.sh
     - saxonb-xslt -s $UNITY_DIR/$TEST_PLATFORM-results.xml -xsl $CI_PROJECT_DIR/ci/nunit-transforms/nunit3-junit.xslt >$UNITY_DIR/$TEST_PLATFORM-junit-results.xml
