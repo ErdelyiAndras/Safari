@@ -1,6 +1,5 @@
 #if UNITY_EDITOR
 using UnityEditor;
-using UnityEditor.Build.Reporting;
 #endif
 using System.Linq;
 using System;
@@ -299,5 +298,5 @@ static class BuildCommand
         PlayerSettings.Android.keystorePass = keystorePass;
         PlayerSettings.Android.keyaliasPass = keystoreAliasPass;
     }
-}
 #endif
+}
