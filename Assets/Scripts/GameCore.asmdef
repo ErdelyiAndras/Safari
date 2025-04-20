@@ -1,7 +1,7 @@
 {
 	"name": "GameCore",
 	"references": [ "UnityEditor" ],
-	"includePlatforms": [ "Editor" ],
+	"includePlatforms": [],
 	"excludePlatforms": [],
 	"allowUnsafeCode": false,
 	"overrideReferences": false,
