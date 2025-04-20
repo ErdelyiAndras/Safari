@@ -2,6 +2,7 @@ using UnityEditor;
 using System.Linq;
 using System;
 using System.IO;
+using UnityEditor.Build;
 
 static class BuildCommand
 {
@@ -150,13 +151,15 @@ static class BuildCommand
         if (TryGetEnv(SCRIPTING_BACKEND_ENV_VAR, out string scriptingBackend)) {
             if (scriptingBackend.TryConvertToEnum(out ScriptingImplementation backend)) {
                 Console.WriteLine($":: Setting ScriptingBackend to {backend}");
-                PlayerSettings.SetScriptingBackend(targetGroup, backend);
+                //PlayerSettings.SetScriptingBackend(targetGroup, backend);
+                PlayerSettings.SetScriptingBackend(NamedBuildTarget.Standalone, ScriptingImplementation.IL2CPP);
             } else {
                 string possibleValues = string.Join(", ", Enum.GetValues(typeof(ScriptingImplementation)).Cast<ScriptingImplementation>());
                 throw new Exception($"Could not find '{scriptingBackend}' in ScriptingImplementation enum. Possible values are: {possibleValues}");
             }
         } else {
-            var defaultBackend = PlayerSettings.GetDefaultScriptingBackend(targetGroup);
+            //var defaultBackend = PlayerSettings.GetDefaultScriptingBackend(targetGroup);
+            var defaultBackend = PlayerSettings.GetDefaultScriptingBackend(NamedBuildTarget.Standalone);
             Console.WriteLine($":: Using project's configured ScriptingBackend (should be {defaultBackend} for targetGroup {targetGroup}");
         }
     }
