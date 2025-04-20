@@ -1,6 +1,7 @@
 #if UNITY_EDITOR
-
 using UnityEditor;
+using UnityEditor.Build.Reporting;
+#endif
 using System.Linq;
 using System;
 using System.IO;
@@ -33,14 +34,19 @@ static class BuildCommand
 
     static string[] GetEnabledScenes()
     {
+#if UNITY_EDITOR
         return (
             from scene in EditorBuildSettings.scenes
             where scene.enabled
             where !string.IsNullOrEmpty(scene.path)
             select scene.path
         ).ToArray();
+#else
+        throw new NotImplementedException("GetEnabledScenes is only available in the Unity Editor.");
+#endif
     }
 
+#if UNITY_EDITOR
     static BuildTarget GetBuildTarget()
     {
         string buildTargetName = GetArgument("customBuildTarget");
@@ -127,7 +133,7 @@ static class BuildCommand
 
         return BuildOptions.None;
     }
-
+#endif
     // https://stackoverflow.com/questions/1082532/how-to-tryparse-for-enum-value
     static bool TryConvertToEnum<TEnum>(this string strEnumValue, out TEnum value)
     {
@@ -147,6 +153,7 @@ static class BuildCommand
         return !string.IsNullOrEmpty(value);
     }
 
+#if UNITY_EDITOR
     static void SetScriptingBackendFromEnv(BuildTarget platform) {
         var targetGroup = BuildPipeline.GetBuildTargetGroup(platform);
         if (TryGetEnv(SCRIPTING_BACKEND_ENV_VAR, out string scriptingBackend)) {
@@ -197,8 +204,8 @@ static class BuildCommand
 
         if (buildReport.summary.result != UnityEditor.Build.Reporting.BuildResult.Succeeded)
         {
-            Console.WriteLine(buildName + " build failed with " + buildReport.summary.result + " status");
-            //throw new Exception($"Build ended with {buildReport.summary.result} status");
+            //Console.WriteLine(buildName + " build failed with " + buildReport.summary.result + " status");
+            throw new Exception($"Build ended with {buildReport.summary.result} status");
         }
 
         Console.WriteLine(":: Done with build");
@@ -293,5 +300,4 @@ static class BuildCommand
         PlayerSettings.Android.keyaliasPass = keystoreAliasPass;
     }
 }
-
 #endif
