@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-public class EconomyManager : MonoBehaviour, ISaveable<EconomyManagerData>
+public class EconomyManager : MonoWinCondition, ISaveable<EconomyManagerData>, ITimeHandler
 {
     // TODO: balance start money
     public int easyGameStartMoney = Constants.EasyGameStartMoney;
@@ -115,5 +115,23 @@ public class EconomyManager : MonoBehaviour, ISaveable<EconomyManagerData>
     {
         money = data.Money;
         admissionFee = data.AdmissionFee;
+    }
+
+    public void ManageTick()
+    {
+        DailyMaintenance(); // nehézségtől függően változik????
+        SetConditionPassedDays();
+    }
+
+    protected override void SetConditionPassedDays()
+    {
+        if (Money > Constants.MoneyWinCondition[DifficultySelector.SelectedDifficulty])
+        {
+            GetConditionPassedDays++;
+        }
+        else
+        {
+            GetConditionPassedDays = 0;
+        }
     }
 }

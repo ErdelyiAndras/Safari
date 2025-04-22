@@ -5,6 +5,31 @@ public static class Constants
     // DifficultySelector
     public static Difficulty DefaultDifficulty { get; private set; } = Difficulty.Normal;
 
+    public static Dictionary<Difficulty, int> WinConditionLength { get; private set; } = new Dictionary<Difficulty, int>
+    {
+        { Difficulty.Easy, 90 },
+        { Difficulty.Normal, 2 },
+        { Difficulty.Hard, 360 }
+    };
+    public static Dictionary<Difficulty, uint> AnimalWinCondition { get; private set; } = new Dictionary<Difficulty, uint>
+    {
+        { Difficulty.Easy, 20 },
+        { Difficulty.Normal, 0 },
+        { Difficulty.Hard, 40 }
+    };
+    public static Dictionary<Difficulty, int> MoneyWinCondition { get; private set; } = new Dictionary<Difficulty, int>
+    {
+        { Difficulty.Easy, 1000 },
+        { Difficulty.Normal, 0 },
+        { Difficulty.Hard, 5000 }
+    };
+    public static Dictionary<Difficulty, int> VisitorWinCondition { get; private set; } = new Dictionary<Difficulty, int>
+    {
+        { Difficulty.Easy, 50 },
+        { Difficulty.Normal, 0 },
+        { Difficulty.Hard, 200 }
+    };
+
     // mapgenerator?
 
     // TimeManager

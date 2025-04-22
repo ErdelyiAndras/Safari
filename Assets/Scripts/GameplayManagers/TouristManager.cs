@@ -2,11 +2,18 @@
 using UnityEngine;
 using System;
 
-public class TouristManager : MonoBehaviour, ITimeHandler, ISaveable<TouristManagerData>
+public class TouristManager : MonoWinCondition, ITimeHandler, ISaveable<TouristManagerData>
 {
+    private struct MonthlyTourists
+    {
+        public int days;
+        public int tourists;
+    }
     public float Satisfaction { get; private set; } = Constants.DefaultSatisfaction;
     private int touristCount = 0;
+    private MonthlyTourists monthlyTourists = new MonthlyTourists() { days = 0, tourists = 0};
     public int TouristsInQueue { get; private set; } = 0;
+    private int lastDayNewTourists = 0;
     public PlacementManager placementManager;
     private List<Jeep> jeeps = new List<Jeep>();
     private GameObject jeepPrefab;
@@ -28,7 +35,7 @@ public class TouristManager : MonoBehaviour, ITimeHandler, ISaveable<TouristMana
             jeep.CheckState();
         }
     }
-    
+
     public int JeepCount => jeeps.Count;
 
     private void TouristsLeave(Jeep jeep)
@@ -70,10 +77,11 @@ public class TouristManager : MonoBehaviour, ITimeHandler, ISaveable<TouristMana
 
     public void ManageTick()
     {
-        int newTourists = (int)(Satisfaction / 10.0f) + 1; // logic to calculate how many tourists arrive
-        touristCount += newTourists;
-        TouristsInQueue += newTourists;
+        lastDayNewTourists = (int)(Satisfaction / 10.0f) + 1; // logic to calculate how many tourists arrive
+        touristCount += lastDayNewTourists;
+        TouristsInQueue += lastDayNewTourists;
         TouristsInQueueChanged?.Invoke(TouristsInQueue);
+        SetConditionPassedDays();
     }
 
     public TouristManagerData SaveData()
@@ -100,6 +108,30 @@ public class TouristManager : MonoBehaviour, ITimeHandler, ISaveable<TouristMana
         for (int i = 0; i < jeeps.Count; i++)
         {
             jeeps[i].DeleteGameObject();
+        }
+    }
+    protected override void SetConditionPassedDays()
+    {
+        if (
+            monthlyTourists.days >= 30
+            &&
+            monthlyTourists.tourists >= Constants.VisitorWinCondition[DifficultySelector.SelectedDifficulty]
+           )
+        {
+            GetConditionPassedDays += 30;
+            monthlyTourists.days = 0;
+            monthlyTourists.tourists = 0;
+        }
+        else if (monthlyTourists.days >= 30)
+        {
+            GetConditionPassedDays = 0;
+            monthlyTourists.days = 0;
+            monthlyTourists.tourists = 0;
+        }
+        else
+        {
+            monthlyTourists.days++;
+            monthlyTourists.days += lastDayNewTourists;
         }
     }
 }

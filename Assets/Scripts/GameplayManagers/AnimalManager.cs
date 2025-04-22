@@ -3,7 +3,7 @@ using UnityEngine;
 using System;
 using System.Linq;
 
-public class AnimalManager : MonoBehaviour, ITimeHandler, ISaveable<AnimalManagerData>
+public class AnimalManager : MonoWinCondition, ITimeHandler, ISaveable<AnimalManagerData>
 {
     public PlacementManager placementManager;
     private GameObject carnivore1Prefab, carnivore2Prefab, herbivore1Prefab, herbivore2Prefab;
@@ -56,6 +56,7 @@ public class AnimalManager : MonoBehaviour, ITimeHandler, ISaveable<AnimalManage
         {
             herd.AgeAnimals();
         }
+        SetConditionPassedDays();
     }
 
     public void BuyCarnivore1()
@@ -228,4 +229,19 @@ public class AnimalManager : MonoBehaviour, ITimeHandler, ISaveable<AnimalManage
 
     public void SellAnimal(GameObject animal) => ((Animal)placementManager.PlacedObjects.GetGameObjectWrapper(animal)).AnimalDies();
 
+    protected override void SetConditionPassedDays()
+    {
+        if (
+            Carnivore1Count + Carnivore2Count >= Constants.AnimalWinCondition[DifficultySelector.SelectedDifficulty]
+            && 
+            Herbivore1Count + Herbivore2Count >= Constants.AnimalWinCondition[DifficultySelector.SelectedDifficulty]
+           )
+        {
+            GetConditionPassedDays++;
+        }
+        else
+        {
+            GetConditionPassedDays = 0;
+        }
+    }
 }
