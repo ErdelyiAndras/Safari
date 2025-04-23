@@ -41,7 +41,12 @@ public class PlacementManagerData
         }
     }
 
-    public PlacementManagerData(Grid placementGrid, Dictionary<Vector3Int, StructureModel> structureDictionary)
+    public bool HasFullPath
+    {
+        get { return hasFullPath; }
+    }
+
+    public PlacementManagerData(Grid placementGrid, Dictionary<Vector3Int, StructureModel> structureDictionary, bool hasFullPath)
     {
         this.placementGrid = placementGrid.SaveData();
         structureDictionaryNatureKeys = new List<Vector3Int>();
@@ -67,5 +72,6 @@ public class PlacementManagerData
                 }
             }
         }
+        this.hasFullPath = hasFullPath;
     }
 }

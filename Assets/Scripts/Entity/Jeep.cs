@@ -55,7 +55,7 @@ public class Jeep : Entity
                     jeepPath = null;
                     currentPathIndex = 0;
                 }
-                else if (placementManager.hasFullPath && jeepPath == null)
+                else if (placementManager.HasFullPathProperty && jeepPath == null)
                 {
                     jeepPath = placementManager.PickRandomRoadPath(Vector3Int.RoundToInt(spawnPosition), Vector3Int.RoundToInt(endPosition));
                     Move();
@@ -79,7 +79,7 @@ public class Jeep : Entity
                     jeepPath = null;
                     currentPathIndex = 0;
                 }
-                else if (placementManager.hasFullPath && jeepPath == null)
+                else if (placementManager.HasFullPathProperty && jeepPath == null)
                 {
                     jeepPath = placementManager.PickShortestPath(Vector3Int.RoundToInt(endPosition), Vector3Int.RoundToInt(spawnPosition));
                     Move();
