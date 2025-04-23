@@ -15,12 +15,11 @@ public class Jeep : Entity
     private Vector3 endPosition;
     public TouristGroup tourists;
 
-    private List<Vector3Int> jeepPath;
+    private List<Vector3Int> jeepPath = null;
     private int currentPathIndex = 0;
 
     public State MyState { get; private set; }
     public static Action<Jeep> JeepArrived, JeepWaiting, AcquireAdmissionFee;
-    bool hasFullPath = false;
     public int AdmissionFee { get; set; }
     public Jeep(PlacementManager _placementManager, GameObject prefab, TouristManager parent) : base(_placementManager)
     {
@@ -52,19 +51,17 @@ public class Jeep : Entity
                 if (Position == endPosition)
                 {
                     JeepArrived?.Invoke(this);
-                    MyState = State.Leaving;                    
-                    hasFullPath = false;
+                    MyState = State.Leaving;
+                    jeepPath = null;
                     currentPathIndex = 0;
                 }
-                else if (!hasFullPath)
+                else if (placementManager.HasFullPathProperty && jeepPath == null)
                 {
-                    hasFullPath = placementManager.HasFullPath(Vector3Int.RoundToInt(spawnPosition), Vector3Int.RoundToInt(endPosition));
-                    if (hasFullPath)
-                    {
-                        jeepPath = placementManager.PickRandomRoadPath(Vector3Int.RoundToInt(spawnPosition), Vector3Int.RoundToInt(endPosition));
-                    }
+                    jeepPath = placementManager.PickRandomRoadPath(Vector3Int.RoundToInt(spawnPosition), Vector3Int.RoundToInt(endPosition));
+                    Move();
+                    discoverEnvironment.SearchInViewDistance(Position);
                 }
-                else
+                else if (jeepPath != null)
                 {
                     Move();
                     discoverEnvironment.SearchInViewDistance(Position);
@@ -79,19 +76,15 @@ public class Jeep : Entity
                 if (Position == spawnPosition)
                 {
                     MyState = State.Waiting;
-                    hasFullPath = false;
+                    jeepPath = null;
                     currentPathIndex = 0;
                 }
-                else if (!hasFullPath)
+                else if (placementManager.HasFullPathProperty && jeepPath == null)
                 {
-                    hasFullPath = placementManager.HasFullPath(Vector3Int.RoundToInt(spawnPosition), Vector3Int.RoundToInt(endPosition));
-                    if (hasFullPath)
-                    {
-                        jeepPath = placementManager.PickShortestPath(Vector3Int.RoundToInt(endPosition), Vector3Int.RoundToInt(spawnPosition));
-
-                    }
+                    jeepPath = placementManager.PickShortestPath(Vector3Int.RoundToInt(endPosition), Vector3Int.RoundToInt(spawnPosition));
+                    Move();
                 }
-                else
+                else if (jeepPath != null)
                 {
                     Move();
                 }
@@ -139,7 +132,7 @@ public class Jeep : Entity
     {
         return new JeepData(
             Id, spawnPosition, Position, ObjectInstance.transform.rotation, baseMoveSpeed, baseRotationSpeed,
-            (JeepSearchInRange)discoverEnvironment, MyState, endPosition, tourists, jeepPath, currentPathIndex, hasFullPath, AdmissionFee
+            (JeepSearchInRange)discoverEnvironment, MyState, endPosition, tourists, jeepPath, currentPathIndex, AdmissionFee
         );
     }
 
@@ -152,7 +145,6 @@ public class Jeep : Entity
         tourists = ((JeepData)data).TouristGroup;
         jeepPath = ((JeepData)data).JeepPath;
         currentPathIndex = ((JeepData)data).CurrentPathIndex;
-        hasFullPath = ((JeepData)data).HasFullPath;
         tourists.readyToGo += () => MyState = State.Moving;
     }
 }
