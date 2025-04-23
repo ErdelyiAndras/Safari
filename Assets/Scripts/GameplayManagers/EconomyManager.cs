@@ -7,7 +7,7 @@ public class EconomyManager : MonoWinCondition, ISaveable<EconomyManagerData>, I
     private readonly int normalGameStartMoney = Constants.NormalGameStartMoney;
     private readonly int hardGameStartMoney = Constants.HardGameStartMoney;
 
-    public int money;
+    public int money; // TODO: private balance után
     private int admissionFee = Constants.DefaultAdmissionFee;
 
     public Action<int> moneyChanged;

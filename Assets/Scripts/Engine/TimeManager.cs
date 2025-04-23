@@ -3,17 +3,16 @@ using UnityEngine;
 
 public class TimeManager : MonoBehaviour, ISaveable<TimeData>
 {
-    // TODO: csak a unity miatt public
-    public TimeInterval timeInterval;
+    private TimeInterval timeInterval;
 
     public Action Elapsed;
     public Action TimeIntervalChanged;
 
-    public float baseSpeed = Constants.BaseTimeSpeed;
+    private float baseSpeed = Constants.BaseTimeSpeed;
 
-    public float hourSpeedMultiplier = Constants.HourSpeedMultiplier;
-    public float daySpeedMultiplier = Constants.DaySpeedMultiplier;
-    public float weekSpeedMultiplier = Constants.WeekSpeedMultiplier;
+    private float hourSpeedMultiplier = Constants.HourSpeedMultiplier;
+    private float daySpeedMultiplier = Constants.DaySpeedMultiplier;
+    private float weekSpeedMultiplier = Constants.WeekSpeedMultiplier;
 
     public float EntitySpeedMultiplier
     {
