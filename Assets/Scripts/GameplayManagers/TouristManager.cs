@@ -2,7 +2,7 @@
 using UnityEngine;
 using System;
 
-public class TouristManager : MonoBehaviour, ITimeHandler, ISaveable<TouristManagerData>
+public class TouristManager : MonoWinCondition, ITimeHandler, ISaveable<TouristManagerData>
 {
     public struct MonthlyTourists
     {
@@ -20,6 +20,7 @@ public class TouristManager : MonoBehaviour, ITimeHandler, ISaveable<TouristMana
     public Action<float> SatisfactionChanged;
     public Action<int> TouristsInQueueChanged;
     public Action<int> JeepCountChanged;
+    public Action<int> TouristsBoughtTickets;
     public Action<Jeep> AcquireAdmissionFee;
     private void Start()
     {
@@ -79,10 +80,11 @@ public class TouristManager : MonoBehaviour, ITimeHandler, ISaveable<TouristMana
 
     public void ManageTick()
     {
-        int newTourists = (int)(Satisfaction / 10.0f) + 1; // logic to calculate how many tourists arrive
-        touristCount += newTourists;
-        TouristsInQueue += newTourists;
+        lastDayNewTourists = (int)(Satisfaction / 10.0f) + 1; // logic to calculate how many tourists arrive
+        touristCount += lastDayNewTourists;
+        TouristsInQueue += lastDayNewTourists;
         TouristsInQueueChanged?.Invoke(TouristsInQueue);
+        SetConditionPassedDays();
     }
 
     public TouristManagerData SaveData()
@@ -112,6 +114,30 @@ public class TouristManager : MonoBehaviour, ITimeHandler, ISaveable<TouristMana
         for (int i = 0; i < jeeps.Count; i++)
         {
             jeeps[i].DeleteGameObject();
+        }
+    }
+    protected override void SetConditionPassedDays()
+    {
+        if (
+            monthlyTourists.days >= Constants.MonthLength
+            &&
+            monthlyTourists.tourists >= Constants.VisitorWinCondition[DifficultySelector.SelectedDifficulty]
+           )
+        {
+            GetConditionPassedDays += Constants.MonthLength;
+            monthlyTourists.days = 0;
+            monthlyTourists.tourists = 0;
+        }
+        else if (monthlyTourists.days >= Constants.MonthLength)
+        {
+            GetConditionPassedDays = 0;
+            monthlyTourists.days = 0;
+            monthlyTourists.tourists = 0;
+        }
+        else
+        {
+            monthlyTourists.days++;
+            monthlyTourists.tourists += lastDayNewTourists;
         }
     }
 }

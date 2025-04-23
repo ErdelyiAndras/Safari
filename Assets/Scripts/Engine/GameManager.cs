@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class GameManager : MonoBehaviour
+public class GameManager : MonoBehaviour, ITimeHandler
 {
     private GameObject Plant1, Plant2, Plant3;
     private GameObject Hill;
@@ -386,10 +386,11 @@ public class GameManager : MonoBehaviour
 
     private void TimeManagerEventSubscription()
     {
-        timeManager.Elapsed += () => economyManager.DailyMaintenance();
+        timeManager.Elapsed += () => economyManager.ManageTick();
         timeManager.Elapsed += () => touristManager.ManageTick();
         timeManager.Elapsed += () => animalManager.ManageTick();
         timeManager.Elapsed += () => uiController.UpdateDatePanel(timeManager.CurrentTime);
+        timeManager.Elapsed += () => this.ManageTick();
 
         timeManager.TimeIntervalChanged += () => SetSpeedMultiplierOfEntities();
     }
@@ -433,5 +434,16 @@ public class GameManager : MonoBehaviour
                 uiController.ShowPauseMenu(true);
             }
         };
+    }
+
+    public void ManageTick()
+    {
+        economyManager.EarnMoney(touristManager.GetLastDayNewTourists * economyManager.AdmissionFee);
+
+        if (animalManager.IsWinConditionPassed() && touristManager.IsWinConditionPassed() && economyManager.IsWinConditionPassed())
+        {
+            GameOverHandler(true);
+        }
+
     }
 }

@@ -62,7 +62,6 @@ public abstract class Animal : Entity
     }
     public override void CheckState()
     {   
-        //Debug.Log(MyState.ToString());
         switch(MyState)
         {
             case State.Resting:
@@ -124,9 +123,9 @@ public abstract class Animal : Entity
 
     public virtual void MatureAnimal()
     {
-        state.RemainingLifetime--; // TODO: ne mehessen minuszba
-        state.Hunger--;
-        state.Thirst--;
+        Math.Clamp(--state.RemainingLifetime, 0, 100);
+        Math.Clamp(--state.Hunger, 0, 100);
+        Math.Clamp(--state.Thirst, 0, 100);
         if (IsAnimalDead())
         {
             AnimalDies();
@@ -139,7 +138,6 @@ public abstract class Animal : Entity
             }
             if (state.Thirst < state.MaxDrink * state.DrinkThreshold && MyState != State.SearchingForFood)
             {
-                //Debug.Log(state.Thirst + " " + state.MaxDrink * state.DrinkThreshold + "maxdirnk: " + state.MaxDrink + "treshold:" + state.DrinkThreshold);
                 MyState = State.SearchingForWater;
             }
             if (state.Hunger < state.MaxFood * state.FoodThreshold && state.Thirst < state.MaxDrink * state.DrinkThreshold)
@@ -150,9 +148,7 @@ public abstract class Animal : Entity
                 }
                 else
                 {
-                    //Debug.Log(state.Thirst + " " + state.MaxDrink * state.DrinkThreshold + "maxdirnk: " + state.MaxDrink + "treshold:" + state.DrinkThreshold);
                     MyState = State.SearchingForWater;
-
                 }
             }
         }

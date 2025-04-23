@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-public class EconomyManager : MonoBehaviour, ISaveable<EconomyManagerData>
+public class EconomyManager : MonoWinCondition, ISaveable<EconomyManagerData>, ITimeHandler
 {
     private readonly int easyGameStartMoney = Constants.EasyGameStartMoney;
     private readonly int normalGameStartMoney = Constants.NormalGameStartMoney;
@@ -12,7 +12,7 @@ public class EconomyManager : MonoBehaviour, ISaveable<EconomyManagerData>
 
     public Action<int> moneyChanged;
 
-    private int maintenanceFee = Constants.MaintenanceFee;
+    private int maintenanceFee = Constants.MaintenanceFee[DifficultySelector.SelectedDifficulty];
 
     public int Money
     {
@@ -67,7 +67,7 @@ public class EconomyManager : MonoBehaviour, ISaveable<EconomyManagerData>
                 money = hardGameStartMoney;
                 break;
         }
-        money = int.MaxValue; // TODO: delete this line after debugging
+        //money = int.MaxValue; // TODO: delete this line after debugging
     }
 
     public bool HasEnoughMoney(int amount) => money >= amount;
@@ -116,5 +116,23 @@ public class EconomyManager : MonoBehaviour, ISaveable<EconomyManagerData>
         admissionFee = data.AdmissionFee;
         GetConditionPassedDays = data.GetConditionPassedDays;
         maintenanceFee = Constants.MaintenanceFee[DifficultySelector.SelectedDifficulty];
+    }
+
+    public void ManageTick()
+    {
+        DailyMaintenance(); // nehézségtől függően változik????
+        SetConditionPassedDays();
+    }
+
+    protected override void SetConditionPassedDays()
+    {
+        if (Money > Constants.MoneyWinCondition[DifficultySelector.SelectedDifficulty])
+        {
+            GetConditionPassedDays++;
+        }
+        else
+        {
+            GetConditionPassedDays = 0;
+        }
     }
 }
