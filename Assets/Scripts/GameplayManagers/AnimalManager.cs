@@ -39,16 +39,7 @@ public class AnimalManager : MonoWinCondition, ITimeHandler, ISaveable<AnimalMan
         }
     }
 
-    private uint GetAnimalCount(AnimalType type)
-    {
-        /*if (animalCount.ContainsKey(type))
-        {
-            return animalCount[type];
-        }
-        return 0;*/
-        return (uint)herds.Where(h => h.AnimalTypesOfHerd == type).Sum(x => x.Count);
-
-    }
+    private uint GetAnimalCount(AnimalType type) => (uint)herds.Where(h => h.AnimalTypesOfHerd == type).Sum(x => x.Count);
 
     public void ManageTick()
     {
@@ -92,7 +83,6 @@ public class AnimalManager : MonoWinCondition, ITimeHandler, ISaveable<AnimalMan
 
     }
 
-    //TODO: ha van 1 elemű csorda akkor ne jöhesen létre random, hanem abba kerüljön az új állat
     private Herd ChooseHerd(AnimalType type)
     {
         IEnumerable<Herd> herdsOfType = herds.Where(h => h.AnimalTypesOfHerd == type);

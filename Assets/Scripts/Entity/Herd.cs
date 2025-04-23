@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public abstract class Herd : IPositionable, ISaveable<HerdData>
@@ -80,13 +81,12 @@ public abstract class Herd : IPositionable, ISaveable<HerdData>
             animals[i].MatureAnimal();
         }
         reproductionCoolDown--;
-        if (reproductionCoolDown <= 0 && Count >=2) // TODO és felnőttek is legyenek az egyedek
+        if (reproductionCoolDown <= 0 && Count >=2 && (animals.Select(a => a.state.RemainingLifetime < 50)).Count() > 2) // TODO és felnőttek is legyenek az egyedek
         {
             Reproduce?.Invoke(this);
             reproductionCoolDown = 8;
         }
     }
-
     private Vector3 GetRandomPosition()
     {
         int randomX = 0, randomZ = 0;
