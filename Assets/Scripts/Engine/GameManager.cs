@@ -216,19 +216,12 @@ public class GameManager : MonoBehaviour, ITimeHandler
     }
 
     private void SetSpeedMultiplierOfEntities() => Entity.SpeedMultiplier = timeManager.EntitySpeedMultiplier;
+
     private void GameOverHandler(bool isGameWon)
     {
-        if (isGameWon)
-        {
-            //TODO
-        }
-        else
-        {
-            //TODO
-            Debug.Log("Lose");
-        }
         inputManager.IsArrowInputActive = false;
         inputManager.IsGameOver = true;
+        timeManager.TogglePause();
         uiController.ShowPauseMenu(false);
         uiController.ShowPopupWindow(isGameWon);
     }
