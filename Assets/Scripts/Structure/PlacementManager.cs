@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NUnit;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,6 +13,8 @@ public class PlacementManager : MonoBehaviour, ISaveable<PlacementManagerData>
     private Dictionary<Vector3Int, StructureModel> temporaryRoadobjects = new Dictionary<Vector3Int, StructureModel>();
     private Dictionary<Vector3Int, StructureModel> structureDictionary = new Dictionary<Vector3Int, StructureModel>();
     public PlacedObjects PlacedObjects { get; private set; } = new PlacedObjects();
+
+    public bool hasFullPath { get; set; }
 
     private void Awake()
     {
@@ -79,6 +82,10 @@ public class PlacementManager : MonoBehaviour, ISaveable<PlacementManagerData>
                     {
                         RoadRemoved?.Invoke(roadNeighbour);
                     }
+                    hasFullPath = HasFullPath(
+                        new Vector3Int(0, 0, 0),
+                        new Vector3Int(width - 1, 0, height - 1)
+                    );
                 }
                 else
                 {
@@ -102,6 +109,10 @@ public class PlacementManager : MonoBehaviour, ISaveable<PlacementManagerData>
         StructureModel structure = CreateANewStructureModel(position, structurePrefab, type);
         DestroyNatureAt(position);
         structureDictionary.Add(position, structure);
+        hasFullPath = HasFullPath(
+            new Vector3Int(0, 0, 0),
+            new Vector3Int(width - 1, 0, height - 1)
+        );
     }
 
     private StructureModel CreateANewStructureModel(Vector3Int position, GameObject structurePrefab, CellType type)
@@ -315,6 +326,10 @@ public class PlacementManager : MonoBehaviour, ISaveable<PlacementManagerData>
                     {
                         RoadRemoved?.Invoke(roadNeighbour);
                     }
+                    hasFullPath = HasFullPath(
+                        new Vector3Int(0, 0, 0),
+                        new Vector3Int(width - 1, 0, height - 1)
+                    );
                 }
                 else
                 {

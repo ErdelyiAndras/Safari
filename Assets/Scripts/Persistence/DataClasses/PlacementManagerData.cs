@@ -17,6 +17,8 @@ public class PlacementManagerData
     private List<Vector3Int> structureDictionaryNatureKeys;
     [SerializeField]
     private List<NatureType> structureDictionaryNatureValues;
+    [SerializeField]
+    private bool hasFullPath;
 
     public Grid PlacementGrid
     {

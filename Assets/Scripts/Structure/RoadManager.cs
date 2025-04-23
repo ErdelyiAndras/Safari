@@ -102,6 +102,11 @@ public class RoadManager : BuildManagerBase
             }
             temporaryPlacementPositions.Clear();
             startPosition = Vector3Int.zero;
+
+            placementManager.hasFullPath = placementManager.HasFullPath(
+                new Vector3Int(0, 0, 0),
+                new Vector3Int(placementManager.width - 1, 0, placementManager.height - 1)
+            );
         }
         else
         {
