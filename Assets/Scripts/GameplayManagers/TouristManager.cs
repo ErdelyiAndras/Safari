@@ -131,7 +131,7 @@ public class TouristManager : MonoWinCondition, ITimeHandler, ISaveable<TouristM
         else
         {
             monthlyTourists.days++;
-            monthlyTourists.days += lastDayNewTourists;
+            monthlyTourists.tourists += lastDayNewTourists;
         }
     }
 }
