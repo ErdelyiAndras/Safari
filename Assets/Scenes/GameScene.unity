@@ -5923,11 +5923,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a71ef70bb44ea741855fdd84322534c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeInterval: 0
-  baseSpeed: 30
-  hourSpeedMultiplier: 1
-  daySpeedMultiplier: 2
-  weekSpeedMultiplier: 3
 --- !u!4 &1210205438
 Transform:
   m_ObjectHideFlags: 0
@@ -7067,7 +7062,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -1
   m_TargetDisplay: 0
 --- !u!224 &1411243194
 RectTransform:
@@ -10881,9 +10876,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 668e5084501a8fc43809f70f63d02b92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  easyGameStartMoney: 700
-  normalGameStartMoney: 500
-  hardGameStartMoney: 300
   money: 0
 --- !u!1 &2015593586
 GameObject:
