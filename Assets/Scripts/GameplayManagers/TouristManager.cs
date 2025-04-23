@@ -113,16 +113,16 @@ public class TouristManager : MonoWinCondition, ITimeHandler, ISaveable<TouristM
     protected override void SetConditionPassedDays()
     {
         if (
-            monthlyTourists.days >= 30
+            monthlyTourists.days >= Constants.MonthLength
             &&
             monthlyTourists.tourists >= Constants.VisitorWinCondition[DifficultySelector.SelectedDifficulty]
            )
         {
-            GetConditionPassedDays += 30;
+            GetConditionPassedDays += Constants.MonthLength;
             monthlyTourists.days = 0;
             monthlyTourists.tourists = 0;
         }
-        else if (monthlyTourists.days >= 30)
+        else if (monthlyTourists.days >= Constants.MonthLength)
         {
             GetConditionPassedDays = 0;
             monthlyTourists.days = 0;

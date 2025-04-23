@@ -5,11 +5,12 @@ public static class Constants
     // DifficultySelector
     public static Difficulty DefaultDifficulty { get; private set; } = Difficulty.Normal;
 
+    public static int MonthLength { get; private set; } = 30;
     public static Dictionary<Difficulty, int> WinConditionLength { get; private set; } = new Dictionary<Difficulty, int>
     {
-        { Difficulty.Easy, 90 },
-        { Difficulty.Normal, 180 },
-        { Difficulty.Hard, 360 }
+        { Difficulty.Easy, 3 * MonthLength },
+        { Difficulty.Normal, 6 * MonthLength },
+        { Difficulty.Hard, 12 * MonthLength }
     };
     public static Dictionary<Difficulty, uint> AnimalWinCondition { get; private set; } = new Dictionary<Difficulty, uint>
     {
