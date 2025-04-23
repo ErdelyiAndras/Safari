@@ -13,7 +13,7 @@ public class EconomyManager : MonoWinCondition, ISaveable<EconomyManagerData>, I
 
     public Action<int> moneyChanged;
 
-    private int maintenanceFee = Constants.MaintenanceFee;
+    private int maintenanceFee = Constants.MaintenanceFee[DifficultySelector.SelectedDifficulty];
 
     public int Money
     {
@@ -68,7 +68,7 @@ public class EconomyManager : MonoWinCondition, ISaveable<EconomyManagerData>, I
                 money = hardGameStartMoney;
                 break;
         }
-        money = int.MaxValue; // TODO: delete this line after debugging
+        //money = int.MaxValue; // TODO: delete this line after debugging
     }
 
     public bool HasEnoughMoney(int amount) => money >= amount;

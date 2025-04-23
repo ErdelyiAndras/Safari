@@ -20,6 +20,7 @@ public class TouristManager : MonoWinCondition, ITimeHandler, ISaveable<TouristM
     public Action<float> SatisfactionChanged;
     public Action<int> TouristsInQueueChanged;
     public Action<int> JeepCountChanged;
+    public Action<int> TouristsBoughtTickets;
     public Action<Jeep> AcquireAdmissionFee;
     private void Start()
     {
@@ -35,6 +36,8 @@ public class TouristManager : MonoWinCondition, ITimeHandler, ISaveable<TouristM
             jeep.CheckState();
         }
     }
+
+    public int GetLastDayNewTourists => lastDayNewTourists;
 
     public int JeepCount => jeeps.Count;
 

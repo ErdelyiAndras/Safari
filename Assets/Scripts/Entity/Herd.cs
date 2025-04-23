@@ -27,7 +27,7 @@ public abstract class Herd : IPositionable, ISaveable<HerdData>
         this.placementManager = placementManager;
         animalTypesOfHerd = type;
         ObjectInstance.transform.SetParent(parent.transform);
-        //reproductionCoolDown = 8;
+        reproductionCoolDown = Constants.ReproductionCooldown[animalTypesOfHerd];
     }
 
     public Herd(HerdData data, PlacementManager placementManager, AnimalManager parent)
@@ -81,10 +81,10 @@ public abstract class Herd : IPositionable, ISaveable<HerdData>
             animals[i].MatureAnimal();
         }
         reproductionCoolDown--;
-        if (reproductionCoolDown <= 0 && Count >=2 && (animals.Select(a => a.state.RemainingLifetime < 50)).Count() > 2) // TODO és felnőttek is legyenek az egyedek
+        if (reproductionCoolDown <= 0 && (animals.Select(a => a.state.RemainingLifetime < Constants.MaxLifeTime[animalTypesOfHerd] * Constants.AdultLifetimeThreshold[animalTypesOfHerd])).Count() >= 2)
         {
             Reproduce?.Invoke(this);
-            reproductionCoolDown = 8;
+            reproductionCoolDown = Constants.ReproductionCooldown[animalTypesOfHerd];
         }
     }
     private Vector3 GetRandomPosition()

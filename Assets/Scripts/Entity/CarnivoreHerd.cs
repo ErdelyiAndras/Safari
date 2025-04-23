@@ -3,7 +3,6 @@
     public CarnivoreHerd(PlacementManager placementManager, AnimalManager parent, AnimalType type) : base(placementManager, parent, type) 
     {
         DistributionRadius = Constants.CarnivoreHerdDistributionRadius;
-        reproductionCoolDown = Constants.CarnivoreHerdReproductionCooldown;
         ObjectInstance.name = "CarnivoreHerd";
     }
 

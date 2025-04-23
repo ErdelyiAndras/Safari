@@ -111,6 +111,15 @@ public static class Constants
         { AnimalType.Herbivore1, 100.0f },
         { AnimalType.Herbivore2, 100.0f }
     };
+
+    public static Dictionary<AnimalType, float> AdultLifetimeThreshold { get; private set; } = new Dictionary<AnimalType, float>
+    {
+        { AnimalType.Carnivore1, 0.5f },
+        { AnimalType.Carnivore2, 0.5f },
+        { AnimalType.Herbivore1, 0.5f },
+        { AnimalType.Herbivore2, 0.5f }
+    };
+
     public static Dictionary<AnimalType, float> MaxHealth { get; private set; } = new Dictionary<AnimalType, float>
     {
         { AnimalType.Carnivore1, 100.0f },
@@ -154,11 +163,18 @@ public static class Constants
         { AnimalType.Herbivore2, 5.0f }
     };
 
+    public static Dictionary<AnimalType, int> ReproductionCooldown { get; private set; } = new Dictionary<AnimalType, int>
+    {
+        { AnimalType.Carnivore1, 8 },
+        { AnimalType.Carnivore2, 8 },
+        { AnimalType.Herbivore1, 8 },
+        { AnimalType.Herbivore2, 8 }
+    };
+
+
     // Herd
     public static int CarnivoreHerdDistributionRadius { get; private set; } = 5;
     public static int HerbivoreHerdDistributionRadius { get; private set; } = 2;
-    public static int CarnivoreHerdReproductionCooldown { get; private set; } = 8;
-    public static int HerbivoreHerdReproductionCooldown { get; private set; } = 8;
 
     // Jeep
     public static float JeepBaseMoveSpeed { get; private set; } = 1.0f;
@@ -169,7 +185,12 @@ public static class Constants
     public static int NormalGameStartMoney { get; private set; } = 500;
     public static int HardGameStartMoney { get; private set; } = 300;
     public static int DefaultAdmissionFee { get; private set; } = 40;
-    public static int MaintenanceFee { get; private set; } = 20;
+    public static Dictionary<Difficulty, int> MaintenanceFee { get; private set; } = new Dictionary<Difficulty, int>
+    {
+        { Difficulty.Easy , 20 },
+        { Difficulty.Normal, 40 },
+        { Difficulty.Hard, 100 }
+    };
     public static int UnitCostOfNature { get; private set; } = 20;
     public static int UnitCostOfHerbivore { get; private set; } = 50;
     public static int UnitCostOfCarnivore { get; private set; } = 100;

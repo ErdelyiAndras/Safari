@@ -438,14 +438,12 @@ public class GameManager : MonoBehaviour, ITimeHandler
 
     public void ManageTick()
     {
-        Debug.Log("Tick");
-        Debug.Log(animalManager.IsWinConditionPassed());
-        Debug.Log(touristManager.IsWinConditionPassed());
-        Debug.Log(economyManager.IsWinConditionPassed());
+        economyManager.EarnMoney(touristManager.GetLastDayNewTourists * economyManager.AdmissionFee);
 
         if (animalManager.IsWinConditionPassed() && touristManager.IsWinConditionPassed() && economyManager.IsWinConditionPassed())
         {
             GameOverHandler(true);
         }
+
     }
 }
