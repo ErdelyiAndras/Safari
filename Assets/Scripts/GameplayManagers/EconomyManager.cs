@@ -3,10 +3,9 @@ using UnityEngine;
 
 public class EconomyManager : MonoBehaviour, ISaveable<EconomyManagerData>
 {
-    // TODO: balance start money
-    public int easyGameStartMoney = Constants.EasyGameStartMoney;
-    public int normalGameStartMoney = Constants.NormalGameStartMoney;
-    public int hardGameStartMoney = Constants.HardGameStartMoney;
+    private readonly int easyGameStartMoney = Constants.EasyGameStartMoney;
+    private readonly int normalGameStartMoney = Constants.NormalGameStartMoney;
+    private readonly int hardGameStartMoney = Constants.HardGameStartMoney;
 
     public int money;
     private int admissionFee = Constants.DefaultAdmissionFee;
@@ -108,12 +107,14 @@ public class EconomyManager : MonoBehaviour, ISaveable<EconomyManagerData>
 
     public EconomyManagerData SaveData()
     {
-        return new EconomyManagerData(money, admissionFee);
+        return new EconomyManagerData(money, admissionFee, GetConditionPassedDays);
     }
 
     public void LoadData(EconomyManagerData data, PlacementManager placementManager = null)
     {
         money = data.Money;
         admissionFee = data.AdmissionFee;
+        GetConditionPassedDays = data.GetConditionPassedDays;
+        maintenanceFee = Constants.MaintenanceFee[DifficultySelector.SelectedDifficulty];
     }
 }

@@ -47,7 +47,7 @@ public class EconomyManagerTests
     [UnityTest]
     public IEnumerator EconomyManagerLoadConstructorTest()
     {
-        EconomyManagerData data = new EconomyManagerData(10, 20);
+        EconomyManagerData data = new EconomyManagerData(10, 20, 0);
         economyManager.LoadData(data);
         Assert.AreEqual(data.Money, economyManager.Money);
         Assert.AreEqual(data.AdmissionFee, economyManager.AdmissionFee);
@@ -68,7 +68,7 @@ public class EconomyManagerTests
     [UnityTest]
     public IEnumerator EconomyManagerHasEnoughMoneyTest()
     {
-        EconomyManagerData data = new EconomyManagerData(10, 20);
+        EconomyManagerData data = new EconomyManagerData(10, 20, 0);
         economyManager.LoadData(data);
         Assert.IsTrue(economyManager.HasEnoughMoney(5));
         Assert.IsFalse(economyManager.HasEnoughMoney(15));
@@ -80,8 +80,8 @@ public class EconomyManagerTests
     {
         bool isBankrupt = false;
         economyManager.GoneBankrupt += () => isBankrupt = true;
-        economyManager.SpendMoney(int.MaxValue);
-        economyManager.SpendMoney(1); // Only needed while money is set to max for debugging
+        economyManager.SpendMoney(economyManager.Money + 1);
+        //economyManager.SpendMoney(1); // Only needed while money is set to max for debugging
         Assert.IsTrue(isBankrupt);
         yield return null;
     }

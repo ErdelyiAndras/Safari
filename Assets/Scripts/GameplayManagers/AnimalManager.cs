@@ -191,7 +191,7 @@ public class AnimalManager : MonoBehaviour, ITimeHandler, ISaveable<AnimalManage
 
     public AnimalManagerData SaveData()
     {
-        return new AnimalManagerData(herds);
+        return new AnimalManagerData(herds, GetConditionPassedDays);
     }
 
     public void LoadData(AnimalManagerData data, PlacementManager placementManager)
@@ -216,6 +216,7 @@ public class AnimalManager : MonoBehaviour, ITimeHandler, ISaveable<AnimalManage
                 throw new Exception("Unknown animal type in herds");
             }
         }
+        GetConditionPassedDays = data.GetConditionPassedDays;
     }
 
     private void ResetData()

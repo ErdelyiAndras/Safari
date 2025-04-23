@@ -4,9 +4,16 @@ using System;
 
 public class TouristManager : MonoBehaviour, ITimeHandler, ISaveable<TouristManagerData>
 {
+    public struct MonthlyTourists
+    {
+        public int days;
+        public int tourists;
+    }
     public float Satisfaction { get; private set; } = Constants.DefaultSatisfaction;
     private int touristCount = 0;
+    private MonthlyTourists monthlyTourists = new MonthlyTourists() { days = 0, tourists = 0 };
     public int TouristsInQueue { get; private set; } = 0;
+    private int lastDayNewTourists = 0;
     public PlacementManager placementManager;
     private List<Jeep> jeeps = new List<Jeep>();
     private GameObject jeepPrefab;
@@ -28,7 +35,9 @@ public class TouristManager : MonoBehaviour, ITimeHandler, ISaveable<TouristMana
             jeep.CheckState();
         }
     }
-    
+
+    public int GetLastDayNewTourists => lastDayNewTourists;
+
     public int JeepCount => jeeps.Count;
 
     private void TouristsLeave(Jeep jeep)
@@ -78,7 +87,7 @@ public class TouristManager : MonoBehaviour, ITimeHandler, ISaveable<TouristMana
 
     public TouristManagerData SaveData()
     {
-        return new TouristManagerData(Satisfaction, touristCount, TouristsInQueue, jeeps);
+        return new TouristManagerData(Satisfaction, touristCount, TouristsInQueue, jeeps, lastDayNewTourists, monthlyTourists, GetConditionPassedDays);
     }
 
     public void LoadData(TouristManagerData data, PlacementManager placementManager)
@@ -93,6 +102,9 @@ public class TouristManager : MonoBehaviour, ITimeHandler, ISaveable<TouristMana
         {
             placementManager.RegisterObject(jeep.Id, ObjectType.Jeep, jeep);
         }
+        lastDayNewTourists = data.LastDayNewTourists;
+        monthlyTourists = data.MonthlyTourists;
+        GetConditionPassedDays = data.GetConditionPassedDays;
     }
 
     private void ResetData()
