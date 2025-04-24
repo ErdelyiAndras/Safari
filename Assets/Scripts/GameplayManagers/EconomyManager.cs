@@ -40,7 +40,6 @@ public class EconomyManager : MonoWinCondition, ISaveable<EconomyManagerData>, I
 
     public Action GoneBankrupt;
     
-    // TODO: balance costs
     public int UnitCostOfNature => Constants.UnitCostOfNature; 
     public int UnitCostOfHerbivore => Constants.UnitCostOfHerbivore;
     public int UnitCostOfCarnivore => Constants.UnitCostOfCarnivore;
@@ -79,7 +78,7 @@ public class EconomyManager : MonoWinCondition, ISaveable<EconomyManagerData>, I
         CheckIfGameOver();
     }
 
-    public void DailyMaintenance()
+    private void DailyMaintenance()
     {
         SpendMoney(maintenanceFee);
     }
@@ -120,7 +119,7 @@ public class EconomyManager : MonoWinCondition, ISaveable<EconomyManagerData>, I
 
     public void ManageTick()
     {
-        DailyMaintenance(); // nehézségtől függően változik????
+        DailyMaintenance();
         SetConditionPassedDays();
     }
 
