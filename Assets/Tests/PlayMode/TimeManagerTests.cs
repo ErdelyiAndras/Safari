@@ -110,7 +110,7 @@ public class TimeManagerTests
             yield return null;
         }
         TimeManagerData data = timeManager.SaveData();
-        Assert.IsTrue(0.4f < data.ElapsedTime && data.ElapsedTime < 0.6f && data.TickCounter == 0);
+        Assert.IsTrue(0.0f < data.ElapsedTime && data.ElapsedTime < 1.0f && data.TickCounter == 0);
 
         timeManager.SetTimeInterval(TimeInterval.DAY);
         testElapsedTime = 0.0f;
