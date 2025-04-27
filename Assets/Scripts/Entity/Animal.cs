@@ -51,7 +51,7 @@ public abstract class Animal : Entity
     }
 
     protected bool IsAnimalDead() => Health <= 0;
-    private float SlowingTerrain { get => (placementManager.GetTypeOfPosition(Vector3Int.RoundToInt(Position)) == CellType.Water ? 0.3f : 1.0f); }
+    private float SlowingTerrain { get => (placementManager.GetTypeOfPosition(Vector3Int.RoundToInt(Position)) == CellType.Water || placementManager.GetTypeOfPosition(Vector3Int.RoundToInt(Position)) == CellType.Hill ? 0.3f : 1.0f); }
     
     public Herd GetMyHerd 
     {
