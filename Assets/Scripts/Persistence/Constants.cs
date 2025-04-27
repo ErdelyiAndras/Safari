@@ -171,6 +171,26 @@ public static class Constants
         { AnimalType.Herbivore2, 8 }
     };
 
+    public static Dictionary<Difficulty, uint> StartHerbivoreSpawnDifficultyMultiplier { get; set; } = new Dictionary<Difficulty, uint>
+    {
+        {Difficulty.Easy, 3 },
+        {Difficulty.Normal, 2 },
+        {Difficulty.Hard, 1 }
+    };
+    public static Dictionary<Difficulty, uint> StartCarnivoreSpawnDifficultyMultiplier { get; set; } = new Dictionary<Difficulty, uint>
+    {
+        {Difficulty.Easy, 1 },
+        {Difficulty.Normal, 2 },
+        {Difficulty.Hard, 3 }
+    };
+    public static Dictionary<AnimalType, uint> StartAnimalSpwanCount { get; private set; } = new Dictionary<AnimalType, uint>
+    {
+        { AnimalType.Carnivore1, 2 * StartCarnivoreSpawnDifficultyMultiplier[DifficultySelector.SelectedDifficulty]},
+        { AnimalType.Carnivore2, 2 * StartCarnivoreSpawnDifficultyMultiplier[DifficultySelector.SelectedDifficulty]},
+        { AnimalType.Herbivore1, 3 * StartHerbivoreSpawnDifficultyMultiplier[DifficultySelector.SelectedDifficulty]},
+        { AnimalType.Herbivore2, 3 * StartHerbivoreSpawnDifficultyMultiplier[DifficultySelector.SelectedDifficulty]}
+    };
+
 
     // Herd
     public static int CarnivoreHerdDistributionRadius { get; private set; } = 5;

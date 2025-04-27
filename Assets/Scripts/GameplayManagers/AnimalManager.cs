@@ -9,11 +9,14 @@ public class AnimalManager : MonoWinCondition, ITimeHandler, ISaveable<AnimalMan
     private GameObject carnivore1Prefab, carnivore2Prefab, herbivore1Prefab, herbivore2Prefab;
     private List<Herd> herds = new List<Herd>();
     public Action<uint> Carnivore1Changed, Carnivore2Changed, Herbivore1Changed, Herbivore2Changed;
+    public Action GameOver;
 
     public uint Carnivore1Count => GetAnimalCount(AnimalType.Carnivore1);
     public uint Carnivore2Count => GetAnimalCount(AnimalType.Carnivore2);
     public uint Herbivore1Count => GetAnimalCount(AnimalType.Herbivore1);
     public uint Herbivore2Count => GetAnimalCount(AnimalType.Herbivore2);
+
+    public uint AllAnimalCount => Carnivore1Count + Carnivore2Count + Herbivore1Count + Herbivore2Count;
 
     private void Start()
     {
@@ -21,6 +24,7 @@ public class AnimalManager : MonoWinCondition, ITimeHandler, ISaveable<AnimalMan
         carnivore2Prefab = placementManager.prefabManager.Carnivore2Prefab;
         herbivore1Prefab = placementManager.prefabManager.Herbivore1Prefab;
         herbivore2Prefab = placementManager.prefabManager.Herbivore2Prefab;
+        GameStartAnimalsSpawn();
     }
 
     private void Update()
@@ -36,6 +40,10 @@ public class AnimalManager : MonoWinCondition, ITimeHandler, ISaveable<AnimalMan
             }
             herds[i].CalculateCentroid();
             herds[i].CheckState();
+        }
+        if (AllAnimalCount <= 0)
+        {
+            GameOver?.Invoke();
         }
     }
 
@@ -232,6 +240,26 @@ public class AnimalManager : MonoWinCondition, ITimeHandler, ISaveable<AnimalMan
         else
         {
             GetConditionPassedDays = 0;
+        }
+    }
+
+    private void GameStartAnimalsSpawn()
+    {
+        for (int i = 0; i < Constants.StartAnimalSpwanCount[AnimalType.Herbivore1]; ++i)
+        {
+            BuyHerbivore1();
+        }
+        for (int i = 0; i < Constants.StartAnimalSpwanCount[AnimalType.Herbivore2]; ++i)
+        {
+            BuyHerbivore2();
+        }
+        for (int i = 0; i < Constants.StartAnimalSpwanCount[AnimalType.Carnivore1]; ++i)
+        {
+            BuyCarnivore1();
+        }
+        for (int i = 0; i < Constants.StartAnimalSpwanCount[AnimalType.Carnivore2]; ++i)
+        {
+            BuyCarnivore2();
         }
     }
 }

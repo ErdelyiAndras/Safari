@@ -409,6 +409,7 @@ public class GameManager : MonoBehaviour, ITimeHandler
         animalManager.Carnivore2Changed += count => uiController.UpdateCarnivore2Panel(count);
         animalManager.Herbivore1Changed += count => uiController.UpdateHerbivore1Panel(count);
         animalManager.Herbivore2Changed += count => uiController.UpdateHerbivore2Panel(count);
+        animalManager.GameOver += () => GameOverHandler(false);
     }
 
     private void InputManagerEventSubscription()
