@@ -528,7 +528,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Carnivore 1
+  m_Text: T-Rex
 --- !u!222 &81787226
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2328,7 +2328,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Herbivore 2
+  m_Text: Stegosaurus
 --- !u!222 &464981578
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4170,7 +4170,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Herbivore 1
+  m_Text: Triceratops
 --- !u!222 &850852292
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4838,7 +4838,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Carnivore2:'
+  m_Text: 'Velociraptor:'
 --- !u!222 &1006300242
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5783,7 +5783,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Herbivore2:'
+  m_Text: 'Stegosaurus:'
 --- !u!222 &1194899673
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -6747,7 +6747,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Carnivore1:'
+  m_Text: 'T-Rex:'
 --- !u!222 &1370894372
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -7351,7 +7351,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Carnivore 2
+  m_Text: Velociraptor
 --- !u!222 &1422773638
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -11298,7 +11298,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Herbivore1:'
+  m_Text: 'Triceratops:'
 --- !u!222 &2098418512
 CanvasRenderer:
   m_ObjectHideFlags: 0
