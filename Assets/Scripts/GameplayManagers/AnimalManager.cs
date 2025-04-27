@@ -110,7 +110,7 @@ public class AnimalManager : MonoWinCondition, ITimeHandler, ISaveable<AnimalMan
 
     private Herd CreateNewHerd(AnimalType type)
     {
-        Herd newHerd;
+        Herd newHerd = null;
         if ( type == AnimalType.Herbivore1 || type == AnimalType.Herbivore2)
         {
             newHerd = new HerbivoreHerd(placementManager, this, type);

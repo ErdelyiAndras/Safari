@@ -29,7 +29,7 @@ public abstract class Herd : IPositionable, ISaveable<HerdData>
     public int Count {  get { return animals.Count; } }
     public Vector3 Position { get { return animals.Count == 0 ? GetRandomPosition() : new Vector3(Centroid.x, 0, Centroid.y); } }
     public int DistributionRadius { get; protected set;}
-    public GameObject ObjectInstance { get; set; }
+    public GameObject ObjectInstance { get; set; } = null;
     public List<Animal> Animals{ get { return animals; }}
     public Action<Herd> Reproduce;
     protected int reproductionCoolDown;
@@ -123,9 +123,8 @@ public abstract class Herd : IPositionable, ISaveable<HerdData>
         if (ObjectInstance != null)
         {
             UnityEngine.Object.Destroy(ObjectInstance);
-            ObjectInstance = new GameObject();
+            ObjectInstance = null;
         }
-
     }
 }
 
