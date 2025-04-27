@@ -38,7 +38,6 @@ public class AnimalManager : MonoWinCondition, ITimeHandler, ISaveable<AnimalMan
                 herds.RemoveAt(i);
                 continue;
             }
-            herds[i].CalculateCentroid();
             herds[i].CheckState();
         }
         if (AllAnimalCount <= 0)
@@ -246,19 +245,19 @@ public class AnimalManager : MonoWinCondition, ITimeHandler, ISaveable<AnimalMan
 
     private void GameStartAnimalsSpawn()
     {
-        for (int i = 0; i < Constants.StartAnimalSpwanCount[AnimalType.Herbivore1]; ++i)
+        for (uint i = 0; i < Constants.StartAnimalSpwanCount[AnimalType.Herbivore1]; ++i)
         {
             BuyHerbivore1();
         }
-        for (int i = 0; i < Constants.StartAnimalSpwanCount[AnimalType.Herbivore2]; ++i)
+        for (uint i = 0; i < Constants.StartAnimalSpwanCount[AnimalType.Herbivore2]; ++i)
         {
             BuyHerbivore2();
         }
-        for (int i = 0; i < Constants.StartAnimalSpwanCount[AnimalType.Carnivore1]; ++i)
+        for (uint i = 0; i < Constants.StartAnimalSpwanCount[AnimalType.Carnivore1]; ++i)
         {
             BuyCarnivore1();
         }
-        for (int i = 0; i < Constants.StartAnimalSpwanCount[AnimalType.Carnivore2]; ++i)
+        for (uint i = 0; i < Constants.StartAnimalSpwanCount[AnimalType.Carnivore2]; ++i)
         {
             BuyCarnivore2();
         }

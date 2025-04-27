@@ -22,7 +22,7 @@ public class MapGenerator : MonoBehaviour
 
     private System.Random random = new System.Random();
 
-    private void Start()
+    private void Awake()
     {
         naturePrefabs = new List<GameObject> { placementManager.prefabManager.Plant1, placementManager.prefabManager.Plant2, placementManager.prefabManager.Plant3 };
         waterPrefab = placementManager.prefabManager.Water;

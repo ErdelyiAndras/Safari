@@ -233,6 +233,7 @@ public class GameManager : MonoBehaviour, ITimeHandler
 
     private void ExitToMainMenu()
     {
+        DifficultySelector.SelectedDifficulty = Difficulty.Normal;
         SceneManager.LoadScene("MainMenu");
     }
 

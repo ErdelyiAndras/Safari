@@ -14,7 +14,7 @@
 
     public override HerdData SaveData()
     {
-        return new HerbivoreHerdData(Id, AnimalTypesOfHerd, animals, centroid, DistributionRadius, reproductionCoolDown);
+        return new HerbivoreHerdData(Id, AnimalTypesOfHerd, animals, Centroid, DistributionRadius, reproductionCoolDown);
     }
 
     public override void LoadData(HerdData data, PlacementManager placementManager)

@@ -36,7 +36,7 @@ public abstract class Animal : Entity
     public Animal(GameObject prefab, PlacementManager _placementManager, Guid parentID, AnimalType _type) : base(_placementManager)
     {
         myHerd = parentID;
-        spawnPosition = GetMyHerd.Position;
+        spawnPosition = placementManager.GetTypeOfPosition(Vector3Int.RoundToInt(GetMyHerd.Position)) == CellType.Hill ? new Vector3(GetMyHerd.Position.x, 0.65f, GetMyHerd.Position.z) : GetMyHerd.Position;
         state = new AnimalInternalState(_type);
         targetPosition = spawnPosition;
         SpawnEntity(prefab, GetMyHerd.ObjectInstance.transform);
@@ -93,7 +93,7 @@ public abstract class Animal : Entity
     {
         if (elapsedTime < duration)
         {
-            elapsedTime += Time.deltaTime;
+            elapsedTime += Time.deltaTime * SpeedMultiplier;
         }
         else
         {
@@ -112,7 +112,7 @@ public abstract class Animal : Entity
     {
         if (elapsedTime < duration)
         {
-            elapsedTime += Time.deltaTime;
+            elapsedTime += Time.deltaTime * SpeedMultiplier;
         }
         else
         {

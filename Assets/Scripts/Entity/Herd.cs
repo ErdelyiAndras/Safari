@@ -9,12 +9,27 @@ public abstract class Herd : IPositionable, ISaveable<HerdData>
     private AnimalType animalTypesOfHerd; // if mixed herds are allowed this can be a set
     public AnimalType AnimalTypesOfHerd => animalTypesOfHerd;
     protected List<Animal> animals;
-    protected Vector2Int centroid;
+    protected Vector2Int Centroid 
+    {
+        get
+        {
+            Vector2Int sum = Vector2Int.zero;
+            foreach (Animal animal in animals)
+            {
+                sum += new Vector2Int((int)animal.Position.x, (int)animal.Position.z);
+            }
+            return sum / animals.Count;
+        }
+        set
+        {
+
+        }
+    }
     private PlacementManager placementManager;
     public int Count {  get { return animals.Count; } }
-    public Vector3 Position { get { return animals.Count == 0 ? GetRandomPosition() : new Vector3(centroid.x, 0, centroid.y); } }
+    public Vector3 Position { get { return animals.Count == 0 ? GetRandomPosition() : new Vector3(Centroid.x, 0, Centroid.y); } }
     public int DistributionRadius { get; protected set;}
-    public GameObject ObjectInstance { get; set; } = new GameObject();
+    public GameObject ObjectInstance { get; set; }
     public List<Animal> Animals{ get { return animals; }}
     public Action<Herd> Reproduce;
     protected int reproductionCoolDown;
@@ -22,6 +37,7 @@ public abstract class Herd : IPositionable, ISaveable<HerdData>
 
     public Herd(PlacementManager placementManager, AnimalManager parent, AnimalType type)
     {
+        ObjectInstance = new GameObject();
         Id = Guid.NewGuid();
         animals = new List<Animal>();
         this.placementManager = placementManager;
@@ -32,21 +48,8 @@ public abstract class Herd : IPositionable, ISaveable<HerdData>
 
     public Herd(HerdData data, PlacementManager placementManager, AnimalManager parent)
     {
+        ObjectInstance = new GameObject();
         ObjectInstance.transform.SetParent(parent.transform);
-    }
-
-    public void CalculateCentroid()
-    {
-        if (animals.Count == 0)
-        {
-            return;
-        }
-        Vector2Int sum = Vector2Int.zero;
-        foreach (Animal animal in animals)
-        {
-            sum += new Vector2Int((int)animal.Position.x, (int)animal.Position.z);
-        }
-        centroid = sum / animals.Count;
     }
 
     public void AddAnimalToHerd(Animal animal)
@@ -106,7 +109,7 @@ public abstract class Herd : IPositionable, ISaveable<HerdData>
         this.placementManager = placementManager;
         Id = data.Guid;
         animalTypesOfHerd = data.AnimalTypesOfHerd;
-        centroid = data.Centroid;
+        Centroid = data.Centroid;
         DistributionRadius = data.DistributionRadius;
         reproductionCoolDown = data.ReproductionCoolDown;
     }
