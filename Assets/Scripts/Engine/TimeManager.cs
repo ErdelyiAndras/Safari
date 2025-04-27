@@ -1,19 +1,18 @@
 using System;
 using UnityEngine;
 
-public class TimeManager : MonoBehaviour, ISaveable<TimeData>
+public class TimeManager : MonoBehaviour, ISaveable<TimeManagerData>
 {
-    // TODO: csak a unity miatt public
-    public TimeInterval timeInterval;
+    private TimeInterval timeInterval;
 
     public Action Elapsed;
     public Action TimeIntervalChanged;
 
-    public float baseSpeed = Constants.BaseTimeSpeed;
+    private readonly float baseSpeed = Constants.BaseTimeSpeed;
 
-    public float hourSpeedMultiplier = Constants.HourSpeedMultiplier;
-    public float daySpeedMultiplier = Constants.DaySpeedMultiplier;
-    public float weekSpeedMultiplier = Constants.WeekSpeedMultiplier;
+    private readonly float hourSpeedMultiplier = Constants.HourSpeedMultiplier;
+    private readonly float daySpeedMultiplier = Constants.DaySpeedMultiplier;
+    private readonly float weekSpeedMultiplier = Constants.WeekSpeedMultiplier;
 
     public float EntitySpeedMultiplier
     {
@@ -111,12 +110,12 @@ public class TimeManager : MonoBehaviour, ISaveable<TimeData>
         TimeIntervalChanged?.Invoke();
     }
 
-    public TimeData SaveData()
+    public TimeManagerData SaveData()
     {
-        return new TimeData(currentTime, elapsedTime, tickCounter);
+        return new TimeManagerData(currentTime, elapsedTime, tickCounter);
     }
 
-    public void LoadData(TimeData data, PlacementManager placementManager = null)
+    public void LoadData(TimeManagerData data, PlacementManager placementManager = null)
     {
         currentTime = data.CurrentTime;
         elapsedTime = data.ElapsedTime;

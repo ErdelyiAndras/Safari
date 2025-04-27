@@ -23,6 +23,27 @@ public class EconomyManagerTests
     }
 
     [UnityTest]
+    public IEnumerator EconomyManagerInitMoneyTest()
+    {
+        var testCases = new[]
+        {
+            new { Difficulty = Difficulty.Easy, ExpectedMoney = Constants.EasyGameStartMoney },
+            new { Difficulty = Difficulty.Normal, ExpectedMoney = Constants.NormalGameStartMoney },
+            new { Difficulty = Difficulty.Hard, ExpectedMoney = Constants.HardGameStartMoney }
+        };
+
+        foreach (var testCase in testCases)
+        {
+            DifficultySelector.SelectedDifficulty = testCase.Difficulty;
+            var gameObject = new GameObject();
+            economyManager = gameObject.AddComponent<EconomyManager>();
+            yield return null;
+            Assert.AreEqual(testCase.ExpectedMoney, economyManager.Money);
+            yield return null;
+        }
+    }
+
+    [UnityTest]
     public IEnumerator EconomyManagerEarnMoneyTest()
     {
         int start = economyManager.Money;
@@ -47,7 +68,7 @@ public class EconomyManagerTests
     [UnityTest]
     public IEnumerator EconomyManagerLoadConstructorTest()
     {
-        EconomyManagerData data = new EconomyManagerData(10, 20);
+        EconomyManagerData data = new EconomyManagerData(10, 20, 0);
         economyManager.LoadData(data);
         Assert.AreEqual(data.Money, economyManager.Money);
         Assert.AreEqual(data.AdmissionFee, economyManager.AdmissionFee);
@@ -58,7 +79,7 @@ public class EconomyManagerTests
     public IEnumerator EconomyManagerSaveDataTest()
     {
         economyManager.EarnMoney(100);
-        economyManager.DailyMaintenance();
+        economyManager.SpendMoney(10);
         EconomyManagerData data = economyManager.SaveData();
         Assert.AreEqual(economyManager.Money, data.Money);
         Assert.AreEqual(economyManager.AdmissionFee, data.AdmissionFee);
@@ -68,7 +89,7 @@ public class EconomyManagerTests
     [UnityTest]
     public IEnumerator EconomyManagerHasEnoughMoneyTest()
     {
-        EconomyManagerData data = new EconomyManagerData(10, 20);
+        EconomyManagerData data = new EconomyManagerData(10, 20, 0);
         economyManager.LoadData(data);
         Assert.IsTrue(economyManager.HasEnoughMoney(5));
         Assert.IsFalse(economyManager.HasEnoughMoney(15));
@@ -80,8 +101,7 @@ public class EconomyManagerTests
     {
         bool isBankrupt = false;
         economyManager.GoneBankrupt += () => isBankrupt = true;
-        economyManager.SpendMoney(int.MaxValue);
-        economyManager.SpendMoney(1); // Only needed while money is set to max for debugging
+        economyManager.SpendMoney(economyManager.Money + 1);
         Assert.IsTrue(isBankrupt);
         yield return null;
     }
@@ -89,7 +109,6 @@ public class EconomyManagerTests
     [UnityTest]
     public IEnumerator EconomyManagerAdmissionFeeValidSetTest()
     {
-        int start = economyManager.AdmissionFee;
         economyManager.AdmissionFee = 50; ;
         Assert.AreEqual(50, economyManager.AdmissionFee);
         yield return null;
@@ -101,6 +120,37 @@ public class EconomyManagerTests
         int start = economyManager.AdmissionFee;
         economyManager.AdmissionFee = -50; ;
         Assert.AreEqual(start, economyManager.AdmissionFee);
+        yield return null;
+    }
+
+    [UnityTest]
+    public IEnumerator EconomyManagerManageTickNotWinConditionTest()
+    {
+        int start = economyManager.Money;
+        economyManager.ManageTick();
+        Assert.AreEqual(start - Constants.MaintenanceFee[DifficultySelector.SelectedDifficulty], economyManager.Money);
+        yield return null;
+    }
+
+    [UnityTest]
+    public IEnumerator EconomyManagerManageTickWinConditionTest()
+    {
+        economyManager.EarnMoney(99999);
+        int start = economyManager.Money;
+        economyManager.ManageTick();
+        Assert.AreEqual(start - Constants.MaintenanceFee[DifficultySelector.SelectedDifficulty], economyManager.Money);
+        yield return null;
+    }
+
+    [UnityTest]
+    public IEnumerator EconomyManagerCostPropertiesTest()
+    {
+        Assert.AreEqual(Constants.UnitCostOfNature, economyManager.UnitCostOfNature);
+        Assert.AreEqual(Constants.UnitCostOfHerbivore, economyManager.UnitCostOfHerbivore);
+        Assert.AreEqual(Constants.UnitCostOfCarnivore, economyManager.UnitCostOfCarnivore);
+        Assert.AreEqual(Constants.UnitCostOfJeep, economyManager.UnitCostOfJeep);
+        Assert.AreEqual(Constants.UnitCostOfRoad, economyManager.UnitCostOfRoad);
+        Assert.AreEqual(Constants.UnitCostOfWater, economyManager.UnitCostOfWater);
         yield return null;
     }
 }

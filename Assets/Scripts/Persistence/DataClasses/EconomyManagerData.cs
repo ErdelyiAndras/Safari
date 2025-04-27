@@ -7,6 +7,8 @@ public class EconomyManagerData
     private int money;
     [SerializeField]
     private int admissionFee;
+    [SerializeField]
+    private int getConditionPassedDays;
 
     public int Money
     {
@@ -24,9 +26,18 @@ public class EconomyManagerData
         }
     }
 
-    public EconomyManagerData(int money, int admissionFee)
+    public int GetConditionPassedDays
+    {
+        get
+        {
+            return getConditionPassedDays;
+        }
+    }
+
+    public EconomyManagerData(int money, int admissionFee, int getConditionPassedDays)
     {
         this.money = money;
         this.admissionFee = admissionFee;
+        this.getConditionPassedDays = getConditionPassedDays;
     }
 }

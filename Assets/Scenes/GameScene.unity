@@ -528,7 +528,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Carnivore 1
+  m_Text: T-Rex
 --- !u!222 &81787226
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2328,7 +2328,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Herbivore 2
+  m_Text: Stegosaurus
 --- !u!222 &464981578
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4170,7 +4170,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Herbivore 1
+  m_Text: Triceratops
 --- !u!222 &850852292
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4838,7 +4838,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Carnivore2:'
+  m_Text: 'Velociraptor:'
 --- !u!222 &1006300242
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5783,7 +5783,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Herbivore2:'
+  m_Text: 'Stegosaurus:'
 --- !u!222 &1194899673
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5923,11 +5923,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a71ef70bb44ea741855fdd84322534c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeInterval: 0
-  baseSpeed: 30
-  hourSpeedMultiplier: 1
-  daySpeedMultiplier: 2
-  weekSpeedMultiplier: 3
 --- !u!4 &1210205438
 Transform:
   m_ObjectHideFlags: 0
@@ -6752,7 +6747,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Carnivore1:'
+  m_Text: 'T-Rex:'
 --- !u!222 &1370894372
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -7067,7 +7062,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -1
   m_TargetDisplay: 0
 --- !u!224 &1411243194
 RectTransform:
@@ -7356,7 +7351,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Carnivore 2
+  m_Text: Velociraptor
 --- !u!222 &1422773638
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -10881,9 +10876,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 668e5084501a8fc43809f70f63d02b92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  easyGameStartMoney: 700
-  normalGameStartMoney: 500
-  hardGameStartMoney: 300
   money: 0
 --- !u!1 &2015593586
 GameObject:
@@ -11306,7 +11298,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Herbivore1:'
+  m_Text: 'Triceratops:'
 --- !u!222 &2098418512
 CanvasRenderer:
   m_ObjectHideFlags: 0
