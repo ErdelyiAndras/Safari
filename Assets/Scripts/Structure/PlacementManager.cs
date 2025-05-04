@@ -345,7 +345,7 @@ public class PlacementManager : MonoBehaviour, ISaveable<PlacementManagerData>
         return new PlacementManagerData(placementGrid, structureDictionary, HasFullPathProperty);
     }
 
-    // StructureDictionary has to be loaded from GameManager using Road, Nature and Water managersS
+    // StructureDictionary has to be loaded from GameManager using Road, Nature and Water managers
     public void LoadData(PlacementManagerData data, PlacementManager placementManager = null)
     {
         ResetData();

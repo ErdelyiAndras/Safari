@@ -124,6 +124,44 @@ public class MapGenerator : MonoBehaviour
         usedPositions.Add(new Vector3Int(0, 0, 0), CellType.Road);
         placementManager.PlaceStructure(new Vector3Int(placementManager.width -1, 0, placementManager.height - 1), deadEnd, CellType.Road);
         usedPositions.Add(new Vector3Int(placementManager.width - 1, 0, placementManager.height - 1), CellType.Road);
+        foreach (Vector3Int pos in GenerateRandomPath(new Vector3Int(0, 0, 0), new Vector3Int(placementManager.width - 1, 0, placementManager.height - 1)))
+        {
+            if (!usedPositions.ContainsKey(pos))
+            {
+                usedPositions.Add(pos, CellType.Road);
+            }
+        }
+    }
+
+    private List<Vector3Int> GenerateRandomPath(Vector3Int start, Vector3Int end)
+    {
+        List<Vector3Int> path = new List<Vector3Int>();
+        Vector3Int current = start;
+        path.Add(current);
+        while (current != end)
+        {
+            if (current.x < end.x && current.z < end.z)
+            {
+                if (random.Next(0, 2) == 0)
+                {
+                    current.x += 1;
+                }
+                else
+                {
+                    current.z += 1;
+                }
+            }
+            else if (current.x < end.x)
+            {
+                current.x += 1;
+            }
+            else if (current.z < end.z)
+            {
+                current.z += 1;
+            }
+            path.Add(current);
+        }
+        return path;
     }
 
     private void GenerateHill()
