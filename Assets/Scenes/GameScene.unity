@@ -10122,7 +10122,7 @@ MonoBehaviour:
   maxHillSize: 70
   minRiverAmount: 5
   maxRiverAmount: 20
-  natureDensity: 40
+  natureDensity: 50
   placementManager: {fileID: 1434987243}
 --- !u!4 &1899437699
 Transform:
