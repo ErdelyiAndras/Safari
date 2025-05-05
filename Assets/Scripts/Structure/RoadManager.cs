@@ -105,7 +105,7 @@ public class RoadManager : BuildManagerBase
 
             placementManager.HasFullPathProperty = placementManager.HasFullPath(
                 new Vector3Int(0, 0, 0),
-                new Vector3Int(placementManager.width - 1, 0, placementManager.height - 1)
+                new Vector3Int(PlacementManager.width - 1, 0, PlacementManager.height - 1)
             );
         }
         else

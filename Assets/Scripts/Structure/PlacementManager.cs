@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PlacementManager : MonoBehaviour, ISaveable<PlacementManagerData>
 {
-    public int width, height; // TODO public till decision is made of the final mapsize
+    public static int width = Constants.MapWidth, height = Constants.MapHeight;
     public Grid placementGrid { get; private set; }
     public PrefabManager prefabManager;
     internal Action<Vector3Int> RoadRemoved;
@@ -13,6 +13,7 @@ public class PlacementManager : MonoBehaviour, ISaveable<PlacementManagerData>
     private Dictionary<Vector3Int, StructureModel> temporaryRoadobjects = new Dictionary<Vector3Int, StructureModel>();
     private Dictionary<Vector3Int, StructureModel> structureDictionary = new Dictionary<Vector3Int, StructureModel>();
     public PlacedObjects PlacedObjects { get; private set; } = new PlacedObjects();
+    public static readonly Vector3Int startPosition = new Vector3Int(0, 0, 0), endPosition = new Vector3Int(width - 1, 0, height -1);
 
     public bool HasFullPathProperty { get; set; }
 
@@ -109,10 +110,10 @@ public class PlacementManager : MonoBehaviour, ISaveable<PlacementManagerData>
         StructureModel structure = CreateANewStructureModel(position, structurePrefab, type);
         DestroyNatureAt(position);
         structureDictionary.Add(position, structure);
-        HasFullPathProperty = HasFullPath(
-            new Vector3Int(0, 0, 0),
-            new Vector3Int(width - 1, 0, height - 1)
-        );
+        if (type == CellType.Road)
+        {
+            HasFullPathProperty = HasFullPath(new Vector3Int(0, 0, 0), new Vector3Int(width - 1, 0, height - 1));
+        }
     }
 
     private StructureModel CreateANewStructureModel(Vector3Int position, GameObject structurePrefab, CellType type)
