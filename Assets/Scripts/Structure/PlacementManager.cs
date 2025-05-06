@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class PlacementManager : MonoBehaviour, ISaveable<PlacementManagerData>
 {
-    public static int Width { get; private set; } = Constants.MapWidth;
-    public static int Height { get; private set; } = Constants.MapHeight;
+    public int Width { get; private set; } = Constants.MapWidth;
+    public int Height { get; private set; } = Constants.MapHeight;
     public Grid placementGrid { get; private set; }
     public PrefabManager prefabManager;
     public Action<Vector3Int> RoadRemoved;
@@ -14,13 +14,16 @@ public class PlacementManager : MonoBehaviour, ISaveable<PlacementManagerData>
     private Dictionary<Vector3Int, StructureModel> temporaryRoadobjects = new Dictionary<Vector3Int, StructureModel>();
     private Dictionary<Vector3Int, StructureModel> structureDictionary = new Dictionary<Vector3Int, StructureModel>();
     public PlacedObjects PlacedObjects { get; private set; } = new PlacedObjects();
-    public static readonly Vector3Int startPosition = new Vector3Int(0, 0, 0), endPosition = new Vector3Int(Width - 1, 0, Height -1);
+    public Vector3Int startPosition;
+    public Vector3Int endPosition;
 
     public bool HasFullPathProperty { get; set; }
 
     private void Awake()
     {
         placementGrid = new Grid(Width, Height);
+        startPosition = new Vector3Int(0, 0, 0);
+        endPosition = new Vector3Int(Width - 1, 0, Height - 1);
     }
 
     public void RegisterObject(Guid id, ObjectType type, IPositionable entity)

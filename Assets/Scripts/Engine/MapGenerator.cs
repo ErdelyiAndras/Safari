@@ -56,7 +56,7 @@ public class MapGenerator : MonoBehaviour
 
     private void GenerateNature()
     {
-        for (int i = 0; i < PlacementManager.Width * PlacementManager.Height * natureDensity / 100; ++i)
+        for (int i = 0; i < placementManager.Width * placementManager.Height * natureDensity / 100; ++i)
         {
             Vector3Int position = GetRandomPosition();
             if (usedPositions.ContainsKey(position))
@@ -96,7 +96,7 @@ public class MapGenerator : MonoBehaviour
 
     private Vector3Int GetRandomPosition()
     {
-        return new Vector3Int(random.Next(0, PlacementManager.Width), 0, random.Next(0, PlacementManager.Height));
+        return new Vector3Int(random.Next(0, placementManager.Width), 0, random.Next(0, placementManager.Height));
     }
 
     private void PlaceStructures()
@@ -122,8 +122,8 @@ public class MapGenerator : MonoBehaviour
     {
         placementManager.PlaceStructure(new Vector3Int(0, 0, 0), deadEnd, CellType.Road);
         usedPositions.Add(new Vector3Int(0, 0, 0), CellType.Road);
-        placementManager.PlaceStructure(new Vector3Int(PlacementManager.Width -1, 0, PlacementManager.Height - 1), deadEnd, CellType.Road);
-        usedPositions.Add(new Vector3Int(PlacementManager.Width - 1, 0, PlacementManager.Height - 1), CellType.Road);
+        placementManager.PlaceStructure(new Vector3Int(placementManager.Width -1, 0, placementManager.Height - 1), deadEnd, CellType.Road);
+        usedPositions.Add(new Vector3Int(placementManager.Width - 1, 0, placementManager.Height - 1), CellType.Road);
     }
 
     private void GenerateHill()

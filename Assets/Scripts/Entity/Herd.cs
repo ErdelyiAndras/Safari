@@ -94,8 +94,8 @@ public abstract class Herd : IPositionable, ISaveable<HerdData>
     {
         int randomX = 0, randomZ = 0;
         do{
-            randomX = UnityEngine.Random.Range(0, PlacementManager.Width);
-            randomZ = UnityEngine.Random.Range(0, PlacementManager.Height);
+            randomX = UnityEngine.Random.Range(0, placementManager.Width);
+            randomZ = UnityEngine.Random.Range(0, placementManager.Height);
         }
         while (!placementManager.IsPositionWalkable(new Vector3Int(randomX, 0, randomZ)));
 
