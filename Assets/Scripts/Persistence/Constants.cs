@@ -228,4 +228,8 @@ public static class Constants
 
     // CameraMovement
     public static float CameraMovementSpeed { get; private set; } = 5.0f;
+
+    // PlacementManager
+    public static int MapWidth { get; private set; } = 50;
+    public static int MapHeight { get; private set; } = 50;
 }
