@@ -272,9 +272,9 @@ public class GameManager : MonoBehaviour, ITimeHandler
         timeManager.LoadData(PersistenceManager.TimeData);
         economyManager.LoadData(PersistenceManager.EconomyManagerData);
         placementManager.LoadData(PersistenceManager.PlacementManagerData);
-        for (int i = 0; i < PlacementManager.width; ++i)
+        for (int i = 0; i < PlacementManager.Width; ++i)
         {
-            for (int j = 0; j < PlacementManager.height; ++j)
+            for (int j = 0; j < PlacementManager.Height; ++j)
             {
                 switch (placementManager.placementGrid[i, j])
                 {

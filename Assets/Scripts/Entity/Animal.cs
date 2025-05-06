@@ -241,8 +241,8 @@ public abstract class Animal : Entity
             }
             else
             {
-                randomX = UnityEngine.Random.Range(0, PlacementManager.width);
-                randomZ = UnityEngine.Random.Range(0, PlacementManager.height);
+                randomX = UnityEngine.Random.Range(0, PlacementManager.Width);
+                randomZ = UnityEngine.Random.Range(0, PlacementManager.Height);
                 temporatyPosition = new Vector3(randomX, 0, randomZ);
             }
         } while (!placementManager.CheckIfPositionInBound(Vector3Int.RoundToInt(temporatyPosition)) || !placementManager.IsPositionWalkable(Vector3Int.RoundToInt(temporatyPosition)));
