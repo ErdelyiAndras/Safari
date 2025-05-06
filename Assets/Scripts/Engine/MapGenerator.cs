@@ -49,7 +49,7 @@ public class MapGenerator : MonoBehaviour
     {
         int usedPositionsCount = usedPositions.Count;
         float i = 0.0f;
-        while (i < (placementManager.width * placementManager.height - usedPositionsCount) * ((float)natureDensity / 100))
+        while (i < (placementManager.Width * placementManager.Height - usedPositionsCount) * ((float)natureDensity / 100))
         {
             Vector3Int position = GetRandomPosition();
             if (!usedPositions.ContainsKey(position))
@@ -83,7 +83,7 @@ public class MapGenerator : MonoBehaviour
 
     private Vector3Int GetRandomPosition()
     {
-        return new Vector3Int(random.Next(0, PlacementManager.width), 0, random.Next(0, PlacementManager.height));
+        return new Vector3Int(random.Next(0, placementManager.Width), 0, random.Next(0, placementManager.Height));
     }
 
     private void PlaceStructures()
@@ -109,9 +109,9 @@ public class MapGenerator : MonoBehaviour
     {
         placementManager.PlaceStructure(new Vector3Int(0, 0, 0), deadEnd, CellType.Road);
         usedPositions.Add(new Vector3Int(0, 0, 0), CellType.Road);
-        placementManager.PlaceStructure(new Vector3Int(PlacementManager.width - 1, 0, PlacementManager.height - 1), deadEnd, CellType.Road);
-        usedPositions.Add(new Vector3Int(PlacementManager.width - 1, 0, PlacementManager.height - 1), CellType.Road);
-        foreach (Vector3Int pos in GenerateRandomPath(new Vector3Int(0, 0, 0), new Vector3Int(PlacementManager.width - 1, 0, PlacementManager.height - 1)))
+        placementManager.PlaceStructure(new Vector3Int(placementManager.Width - 1, 0, placementManager.Height - 1), deadEnd, CellType.Road);
+        usedPositions.Add(new Vector3Int(placementManager.Width - 1, 0, placementManager.Height - 1), CellType.Road);
+        foreach (Vector3Int pos in GenerateRandomPath(new Vector3Int(0, 0, 0), new Vector3Int(placementManager.Width - 1, 0, placementManager.Height - 1)))
         {
             if (!usedPositions.ContainsKey(pos))
             {

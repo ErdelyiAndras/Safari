@@ -21,7 +21,7 @@ public class Jeep : Entity
     public int AdmissionFee { get; set; }
     public Jeep(PlacementManager _placementManager, GameObject prefab, TouristManager parent) : base(_placementManager)
     {
-        spawnPosition = PlacementManager.startPosition;
+        spawnPosition = placementManager.startPosition;
         MyState = State.Waiting;
         tourists = new TouristGroup();
         tourists.SetDefault();
@@ -45,7 +45,7 @@ public class Jeep : Entity
                 JeepWaiting.Invoke(this);
                 break;
             case State.Moving:
-                if (Position == PlacementManager.endPosition)
+                if (Position == placementManager.endPosition)
                 {
                     JeepArrived?.Invoke(this);
                     MyState = State.Leaving;
@@ -54,7 +54,7 @@ public class Jeep : Entity
                 }
                 else if (placementManager.HasFullPathProperty && jeepPath == null)
                 {
-                    jeepPath = placementManager.PickRandomRoadPath(Vector3Int.RoundToInt(spawnPosition), Vector3Int.RoundToInt(PlacementManager.endPosition));
+                    jeepPath = placementManager.PickRandomRoadPath(Vector3Int.RoundToInt(spawnPosition), Vector3Int.RoundToInt(placementManager.endPosition));
                     Move();
                     discoverEnvironment.SearchInViewDistance(Position);
                 }
@@ -78,7 +78,7 @@ public class Jeep : Entity
                 }
                 else if (placementManager.HasFullPathProperty && jeepPath == null)
                 {
-                    jeepPath = placementManager.PickShortestPath(Vector3Int.RoundToInt(PlacementManager.endPosition), Vector3Int.RoundToInt(spawnPosition));
+                    jeepPath = placementManager.PickShortestPath(Vector3Int.RoundToInt(placementManager.endPosition), Vector3Int.RoundToInt(spawnPosition));
                     Move();
                 }
                 else if (jeepPath != null)
@@ -119,7 +119,7 @@ public class Jeep : Entity
     {
         return new JeepData(
             Id, spawnPosition, Position, ObjectInstance.transform.rotation, baseMoveSpeed, baseRotationSpeed,
-            (JeepSearchInRange)discoverEnvironment, MyState, PlacementManager.endPosition, tourists, jeepPath, currentPathIndex, AdmissionFee
+            (JeepSearchInRange)discoverEnvironment, MyState, placementManager.endPosition, tourists, jeepPath, currentPathIndex, AdmissionFee
         );
     }
 
