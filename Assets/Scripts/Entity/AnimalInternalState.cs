@@ -19,7 +19,7 @@ public class AnimalInternalState : ISaveable<AnimalInternalStateData>
     public float RestTime { get { return Constants.RestTime[type]; } }
     public float Damage { get { return Constants.DamageToAnimals[type]; } }
 
-    public ref float RemainingLifetime { get { return ref remainingLifetime; }}
+    public float RemainingLifetime { get { return remainingLifetime; } set { remainingLifetime = value; } }
     public ref float Hunger { get { return ref hunger; } }
     public ref float Thirst { get { return ref thirst; } }
     public ref float Health { get { return ref health; } }

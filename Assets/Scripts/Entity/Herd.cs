@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Tracing;
 using System.Linq;
 using UnityEngine;
 
@@ -9,7 +10,7 @@ public abstract class Herd : IPositionable, ISaveable<HerdData>
     private AnimalType animalTypesOfHerd; // if mixed herds are allowed this can be a set
     public AnimalType AnimalTypesOfHerd => animalTypesOfHerd;
     protected List<Animal> animals;
-    protected Vector2Int Centroid 
+    protected Vector2Int Centroid
     {
         get
         {
@@ -26,11 +27,11 @@ public abstract class Herd : IPositionable, ISaveable<HerdData>
         }
     }
     private PlacementManager placementManager;
-    public int Count {  get { return animals.Count; } }
+    public int Count { get { return animals.Count; } }
     public Vector3 Position { get { return animals.Count == 0 ? GetRandomPosition() : new Vector3(Centroid.x, 0, Centroid.y); } }
-    public int DistributionRadius { get; protected set;}
+    public int DistributionRadius { get; protected set; }
     public GameObject ObjectInstance { get; set; } = null;
-    public List<Animal> Animals{ get { return animals; }}
+    public List<Animal> Animals { get { return animals; } }
     public Action<Herd> Reproduce;
     protected int reproductionCoolDown;
     public Action<Herd> animalRemovedFromHerd;
@@ -77,6 +78,23 @@ public abstract class Herd : IPositionable, ISaveable<HerdData>
             animals[i].CheckState();
         }
     }
+
+    private int GetGrownAnimalCount
+    {
+        get
+        {
+            int counter = 0;
+            foreach (Animal animal in animals)
+            {
+                if (animal.state.RemainingLifetime < Constants.MaxLifeTime[animalTypesOfHerd] * Constants.AdultLifetimeThreshold[animalTypesOfHerd])
+                {
+                    counter++;
+                }
+            }
+            return counter;
+        }
+    }
+
     public void AgeAnimals()
     {
         for (int i = animals.Count - 1; i >= 0; i--)
@@ -84,7 +102,8 @@ public abstract class Herd : IPositionable, ISaveable<HerdData>
             animals[i].MatureAnimal();
         }
         reproductionCoolDown--;
-        if (reproductionCoolDown <= 0 && (animals.Select(a => a.state.RemainingLifetime < Constants.MaxLifeTime[animalTypesOfHerd] * Constants.AdultLifetimeThreshold[animalTypesOfHerd])).Count() >= 2)
+
+        if (reproductionCoolDown <= 0 && GetGrownAnimalCount >= 2)
         {
             Reproduce?.Invoke(this);
             reproductionCoolDown = Constants.ReproductionCooldown[animalTypesOfHerd];
@@ -93,7 +112,8 @@ public abstract class Herd : IPositionable, ISaveable<HerdData>
     private Vector3 GetRandomPosition()
     {
         int randomX = 0, randomZ = 0;
-        do{
+        do
+        {
             randomX = UnityEngine.Random.Range(0, placementManager.Width);
             randomZ = UnityEngine.Random.Range(0, placementManager.Height);
         }

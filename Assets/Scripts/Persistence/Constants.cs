@@ -165,19 +165,19 @@ public static class Constants
 
     public static Dictionary<AnimalType, int> ReproductionCooldown { get; private set; } = new Dictionary<AnimalType, int>
     {
-        { AnimalType.Carnivore1, 8 },
-        { AnimalType.Carnivore2, 8 },
-        { AnimalType.Herbivore1, 8 },
-        { AnimalType.Herbivore2, 8 }
+        { AnimalType.Carnivore1, 15 },
+        { AnimalType.Carnivore2, 15 },
+        { AnimalType.Herbivore1, 15 },
+        { AnimalType.Herbivore2, 15 }
     };
 
-    private static Dictionary<Difficulty, uint> StartHerbivoreSpawnDifficultyMultiplier { get; set; } = new Dictionary<Difficulty, uint>
+    public static Dictionary<Difficulty, uint> StartHerbivoreSpawnDifficultyMultiplier { get; set; } = new Dictionary<Difficulty, uint>
     {
         {Difficulty.Easy, 3 },
         {Difficulty.Normal, 2 },
         {Difficulty.Hard, 1 }
     };
-    private static Dictionary<Difficulty, uint> StartCarnivoreSpawnDifficultyMultiplier { get; set; } = new Dictionary<Difficulty, uint>
+    public static Dictionary<Difficulty, uint> StartCarnivoreSpawnDifficultyMultiplier { get; set; } = new Dictionary<Difficulty, uint>
     {
         {Difficulty.Easy, 1 },
         {Difficulty.Normal, 2 },

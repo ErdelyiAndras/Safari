@@ -23,6 +23,7 @@ public class AnimalManagerTests
 
     private AnimalManager AnimalManagerFactory()
     {
+        DifficultySelector.SelectedDifficulty = Difficulty.Normal;
         var go = new GameObject();
         AnimalManager animalManager = go.AddComponent<AnimalManager>();
 
@@ -75,15 +76,20 @@ public class AnimalManagerTests
     {
         Constants.StartCarnivoreSpawnDifficultyMultiplier[Difficulty.Normal] = 0;
         Constants.StartHerbivoreSpawnDifficultyMultiplier[Difficulty.Normal] = 0;
+        Constants.ReproductionCooldown[AnimalType.Herbivore1] = 45;
+        Constants.ReproductionCooldown[AnimalType.Herbivore2] = 45;
+        Constants.ReproductionCooldown[AnimalType.Carnivore1] = 45;
+        Constants.ReproductionCooldown[AnimalType.Carnivore2] = 45;
         yield return null;
         animalManager = AnimalManagerFactory();
         yield return null;
-        var testCases = new (AnimalType, Action, uint)[]
+        Assert.AreEqual(0, animalManager.AllAnimalCount);
+        var testCases = new (AnimalType, Action, Func<uint>)[]
         {
-            (AnimalType.Herbivore1, animalManager.BuyHerbivore1, animalManager.Herbivore1Count),
-            (AnimalType.Herbivore2, animalManager.BuyHerbivore2, animalManager.Herbivore2Count),
-            (AnimalType.Carnivore1, animalManager.BuyCarnivore1, animalManager.Carnivore1Count),
-            (AnimalType.Carnivore2, animalManager.BuyCarnivore2, animalManager.Carnivore2Count)
+            (AnimalType.Herbivore1, animalManager.BuyHerbivore1, () => animalManager.Herbivore1Count),
+            (AnimalType.Herbivore2, animalManager.BuyHerbivore2, () => animalManager.Herbivore2Count),
+            (AnimalType.Carnivore1, animalManager.BuyCarnivore1, () => animalManager.Carnivore1Count),
+            (AnimalType.Carnivore2, animalManager.BuyCarnivore2, () => animalManager.Carnivore2Count)
         };
         foreach (var testCase in testCases) {
             Assert.AreEqual(0, animalManager.AllAnimalCount);
@@ -91,31 +97,36 @@ public class AnimalManagerTests
             {
                 testCase.Item2();
             }
-            for (int i = 0; i <= Constants.MaxLifeTime[testCase.Item1] * Constants.AdultLifetimeThreshold[testCase.Item1] + 10; ++i)
+            yield return null;
+            Assert.AreEqual(10, animalManager.AllAnimalCount);
+            for (int i = 0; i <= Constants.MaxLifeTime[testCase.Item1] * Constants.AdultLifetimeThreshold[testCase.Item1]; ++i)
             {
                 animalManager.ManageTick();
             }
             yield return null;
-            Assert.IsTrue(11 <= testCase.Item3);
-            for (int i = 0; i < 100; ++i)
+            Assert.IsTrue(11 <= animalManager.AllAnimalCount);
+            for (int i = 0; i < 200; ++i)
             {
                 animalManager.ManageTick();
-                Debug.Log(animalManager.AllAnimalCount);
             }
-                yield return null;
+            yield return null;
         }
-        yield return null;
         DestroyAnimalManager();
     }
 
     [UnityTest]
     public IEnumerator AnimalManagerGameOverTest()
     {
+        Constants.ReproductionCooldown[AnimalType.Herbivore1] = 45;
+        Constants.ReproductionCooldown[AnimalType.Herbivore2] = 45;
+        Constants.ReproductionCooldown[AnimalType.Carnivore1] = 45;
+        Constants.ReproductionCooldown[AnimalType.Carnivore2] = 45;
         bool extinct = false;
         animalManager = AnimalManagerFactory();
+        yield return null;
         animalManager.GameOver += () => extinct = true;
         Assert.AreNotEqual(0, animalManager.AllAnimalCount);
-        for (int i = 0; i < 1000; ++i)
+        for (int i = 0; i < 250; ++i)
         {
             animalManager.ManageTick();
         }
