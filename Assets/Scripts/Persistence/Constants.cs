@@ -153,6 +153,39 @@ public static class Constants
         { AnimalType.Herbivore1, 5.0f },
         { AnimalType.Herbivore2, 5.0f }
     };
+    public static Dictionary<AnimalType, int> ReproductionCooldown { get; private set; } = new Dictionary<AnimalType, int>
+    {
+        { AnimalType.Carnivore1, 90 },
+        { AnimalType.Carnivore2, 90 },
+        { AnimalType.Herbivore1, 90 },
+        { AnimalType.Herbivore2, 90 }
+    };
+
+    public static Dictionary<Difficulty, uint> StartHerbivoreSpawnDifficultyMultiplier { get; private set; } = new Dictionary<Difficulty, uint>
+    {
+        {Difficulty.Easy, 3 },
+        {Difficulty.Normal, 2 },
+        {Difficulty.Hard, 1 }
+    };
+    public static Dictionary<Difficulty, uint> StartCarnivoreSpawnDifficultyMultiplier { get; private set; } = new Dictionary<Difficulty, uint>
+    {
+        {Difficulty.Easy, 1 },
+        {Difficulty.Normal, 2 },
+        {Difficulty.Hard, 3 }
+    };
+    public static Dictionary<AnimalType, uint> StartAnimalSpwanCount
+    {
+        get
+        {
+            return new Dictionary<AnimalType, uint>
+            {
+                { AnimalType.Carnivore1, 2 * StartCarnivoreSpawnDifficultyMultiplier[DifficultySelector.SelectedDifficulty] },
+                { AnimalType.Carnivore2, 2 * StartCarnivoreSpawnDifficultyMultiplier[DifficultySelector.SelectedDifficulty] },
+                { AnimalType.Herbivore1, 3 * StartHerbivoreSpawnDifficultyMultiplier[DifficultySelector.SelectedDifficulty] },
+                { AnimalType.Herbivore2, 3 * StartHerbivoreSpawnDifficultyMultiplier[DifficultySelector.SelectedDifficulty] }
+            };
+        }
+    }
 
     // Herd
     public static int CarnivoreHerdDistributionRadius { get; private set; } = 5;
@@ -182,4 +215,5 @@ public static class Constants
 
     // CameraMovement
     public static float CameraMovementSpeed { get; private set; } = 5.0f;
+
 }
