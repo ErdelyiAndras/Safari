@@ -111,6 +111,15 @@ public static class Constants
         { AnimalType.Herbivore1, 100.0f },
         { AnimalType.Herbivore2, 100.0f }
     };
+
+    public static Dictionary<AnimalType, float> AdultLifetimeThreshold { get; private set; } = new Dictionary<AnimalType, float>
+    {
+        { AnimalType.Carnivore1, 0.5f },
+        { AnimalType.Carnivore2, 0.5f },
+        { AnimalType.Herbivore1, 0.5f },
+        { AnimalType.Herbivore2, 0.5f }
+    };
+
     public static Dictionary<AnimalType, float> MaxHealth { get; private set; } = new Dictionary<AnimalType, float>
     {
         { AnimalType.Carnivore1, 100.0f },
@@ -153,21 +162,22 @@ public static class Constants
         { AnimalType.Herbivore1, 5.0f },
         { AnimalType.Herbivore2, 5.0f }
     };
+
     public static Dictionary<AnimalType, int> ReproductionCooldown { get; private set; } = new Dictionary<AnimalType, int>
     {
-        { AnimalType.Carnivore1, 90 },
-        { AnimalType.Carnivore2, 90 },
-        { AnimalType.Herbivore1, 90 },
-        { AnimalType.Herbivore2, 90 }
+        { AnimalType.Carnivore1, 8 },
+        { AnimalType.Carnivore2, 8 },
+        { AnimalType.Herbivore1, 8 },
+        { AnimalType.Herbivore2, 8 }
     };
 
-    public static Dictionary<Difficulty, uint> StartHerbivoreSpawnDifficultyMultiplier { get; private set; } = new Dictionary<Difficulty, uint>
+    private static Dictionary<Difficulty, uint> StartHerbivoreSpawnDifficultyMultiplier { get; set; } = new Dictionary<Difficulty, uint>
     {
         {Difficulty.Easy, 3 },
         {Difficulty.Normal, 2 },
         {Difficulty.Hard, 1 }
     };
-    public static Dictionary<Difficulty, uint> StartCarnivoreSpawnDifficultyMultiplier { get; private set; } = new Dictionary<Difficulty, uint>
+    private static Dictionary<Difficulty, uint> StartCarnivoreSpawnDifficultyMultiplier { get; set; } = new Dictionary<Difficulty, uint>
     {
         {Difficulty.Easy, 1 },
         {Difficulty.Normal, 2 },
@@ -190,8 +200,6 @@ public static class Constants
     // Herd
     public static int CarnivoreHerdDistributionRadius { get; private set; } = 5;
     public static int HerbivoreHerdDistributionRadius { get; private set; } = 2;
-    public static int CarnivoreHerdReproductionCooldown { get; private set; } = 8;
-    public static int HerbivoreHerdReproductionCooldown { get; private set; } = 8;
 
     // Jeep
     public static float JeepBaseMoveSpeed { get; private set; } = 1.0f;
@@ -202,7 +210,12 @@ public static class Constants
     public static int NormalGameStartMoney { get; private set; } = 500;
     public static int HardGameStartMoney { get; private set; } = 300;
     public static int DefaultAdmissionFee { get; private set; } = 40;
-    public static int MaintenanceFee { get; private set; } = 20;
+    public static Dictionary<Difficulty, int> MaintenanceFee { get; private set; } = new Dictionary<Difficulty, int>
+    {
+        { Difficulty.Easy , 20 },
+        { Difficulty.Normal, 40 },
+        { Difficulty.Hard, 100 }
+    };
     public static int UnitCostOfNature { get; private set; } = 20;
     public static int UnitCostOfHerbivore { get; private set; } = 50;
     public static int UnitCostOfCarnivore { get; private set; } = 100;
@@ -216,4 +229,7 @@ public static class Constants
     // CameraMovement
     public static float CameraMovementSpeed { get; private set; } = 5.0f;
 
+    // PlacementManager
+    public static int MapWidth { get; private set; } = 51;
+    public static int MapHeight { get; private set; } = 51;
 }

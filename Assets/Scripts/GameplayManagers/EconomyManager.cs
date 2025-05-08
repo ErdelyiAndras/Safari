@@ -3,17 +3,16 @@ using UnityEngine;
 
 public class EconomyManager : MonoWinCondition, ISaveable<EconomyManagerData>, ITimeHandler
 {
-    // TODO: balance start money
-    public int easyGameStartMoney = Constants.EasyGameStartMoney;
-    public int normalGameStartMoney = Constants.NormalGameStartMoney;
-    public int hardGameStartMoney = Constants.HardGameStartMoney;
+    private readonly int easyGameStartMoney = Constants.EasyGameStartMoney;
+    private readonly int normalGameStartMoney = Constants.NormalGameStartMoney;
+    private readonly int hardGameStartMoney = Constants.HardGameStartMoney;
 
-    public int money;
+    public int money; // TODO: private balance után
     private int admissionFee = Constants.DefaultAdmissionFee;
 
     public Action<int> moneyChanged;
 
-    private int maintenanceFee = Constants.MaintenanceFee;
+    private int maintenanceFee = Constants.MaintenanceFee[DifficultySelector.SelectedDifficulty];
 
     public int Money
     {
@@ -41,7 +40,6 @@ public class EconomyManager : MonoWinCondition, ISaveable<EconomyManagerData>, I
 
     public Action GoneBankrupt;
     
-    // TODO: balance costs
     public int UnitCostOfNature => Constants.UnitCostOfNature; 
     public int UnitCostOfHerbivore => Constants.UnitCostOfHerbivore;
     public int UnitCostOfCarnivore => Constants.UnitCostOfCarnivore;
@@ -68,7 +66,7 @@ public class EconomyManager : MonoWinCondition, ISaveable<EconomyManagerData>, I
                 money = hardGameStartMoney;
                 break;
         }
-        money = int.MaxValue; // TODO: delete this line after debugging
+        //money = int.MaxValue; // TODO: delete this line after debugging
     }
 
     public bool HasEnoughMoney(int amount) => money >= amount;
@@ -80,7 +78,7 @@ public class EconomyManager : MonoWinCondition, ISaveable<EconomyManagerData>, I
         CheckIfGameOver();
     }
 
-    public void DailyMaintenance()
+    private void DailyMaintenance()
     {
         SpendMoney(maintenanceFee);
     }
@@ -108,18 +106,20 @@ public class EconomyManager : MonoWinCondition, ISaveable<EconomyManagerData>, I
 
     public EconomyManagerData SaveData()
     {
-        return new EconomyManagerData(money, admissionFee);
+        return new EconomyManagerData(money, admissionFee, GetConditionPassedDays);
     }
 
     public void LoadData(EconomyManagerData data, PlacementManager placementManager = null)
     {
         money = data.Money;
         admissionFee = data.AdmissionFee;
+        GetConditionPassedDays = data.GetConditionPassedDays;
+        maintenanceFee = Constants.MaintenanceFee[DifficultySelector.SelectedDifficulty];
     }
 
     public void ManageTick()
     {
-        DailyMaintenance(); // nehézségtől függően változik????
+        DailyMaintenance();
         SetConditionPassedDays();
     }
 

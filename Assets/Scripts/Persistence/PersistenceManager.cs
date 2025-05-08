@@ -12,7 +12,7 @@ public static class PersistenceManager
     private class Data
     {
         public Difficulty difficulty;
-        public TimeData timeData;
+        public TimeManagerData timeData;
         public EconomyManagerData economyManagerData;
         public AnimalManagerData animalManagerData;
         public TouristManagerData touristManagerData;
@@ -37,7 +37,7 @@ public static class PersistenceManager
         }
     }
 
-    public static TimeData TimeData
+    public static TimeManagerData TimeData
     {
         get
         {

@@ -9,11 +9,14 @@ public class AnimalManager : MonoWinCondition, ITimeHandler, ISaveable<AnimalMan
     private GameObject carnivore1Prefab, carnivore2Prefab, herbivore1Prefab, herbivore2Prefab;
     private List<Herd> herds = new List<Herd>();
     public Action<uint> Carnivore1Changed, Carnivore2Changed, Herbivore1Changed, Herbivore2Changed;
+    public Action GameOver;
 
     public uint Carnivore1Count => GetAnimalCount(AnimalType.Carnivore1);
     public uint Carnivore2Count => GetAnimalCount(AnimalType.Carnivore2);
     public uint Herbivore1Count => GetAnimalCount(AnimalType.Herbivore1);
     public uint Herbivore2Count => GetAnimalCount(AnimalType.Herbivore2);
+
+    public uint AllAnimalCount => Carnivore1Count + Carnivore2Count + Herbivore1Count + Herbivore2Count;
 
     private void Start()
     {
@@ -21,6 +24,7 @@ public class AnimalManager : MonoWinCondition, ITimeHandler, ISaveable<AnimalMan
         carnivore2Prefab = placementManager.prefabManager.Carnivore2Prefab;
         herbivore1Prefab = placementManager.prefabManager.Herbivore1Prefab;
         herbivore2Prefab = placementManager.prefabManager.Herbivore2Prefab;
+        GameStartAnimalsSpawn();
     }
 
     private void Update()
@@ -34,8 +38,11 @@ public class AnimalManager : MonoWinCondition, ITimeHandler, ISaveable<AnimalMan
                 herds.RemoveAt(i);
                 continue;
             }
-            herds[i].CalculateCentroid();
             herds[i].CheckState();
+        }
+        if (AllAnimalCount <= 0)
+        {
+            GameOver?.Invoke();
         }
     }
 
@@ -103,7 +110,7 @@ public class AnimalManager : MonoWinCondition, ITimeHandler, ISaveable<AnimalMan
 
     private Herd CreateNewHerd(AnimalType type)
     {
-        Herd newHerd;
+        Herd newHerd = null;
         if ( type == AnimalType.Herbivore1 || type == AnimalType.Herbivore2)
         {
             newHerd = new HerbivoreHerd(placementManager, this, type);
@@ -182,7 +189,7 @@ public class AnimalManager : MonoWinCondition, ITimeHandler, ISaveable<AnimalMan
 
     public AnimalManagerData SaveData()
     {
-        return new AnimalManagerData(herds);
+        return new AnimalManagerData(herds, GetConditionPassedDays);
     }
 
     public void LoadData(AnimalManagerData data, PlacementManager placementManager)
@@ -207,6 +214,7 @@ public class AnimalManager : MonoWinCondition, ITimeHandler, ISaveable<AnimalMan
                 throw new Exception("Unknown animal type in herds");
             }
         }
+        GetConditionPassedDays = data.GetConditionPassedDays;
     }
 
     private void ResetData()
@@ -232,6 +240,26 @@ public class AnimalManager : MonoWinCondition, ITimeHandler, ISaveable<AnimalMan
         else
         {
             GetConditionPassedDays = 0;
+        }
+    }
+
+    private void GameStartAnimalsSpawn()
+    {
+        for (uint i = 0; i < Constants.StartAnimalSpwanCount[AnimalType.Herbivore1]; ++i)
+        {
+            BuyHerbivore1();
+        }
+        for (uint i = 0; i < Constants.StartAnimalSpwanCount[AnimalType.Herbivore2]; ++i)
+        {
+            BuyHerbivore2();
+        }
+        for (uint i = 0; i < Constants.StartAnimalSpwanCount[AnimalType.Carnivore1]; ++i)
+        {
+            BuyCarnivore1();
+        }
+        for (uint i = 0; i < Constants.StartAnimalSpwanCount[AnimalType.Carnivore2]; ++i)
+        {
+            BuyCarnivore2();
         }
     }
 }

@@ -12,9 +12,7 @@ public class Jeep : Entity
         Returning
     }
 
-    private Vector3 endPosition;
     public TouristGroup tourists;
-
     private List<Vector3Int> jeepPath = null;
     private int currentPathIndex = 0;
 
@@ -23,8 +21,7 @@ public class Jeep : Entity
     public int AdmissionFee { get; set; }
     public Jeep(PlacementManager _placementManager, GameObject prefab, TouristManager parent) : base(_placementManager)
     {
-        endPosition = new Vector3Int(placementManager.width - 1, 0, placementManager.height - 1);
-        spawnPosition = new Vector3(0, 0, 0);
+        spawnPosition = placementManager.startPosition;
         MyState = State.Waiting;
         tourists = new TouristGroup();
         tourists.SetDefault();
@@ -48,7 +45,7 @@ public class Jeep : Entity
                 JeepWaiting.Invoke(this);
                 break;
             case State.Moving:
-                if (Position == endPosition)
+                if (Position == placementManager.endPosition)
                 {
                     JeepArrived?.Invoke(this);
                     MyState = State.Leaving;
@@ -57,7 +54,7 @@ public class Jeep : Entity
                 }
                 else if (placementManager.HasFullPathProperty && jeepPath == null)
                 {
-                    jeepPath = placementManager.PickRandomRoadPath(Vector3Int.RoundToInt(spawnPosition), Vector3Int.RoundToInt(endPosition));
+                    jeepPath = placementManager.PickRandomRoadPath(Vector3Int.RoundToInt(spawnPosition), Vector3Int.RoundToInt(placementManager.endPosition));
                     Move();
                     discoverEnvironment.SearchInViewDistance(Position);
                 }
@@ -81,7 +78,7 @@ public class Jeep : Entity
                 }
                 else if (placementManager.HasFullPathProperty && jeepPath == null)
                 {
-                    jeepPath = placementManager.PickShortestPath(Vector3Int.RoundToInt(endPosition), Vector3Int.RoundToInt(spawnPosition));
+                    jeepPath = placementManager.PickShortestPath(Vector3Int.RoundToInt(placementManager.endPosition), Vector3Int.RoundToInt(spawnPosition));
                     Move();
                 }
                 else if (jeepPath != null)
@@ -95,18 +92,9 @@ public class Jeep : Entity
 
     protected override void Move()
     {
-        Vector3 target = new Vector3(
-            jeepPath[currentPathIndex].x,
-            0,
-            jeepPath[currentPathIndex].z
-        );
-
-
-        Position = Vector3.MoveTowards(
-            Position,
-            target,
-            MoveSpeed * Time.deltaTime
-        );
+        Vector3 target = new Vector3(jeepPath[currentPathIndex].x, 0, jeepPath[currentPathIndex].z);
+        
+        Position = Vector3.MoveTowards(Position, target, MoveSpeed * Time.deltaTime);
 
         Vector3 direction = target - Position;
         direction.y = 0;
@@ -117,13 +105,12 @@ public class Jeep : Entity
                 ObjectInstance.transform.rotation,
                 targetRotation,
                 RotationSpeed * Time.deltaTime
-
             );
         }
 
         if (Vector3.Distance(Position, target) < 0.1f && currentPathIndex < jeepPath.Count - 1)
         {
-            currentPathIndex++;
+            ++currentPathIndex;
         }
     }
     public float CalculateSatisfaction() => Math.Clamp(((JeepSearchInRange)discoverEnvironment).AnimalsSeenCount * ((JeepSearchInRange)discoverEnvironment).AnimalTypesSeenCount, 0.0f, 100.0f) - (AdmissionFee / 10.0f);
@@ -132,7 +119,7 @@ public class Jeep : Entity
     {
         return new JeepData(
             Id, spawnPosition, Position, ObjectInstance.transform.rotation, baseMoveSpeed, baseRotationSpeed,
-            (JeepSearchInRange)discoverEnvironment, MyState, endPosition, tourists, jeepPath, currentPathIndex, AdmissionFee
+            (JeepSearchInRange)discoverEnvironment, MyState, placementManager.endPosition, tourists, jeepPath, currentPathIndex, AdmissionFee
         );
     }
 
@@ -141,7 +128,6 @@ public class Jeep : Entity
         base.LoadData((JeepData)data, placementManager);
         discoverEnvironment = ((JeepData)data).DiscoverEnvironment(placementManager);
         MyState = ((JeepData)data).State;
-        endPosition = ((JeepData)data).EndPosition;
         tourists = ((JeepData)data).TouristGroup;
         jeepPath = ((JeepData)data).JeepPath;
         currentPathIndex = ((JeepData)data).CurrentPathIndex;

@@ -1,6 +1,5 @@
-using UnityEngine;
 using System.Collections.Generic;
-using UnityEngine.UIElements;
+using UnityEngine;
 
 public class MapGenerator : MonoBehaviour
 {
@@ -22,21 +21,14 @@ public class MapGenerator : MonoBehaviour
 
     private System.Random random = new System.Random();
 
-    private void Start()
+    private void Awake()
     {
         naturePrefabs = new List<GameObject> { placementManager.prefabManager.Plant1, placementManager.prefabManager.Plant2, placementManager.prefabManager.Plant3 };
         waterPrefab = placementManager.prefabManager.Water;
         hillPrefab = placementManager.prefabManager.Hill;
         deadEnd = placementManager.prefabManager.DeadEnd;
 
-        if (natureDensity < 0)
-        {
-            natureDensity = 0;
-        }
-        else if (natureDensity > 100)
-        {
-            natureDensity = 100;
-        }
+        natureDensity = Mathf.Clamp(natureDensity, 0, 100);
 
         GenerateRoads();
 
@@ -49,54 +41,49 @@ public class MapGenerator : MonoBehaviour
         {
             GenerateRiver();
         }
-
         GenerateNature();
         PlaceStructures();
     }
 
     private void GenerateNature()
     {
-        for (int i = 0; i < placementManager.width * placementManager.height * natureDensity / 100; ++i)
+        int usedPositionsCount = usedPositions.Count;
+        float i = 0.0f;
+        while (i < (placementManager.Width * placementManager.Height - usedPositionsCount) * ((float)natureDensity / 100))
         {
             Vector3Int position = GetRandomPosition();
-            if (usedPositions.ContainsKey(position))
-            {
-                i--;
-                continue;
-            }
-            else
+            if (!usedPositions.ContainsKey(position))
             {
                 usedPositions.Add(position, CellType.Nature);
+                i += 1.0f;
             }
         }
+
     }
 
     private void GenerateRiver()
     {
-        Vector3Int position = GetRandomPosition();
-        int length = random.Next(10, 40);
-        int width = random.Next(10, 40);
-        Vector3Int position2 = position + new Vector3Int(length, 0, width);
-        List<Vector3Int> river = placementManager.GetPathBetween(position, position2);
-        while (river.Count == 0 || !placementManager.CheckIfPositionInBound(position2))
+        Vector3Int start = GetRandomPosition();
+        Vector3Int end;
+
+        do
         {
-            position = GetRandomPosition();
-            length = random.Next(5, 20);
-            width = random.Next(5, 20);
-            position2 = position + new Vector3Int(length, 0, width);
-            river = placementManager.GetPathBetween(position, position2);
-        }
-        foreach (var water in river)
+            end = GetRandomPosition();
+        } while (end == start);
+
+        foreach (Vector3Int pos in GenerateRandomPath(start, end))
         {
-            if (!usedPositions.ContainsKey(water))
-                usedPositions.Add(water, CellType.Water);
+            if (!usedPositions.ContainsKey(pos))
+            {
+                usedPositions.Add(pos, CellType.Water);
+            }
         }
     }
 
 
     private Vector3Int GetRandomPosition()
     {
-        return new Vector3Int(random.Next(0, placementManager.width), 0, random.Next(0, placementManager.height));
+        return new Vector3Int(random.Next(0, placementManager.Width), 0, random.Next(0, placementManager.Height));
     }
 
     private void PlaceStructures()
@@ -113,7 +100,7 @@ public class MapGenerator : MonoBehaviour
             }
             else if (position.Value == CellType.Hill)
             {
-                 placementManager.PlaceStructure(position.Key, hillPrefab, CellType.Hill);
+                placementManager.PlaceStructure(position.Key, hillPrefab, CellType.Hill);
             }
         }
     }
@@ -122,8 +109,48 @@ public class MapGenerator : MonoBehaviour
     {
         placementManager.PlaceStructure(new Vector3Int(0, 0, 0), deadEnd, CellType.Road);
         usedPositions.Add(new Vector3Int(0, 0, 0), CellType.Road);
-        placementManager.PlaceStructure(new Vector3Int(placementManager.width -1, 0, placementManager.height - 1), deadEnd, CellType.Road);
-        usedPositions.Add(new Vector3Int(placementManager.width - 1, 0, placementManager.height - 1), CellType.Road);
+        placementManager.PlaceStructure(new Vector3Int(placementManager.Width - 1, 0, placementManager.Height - 1), deadEnd, CellType.Road);
+        usedPositions.Add(new Vector3Int(placementManager.Width - 1, 0, placementManager.Height - 1), CellType.Road);
+        foreach (Vector3Int pos in GenerateRandomPath(new Vector3Int(0, 0, 0), new Vector3Int(placementManager.Width - 1, 0, placementManager.Height - 1)))
+        {
+            if (!usedPositions.ContainsKey(pos))
+            {
+                usedPositions.Add(pos, CellType.Road);
+            }
+        }
+    }
+
+    private List<Vector3Int> GenerateRandomPath(Vector3Int start, Vector3Int end)
+    {
+        List<Vector3Int> path = new List<Vector3Int>();
+        int xStepSize = start.x < end.x ? 1 : -1;
+        int yStepSize = start.z < end.z ? 1 : -1;
+        Vector3Int current = start;
+        path.Add(current);
+        while (current != end)
+        {
+            if (0 < Mathf.Abs(end.x - current.x) && 0 < Mathf.Abs(end.z - current.z))
+            {
+                if (random.Next(0, 2) == 0)
+                {
+                    current.x += xStepSize;
+                }
+                else
+                {
+                    current.z += yStepSize;
+                }
+            }
+            else if (0 < Mathf.Abs(end.x - current.x))
+            {
+                current.x += xStepSize;
+            }
+            else if (0 < Mathf.Abs(end.z - current.z))
+            {
+                current.z += yStepSize;
+            }
+            path.Add(current);
+        }
+        return path;
     }
 
     private void GenerateHill()

@@ -3,7 +3,6 @@
     public HerbivoreHerd(PlacementManager placementManager, AnimalManager parent, AnimalType type) : base(placementManager, parent, type) 
     {
         DistributionRadius = Constants.HerbivoreHerdDistributionRadius;
-        reproductionCoolDown = Constants.HerbivoreHerdReproductionCooldown;
         ObjectInstance.name = "HerbivoreHerd";
     }
 
@@ -15,7 +14,7 @@
 
     public override HerdData SaveData()
     {
-        return new HerbivoreHerdData(Id, AnimalTypesOfHerd, animals, centroid, DistributionRadius, reproductionCoolDown);
+        return new HerbivoreHerdData(Id, AnimalTypesOfHerd, animals, Centroid, DistributionRadius, reproductionCoolDown);
     }
 
     public override void LoadData(HerdData data, PlacementManager placementManager)

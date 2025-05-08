@@ -2,7 +2,7 @@
 using UnityEngine;
 
 [System.Serializable]
-public class TimeData
+public class TimeManagerData
 {
     [SerializeField]
     private string currentTime;
@@ -26,7 +26,7 @@ public class TimeData
         get { return tickCounter; }
     }
 
-    public TimeData(DateTime currentTime, float elapsedTime, int tickCounter)
+    public TimeManagerData(DateTime currentTime, float elapsedTime, int tickCounter)
     {
         this.currentTime = currentTime.ToString("o");
         this.elapsedTime = elapsedTime;

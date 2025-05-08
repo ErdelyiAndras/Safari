@@ -5,20 +5,25 @@ using UnityEngine;
 
 public class PlacementManager : MonoBehaviour, ISaveable<PlacementManagerData>
 {
-    public int width, height; // TODO public till decision is made of the final mapsize
+    public int Width { get; private set; } = Constants.MapWidth;
+    public int Height { get; private set; } = Constants.MapHeight;
     public Grid placementGrid { get; private set; }
     public PrefabManager prefabManager;
-    internal Action<Vector3Int> RoadRemoved;
+    public Action<Vector3Int> RoadRemoved;
 
     private Dictionary<Vector3Int, StructureModel> temporaryRoadobjects = new Dictionary<Vector3Int, StructureModel>();
     private Dictionary<Vector3Int, StructureModel> structureDictionary = new Dictionary<Vector3Int, StructureModel>();
     public PlacedObjects PlacedObjects { get; private set; } = new PlacedObjects();
+    public Vector3Int startPosition;
+    public Vector3Int endPosition;
 
     public bool HasFullPathProperty { get; set; }
 
     private void Awake()
     {
-        placementGrid = new Grid(width, height);
+        placementGrid = new Grid(Width, Height);
+        startPosition = new Vector3Int(0, 0, 0);
+        endPosition = new Vector3Int(Width - 1, 0, Height - 1);
     }
 
     public void RegisterObject(Guid id, ObjectType type, IPositionable entity)
@@ -32,11 +37,11 @@ public class PlacementManager : MonoBehaviour, ISaveable<PlacementManagerData>
         PlacedObjects.AddObject(obj);
     }
 
-    internal bool CheckIfPositionInBound(Vector3Int position) => position.x >= 0 && position.x < width && position.z >= 0 && position.z < height;
+    public bool CheckIfPositionInBound(Vector3Int position) => position.x >= 0 && position.x < Width && position.z >= 0 && position.z < Height;
 
-    internal bool IsPositionWalkable(Vector3Int position) => placementGrid[position.x, position.z] != CellType.Water;
+    public bool IsPositionWalkable(Vector3Int position) => placementGrid[position.x, position.z] != CellType.Water;
 
-    internal bool CheckIfPositionIsFreeFor(Vector3Int position, CellType type) 
+    public bool CheckIfPositionIsFreeFor(Vector3Int position, CellType type) 
     {
         if (type == CellType.Road)
         {
@@ -53,18 +58,18 @@ public class PlacementManager : MonoBehaviour, ISaveable<PlacementManagerData>
         return false;
     } 
 
-    internal CellType GetTypeOfPosition(Vector3Int position) => placementGrid[position.x, position.z];
+    public CellType GetTypeOfPosition(Vector3Int position) => placementGrid[position.x, position.z];
 
-    internal bool CheckIfPositionIsOfType(Vector3Int position, CellType type) => placementGrid[position.x, position.z] == type;
+    public bool CheckIfPositionIsOfType(Vector3Int position, CellType type) => placementGrid[position.x, position.z] == type;
 
-    internal void PlaceTemporaryStructure(Vector3Int position, GameObject structurePrefab, CellType type)
+    public void PlaceTemporaryStructure(Vector3Int position, GameObject structurePrefab, CellType type)
     {
         placementGrid[position.x, position.z] = type;
         StructureModel structure = CreateANewStructureModel(position, structurePrefab, type);
         temporaryRoadobjects.Add(position, structure);
     }
 
-    internal void RemoveStructure(Vector3Int position)
+    public void RemoveStructure(Vector3Int position)
     {
 
         if (!CheckIfPositionInBound(position) || CheckIfPositionIsUnremovable(position))
@@ -84,7 +89,7 @@ public class PlacementManager : MonoBehaviour, ISaveable<PlacementManagerData>
                     }
                     HasFullPathProperty = HasFullPath(
                         new Vector3Int(0, 0, 0),
-                        new Vector3Int(width - 1, 0, height - 1)
+                        new Vector3Int(Width - 1, 0, Height - 1)
                     );
                 }
                 else
@@ -96,23 +101,23 @@ public class PlacementManager : MonoBehaviour, ISaveable<PlacementManagerData>
         }
     }
 
-    internal bool CheckIfPositionIsUnremovable(Vector3Int position)
+    public bool CheckIfPositionIsUnremovable(Vector3Int position)
     {
         return  (position.x == 0 && position.z == 0) ||
-                (position.x == width - 1 && position.z == width - 1) || 
+                (position.x == Width - 1 && position.z == Width - 1) || 
                 placementGrid[position.x, position.z] == CellType.Hill;
     }
 
-    internal void PlaceStructure(Vector3Int position, GameObject structurePrefab, CellType type)
+    public void PlaceStructure(Vector3Int position, GameObject structurePrefab, CellType type)
     {
         placementGrid[position.x, position.z] = type;
         StructureModel structure = CreateANewStructureModel(position, structurePrefab, type);
         DestroyNatureAt(position);
         structureDictionary.Add(position, structure);
-        HasFullPathProperty = HasFullPath(
-            new Vector3Int(0, 0, 0),
-            new Vector3Int(width - 1, 0, height - 1)
-        );
+        if (type == CellType.Road)
+        {
+            HasFullPathProperty = HasFullPath(new Vector3Int(0, 0, 0), new Vector3Int(Width - 1, 0, Height - 1));
+        }
     }
 
     private StructureModel CreateANewStructureModel(Vector3Int position, GameObject structurePrefab, CellType type)
@@ -125,7 +130,7 @@ public class PlacementManager : MonoBehaviour, ISaveable<PlacementManagerData>
         return structureModel;
     }
 
-    internal void ModifyStructureModel(Vector3Int position, GameObject newModel, Quaternion rotation)
+    public void ModifyStructureModel(Vector3Int position, GameObject newModel, Quaternion rotation)
     {
         if (temporaryRoadobjects.ContainsKey(position))
             temporaryRoadobjects[position].SwapModel(newModel, rotation);
@@ -133,7 +138,7 @@ public class PlacementManager : MonoBehaviour, ISaveable<PlacementManagerData>
             structureDictionary[position].SwapModel(newModel, rotation);
     }
 
-    internal void DestroyNatureAt(Vector3Int position)
+    public void DestroyNatureAt(Vector3Int position)
     {
         /*RaycastHit[] hits = Physics.BoxCastAll(position + new Vector3(0, 0.5f, 0), new Vector3(0.5f, 0.5f, 0.5f), transform.up, Quaternion.identity, 1f, 1 << LayerMask.NameToLayer("Nature"));
         foreach (var item in hits)
@@ -147,12 +152,12 @@ public class PlacementManager : MonoBehaviour, ISaveable<PlacementManagerData>
         }
     }
 
-    internal AdjacentCellTypes GetNeighbourTypes(Vector3Int position)
+    public AdjacentCellTypes GetNeighbourTypes(Vector3Int position)
     {
         return placementGrid.GetAllAdjacentCellTypes(position.x, position.z);
     }
 
-    internal List<Vector3Int> GetNeighboursOfType(Vector3Int position, CellType type)
+    public List<Vector3Int> GetNeighboursOfType(Vector3Int position, CellType type)
     {
         var neighbourVertices = placementGrid.GetAdjacentCellsOfType(position.x, position.z, type);
         List<Vector3Int> neighbours = new List<Vector3Int>();
@@ -163,7 +168,7 @@ public class PlacementManager : MonoBehaviour, ISaveable<PlacementManagerData>
         return neighbours;
     }
 
-    internal List<Vector3Int> GetPathBetween(Vector3Int startPosition, Vector3Int endPosition, bool isAgent = false)
+    public List<Vector3Int> GetPathBetween(Vector3Int startPosition, Vector3Int endPosition, bool isAgent = false)
     {
         var resultPath = GridSearch.AStarSearch(placementGrid, new Point(startPosition.x, startPosition.z), new Point(endPosition.x, endPosition.z));
         List<Vector3Int> path = new List<Vector3Int>();
@@ -174,15 +179,15 @@ public class PlacementManager : MonoBehaviour, ISaveable<PlacementManagerData>
         return path;
     }
 
-    internal Vector3Int RoundPosition(Vector3 position) => new Vector3Int((int)position.x, (int)position.y, (int)position.z);
+    public Vector3Int RoundPosition(Vector3 position) => new Vector3Int((int)position.x, (int)position.y, (int)position.z);
 
-    internal bool HasFullPath(Vector3Int start, Vector3Int end)
+    public bool HasFullPath(Vector3Int start, Vector3Int end)
     {
         return TryFindRoadPath(start, end, out _);
     }
 
 
-    internal List<Vector3Int> PickShortestPath(Vector3Int start, Vector3Int end)
+    public List<Vector3Int> PickShortestPath(Vector3Int start, Vector3Int end)
     {
         return TryFindRoadPath(start, end, out var path) ? path : null;
     }
@@ -248,7 +253,7 @@ public class PlacementManager : MonoBehaviour, ISaveable<PlacementManagerData>
         }
     }
 
-    internal List<Vector3Int> PickRandomRoadPath(Vector3Int start, Vector3Int end)
+    public List<Vector3Int> PickRandomRoadPath(Vector3Int start, Vector3Int end)
     {
         List<List<Vector3Int>> allPaths = new List<List<Vector3Int>>();
         FindAllRoadPaths(start, end, new HashSet<Vector3Int>(), new List<Vector3Int>(), allPaths);
@@ -288,7 +293,7 @@ public class PlacementManager : MonoBehaviour, ISaveable<PlacementManagerData>
         path.RemoveAt(path.Count - 1);
     }
 
-    internal void RemoveAllTemporaryStructures()
+    public void RemoveAllTemporaryStructures()
     {
         foreach (var structure in temporaryRoadobjects.Values)
         {
@@ -299,7 +304,7 @@ public class PlacementManager : MonoBehaviour, ISaveable<PlacementManagerData>
         temporaryRoadobjects.Clear();
     }
 
-    internal void AddTemporaryStructuresToStructureDictionary()
+    public void AddTemporaryStructuresToStructureDictionary()
     {
         foreach (var structure in temporaryRoadobjects)
         {
@@ -328,7 +333,7 @@ public class PlacementManager : MonoBehaviour, ISaveable<PlacementManagerData>
                     }
                     HasFullPathProperty = HasFullPath(
                         new Vector3Int(0, 0, 0),
-                        new Vector3Int(width - 1, 0, height - 1)
+                        new Vector3Int(Width - 1, 0, Height - 1)
                     );
                 }
                 else
@@ -345,21 +350,21 @@ public class PlacementManager : MonoBehaviour, ISaveable<PlacementManagerData>
         return new PlacementManagerData(placementGrid, structureDictionary, HasFullPathProperty);
     }
 
-    // StructureDictionary has to be loaded from GameManager using Road, Nature and Water managersS
+    // StructureDictionary has to be loaded from GameManager using Road, Nature and Water managers
     public void LoadData(PlacementManagerData data, PlacementManager placementManager = null)
     {
         ResetData();
         placementGrid = data.PlacementGrid;
-        width = placementGrid.Width;
-        height = placementGrid.Height;
+        Width = placementGrid.Width;
+        Height = placementGrid.Height;
         HasFullPathProperty = data.HasFullPath;
     }
 
     private void ResetData()
     {
-        for (int i = 0; i < width; ++i)
+        for (int i = 0; i < Width; ++i)
         {
-            for (int j = 0; j < height; ++j)
+            for (int j = 0; j < Height; ++j)
             {
                 RemoveAnyStructure(new Vector3Int(i, 0, j));
             }

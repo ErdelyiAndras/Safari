@@ -12,6 +12,14 @@ public class TouristManagerData
     private int touristsInQueue;
     [SerializeField]
     private List<JeepData> jeeps;
+    [SerializeField]
+    private int lastDayNewTourists;
+    [SerializeField]
+    private int monthlyTouristsDays;
+    [SerializeField]
+    private int monthlyTouristsTourists;
+    [SerializeField]
+    private int getConditionPassedDays;
 
     public float Satisfaction
     {
@@ -44,8 +52,23 @@ public class TouristManagerData
         return jeepsList;
     }
 
+    public int LastDayNewTourists
+    {
+        get { return lastDayNewTourists; }
+    }
+    
+    public TouristManager.MonthlyTourists MonthlyTourists
+    {
+        get { return new TouristManager.MonthlyTourists() { days = monthlyTouristsDays, tourists = monthlyTouristsTourists }; }
+    }
+
+    public int GetConditionPassedDays
+    {
+        get { return getConditionPassedDays; }
+    }
+
     public TouristManagerData(
-        float satisfaction, int touristCount, int touristsInQueue, List<Jeep> jeeps
+        float satisfaction, int touristCount, int touristsInQueue, List<Jeep> jeeps, int lastDayNewTourists, TouristManager.MonthlyTourists monthlyTourists, int getConditionPassedDays
     )
     {
         this.satisfaction = satisfaction;
@@ -56,5 +79,9 @@ public class TouristManagerData
         {
             this.jeeps.Add((JeepData)jeep.SaveData());
         }
+        this.lastDayNewTourists = lastDayNewTourists;
+        monthlyTouristsDays = monthlyTourists.days;
+        monthlyTouristsTourists = monthlyTourists.tourists;
+        this.getConditionPassedDays = getConditionPassedDays;
     }
 }

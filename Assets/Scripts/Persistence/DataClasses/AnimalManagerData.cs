@@ -8,6 +8,8 @@ public class AnimalManagerData
     private List<CarnivoreHerdData> carnivoreHerds;
     [SerializeField]
     private List<HerbivoreHerdData> herbivoreHerds;
+    [SerializeField]
+    private int getConditionPassedDays;
 
     public List<Herd> Herds(PlacementManager placementManager, AnimalManager parent)
     {
@@ -43,7 +45,9 @@ public class AnimalManagerData
         return herdList;
     }
 
-    public AnimalManagerData(List<Herd> herds)
+    public int GetConditionPassedDays => getConditionPassedDays;
+
+    public AnimalManagerData(List<Herd> herds, int getConditionPassedDays)
     {
         carnivoreHerds = new List<CarnivoreHerdData>();
         herbivoreHerds = new List<HerbivoreHerdData>();
@@ -62,5 +66,6 @@ public class AnimalManagerData
                 throw new System.Exception("Unknown herd type");
             }
         }
+        this.getConditionPassedDays = getConditionPassedDays;
     }
 }

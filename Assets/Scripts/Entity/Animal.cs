@@ -36,7 +36,7 @@ public abstract class Animal : Entity
     public Animal(GameObject prefab, PlacementManager _placementManager, Guid parentID, AnimalType _type) : base(_placementManager)
     {
         myHerd = parentID;
-        spawnPosition = GetMyHerd.Position;
+        spawnPosition = placementManager.GetTypeOfPosition(Vector3Int.RoundToInt(GetMyHerd.Position)) == CellType.Hill ? new Vector3(GetMyHerd.Position.x, 0.65f, GetMyHerd.Position.z) : GetMyHerd.Position;
         state = new AnimalInternalState(_type);
         targetPosition = spawnPosition;
         SpawnEntity(prefab, GetMyHerd.ObjectInstance.transform);
@@ -51,7 +51,7 @@ public abstract class Animal : Entity
     }
 
     protected bool IsAnimalDead() => Health <= 0;
-    private float SlowingTerrain { get => (placementManager.GetTypeOfPosition(Vector3Int.RoundToInt(Position)) == CellType.Water ? 0.3f : 1.0f); }
+    protected float SlowingTerrain { get => (placementManager.GetTypeOfPosition(Vector3Int.RoundToInt(Position)) == CellType.Water || placementManager.GetTypeOfPosition(Vector3Int.RoundToInt(Position)) == CellType.Hill ? 0.3f : 1.0f); }
     
     public Herd GetMyHerd 
     {
@@ -93,7 +93,7 @@ public abstract class Animal : Entity
     {
         if (elapsedTime < duration)
         {
-            elapsedTime += Time.deltaTime;
+            elapsedTime += Time.deltaTime * SpeedMultiplier;
         }
         else
         {
@@ -112,7 +112,7 @@ public abstract class Animal : Entity
     {
         if (elapsedTime < duration)
         {
-            elapsedTime += Time.deltaTime;
+            elapsedTime += Time.deltaTime * SpeedMultiplier;
         }
         else
         {
@@ -194,39 +194,7 @@ public abstract class Animal : Entity
         Move();
     }
 
-    protected override void Move()
-    {
-        if (Vector3.Distance(Position, targetPosition) < 0.1f)
-        {
-            ObjectArrived();
-        }
-        else
-        {
-            if(placementManager.GetTypeOfPosition(Vector3Int.RoundToInt(Position)) == CellType.Hill)
-            {
-                Position = new Vector3(Position.x, 0.65f, Position.z);
-            }
-            else if (Position.y != 0)
-            {
-                Position = new Vector3(Position.x, Position.y/6.0f, Position.z);
-            } 
-            if (placementManager.GetTypeOfPosition(Vector3Int.RoundToInt(targetPosition)) == CellType.Hill)
-            {
-                targetPosition = new Vector3(targetPosition.x, 0.65f, targetPosition.z);
-            }
-            Position = Vector3.MoveTowards(Position, targetPosition, MoveSpeed * SlowingTerrain * Time.deltaTime);
-            Vector3 direction = targetPosition - Position;
-            //direction.y = 0;
-            DiscoverEnvironment();
-            if (direction != Vector3.zero)
-            {
-                Quaternion targetRotation = Quaternion.LookRotation(direction);
-                ObjectInstance.transform.rotation = Quaternion.Slerp(ObjectInstance.transform.rotation, targetRotation, RotationSpeed * Time.deltaTime);
-            }
-        }
-    }
-
-    private void ObjectArrived()
+    protected void ObjectArrived()
     {
         CellType targetType = placementManager.GetTypeOfPosition(Vector3Int.RoundToInt(targetPosition));
         callOnceFlag = false;
@@ -273,8 +241,8 @@ public abstract class Animal : Entity
             }
             else
             {
-                randomX = UnityEngine.Random.Range(0, placementManager.width);
-                randomZ = UnityEngine.Random.Range(0, placementManager.height);
+                randomX = UnityEngine.Random.Range(0, placementManager.Width);
+                randomZ = UnityEngine.Random.Range(0, placementManager.Height);
                 temporatyPosition = new Vector3(randomX, 0, randomZ);
             }
         } while (!placementManager.CheckIfPositionInBound(Vector3Int.RoundToInt(temporatyPosition)) || !placementManager.IsPositionWalkable(Vector3Int.RoundToInt(temporatyPosition)));

@@ -216,19 +216,12 @@ public class GameManager : MonoBehaviour, ITimeHandler
     }
 
     private void SetSpeedMultiplierOfEntities() => Entity.SpeedMultiplier = timeManager.EntitySpeedMultiplier;
+
     private void GameOverHandler(bool isGameWon)
     {
-        if (isGameWon)
-        {
-            //TODO
-        }
-        else
-        {
-            //TODO
-            Debug.Log("Lose");
-        }
         inputManager.IsArrowInputActive = false;
         inputManager.IsGameOver = true;
+        timeManager.TogglePause();
         uiController.ShowPauseMenu(false);
         uiController.ShowPopupWindow(isGameWon);
     }
@@ -240,6 +233,7 @@ public class GameManager : MonoBehaviour, ITimeHandler
 
     private void ExitToMainMenu()
     {
+        DifficultySelector.SelectedDifficulty = Difficulty.Normal;
         SceneManager.LoadScene("MainMenu");
     }
 
@@ -278,9 +272,9 @@ public class GameManager : MonoBehaviour, ITimeHandler
         timeManager.LoadData(PersistenceManager.TimeData);
         economyManager.LoadData(PersistenceManager.EconomyManagerData);
         placementManager.LoadData(PersistenceManager.PlacementManagerData);
-        for (int i = 0; i < placementManager.width; ++i)
+        for (int i = 0; i < placementManager.Width; ++i)
         {
-            for (int j = 0; j < placementManager.height; ++j)
+            for (int j = 0; j < placementManager.Height; ++j)
             {
                 switch (placementManager.placementGrid[i, j])
                 {
@@ -409,6 +403,7 @@ public class GameManager : MonoBehaviour, ITimeHandler
         animalManager.Carnivore2Changed += count => uiController.UpdateCarnivore2Panel(count);
         animalManager.Herbivore1Changed += count => uiController.UpdateHerbivore1Panel(count);
         animalManager.Herbivore2Changed += count => uiController.UpdateHerbivore2Panel(count);
+        animalManager.GameOver += () => GameOverHandler(false);
     }
 
     private void InputManagerEventSubscription()
@@ -438,14 +433,12 @@ public class GameManager : MonoBehaviour, ITimeHandler
 
     public void ManageTick()
     {
-        Debug.Log("Tick");
-        Debug.Log(animalManager.IsWinConditionPassed());
-        Debug.Log(touristManager.IsWinConditionPassed());
-        Debug.Log(economyManager.IsWinConditionPassed());
+        economyManager.EarnMoney(touristManager.GetLastDayNewTourists * economyManager.AdmissionFee);
 
         if (animalManager.IsWinConditionPassed() && touristManager.IsWinConditionPassed() && economyManager.IsWinConditionPassed())
         {
             GameOverHandler(true);
         }
+
     }
 }

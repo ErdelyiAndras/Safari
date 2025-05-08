@@ -9,12 +9,27 @@ public abstract class Herd : IPositionable, ISaveable<HerdData>
     private AnimalType animalTypesOfHerd; // if mixed herds are allowed this can be a set
     public AnimalType AnimalTypesOfHerd => animalTypesOfHerd;
     protected List<Animal> animals;
-    protected Vector2Int centroid;
+    protected Vector2Int Centroid 
+    {
+        get
+        {
+            Vector2Int sum = Vector2Int.zero;
+            foreach (Animal animal in animals)
+            {
+                sum += new Vector2Int((int)animal.Position.x, (int)animal.Position.z);
+            }
+            return sum / animals.Count;
+        }
+        set
+        {
+
+        }
+    }
     private PlacementManager placementManager;
     public int Count {  get { return animals.Count; } }
-    public Vector3 Position { get { return animals.Count == 0 ? GetRandomPosition() : new Vector3(centroid.x, 0, centroid.y); } }
+    public Vector3 Position { get { return animals.Count == 0 ? GetRandomPosition() : new Vector3(Centroid.x, 0, Centroid.y); } }
     public int DistributionRadius { get; protected set;}
-    public GameObject ObjectInstance { get; set; } = new GameObject();
+    public GameObject ObjectInstance { get; set; } = null;
     public List<Animal> Animals{ get { return animals; }}
     public Action<Herd> Reproduce;
     protected int reproductionCoolDown;
@@ -22,31 +37,19 @@ public abstract class Herd : IPositionable, ISaveable<HerdData>
 
     public Herd(PlacementManager placementManager, AnimalManager parent, AnimalType type)
     {
+        ObjectInstance = new GameObject();
         Id = Guid.NewGuid();
         animals = new List<Animal>();
         this.placementManager = placementManager;
         animalTypesOfHerd = type;
         ObjectInstance.transform.SetParent(parent.transform);
-        //reproductionCoolDown = 8;
+        reproductionCoolDown = Constants.ReproductionCooldown[animalTypesOfHerd];
     }
 
     public Herd(HerdData data, PlacementManager placementManager, AnimalManager parent)
     {
+        ObjectInstance = new GameObject();
         ObjectInstance.transform.SetParent(parent.transform);
-    }
-
-    public void CalculateCentroid()
-    {
-        if (animals.Count == 0)
-        {
-            return;
-        }
-        Vector2Int sum = Vector2Int.zero;
-        foreach (Animal animal in animals)
-        {
-            sum += new Vector2Int((int)animal.Position.x, (int)animal.Position.z);
-        }
-        centroid = sum / animals.Count;
     }
 
     public void AddAnimalToHerd(Animal animal)
@@ -81,18 +84,18 @@ public abstract class Herd : IPositionable, ISaveable<HerdData>
             animals[i].MatureAnimal();
         }
         reproductionCoolDown--;
-        if (reproductionCoolDown <= 0 && Count >=2 && (animals.Select(a => a.state.RemainingLifetime < 50)).Count() > 2) // TODO és felnőttek is legyenek az egyedek
+        if (reproductionCoolDown <= 0 && (animals.Select(a => a.state.RemainingLifetime < Constants.MaxLifeTime[animalTypesOfHerd] * Constants.AdultLifetimeThreshold[animalTypesOfHerd])).Count() >= 2)
         {
             Reproduce?.Invoke(this);
-            reproductionCoolDown = 8;
+            reproductionCoolDown = Constants.ReproductionCooldown[animalTypesOfHerd];
         }
     }
     private Vector3 GetRandomPosition()
     {
         int randomX = 0, randomZ = 0;
         do{
-            randomX = UnityEngine.Random.Range(0, placementManager.width);
-            randomZ = UnityEngine.Random.Range(0, placementManager.height);
+            randomX = UnityEngine.Random.Range(0, placementManager.Width);
+            randomZ = UnityEngine.Random.Range(0, placementManager.Height);
         }
         while (!placementManager.IsPositionWalkable(new Vector3Int(randomX, 0, randomZ)));
 
@@ -106,7 +109,7 @@ public abstract class Herd : IPositionable, ISaveable<HerdData>
         this.placementManager = placementManager;
         Id = data.Guid;
         animalTypesOfHerd = data.AnimalTypesOfHerd;
-        centroid = data.Centroid;
+        Centroid = data.Centroid;
         DistributionRadius = data.DistributionRadius;
         reproductionCoolDown = data.ReproductionCoolDown;
     }
@@ -120,9 +123,8 @@ public abstract class Herd : IPositionable, ISaveable<HerdData>
         if (ObjectInstance != null)
         {
             UnityEngine.Object.Destroy(ObjectInstance);
-            ObjectInstance = new GameObject();
+            ObjectInstance = null;
         }
-
     }
 }
 
