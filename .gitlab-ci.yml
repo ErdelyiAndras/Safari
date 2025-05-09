@@ -209,11 +209,11 @@ build-StandaloneLinux64:
 #     BUILD_TARGET: StandaloneLinux64
 #     SCRIPTING_BACKEND: IL2CPP
 
-# build-StandaloneOSX:
-#   <<: *build
-#   image: $IMAGE:$UNITY_VERSION-mac-mono-$IMAGE_VERSION
-#   variables:
-#     BUILD_TARGET: StandaloneOSX
+build-StandaloneOSX:
+  <<: *build
+  image: $IMAGE:$UNITY_VERSION-mac-mono-$IMAGE_VERSION
+  variables:
+    BUILD_TARGET: StandaloneOSX
 
 #Note: build target names changed in recent versions, use this for versions < 2017.2:
 # build-StandaloneOSXUniversal:
