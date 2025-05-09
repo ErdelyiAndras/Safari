@@ -7389,9 +7389,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43a37733de7ef80428afb992b51a4b34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  width: 51
-  height: 51
   prefabManager: {fileID: 442797351}
+  startPosition: {x: 0, y: 0, z: 0}
+  endPosition: {x: 0, y: 0, z: 0}
 --- !u!4 &1434987244
 Transform:
   m_ObjectHideFlags: 0
@@ -9747,7 +9747,7 @@ MonoBehaviour:
   m_LineType: 0
   m_HideMobileInput: 0
   m_CharacterValidation: 1
-  m_CharacterLimit: 6
+  m_CharacterLimit: 3
   m_OnSubmit:
     m_PersistentCalls:
       m_Calls: []
