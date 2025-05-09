@@ -135,4 +135,24 @@ public class AnimalManagerTests
         yield return null;
         DestroyAnimalManager();
     }
+    [UnityTest]
+    public IEnumerator AnimalLoadTest()
+    {
+        animalManager = AnimalManagerFactory();
+        yield return null;
+        Assert.IsTrue(animalManager.AllAnimalCount != 0);
+        uint countBeforeSave = animalManager.AllAnimalCount;
+        AnimalManagerData saved = animalManager.SaveData();
+        Constants.StartCarnivoreSpawnDifficultyMultiplier[Difficulty.Normal] = 0;
+        Constants.StartHerbivoreSpawnDifficultyMultiplier[Difficulty.Normal] = 0;
+        animalManager = AnimalManagerFactory();
+        yield return null;
+        Assert.IsTrue(animalManager.AllAnimalCount == 0);
+        animalManager.LoadData(saved, animalManager.placementManager);
+        yield return null;
+        Assert.IsTrue(animalManager.AllAnimalCount == countBeforeSave);
+        Constants.StartCarnivoreSpawnDifficultyMultiplier[Difficulty.Normal] = 2;
+        Constants.StartHerbivoreSpawnDifficultyMultiplier[Difficulty.Normal] = 2;
+  
+    }
 }
