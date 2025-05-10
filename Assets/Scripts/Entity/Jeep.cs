@@ -113,7 +113,7 @@ public class Jeep : Entity
             ++currentPathIndex;
         }
     }
-    public float CalculateSatisfaction() => Math.Clamp(((JeepSearchInRange)discoverEnvironment).AnimalsSeenCount * ((JeepSearchInRange)discoverEnvironment).AnimalTypesSeenCount, 0.0f, 100.0f) - (AdmissionFee / 10.0f);
+    public float CalculateSatisfaction() => Math.Clamp(((JeepSearchInRange)discoverEnvironment).AnimalsSeenCount * ((JeepSearchInRange)discoverEnvironment).AnimalTypesSeenCount, 0.0f, 100.0f) - (AdmissionFee / 3.0f);
 
     public override EntityData SaveData()
     {

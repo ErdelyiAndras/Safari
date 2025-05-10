@@ -14,6 +14,7 @@ public class TouristManager : MonoWinCondition, ITimeHandler, ISaveable<TouristM
     private MonthlyTourists monthlyTourists = new MonthlyTourists() { days = 0, tourists = 0 };
     public int TouristsInQueue { get; private set; } = 0;
     private int lastDayNewTourists = 0;
+    private bool lastDaySatisfactionIsNull = false;
     public PlacementManager placementManager;
     private List<Jeep> jeeps = new List<Jeep>();
     private GameObject jeepPrefab;
@@ -58,6 +59,10 @@ public class TouristManager : MonoWinCondition, ITimeHandler, ISaveable<TouristM
 
     private void ModifySatisfaction(float satisfaction)
     {
+        if (satisfaction == 0.0f)
+        {
+            lastDaySatisfactionIsNull = true;
+        }
         if (touristCount == 0)
         {
             Satisfaction = (Satisfaction + satisfaction * 4.0f) / 2;
@@ -80,8 +85,15 @@ public class TouristManager : MonoWinCondition, ITimeHandler, ISaveable<TouristM
 
     public void ManageTick()
     {
-        lastDayNewTourists = (int)(Satisfaction / 10.0f) + 1; // logic to calculate how many tourists arrive
+        if (lastDaySatisfactionIsNull){
+            lastDayNewTourists = 0;
+            lastDaySatisfactionIsNull = false;
+        }else{
+            lastDayNewTourists = (int)(Satisfaction / 10.0f) + 1;
+        }
         touristCount += lastDayNewTourists;
+        Math.Clamp(touristCount, 0, 60);
+
         TouristsInQueue += lastDayNewTourists;
         TouristsInQueueChanged?.Invoke(TouristsInQueue);
         SetConditionPassedDays();

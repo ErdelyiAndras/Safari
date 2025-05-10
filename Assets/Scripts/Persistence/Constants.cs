@@ -57,51 +57,51 @@ public static class Constants
     };
     public static Dictionary<AnimalType, float> FoodThreshold { get; private set; } = new Dictionary<AnimalType, float>
     {
-        { AnimalType.Carnivore1, 0.97f },
+        { AnimalType.Carnivore1, 0.75f },
         { AnimalType.Carnivore2, 0.53f },
         { AnimalType.Herbivore1, 0.60f },
         { AnimalType.Herbivore2, 0.65f }
     };
     public static Dictionary<AnimalType, float> DrinkThreshold { get; private set; } = new Dictionary<AnimalType, float>
     {
-        { AnimalType.Carnivore1, 0.68f },
-        { AnimalType.Carnivore2, 0.57f },
-        { AnimalType.Herbivore1, 0.97f },
-        { AnimalType.Herbivore2, 0.75f }
+        { AnimalType.Carnivore1, 0.73f },
+        { AnimalType.Carnivore2, 0.52f },
+        { AnimalType.Herbivore1, 0.80f },
+        { AnimalType.Herbivore2, 0.65f }
     };
     public static Dictionary<AnimalType, float> FoodNutrition { get; private set; } = new Dictionary<AnimalType, float>
     {
-        { AnimalType.Carnivore1, 40.0f },
-        { AnimalType.Carnivore2, 40.0f },
+        { AnimalType.Carnivore1, 24.0f },
+        { AnimalType.Carnivore2, 45.0f },
         { AnimalType.Herbivore1, 30.0f },
         { AnimalType.Herbivore2, 30.0f }
     };
     public static Dictionary<AnimalType, float> DrinkNutrition { get; private set; } = new Dictionary<AnimalType, float>
     {
-        { AnimalType.Carnivore1, 50.0f },
+        { AnimalType.Carnivore1, 20.0f },
         { AnimalType.Carnivore2, 40.0f },
-        { AnimalType.Herbivore1, 20.0f },
+        { AnimalType.Herbivore1, 19.0f },
         { AnimalType.Herbivore2, 30.0f }
     };
     public static Dictionary<AnimalType, float> EatingTime { get; private set; } = new Dictionary<AnimalType, float>
     {
-        { AnimalType.Carnivore1, 7.0f },
-        { AnimalType.Carnivore2, 7.0f },
-        { AnimalType.Herbivore1, 7.0f },
-        { AnimalType.Herbivore2, 7.0f }
+        { AnimalType.Carnivore1, 13.0f },
+        { AnimalType.Carnivore2, 11.0f },
+        { AnimalType.Herbivore1, 4.0f },
+        { AnimalType.Herbivore2, 9.0f }
     };
     public static Dictionary<AnimalType, float> DrinkingTime { get; private set; } = new Dictionary<AnimalType, float>
     {
-        { AnimalType.Carnivore1, 7.0f },
-        { AnimalType.Carnivore2, 7.0f },
-        { AnimalType.Herbivore1, 7.0f },
-        { AnimalType.Herbivore2, 7.0f }
+        { AnimalType.Carnivore1, 10.0f },
+        { AnimalType.Carnivore2, 4.0f },
+        { AnimalType.Herbivore1, 8.0f },
+        { AnimalType.Herbivore2, 5.0f }
     };
     public static Dictionary<AnimalType, float> RestTime { get; private set; } = new Dictionary<AnimalType, float>
     {
-        { AnimalType.Carnivore1, 7.0f },
-        { AnimalType.Carnivore2, 7.0f },
-        { AnimalType.Herbivore1, 7.0f },
+        { AnimalType.Carnivore1, 15.0f },
+        { AnimalType.Carnivore2, 18.0f },
+        { AnimalType.Herbivore1, 9.0f },
         { AnimalType.Herbivore2, 7.0f }
     };
     public static Dictionary<AnimalType, float> MaxLifeTime { get; private set; } = new Dictionary<AnimalType, float>
@@ -136,15 +136,15 @@ public static class Constants
     };
     public static Dictionary<AnimalType, float> AnimalVisionRange { get; private set; } = new Dictionary<AnimalType, float>
     {
-        { AnimalType.Carnivore1, 12.0f },
-        { AnimalType.Carnivore2, 12.0f },
+        { AnimalType.Carnivore1, 11.0f },
+        { AnimalType.Carnivore2, 7.0f },
         { AnimalType.Herbivore1, 6.0f },
-        { AnimalType.Herbivore2, 6.0f }
+        { AnimalType.Herbivore2, 5.0f }
     };
     public static Dictionary<AnimalType, float> AnimalViewExtenderScale { get; private set; } = new Dictionary<AnimalType, float>
     {
         { AnimalType.Carnivore1, 2.0f },
-        { AnimalType.Carnivore2, 2.0f },
+        { AnimalType.Carnivore2, 1.5f },
         { AnimalType.Herbivore1, 2.0f },
         { AnimalType.Herbivore2, 2.0f }
     };
@@ -165,10 +165,10 @@ public static class Constants
 
     public static Dictionary<AnimalType, int> ReproductionCooldown { get; private set; } = new Dictionary<AnimalType, int>
     {
-        { AnimalType.Carnivore1, 15 },
+        { AnimalType.Carnivore1, 20 },
         { AnimalType.Carnivore2, 15 },
-        { AnimalType.Herbivore1, 15 },
-        { AnimalType.Herbivore2, 15 }
+        { AnimalType.Herbivore1, 7 },
+        { AnimalType.Herbivore2, 10 }
     };
 
     public static Dictionary<Difficulty, uint> StartHerbivoreSpawnDifficultyMultiplier { get; set; } = new Dictionary<Difficulty, uint>
@@ -198,7 +198,7 @@ public static class Constants
     }
 
     // Herd
-    public static int CarnivoreHerdDistributionRadius { get; private set; } = 5;
+    public static int CarnivoreHerdDistributionRadius { get; private set; } = 4;
     public static int HerbivoreHerdDistributionRadius { get; private set; } = 2;
 
     // Jeep
