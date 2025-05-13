@@ -116,7 +116,7 @@ public class TouristManagerTests
     }
 
     [UnityTest]
-    public IEnumerator AcquireNewJeep_AddsJeepAndFiresEvent()
+    public IEnumerator AcquireNewJeep()
     {
         int eventValue = -1;
         touristManager.JeepCountChanged += (count) => eventValue = count;
@@ -142,7 +142,7 @@ public class TouristManagerTests
     }
 
     [UnityTest]
-    public IEnumerator SetConditionPassedDays_WinConditionMet()
+    public IEnumerator SetConditionPassedDays1()
     {
         var data = new MonthlyTourists { days = Constants.MonthLength, tourists = Constants.VisitorWinCondition[Difficulty.Normal] };
         typeof(TouristManager).GetField("monthlyTourists", BindingFlags.NonPublic | BindingFlags.Instance).SetValue(touristManager, data);
@@ -166,7 +166,7 @@ public class TouristManagerTests
     }
 
     [UnityTest]
-    public IEnumerator SetConditionPassedDays_MonthOver_NotEnoughTourists()
+    public IEnumerator SetConditionPassedDays2()
     {
         var data = new MonthlyTourists { days = Constants.MonthLength, tourists = Constants.VisitorWinCondition[Difficulty.Normal] - 1 };
         typeof(TouristManager).GetField("monthlyTourists", BindingFlags.NonPublic | BindingFlags.Instance).SetValue(touristManager, data);
@@ -190,7 +190,7 @@ public class TouristManagerTests
     }
 
     [UnityTest]
-    public IEnumerator SetConditionPassedDays_StillInMonth_AddsDayAndTourists()
+    public IEnumerator SetConditionPassedDays3()
     {
         var data = new MonthlyTourists { days = 3, tourists = 20 };
         typeof(TouristManager).GetField("monthlyTourists", BindingFlags.NonPublic | BindingFlags.Instance).SetValue(touristManager, data);
@@ -208,7 +208,7 @@ public class TouristManagerTests
     }
 
     [UnityTest]
-    public IEnumerator ResetData_DeletesAllJeepGameObjects()
+    public IEnumerator ResetData()
     {
         MethodInfo acquire = typeof(TouristManager)
             .GetMethod("AcquireNewJeep", BindingFlags.Public | BindingFlags.Instance);
