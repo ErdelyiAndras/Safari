@@ -1,0 +1,461 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Herbivore2">
+    <Position X="32.75" Y="38.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Entity\Herbivore2.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AnimalSearchInRange">
+    <Position X="41.5" Y="35.75" Width="3" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Class Name="AnimalSearchInRange.BFSLists">
+        <TypeIdentifier>
+          <NewMemberFileName>Assets\Scripts\AccumulatorTypes\AnimalSearchInRange.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAQAQAIAAAARAIAAAAAAAAAAAAMAgAAAAAAAAAAAABA=</HashCode>
+      <FileName>Assets\Scripts\AccumulatorTypes\AnimalSearchInRange.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CarnivoreSearchInRange">
+    <Position X="39" Y="41.5" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAQAAAAAAAIAAAQiAABAIAAAAABAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\AccumulatorTypes\CarnivoreSearchInRange.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HerbivoreSearchInRange">
+    <Position X="42.75" Y="41.5" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAAAQAAAAAAAAAAAQAAABAAAAAAABAAAIAAA=</HashCode>
+      <FileName>Assets\Scripts\AccumulatorTypes\HerbivoreSearchInRange.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JeepSearchInRange">
+    <Position X="45" Y="35.75" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAQQAgAAAAAAAABQAAAAAAQQAAABAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\AccumulatorTypes\JeepSearchInRange.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PlacedObjects">
+    <Position X="9.25" Y="36.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAACAACIAAAAABQCAAAEAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\AccumulatorTypes\PlacedObjects.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SearchInRange">
+    <Position X="44.25" Y="32.75" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAAAAQQAAAAAAAAAAQAAAAAAAAAAABAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\AccumulatorTypes\SearchInRange.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="TouristGroup" BaseTypeListCollapsed="true">
+    <Position X="39.5" Y="24.25" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAQQgACAAAAAAAQAAAAAAAQCAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\AccumulatorTypes\TouristGroup.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="DifficultySelector">
+    <Position X="37.25" Y="13.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Engine\DifficultySelector.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameManager" BaseTypeListCollapsed="true">
+    <Position X="25.75" Y="0.75" Width="6" />
+    <TypeIdentifier>
+      <HashCode>IkQQAQAgwCAwCBkxAEIAEACCAMIAZAQhCAOBQAAEAAE=</HashCode>
+      <FileName>Assets\Scripts\Engine\GameManager.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="InputManager">
+    <Position X="10.75" Y="13.25" Width="2" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Class Name="InputManager.DefaultInputProvider">
+        <TypeIdentifier>
+          <NewMemberFileName>Assets\Scripts\Engine\InputManager.cs</NewMemberFileName>
+        </TypeIdentifier>
+        <Lollipop Position="0.2" />
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAQgFAAAACIRAAQAAAAAEAAAAEJgEAAAAgCAAACCEEE=</HashCode>
+      <FileName>Assets\Scripts\Engine\InputManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MainMenuManager">
+    <Position X="69.75" Y="12.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAQgAAAAAAAAAAAAAAAAEAACAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Engine\MainMenuManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MapGenerator">
+    <Position X="40.25" Y="12.75" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAQoEBAAAAgAAABAAIAADEAkABBAGQAIgAAEEA=</HashCode>
+      <FileName>Assets\Scripts\Engine\MapGenerator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MonoWinCondition">
+    <Position X="17" Y="13.25" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAAAAAAAAAAAAAAAEAAAAAEAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Engine\MonoWinCondition.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TimeManager" BaseTypeListCollapsed="true">
+    <Position X="44.5" Y="12.75" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>EAQAAAAGAQAQBAAAAAACAAAQEAgCAACCAABggCAAIMA=</HashCode>
+      <FileName>Assets\Scripts\Engine\TimeManager.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Animal">
+    <Position X="31.75" Y="25.5" Width="2.25" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Enum Name="Animal.State">
+        <TypeIdentifier>
+          <NewMemberFileName>Assets\Scripts\Entity\Animal.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAEBGAEACQARAACCAARAACgAAAABAQAECUIIAAAACAA=</HashCode>
+      <FileName>Assets\Scripts\Entity\Animal.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AnimalInternalState" BaseTypeListCollapsed="true">
+    <Position X="27" Y="23" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>DggACJCACAAQCEAAAAAAAAg0AACBIAAAgAQAAQAAAAg=</HashCode>
+      <FileName>Assets\Scripts\Entity\AnimalInternalState.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Carnivore1">
+    <Position X="25" Y="38.5" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Entity\Carnivore1.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Carnivore2">
+    <Position X="28.75" Y="38.5" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Entity\Carnivore2.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CarnivoreBase">
+    <Position X="27.75" Y="35.75" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIAQAAAAAAQAAAAQAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Entity\CarnivoreBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CarnivoreHerd">
+    <Position X="23.75" Y="35" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAQAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Entity\CarnivoreHerd.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Entity">
+    <Position X="30.75" Y="14.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AiACAAAAAIIQAhAoCAAEAAAyAAAAAAAAAAIAAAAAQAA=</HashCode>
+      <FileName>Assets\Scripts\Entity\Entity.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Herbivore1">
+    <Position X="36.25" Y="38.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Entity\Herbivore1.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HerbivoreBase">
+    <Position X="31.75" Y="35.75" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIAQAAAAAAQAAAAQAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Entity\HerbivoreBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HerbivoreHerd">
+    <Position X="20.5" Y="35" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAQAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Entity\HerbivoreHerd.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Herd">
+    <Position X="22" Y="27.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AgACAAAggQASEIBgAAEwEAQSGAAAAAAFAAMAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Entity\Herd.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Jeep">
+    <Position X="36.25" Y="22.5" Width="2" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Enum Name="Jeep.State">
+        <TypeIdentifier>
+          <NewMemberFileName>Assets\Scripts\Entity\Jeep.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAABACAAJAQAAAAABJAAAgQAAAIAAAAAAIAAAAAAAI=</HashCode>
+      <FileName>Assets\Scripts\Entity\Jeep.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AnimalManager">
+    <Position X="20.75" Y="16.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>QgYEgEggIKAYAAAAAAAAAIMUEAAAAUIBIQMAAIAQIUA=</HashCode>
+      <FileName>Assets\Scripts\GameplayManagers\AnimalManager.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="EconomyManager">
+    <Position X="14.25" Y="16.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>MAAwBAAAAAAYIAAAABIARAAQAEAgAIAlCAkABDAANEA=</HashCode>
+      <FileName>Assets\Scripts\GameplayManagers\EconomyManager.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="TouristManager">
+    <Position X="17.5" Y="16.25" Width="2.25" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Struct Name="TouristManager.MonthlyTourists">
+        <TypeIdentifier>
+          <NewMemberFileName>Assets\Scripts\GameplayManagers\TouristManager.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Struct>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>EgQYAACgECAUAAgAACIARAAYAAAAAAABQQEIAAYBAAA=</HashCode>
+      <FileName>Assets\Scripts\GameplayManagers\TouristManager.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Constants">
+    <Position X="82" Y="12.25" Width="3" />
+    <TypeIdentifier>
+      <HashCode>DgAgQLKIKAEALERGAAhAzAgQAIgAAIBkgIQAAQwAVFA=</HashCode>
+      <FileName>Assets\Scripts\Persistence\Constants.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PersistenceManager">
+    <Position X="77.25" Y="12.25" Width="3.75" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Class Name="PersistenceManager.Data">
+        <TypeIdentifier>
+          <NewMemberFileName>Assets\Scripts\Persistence\PersistenceManager.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAQIgIARAAAIgQEAAAAAAAAAAAAEAAAAAABQAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Persistence\PersistenceManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PrefabManager">
+    <Position X="74.25" Y="12.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AACQAMAAAAAAAAAgAgAAAAQACAQkAAAAAABAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Persistence\PrefabManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BuildManagerBase">
+    <Position X="3.75" Y="14" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AggEAAAAAAAAAAAAAAAAAAUAAgAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Structure\BuildManagerBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Grid" BaseTypeListCollapsed="true">
+    <Position X="6.25" Y="28" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAgEBAAABADQkAABCIBAAFAQARAAAAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>Assets\Scripts\Structure\Grid.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="GridSearch">
+    <Position X="3" Y="29" Width="1.75" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Struct Name="GridSearch.SearchResult">
+        <TypeIdentifier>
+          <NewMemberFileName>Assets\Scripts\Structure\GridSearch.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Struct>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAABAAAIA=</HashCode>
+      <FileName>Assets\Scripts\Structure\GridSearch.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NatureManager">
+    <Position X="1.25" Y="17.25" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAAAAAAAAAAAAAAAEAAgAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Structure\NatureManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PlacementManager" BaseTypeListCollapsed="true">
+    <Position X="10" Y="26" Width="3.75" />
+    <TypeIdentifier>
+      <HashCode>ARBACAggJEgTEBIgAgAEoEIQCyAABAAEgIEAAAEAMUA=</HashCode>
+      <FileName>Assets\Scripts\Structure\PlacementManager.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="RoadManager">
+    <Position X="4" Y="17.25" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAEEAAAAASAAABAQAAAAAAEACgAAAAAAAAQAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Structure\RoadManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WaterManager">
+    <Position X="7" Y="17.25" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAACAAAAAAAAAAAAEAAgAAAAAAAAAAAgAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Structure\WaterManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CameraMovement">
+    <Position X="48.5" Y="12.75" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAEAAAAAAAAAAAAAACAAAAAAAIAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\UI\CameraMovement.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MainMenuUIController">
+    <Position X="68.75" Y="15.25" Width="4.25" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAA0CkAAAAyIAkAgAACACAggACAECAQAAAAIEA=</HashCode>
+      <FileName>Assets\Scripts\UI\MainMenuUIController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UIController">
+    <Position X="54" Y="12.5" Width="3.25" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Enum Name="UIController.ButtonGroup">
+        <TypeIdentifier>
+          <NewMemberFileName>Assets\Scripts\UI\UIController.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>kCgBIApYASPAoYSpCK0AFoACYIgJQUGWQAS3BEiB5WE=</HashCode>
+      <FileName>Assets\Scripts\UI\UIController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="SafariObject">
+    <Position X="12" Y="37" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAABAAAAAAAAAAAAAAAAAEAAABAABAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\AccumulatorTypes\PlacedObjects.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Interface Name="IInputProvider">
+    <Position X="10.75" Y="22.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABQAAQAAAAAAAIAAAAAAAAAAAAAASAAA=</HashCode>
+      <FileName>Assets\Scripts\Engine\InputManager.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="IPositionable">
+    <Position X="34.25" Y="19.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAgAAAAAAACAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Entity\IPositionable.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="ITimeHandler">
+    <Position X="46.5" Y="19.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\GameplayManagers\ITimeHandler.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="ObjectType">
+    <Position X="14" Y="37" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAAAAEAAAAAAAAAAIACAIAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\AccumulatorTypes\PlacedObjects.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Difficulty">
+    <Position X="37.5" Y="15.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAAAAAAAIAAAAAAAAAAAgAAA=</HashCode>
+      <FileName>Assets\Scripts\Engine\Difficulty.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="TimeInterval">
+    <Position X="44.25" Y="19.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAIAgAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Engine\TimeInterval.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="AnimalType">
+    <Position X="29.25" Y="32.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAADAAAAAAAAAAAAAAAAAAAAAACAAQA=</HashCode>
+      <FileName>Assets\Scripts\Entity\Animal.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="CellType">
+    <Position X="6.75" Y="34.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAgIAIAAAAQAAAgAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>Assets\Scripts\Structure\Grid.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
