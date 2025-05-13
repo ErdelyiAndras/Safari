@@ -22,12 +22,6 @@ public class HerbivoreHerdData : HerdData
                 case AnimalType.Herbivore2:
                     animal = new Herbivore2(animalData, placementManager, placementManager.prefabManager.Herbivore2Prefab, parent.ObjectInstance);
                     break;
-                /*case AnimalType.Carnivore1:
-                    animal = new Carnivore1((CarnivoreData)animalData, placementManager, animalManager.carnivore1Prefab, parent.gameObject);
-                    break;
-                case AnimalType.Carnivore2:
-                    animal = new Carnivore2((CarnivoreData)animalData, placementManager, animalManager.carnivore2Prefab, parent.gameObject);
-                    break;*/
                 default:
                     throw new System.Exception("Unknown animal type");
             }

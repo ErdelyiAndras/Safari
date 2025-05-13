@@ -14,7 +14,6 @@ public class WaterManager : BuildManagerBase
         waterPrefab = placementManager.prefabManager.Water;
     }
 
-    // public override int Count => 20; //TODO: to be balanced
     public override void PlaceObject(Vector3Int position)
     {
         if (!CheckPositionBeforePlacement(position))

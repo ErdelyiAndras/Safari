@@ -9,7 +9,6 @@ using UnityEngine.UIElements;
 
 public class NatureManager : BuildManagerBase
 {
-    // public override int Count => 50; //TODO: to be balanced
     public override void PlaceObject(Vector3Int position)
     {
         if (!CheckPositionBeforePlacement(position))

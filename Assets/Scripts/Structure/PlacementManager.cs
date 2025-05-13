@@ -140,11 +140,6 @@ public class PlacementManager : MonoBehaviour, ISaveable<PlacementManagerData>
 
     public void DestroyNatureAt(Vector3Int position)
     {
-        /*RaycastHit[] hits = Physics.BoxCastAll(position + new Vector3(0, 0.5f, 0), new Vector3(0.5f, 0.5f, 0.5f), transform.up, Quaternion.identity, 1f, 1 << LayerMask.NameToLayer("Nature"));
-        foreach (var item in hits)
-        {
-            Destroy(item.collider.gameObject);
-        }*/
         if (structureDictionary.ContainsKey(position))
         {
             Destroy(structureDictionary[position].gameObject);

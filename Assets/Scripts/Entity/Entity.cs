@@ -25,7 +25,6 @@ public abstract class Entity : IPositionable, ISaveable<EntityData>
     {
         Id = Guid.NewGuid();
         placementManager = _placementManager;
-        //SpawnEntity(prefab);
     }
 
     public Entity(EntityData data, PlacementManager placementManager, GameObject prefab, GameObject parent)

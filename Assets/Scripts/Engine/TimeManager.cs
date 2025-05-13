@@ -87,7 +87,6 @@ public class TimeManager : MonoBehaviour, ISaveable<TimeManagerData>
         else
         {
             tickCounter++;
-            // Debug.Log($"Sec: {tickCounter}");
             elapsedTime = 0.0f; 
             if (tickCounter % WaitTime == 0)
             {

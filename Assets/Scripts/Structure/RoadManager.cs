@@ -10,7 +10,6 @@ public class RoadManager : BuildManagerBase
 
     public RoadFixer roadFixer;
 
-    // public override int Count => temporaryPlacementPositions.Count * 30; // TODO: to be balanced
     private void Start()
     {
         roadFixer = GetComponent<RoadFixer>();
@@ -96,10 +95,6 @@ public class RoadManager : BuildManagerBase
         {
             placementMode = false;
             placementManager.AddTemporaryStructuresToStructureDictionary();
-            if (temporaryPlacementPositions.Count > 0)
-            {
-                //AudioPlayer.instance.PlayPlacementSound();
-            }
             temporaryPlacementPositions.Clear();
             startPosition = Vector3Int.zero;
 

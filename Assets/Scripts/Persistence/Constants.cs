@@ -222,6 +222,7 @@ public static class Constants
     public static int UnitCostOfJeep { get; private set; } = 200;
     public static int UnitCostOfRoad { get; private set; } = 10;
     public static int UnitCostOfWater { get; private set; } = 100;
+    public static int SellAnimalIncome { get; private set; } = 50;
 
     // TouristManager
     public static float DefaultSatisfaction { get; private set; } = 50.0f;

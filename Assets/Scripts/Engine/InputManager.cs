@@ -156,7 +156,6 @@ public class InputManager : MonoBehaviour
         if (InputProvider.GetMouseButtonDown(0) && EventSystem.current.IsPointerOverGameObject() == false)
         {
             var position = RaycastGround();
-            Debug.Log(position);
             if (position != null)
                 OnMouseClick?.Invoke(position.Value);
 

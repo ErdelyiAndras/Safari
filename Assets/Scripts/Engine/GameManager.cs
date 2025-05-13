@@ -180,7 +180,7 @@ public class GameManager : MonoBehaviour, ITimeHandler
         inputManager.OnAnimalClick += animalManager.SellAnimal;
         inputManager.OnAnimalClick += animal =>
         {
-            economyManager.EarnMoney(100); // TODO: balance and query from Constatnts
+            economyManager.EarnMoney(economyManager.SellAnimalIncome);
         };
     }
 
@@ -261,7 +261,7 @@ public class GameManager : MonoBehaviour, ITimeHandler
 
     private void LoadGame()
     {
-        if (!PersistenceManager.SaveExists("save.json")) // TODO: optionally could disable load button if save file does not exist
+        if (!PersistenceManager.SaveExists("save.json")) // optionally could disable load button if save file does not exist
         {
             Debug.Log("Save file not found");
             return;

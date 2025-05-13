@@ -106,18 +106,6 @@ public class Grid : ISaveable<GridData>
         return cellType == CellType.Empty || cellType == CellType.Road;
     }
 
-    public Point GetRandomRoadPoint()
-    {
-        Random rand = new Random();
-        return _roadList[rand.Next(0, _roadList.Count - 1)];
-    }
-
-    public Point GetRandomSpecialStructurePoint()
-    {
-        Random rand = new Random();
-        return _roadList[rand.Next(0, _roadList.Count - 1)];
-    }
-
     public List<Point> GetAdjacentCells(Point cell, bool isAgent)
     {
         return GetWalkableAdjacentCells((int)cell.X, (int)cell.Y, isAgent);
@@ -155,7 +143,7 @@ public class Grid : ISaveable<GridData>
         List<Point> adjacentCells = GetAllAdjacentCells(x, y);
         for (int i = adjacentCells.Count - 1; i >= 0; i--)
         {
-            if(IsCellWalkable(_grid[adjacentCells[i].X, adjacentCells[i].Y], isAgent)==false)
+            if (IsCellWalkable(_grid[adjacentCells[i].X, adjacentCells[i].Y], isAgent) == false)
             {
                 adjacentCells.RemoveAt(i);
             }

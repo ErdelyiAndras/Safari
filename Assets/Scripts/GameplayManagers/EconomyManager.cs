@@ -46,6 +46,7 @@ public class EconomyManager : MonoWinCondition, ISaveable<EconomyManagerData>, I
     public int UnitCostOfJeep => Constants.UnitCostOfJeep;
     public int UnitCostOfRoad => Constants.UnitCostOfRoad;
     public int UnitCostOfWater => Constants.UnitCostOfWater;
+    public int SellAnimalIncome => Constants.SellAnimalIncome;
 
     private void Awake()
     {
@@ -66,7 +67,6 @@ public class EconomyManager : MonoWinCondition, ISaveable<EconomyManagerData>, I
                 money = hardGameStartMoney;
                 break;
         }
-        //money = int.MaxValue; // TODO: delete this line after debugging
     }
 
     public bool HasEnoughMoney(int amount) => money >= amount;

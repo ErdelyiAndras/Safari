@@ -16,12 +16,6 @@ public class CarnivoreHerdData : HerdData
             Animal animal;
             switch (animalData.State.type)
             {
-                /*case AnimalType.Herbivore1:
-                    animal = new Herbivore1((HerbivoreData)animalData, placementManager, animalManager.herbivore1Prefab, parent.gameObject);
-                    break;
-                case AnimalType.Herbivore2:
-                    animal = new Herbivore2((HerbivoreData)animalData, placementManager, animalManager.herbivore2Prefab, parent.gameObject);
-                    break;*/
                 case AnimalType.Carnivore1:
                     animal = new Carnivore1(animalData, placementManager, placementManager.prefabManager.Carnivore1Prefab, parent.ObjectInstance);
                     break;
