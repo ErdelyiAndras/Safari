@@ -206,9 +206,9 @@ public static class Constants
     public static float JeepBaseRotationSpeed { get; private set; } = 5.0f;
 
     // EconomyManager
-    public static int EasyGameStartMoney { get; private set; } = 700;
-    public static int NormalGameStartMoney { get; private set; } = 500;
-    public static int HardGameStartMoney { get; private set; } = 300;
+    public static int EasyGameStartMoney { get; private set; } = 2000;
+    public static int NormalGameStartMoney { get; private set; } = 1700;
+    public static int HardGameStartMoney { get; private set; } = 1400;
     public static int DefaultAdmissionFee { get; private set; } = 40;
     public static Dictionary<Difficulty, int> MaintenanceFee { get; private set; } = new Dictionary<Difficulty, int>
     {
